@@ -38,7 +38,7 @@ Note: custom route name is allowed, but try to lessen its usage and make an alia
 
 # General Sprints
 
-1. Authentication/Authorization - Login/Breeze/Define Roles
+1. Sprint 1: Authentication/Authorization - Login/Breeze/Define Roles
     - Roles:
         | Role Code | Group | Role | 
         |--|--|--|
@@ -51,13 +51,13 @@ Note: custom route name is allowed, but try to lessen its usage and make an alia
         | 7 | Faculty | Finance |
         | 8 | Admin | Admin |
 
-2. Assign Roles 
+2. Sprint 2: Assign Roles 
     - Add Role - ADV, Pres, Sec
     - View role - ALL
     - Update Role- ADV, Pres, Sec
     - Remove Role- ADV, Pres, Sec
 
-3. Form Submission
+3. Sprint 3: Form Submission
     - Create form
     - Update form
     - Submit form (submit to next approver)
@@ -66,10 +66,10 @@ Note: custom route name is allowed, but try to lessen its usage and make an alia
     - Download form
     - Email
 
-4. Form Approval
+4. Sprint 4: Form Approval
     - View submitted form
     - Approve submitted form
     - Deny submitted form + feedback
     - Email
 
-5. Chart / Calendar
+5. Sprint 5: Chart / Calendar
