@@ -9,15 +9,15 @@
 to access these accounts
 
 **Emails:**
-root@apc.edu.ph
-sao@apc.edu.ph
-finance@apc.edu.ph
-acadserv@apc.edu.ph
-adviser@apc.edu.ph
-president@apc.edu.ph
-secretary@apc.edu.ph
-member@apc.edu.ph
-guest@apc.edu.ph
+* root@apc.edu.ph
+* sao@apc.edu.ph
+* finance@apc.edu.ph
+* acadserv@apc.edu.ph
+* adviser@apc.edu.ph
+* president@apc.edu.ph
+* secretary@apc.edu.ph
+* member@apc.edu.ph
+* guest@apc.edu.ph
 
 **Password:** password
 
