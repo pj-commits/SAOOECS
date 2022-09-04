@@ -3,6 +3,26 @@
 *Note: Add nalang kayo kung ano gusto nyong mga defaults natin like naming convetion and etc.*
 
 # Accounts
+<<<<<<< HEAD
+=======
+
+*do 
+```php artisan migrate:refresh --seed```  
+to access these accounts
+
+**Emails:**
+* root@apc.edu.ph
+* sao@apc.edu.ph
+* finance@apc.edu.ph
+* acadserv@apc.edu.ph
+* adviser@apc.edu.ph
+* president@apc.edu.ph
+* secretary@apc.edu.ph
+* member@apc.edu.ph
+* guest@apc.edu.ph
+
+**Password:** password
+>>>>>>> b01d9bc (Update Readme)
 
 *do 
 ```php artisan migrate:refresh --seed```  
