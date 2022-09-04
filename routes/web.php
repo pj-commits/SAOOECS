@@ -18,7 +18,47 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('_users.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/auth.php';
+
+
+//Below Are Test Route only
+Route::get('records', function (){
+    return view('_users.records')
+        ->with("message", "Hello Records!");
+})->name('records');
+
+Route::get('roles', function (){
+    return view('_student-organization.roles')
+        ->with("message", "Hello Roles!");
+})->name('roles');
+
+Route::get('submitted-forms', function (){
+    return view('_approvers.submitted-forms')
+        ->with("message", "Hello Submitted Forms!");
+})->name('submitted-forms');
+
+//Forms
+Route::get('forms/activity-proposal-form', function (){
+    return view('_student-organization.activity-proposal')
+        ->with("message", "Hello APF!");
+})->name('activity-proposal');
+
+Route::get('forms/budget-requisition-form', function (){
+    return view('_student-organization.budget-requisition')
+        ->with("message", "Hello RF!");
+})->name('budget-requisition');
+
+Route::get('forms/narrative-report', function (){
+    return view('_student-organization.narrative')
+        ->with("message", "Hello NR!");
+})->name('narrative');
+
+Route::get('forms/liquidation-form', function (){
+    return view('_student-organization.liquidation')
+        ->with("message", "Hello LF!");
+})->name('liquidation');
+
+

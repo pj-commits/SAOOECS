@@ -21,7 +21,7 @@ to access these accounts
 
 **Password:** password
 
-# !!General Route Methods!!
+# !! General Route Methods !!
 
 * index - show all data
 * show - show a single data
@@ -31,7 +31,7 @@ to access these accounts
 * update - update a data
 * destroy - delete a data 
 
-Note: custom route name is allowed, but try to lessen its usage and make an alias for it or comment what it do.
+*Note: custom route name is allowed, but try to lessen its usage and make an alias for it or comment what it do.*
 
 
 
@@ -39,13 +39,18 @@ Note: custom route name is allowed, but try to lessen its usage and make an alia
 
 * Use Mailtrap for fake smtp server.
 
-* Configure env file to connect your fake smtp server.
+* Configure env file to connect to your fake smtp server.
 
 * edit your mail_from_address to this:
 `MAIL_FROM_ADDRESS="saooecs-noreply@apc.edu.ph"`
 
 *Note: Upto 50 email lang ata yung mailtrap per account, so use it wisely!*
 
+# !! Views Naming Convention !!
+
+* 1. Folder Name - may underscore sa unahan yung mga folder ng user para sa mga tabs.
+* 2. File Name - Use kebab-case.
+* 3. "_users" Folder - andito yung mga blade na accessible sa mga approvers at stud org na tabs.
 
 
 # !! DB NAME !! 
