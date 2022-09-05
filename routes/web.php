@@ -20,10 +20,9 @@ Route::get('/', function () {
 });
 
 // for an authenticated user. = guest role
-Route::group(['middleware'=> ['auth']], function(){
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-});
-
+// Route::group(['middleware'=> ['auth']], function(){
+//     Route::get('/dashboard', [DashboardController::class, 'index'])->name('users.dashboard');
+// });
 
 
 require __DIR__.'/auth.php';
