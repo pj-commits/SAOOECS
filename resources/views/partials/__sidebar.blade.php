@@ -1,11 +1,11 @@
 <!-- Sidebar Menu -->
-<div :class="{ '!translate-x-0': open }" class="fixed top-0 left-0 z-20 w-64 h-screen overflow-y-auto transition duration-300 ease-in-out transform -translate-x-full bg-zinc-600 shadow-lg sm:w-64 lg:translate-x-0">
+<div :class="{ '!translate-x-0': open }" class="fixed top-0 left-0 z-20 w-64 h-screen overflow-y-auto transition duration-300 ease-in-out transform -translate-x-full bg-secondary-gray shadow-lg sm:w-64 lg:translate-x-0">
     <!-- Sidebar Header -->
     <div class="flex items-center p-4 mb-3 h-20">
         <div class="inline-flex items-center justify-center w-full md:justify-center">
             <!-- Logo -->
-            <a href=""  class="flex items-center w-full">
-                <img src="{{ asset('assets/img/apc-logo.png') }}" alt="" class="object-cover h-16">
+            <a href="{{ route('dashboard') }}" class="flex items-center w-full">
+                <img src="{{ asset('assets/img/apc-name-logo.png') }}" alt="" class="object-cover h-16">
             </a>
         </div>
     </div>
@@ -13,7 +13,7 @@
     <!-- Navigation Links -->
     <hr class=" h-px opacity-60">
     <div class="flex flex-col mt-3 mb-0 ml-0">
-        <div x-cloak x-data="{ dropdown: $persist(false).using(sessionStorage) }" >
+        <div x-cloak x-data="{ dropdown: $persist(false).using(sessionStorage) }">
 
             {{-- Dashboard --}}
             <x-sidebar-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" @click="dropdown = false">

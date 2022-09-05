@@ -21,7 +21,6 @@ to access these accounts
 
 **Password:** password
 
-# !!General Route Methods!!
 # !! General Route Methods !!
 
 * index - show all data
@@ -82,10 +81,10 @@ Note: custom route name is allowed, but try to lessen its usage and make an alia
     - View role - ALL
     - Update Role- ADV, Pres, Sec
     - Remove Role- ADV, Pres, Sec
+    - Email
 
 3. Sprint 3: Form Submission
     - Create form
-    - Update form
     - Submit form (submit to next approver)
     - Delete form
     - View form
@@ -96,6 +95,8 @@ Note: custom route name is allowed, but try to lessen its usage and make an alia
     - View submitted form
     - Approve submitted form
     - Deny submitted form + feedback
+    - Edit form
+    - Download Approved Form
     - Email
 
 5. Sprint 5: Chart / Calendar
