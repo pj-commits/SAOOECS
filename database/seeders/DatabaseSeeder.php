@@ -21,10 +21,13 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+<<<<<<< HEAD
         $this->call(LaratrustSeeder::class);
         // $this->call(UserSeeder::class);
 
      
 
+=======
+>>>>>>> 827cb44 (ignore)
     }
 }
