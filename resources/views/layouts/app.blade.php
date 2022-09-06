@@ -35,8 +35,6 @@
                 {{ $slot }}
             </main>
         </div>
-<<<<<<< HEAD
-=======
 
         {{--
             
@@ -47,6 +45,5 @@
             <img src="{{ asset('assets/svg/screen-loader-animation/ball-triangle.svg') }}" alt="">
             <p class="text-sm text-gray-500">Loading...</p>
         </div> 
->>>>>>> 827cb44 (ignore)
     </body>
 </html>

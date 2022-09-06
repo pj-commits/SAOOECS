@@ -92,14 +92,14 @@
 
                         <!-- Roles -->
                         <div class="mt-6">
-                            <x-label for="roles" :value="__('Role')" />
+                            <x-label for="role_id" :value="__('Role')" />
 
-                            <x-select name="roles" aria-label="Default select example">
+                            <x-select name="role_id" aria-label="Default select example">
                                 <x-slot name="slot">
                                     <option selected>Choose Role</option>
-                                    <option value="President">President</option>
-                                    <option value="Secretary">Secretary</option>
-                                    <option value="Member">Member</option>
+                                    <option value="president">President</option>
+                                    <option value="secretary">Secretary</option>
+                                    <option value="member">Member</option>
                                 </x-slot>
                             </x-select>
                         </div>

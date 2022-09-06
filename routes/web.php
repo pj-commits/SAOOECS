@@ -25,12 +25,17 @@ Route::get('/', function () {
 // });
 
 
+// Auth user -- Users dashboard
 require __DIR__.'/auth.php';
 Route::get('/dashboard', function () {
     return view('_users.dashboard');
 })->middleware(['auth'])->name('dashboard');
-
 require __DIR__.'/auth.php';
+
+// Role managers == adviser, pres, sao
+Route::group(['middleware'=> ['auth', 'role:adviser|president|sao']], function(){
+    Route::resource('roles', AssignRoleController::class, ['names' => 'roles']);
+});
 
 
 //Below Are Test Route only
@@ -38,11 +43,6 @@ Route::get('records', function (){
     return view('_users.records')
         ->with("message", "Hello Records!");
 })->name('records');
-
-Route::get('roles', function (){
-    return view('_student-organization.roles')
-        ->with("message", "Hello Roles!");
-})->name('roles');
 
 Route::get('submitted-forms', function (){
     return view('_approvers.submitted-forms')
