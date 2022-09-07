@@ -43,26 +43,6 @@
                                         </x-button>
                                     </td>
                                 </tr>
-                                <tr class="bg-white border hover:bg-gray-100">
-                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">Marc Kenneth Ricahuerta</td>
-                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">President</td>
-                                    <td class="text-sm text-gray-900 text-center font-light px-6 py-4 whitespace-nowrap">
-                                        <x-button class="bg-rose-700 ">
-                                            {{ __('Remove') }}
-                                        </x-button>
-                                    </td>
-                                </tr>
-                                <tr class="bg-white border hover:bg-gray-100">
-                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">Marc Kenneth Ricahuerta</td>
-                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">President</td>
-                                    <td class="text-sm text-gray-900 text-center font-light px-6 py-4 whitespace-nowrap">
-                                        <x-button class="bg-rose-700 ">
-                                            {{ __('Remove') }}
-                                        </x-button>
-                                    </td>
-                                </tr>
-
-
                             </tbody>
                         </table>
                         
