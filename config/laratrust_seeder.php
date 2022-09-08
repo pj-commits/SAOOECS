@@ -21,6 +21,12 @@ return [
         'secretary',
         'member',
         'guest'
+    ],
+    
+    'departments' =>[
+        'Finance',
+        'SOCIT',
+        'Academic Services'
     ]
 
 ];

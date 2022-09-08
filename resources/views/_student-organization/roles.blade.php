@@ -31,6 +31,7 @@
                             <x-table.head>
                                 {{-- Insert Table Head Columns Here --}}
                                 <x-table.head-col>Name</x-table.head-col>
+                                <x-table.head-col>Position</x-table.head-col>
                                 <x-table.head-col>Role</x-table.head-col>
                                 <x-table.head-col class="text-center">Action</x-table.head-col>
                                 {{-- Table Head Columns Ends Here --}}
@@ -40,6 +41,7 @@
                                 {{-- Insert Table Body Columns Here --}}
                                 <x-table.body-col>Marc Kenneth Ricahuerta</x-table.body-col>
                                 <x-table.body-col>President </x-table.body-col>
+                                <x-table.body-col>Moderator </x-table.body-col>
                                 <x-table.body-col class="flex justify-center space-x-5">
                                     <x-button class="bg-info hover:bg-blue-400" @click="editMember = true">
                                         {{ __('Edit') }}
@@ -87,7 +89,7 @@
 
                         <!-- Add Member Button -->
                         <div class="flex justify-end mt-8">
-                            <x-button class="bg-green-700">
+                            <x-button class="bg-success hover:bg-green-600">
                                 {{ __('Add Member') }}
                             </x-button>
                         </div>
@@ -118,9 +120,9 @@
 
                             <x-select name="roles" aria-label="Default select example">
                                 <option selected>Choose Role</option>
-                                <option value="President">President</option>
-                                <option value="Secretary">Secretary</option>
-                                <option value="Member">Member</option>
+                                <option value="moderator">Moderator</option>
+                                <option value="editor">Editor</option>
+                                <option value="viewer">Viewer</option>
                             </x-select>
                         </div>
 
