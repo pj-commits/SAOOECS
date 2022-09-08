@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Faculty;
+use App\Models\Department;
 use Illuminate\Database\Seeder;
 use Illuminate\Foundation\Auth\User;
 
@@ -22,9 +24,13 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         $this->call(LaratrustSeeder::class);
-        // $this->call(UserSeeder::class);
+        $this->call(DepartmentSeeder::class);
+        $this->call(OrganizationSeeder::class);
+        $this->call(FacultySeeder::class);
+        $this->call(StaffSeeder::class);
+        $this->call(OrganizationUserSeeder::class);
+
 
      
-
     }
 }

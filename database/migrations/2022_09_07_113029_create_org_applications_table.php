@@ -13,16 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('org_applications', function (Blueprint $table) {
             $table->id();
-            $table->string('firstName');
-            $table->string('middleName')->nullable();
-            $table->string('lastName');
-            $table->string('phoneNumber');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->unsignedBigInteger('faculty_id');
+            $table->string('proposedOrgName');
+            $table->string('presidentEmail');
+            $table->string('description');
             $table->timestamps();
         });
     }
@@ -34,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('org_applications');
     }
 };

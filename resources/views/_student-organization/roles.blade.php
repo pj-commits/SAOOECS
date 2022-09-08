@@ -29,11 +29,12 @@
                             <thead class="border-b bg-yellow-500">
                                 <tr>
                                     <th scope="col" class="text-sm font-medium text-white px-6 py-4">Name</th>
-                                    <th scope="col" class="text-sm font-medium text-white px-6 py-4">Role</th>
+                                    <th scope="col" class="text-sm font-medium text-white px-6 py-4">Position</th>
                                     <th scope="col" class="text-sm text-center font-medium text-white px-6 py-4">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                {{-- @foreach(roles as role) --}}
                                 <tr class="bg-white border hover:bg-gray-100">
                                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">Marc Kenneth Ricahuerta</td>
                                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">President</td>
@@ -43,26 +44,7 @@
                                         </x-button>
                                     </td>
                                 </tr>
-                                <tr class="bg-white border hover:bg-gray-100">
-                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">Marc Kenneth Ricahuerta</td>
-                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">President</td>
-                                    <td class="text-sm text-gray-900 text-center font-light px-6 py-4 whitespace-nowrap">
-                                        <x-button class="bg-rose-700 ">
-                                            {{ __('Remove') }}
-                                        </x-button>
-                                    </td>
-                                </tr>
-                                <tr class="bg-white border hover:bg-gray-100">
-                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">Marc Kenneth Ricahuerta</td>
-                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">President</td>
-                                    <td class="text-sm text-gray-900 text-center font-light px-6 py-4 whitespace-nowrap">
-                                        <x-button class="bg-rose-700 ">
-                                            {{ __('Remove') }}
-                                        </x-button>
-                                    </td>
-                                </tr>
-
-
+                                {{-- @endforeach --}}
                             </tbody>
                         </table>
                         
@@ -92,14 +74,14 @@
 
                         <!-- Roles -->
                         <div class="mt-6">
-                            <x-label for="roles" :value="__('Role')" />
+                            <x-label for="role_id" :value="__('Role')" />
 
-                            <x-select name="roles" aria-label="Default select example">
+                            <x-select name="role_id" aria-label="Default select example">
                                 <x-slot name="slot">
                                     <option selected>Choose Role</option>
-                                    <option value="President">President</option>
-                                    <option value="Secretary">Secretary</option>
-                                    <option value="Member">Member</option>
+                                    <option value="president">President</option>
+                                    <option value="secretary">Secretary</option>
+                                    <option value="member">Member</option>
                                 </x-slot>
                             </x-select>
                         </div>
