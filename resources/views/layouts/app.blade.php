@@ -16,24 +16,32 @@
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
+
     <style>
         [x-cloak] { display: none !important; }
     </style>
+
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 lg:pl-64">
+        <div class="relative min-h-screen bg-gray-100 lg:pl-64">
             
             <!-- Page Heading -->
             <header class="flex items-center h-auto" x-data="{ open: false }">
                 <nav class="relative flex items-center w-full">
-                    @include('layouts.navigation')
-                    @include('layouts.sidebar')
+                    @include('partials.__navigation')
+                    @include('partials.__sidebar')
                 </nav>
             </header>
 
             <!-- Page Content -->
-            <main>
+            <main class="pb-24">
                 {{ $slot }}
             </main>
+
+            <!-- Page Footer -->
+            <footer>
+                @include('partials.__footer')
+            </footer> 
+           
         </div>
 
         {{--
@@ -41,9 +49,9 @@
             !! Comment this out to turn off loading screen !!
 
         --}}
-        <div id="loader" class=" flex flex-col space-y-6 items-center justify-center z-20 fixed top-0 left-0 w-screen h-screen bg-slate-300 bg-opacity-60">
+        {{-- <div id="loader" class=" flex flex-col space-y-6 items-center justify-center z-20 fixed top-0 left-0 w-screen h-screen bg-slate-300 bg-opacity-60">
             <img src="{{ asset('assets/svg/screen-loader-animation/ball-triangle.svg') }}" alt="">
             <p class="text-sm text-gray-500">Loading...</p>
-        </div> 
+        </div>  --}}
     </body>
 </html>

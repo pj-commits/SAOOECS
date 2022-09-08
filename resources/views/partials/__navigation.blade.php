@@ -1,10 +1,10 @@
 <!-- Top Menu -->
-<div class="w-full bg-white" >
-    <div class="flex justify-between md:justify-end h-16 border-b-4 border-yellow-500 ">
+<div class="w-full bg-white">
+    <div class="flex justify-between md:justify-end h-16 border-b-4 border-primary-yellow ">
         <!-- Mobile Header -->
         <div class="inline-flex items-center justify-center lg:hidden">
             <a href="#" @click="open = true" class="absolute left-0 pl-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 stroke-blue-600" fill="currentColor" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 stroke-bland-400 hover:stroke-bland-600" fill="currentColor" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h8m-8 6h16" />
                 </svg>
              </a>
@@ -14,8 +14,8 @@
         <div class="flex items-center mr-6">
             <x-dropdown align="right" width="48">
                 <x-slot name="trigger">
-                    <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
-                        <div>{{ Auth::user()->name }}</div>
+                    <button class="flex items-center text-sm font-medium text-bland-400 hover:text-bland-600 hover:border-gray-300 focus:outline-none focus:text-bland-600 focus:border-gray-300 transition duration-150 ease-in-out">
+                        <div>{{ Auth::user()->firstName }} {{ Auth::user()->lastName}}</div>
 
                         <div class="ml-1">
                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
