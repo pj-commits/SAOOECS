@@ -29,11 +29,12 @@
                             <thead class="border-b bg-yellow-500">
                                 <tr>
                                     <th scope="col" class="text-sm font-medium text-white px-6 py-4">Name</th>
-                                    <th scope="col" class="text-sm font-medium text-white px-6 py-4">Role</th>
+                                    <th scope="col" class="text-sm font-medium text-white px-6 py-4">Position</th>
                                     <th scope="col" class="text-sm text-center font-medium text-white px-6 py-4">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                {{-- @foreach(roles as role) --}}
                                 <tr class="bg-white border hover:bg-gray-100">
                                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">Marc Kenneth Ricahuerta</td>
                                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">President</td>
@@ -43,6 +44,7 @@
                                         </x-button>
                                     </td>
                                 </tr>
+                                {{-- @endforeach --}}
                             </tbody>
                         </table>
                         
