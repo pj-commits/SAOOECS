@@ -30,11 +30,15 @@ class AssignRoleController extends Controller
        
         
         
-        $organizations = Organization::with('studentOrg')->get();
-        $currOrg =  Organization::with('studentOrg')->pluck('id');
-        // $currOrg= Organization::findOrFail('id');
+        $organizations = Organization::with('studentOrg')->first();
+        // $currOrg =  Organization::with('studentOrg')->pluck('id');
 
-        $currUser = auth()->id();
+        dd($organizations);
+
+      
+
+
+        // $currUser = auth()->id();
 
 
         // dd($currUser);

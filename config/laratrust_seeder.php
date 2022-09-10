@@ -20,7 +20,6 @@ return [
         'moderator'  => 'president',
         'editor' => 'secretary',
         'viewer' => 'member',
-        'guest' => 'guest'
     ],
     
     'departments' =>[

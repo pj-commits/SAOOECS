@@ -3,10 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\Faculty;
-use App\Models\Department;
 use Illuminate\Database\Seeder;
 use Illuminate\Foundation\Auth\User;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -29,6 +28,8 @@ class DatabaseSeeder extends Seeder
         $this->call(FacultySeeder::class);
         $this->call(StaffSeeder::class);
         $this->call(OrganizationUserSeeder::class);
+        $this->call(UserSeeder::class);
+
 
 
      
