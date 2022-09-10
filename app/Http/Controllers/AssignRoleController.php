@@ -16,45 +16,20 @@ class AssignRoleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()  {
-        // $roles = DB::table('users')
-        // ->join('organization_user', 'users.id', '=','organization_user.user_id')
-        // ->join('organizations', 'organizations.id', '=', 'organization_user.organization_id')
-        // ->join('role_user', 'users.id', '=','role_user.user_id')
-        // ->join('roles', 'roles.id', '=', 'role_user.role_id')
-        // ->select( 'users.id as uid','users.firstName as fname', 'users.lastName as lname', 'organizations.id as orgid', 'organizations.orgName as orgname', 'role_user.user_id as r_uid', 'role_user.role_id as r_rid')
-        // ->get();
 
-       
-        
+        $user = Auth::user();
+        // dd($user);
+        // $roles = $user->getRoles();
 
-       
-        
-        
-        $organizations = Organization::with('studentOrg')->first();
-        // $currOrg =  Organization::with('studentOrg')->pluck('id');
+        $currUserId = auth()->id();
+        $currOrgId = DB::table('organization_user')->where('user_id', '=', $currUserId)->pluck('organization_id')->first();
+        $currOrg = Organization::with('studentOrg')->where('id', '=', $currOrgId)->first();
 
-        dd($organizations);
-
-      
+        $orgMembers = $currOrg->studentOrg;
 
 
-        // $currUser = auth()->id();
-
-
-        // dd($currUser);
-
-
-        $orgMembers = User::with('studentOrg')->get();
-        // dd($orgMembers);
-        
-
-        // dd(Organization::with('users')->get());
-
-        // dd(User::find()->studentOrg()->get('name'));
-
-        // ->select('users.lastName as lastName', 'organizations.orgName as orgName')
-
-        return view('_student-organization.roles', compact('organizations', 'orgMembers'));
+     
+        return view('_student-organization.roles', compact('currOrg', 'orgMembers'));
 
     }
 

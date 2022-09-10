@@ -8,7 +8,7 @@
                     <div class="max-w-screen mx-auto px-4 lg:px-8">
                         <h1 class="text-lg">Organization:</h1>
                         <div class="bg-white mt-4 h-auto w-full rounded-sm shadow-sm">
-                            <h1 class="text-md px-6 py-4">Student Organization Name</h1>
+                            <h1 class="text-md px-6 py-4">{{$currOrg->orgName}}</h1>
                         </div>
                     </div>
                 </div>
@@ -37,11 +37,17 @@
                                 {{-- Table Head Columns Ends Here --}}
                             </x-table.head>
                             {{-- Table Head Body --}}
+                            @foreach ($orgMembers as $member)
                             <x-table.body>
                                 {{-- Insert Table Body Columns Here --}}
-                                <x-table.body-col>Marc Kenneth Ricahuerta</x-table.body-col>
-                                <x-table.body-col>President </x-table.body-col>
-                                <x-table.body-col>Moderator </x-table.body-col>
+                                <x-table.body-col>{{$member->firstName}} {{$member->lastName}}</x-table.body-col>
+                                @foreach ($member->studentOrg as $pos)
+                                <x-table.body-col>{{$pos->pivot->position}} </x-table.body-col>
+                                @endforeach
+
+                                @foreach($member->role as $pos)
+                                <x-table.body-col>{{$pos->display_name}}</x-table.body-col>
+                                @endforeach
                                 <x-table.body-col class="flex justify-center space-x-5">
                                     <x-button class="bg-info hover:bg-blue-400" @click="editMember = true">
                                         {{ __('Edit') }}
@@ -52,6 +58,7 @@
                                 </x-table.body-col>
                                 {{-- Table Body Columns Ends Here --}}
                             </x-table.body>
+                            @endforeach
                             
                         </x-table.main>
                     </div>
