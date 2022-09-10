@@ -16,7 +16,7 @@ use App\Http\Controllers\AssignRoleController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 // for an authenticated user. = guest role

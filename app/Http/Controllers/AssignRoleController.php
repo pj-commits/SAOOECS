@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class AssignRoleController extends Controller
 {
@@ -13,16 +16,41 @@ class AssignRoleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()  {
-        $roles = DB::table('users')
-        ->join('organization_user', 'users.id', '=','organization_user.user_id')
-        ->join('organizations', 'organizations.id', '=', 'organization_user.organization_id')
-        ->get();
+        // $roles = DB::table('users')
+        // ->join('organization_user', 'users.id', '=','organization_user.user_id')
+        // ->join('organizations', 'organizations.id', '=', 'organization_user.organization_id')
+        // ->join('role_user', 'users.id', '=','role_user.user_id')
+        // ->join('roles', 'roles.id', '=', 'role_user.role_id')
+        // ->select( 'users.id as uid','users.firstName as fname', 'users.lastName as lname', 'organizations.id as orgid', 'organizations.orgName as orgname', 'role_user.user_id as r_uid', 'role_user.role_id as r_rid')
+        // ->get();
 
-        // dd($roles);
+       
+        
+
+       
+        
+        
+        $organizations = Organization::with('studentOrg')->get();
+        $currOrg =  Organization::with('studentOrg')->pluck('id');
+        // $currOrg= Organization::findOrFail('id');
+
+        $currUser = auth()->id();
+
+
+        // dd($currUser);
+
+
+        $orgMembers = User::with('studentOrg')->get();
+        // dd($orgMembers);
+        
+
+        // dd(Organization::with('users')->get());
+
+        // dd(User::find()->studentOrg()->get('name'));
 
         // ->select('users.lastName as lastName', 'organizations.orgName as orgName')
 
-        return view('_student-organization.roles');
+        return view('_student-organization.roles', compact('organizations', 'orgMembers'));
 
     }
 
@@ -34,7 +62,19 @@ class AssignRoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'email' => 'required|email|unique',
+            'position' => 'required|max:30',
+            'role' => 'required'
+        ]);
+
+        // DB::table('organization_user')->dba_insert([
+
+        // ])
+
+
+
+
     }
 
     /**

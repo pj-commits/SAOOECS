@@ -50,6 +50,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function studentOrg()
     {
         return $this->belongsToMany(Organization::class);
+        // , 'organization_user','user_id','organization_id'
     }
 
     public function userFaculty()
