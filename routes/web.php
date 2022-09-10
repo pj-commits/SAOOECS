@@ -33,7 +33,7 @@ Route::get('/dashboard', function () {
 require __DIR__.'/auth.php';
 
 // Role managers == adviser, pres, sao
-Route::group(['middleware'=> ['auth', 'role:adviser|president|sao']], function(){
+Route::group(['middleware'=> ['auth', 'role:moderator|editor|viewer']], function(){
     Route::resource('roles', AssignRoleController::class, ['names' => 'roles']);
 });
 

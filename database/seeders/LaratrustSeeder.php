@@ -27,7 +27,7 @@ class LaratrustSeeder extends Seeder
         }
 
 
-        foreach ($config as $key ) {
+        foreach ($config as $key => $rolename ) {
 
             // Create a new role
             $role = \App\Models\Role::firstOrCreate([
@@ -45,9 +45,9 @@ class LaratrustSeeder extends Seeder
                 $user = \App\Models\User::create([
                     'firstName' => 'Sample',
                     'middleName' => null,
-                    'lastName' => ucwords(str_replace('_', ' ', $key)),
+                    'lastName' => ucwords(str_replace('_', ' ', $rolename)),
                     'phoneNumber' => '09123456789',
-                    'email' => $key.'@apc.edu.ph',
+                    'email' => $rolename.'@apc.edu.ph',
                     'password' => bcrypt('password')
                 ]);
                 $user->attachRole($role);

@@ -98,7 +98,7 @@
 
             </div>
 
-            @if(Auth::user()->hasRole('adviser|president|sao'))
+            @if(Auth::user()->hasRole('moderator|editor|viewer'))
             {{-- Roles --}}
             <x-sidebar-nav-link :href="route('roles.index')" :active="request()->routeIs('roles')" @click="dropdown = false">
                 <x-slot name="icon">
