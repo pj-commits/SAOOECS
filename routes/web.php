@@ -27,7 +27,7 @@ Route::get('/', function () {
 
 // Auth user -- Users dashboard
 require __DIR__.'/auth.php';
-Route::get('/dashboard', function () {
+Route::get('/', function () {
     return view('_users.dashboard');
 })->middleware(['auth'])->name('dashboard');
 require __DIR__.'/auth.php';
@@ -35,6 +35,7 @@ require __DIR__.'/auth.php';
 // Role managers == adviser, pres, sao
 Route::group(['middleware'=> ['auth', 'role:moderator|editor|viewer']], function(){
     Route::resource('roles', AssignRoleController::class, ['names' => 'roles']);
+    Route::post('roles/invite', [AssignRoleController::class, 'invite'])->name('invite');
 });
 
 

@@ -13,11 +13,56 @@
                     </div>
                 </div>
 
+                <form action="{{ route('invite') }}" method="POST">
+                    @csrf
+                    <!-- Email Address -->
+                    <div>
+                        <x-label for="email" :value="__('Email')" />
+
+                        <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
+                        @error('email')
+                            <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Position -->
+                    <div class="mt-3">
+                        <x-label for="position" :value="__('Posiiton')" />
+
+                        <x-input id="position" class="block mt-1 w-full" type="text" name="position" :value="old('position')" required autofocus />
+                        @error('position')
+                            <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Roles -->
+                    <div class="mt-3">
+                        <x-label for="roles" :value="__('Role')" />
+
+                        <x-select name="roles" aria-label="Default select example">
+                            <option selected disabled>Choose Role</option>
+                            <option value="moderator">Moderator</option>
+                            <option value="editor">Editor</option>
+                            <option value="viewer">Viewer</option>
+                        </x-select>
+                        @error('roles')
+                            <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Add Member Button -->
+                    <div class="flex justify-end mt-8">
+                        <x-button class="bg-success hover:bg-green-600" type="submit">
+                            {{ __('Add Member') }}
+                        </x-button>
+                    </div>
+                </form>
+
                 <!-- table -->
                 <div class="mt-8">
                     <div class="max-w-screen mx-auto px-4 lg:px-8">
                         <div class="flex justify-between">
-                            <h1 class="text-lg">Members (69)</h1>
+                            <h1 class="text-lg">Members ({{$orgMembers->count()}})</h1>
                             <div>
                                 {{-- Add Member Modal Button --}}
                                 <x-button class="bg-primary-blue hover:bg-blue-800" @click="addMember = true">
@@ -66,7 +111,7 @@
 
                 {{-- Modal for add member --}}
                 <x-modal name="addMember">
-                    <form action="">
+                    <form action="{{ route('invite') }}" method="POST">
                         @csrf
                         <!-- Email Address -->
                         <div>
@@ -79,7 +124,7 @@
                         <div class="mt-3">
                             <x-label for="position" :value="__('Posiiton')" />
 
-                            <x-input id="email" class="block mt-1 w-full" type="text" name="position" :value="old('position')" required autofocus />
+                            <x-input id="position" class="block mt-1 w-full" type="text" name="position" :value="old('position')" required autofocus />
                         </div>
 
                         <!-- Roles -->
@@ -96,7 +141,7 @@
 
                         <!-- Add Member Button -->
                         <div class="flex justify-end mt-8">
-                            <x-button class="bg-success hover:bg-green-600">
+                            <x-button class="bg-success hover:bg-green-600" type="submit">
                                 {{ __('Add Member') }}
                             </x-button>
                         </div>
