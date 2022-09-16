@@ -4,6 +4,9 @@
         <div x-data="{ editMember : false }">
             <div x-data="{ removeMember : false }">
                 <!-- Org Name -->
+                @if(isset($message))
+                    @dd('message')
+                @endif
                 <div class="pt-12">
                     <div class="max-w-screen mx-auto px-4 lg:px-8">
                         <h1 class="text-lg">Organization:</h1>
@@ -12,51 +15,7 @@
                         </div>
                     </div>
                 </div>
-
-                <form action="{{ route('invite') }}" method="POST">
-                    @csrf
-                    <!-- Email Address -->
-                    <div>
-                        <x-label for="email" :value="__('Email')" />
-
-                        <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-                        @error('email')
-                            <p class="text-red-500 text-xs mt-1">{{$message}}</p>
-                        @enderror
-                    </div>
-
-                    <!-- Position -->
-                    <div class="mt-3">
-                        <x-label for="position" :value="__('Posiiton')" />
-
-                        <x-input id="position" class="block mt-1 w-full" type="text" name="position" :value="old('position')" required autofocus />
-                        @error('position')
-                            <p class="text-red-500 text-xs mt-1">{{$message}}</p>
-                        @enderror
-                    </div>
-
-                    <!-- Roles -->
-                    <div class="mt-3">
-                        <x-label for="roles" :value="__('Role')" />
-
-                        <x-select name="roles" aria-label="Default select example">
-                            <option selected disabled>Choose Role</option>
-                            <option value="moderator">Moderator</option>
-                            <option value="editor">Editor</option>
-                            <option value="viewer">Viewer</option>
-                        </x-select>
-                        @error('roles')
-                            <p class="text-red-500 text-xs mt-1">{{$message}}</p>
-                        @enderror
-                    </div>
-
-                    <!-- Add Member Button -->
-                    <div class="flex justify-end mt-8">
-                        <x-button class="bg-success hover:bg-green-600" type="submit">
-                            {{ __('Add Member') }}
-                        </x-button>
-                    </div>
-                </form>
+                
 
                 <!-- table -->
                 <div class="mt-8">
@@ -111,34 +70,43 @@
 
                 {{-- Modal for add member --}}
                 <x-modal name="addMember">
-                    <form action="{{ route('invite') }}" method="POST">
+                    <form action="{{ route('roles.invite') }}" method="POST">
                         @csrf
                         <!-- Email Address -->
                         <div>
                             <x-label for="email" :value="__('Email')" />
-
+    
                             <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
+                            @error('email')
+                                <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+                            @enderror
                         </div>
-
+    
                         <!-- Position -->
                         <div class="mt-3">
                             <x-label for="position" :value="__('Posiiton')" />
-
+    
                             <x-input id="position" class="block mt-1 w-full" type="text" name="position" :value="old('position')" required autofocus />
+                            @error('position')
+                                <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+                            @enderror
                         </div>
-
+    
                         <!-- Roles -->
                         <div class="mt-3">
-                            <x-label for="roles" :value="__('Role')" />
-
-                            <x-select name="roles" aria-label="Default select example">
-                                <option selected>Choose Role</option>
-                                <option value="moderator">Moderator</option>
-                                <option value="editor">Editor</option>
-                                <option value="viewer">Viewer</option>
+                            <x-label for="role_id" :value="__('Role')" />
+    
+                            <x-select name="role_id" aria-label="Default select example">
+                                <option selected disabled>Choose Role</option>
+                                <option value="6">Moderator</option>
+                                <option value="7">Editor</option>
+                                <option value="8">Viewer</option>
                             </x-select>
+                            @error('roles')
+                                <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+                            @enderror
                         </div>
-
+    
                         <!-- Add Member Button -->
                         <div class="flex justify-end mt-8">
                             <x-button class="bg-success hover:bg-green-600" type="submit">
@@ -146,6 +114,7 @@
                             </x-button>
                         </div>
                     </form>
+                    
                 </x-modal>
 
                 {{-- Modal for edit member --}}

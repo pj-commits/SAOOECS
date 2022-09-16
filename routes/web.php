@@ -34,8 +34,8 @@ require __DIR__.'/auth.php';
 
 // Role managers == adviser, pres, sao
 Route::group(['middleware'=> ['auth', 'role:moderator|editor|viewer']], function(){
-    Route::resource('roles', AssignRoleController::class, ['names' => 'roles']);
-    Route::post('roles/invite', [AssignRoleController::class, 'invite'])->name('invite');
+    Route::get('roles', [AssignRoleController::class, 'index'])->name('roles.index');
+    Route::post('roles/invite', [AssignRoleController::class, 'invite'])->name('roles.invite');
 });
 
 

@@ -51,7 +51,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsToMany(Organization::class, 'organization_user','user_id','organization_id')
             ->withPivot(['position'])
-            ->withTimestamps();;
+            ->withTimestamps();
         // , 'organization_user','user_id','organization_id'
     }
 

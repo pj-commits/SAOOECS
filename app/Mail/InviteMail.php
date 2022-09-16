@@ -11,18 +11,18 @@ class InviteMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $formFields,  $currOrg;
+    public $currOrgName;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($formFields,  $currOrg)
+    public function __construct($currOrgName)
     {
-        $this->position = $position;
-        $this->role = $role;
-        $this->orgName = $orgName;
+        // $this->position = $position;
+        // $this->role = $role;
+        $this->currOrgName = $currOrgName;
 
 
     }
@@ -34,6 +34,7 @@ class InviteMail extends Mailable
      */
     public function build()
     {
-        return $this->view('email.invite');
+        return $this->markdown('email.invite')
+                    ->subject('SAO Invitation');
     }
 }
