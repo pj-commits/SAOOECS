@@ -1,12 +1,17 @@
 <x-app-layout>
     <!--Roles -->
+    @if($invite === true)
+    <div x-data="{ addMember : true }">
+    @else
     <div x-data="{ addMember : false }">
+    @endif
+        @if(!empty($selected))
+        <div x-data="{ editMember : true }">
+        @else
         <div x-data="{ editMember : false }">
+        @endif
             <div x-data="{ removeMember : false }">
                 <!-- Org Name -->
-                @if(isset($message))
-                    @dd('message')
-                @endif
                 <div class="pt-12">
                     <div class="max-w-screen mx-auto px-4 lg:px-8">
                         <h1 class="text-lg">Organization:</h1>
@@ -24,7 +29,7 @@
                             <h1 class="text-lg">Members ({{$orgMembers->count()}})</h1>
                             <div>
                                 {{-- Add Member Modal Button --}}
-                                <x-button class="bg-primary-blue hover:bg-blue-800" @click="addMember = true">
+                                <x-button class="bg-primary-blue hover:bg-blue-800" onclick="window.location='{{ route('roles.invite') }}'">
                                     {{ __('Add Member') }}
                                 </x-button>
                             </div>
@@ -53,7 +58,7 @@
                                 <x-table.body-col>{{$pos->display_name}}</x-table.body-col>
                                 @endforeach
                                 <x-table.body-col class="flex justify-center space-x-5">
-                                    <x-button class="bg-info hover:bg-blue-400" @click="editMember = true">
+                                    <x-button class="bg-info hover:bg-blue-400" onclick="window.location='{{ route('roles.edit', $member) }}'" >
                                         {{ __('Edit') }}
                                     </x-button>
                                     <x-button class="bg-danger hover:bg-rose-600" @click="removeMember = true">
@@ -70,7 +75,7 @@
 
                 {{-- Modal for add member --}}
                 <x-modal name="addMember">
-                    <form action="{{ route('roles.invite') }}" method="POST">
+                    <form action="{{ route('roles.store') }}" method="POST">
                         @csrf
                         <!-- Email Address -->
                         <div>
@@ -117,35 +122,41 @@
                     
                 </x-modal>
 
+                @if(!empty($selected))
                 {{-- Modal for edit member --}}
                 <x-modal name="editMember">
-                    <form action="">
+                    <form action="{{route('roles.update', $member)}}" method="POST">
                         @csrf
+                        @method('PUT') 
+
                         <!-- Name -->
                         <div>
                             <x-label for="name" :value="__('Name')" />
 
-                            <x-input id="name" class="block mt-1 w-full" type="text" name="name" value="{Student Name}" disabled="true" autofocus />
+                            <x-input id="name" class="block mt-1 w-full" type="text" name="name" value="{{$selected->firstName}} {{$selected->lastName}}" disabled="true" autofocus />
                         </div>
 
-                        <!-- Position -->
-                        <div class="mt-3">
-                            <x-label for="position" :value="__('Posiiton')" />
+                            <!-- Position -->
+                   
+                            <div class="mt-3">
+                                <x-label for="position" :value="__('Position')" />
+                             
+                                <x-input id="position" class="block mt-1 w-full" type="text" name="position" :value="old('position')" required autofocus value="{{$selected->studentOrg->first()->pivot->position}}" />
+                            </div>
 
-                            <x-input id="email" class="block mt-1 w-full" type="text" name="position" :value="old('position')" required autofocus />
-                        </div>
+                            <!-- Roles -->
+                            <div class="mt-3">
+                                <x-label for="role_id" :value="__('Role')"/>
+                                {{-- @dd($selected->role->first()->id) --}}
 
-                        <!-- Roles -->
-                        <div class="mt-3">
-                            <x-label for="roles" :value="__('Role')" />
-
-                            <x-select name="roles" aria-label="Default select example">
-                                <option selected>Choose Role</option>
-                                <option value="moderator">Moderator</option>
-                                <option value="editor">Editor</option>
-                                <option value="viewer">Viewer</option>
-                            </x-select>
-                        </div>
+                                <x-select name="role_id" aria-label="Default select example">
+                                    <option selected disabled>Choose Role</option>
+                                    <option {{$selected->role->first()->id == "6"? 'selected':''}}  value="6">Moderator</option>
+                                    <option {{$selected->role->first()->id == "7"? 'selected':''}}  value="7">Editor</option>
+                                    <option {{$selected->role->first()->id == "8"? 'selected':''}}  value="8">Viewer</option>
+                                </x-select>
+                            </div>
+                       
 
                         <!-- Edit Member Button -->
                         <div class="flex justify-end mt-8">
@@ -153,8 +164,10 @@
                                 {{ __('Edit Member') }}
                             </x-button>
                         </div>
+                       
                     </form>
                 </x-modal> 
+                @endif
                 
                 {{-- Remove member modal --}}
                 <x-modal name="removeMember">

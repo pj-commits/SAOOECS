@@ -34,7 +34,9 @@
                 </x-slot>
                 {{ __('Records') }}
             </x-sidebar-nav-link>
-            
+
+
+            @if(Auth::user()->hasRole('moderator|editor|viewer'))
             <!-- Dropdown Forms-->
             <x-sidebar-nav-link-dropdown  x-on:click="dropdown = !dropdown">
                 <x-slot name="icon">
@@ -97,6 +99,7 @@
                 </x-sidebar-nav-link>
 
             </div>
+            @endif
 
             @if(Auth::user()->hasRole('moderator|editor|viewer'))
             {{-- Roles --}}
