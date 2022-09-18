@@ -5,12 +5,17 @@
     @else
     <div x-data="{ addMember : false }">
     @endif
-        @if(!empty($selected))
+        @if(!empty($selected) && !isset($del))
         <div x-data="{ editMember : true }">
         @else
         <div x-data="{ editMember : false }">
         @endif
+            @if(isset($del))
+            <div x-data="{ removeMember : true }">
+            @else
             <div x-data="{ removeMember : false }">
+            @endif
+      
                 <!-- Org Name -->
                 <div class="pt-12">
                     <div class="max-w-screen mx-auto px-4 lg:px-8">
@@ -61,8 +66,9 @@
                                     <x-button class="bg-info hover:bg-blue-400" onclick="window.location='{{ route('roles.edit', $member) }}'" >
                                         {{ __('Edit') }}
                                     </x-button>
-                                    <x-button class="bg-danger hover:bg-rose-600" @click="removeMember = true">
+                                    <x-button class="bg-danger hover:bg-rose-600"  onclick="window.location='{{ route('roles.del', $member) }}'">
                                         {{ __('Remove') }}
+                                        
                                     </x-button>
                                 </x-table.body-col>
                                 {{-- Table Body Columns Ends Here --}}
@@ -125,7 +131,8 @@
                 @if(!empty($selected))
                 {{-- Modal for edit member --}}
                 <x-modal name="editMember">
-                    <form action="{{route('roles.update', $member)}}" method="POST">
+                    
+                    <form action="{{route('roles.update', ['member' => $selected->id ]) }}" method="POST">
                         @csrf
                         @method('PUT') 
 
@@ -142,6 +149,9 @@
                                 <x-label for="position" :value="__('Position')" />
                              
                                 <x-input id="position" class="block mt-1 w-full" type="text" name="position" :value="old('position')" required autofocus value="{{$selected->studentOrg->first()->pivot->position}}" />
+                                @error('position')
+                                    <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+                                @enderror
                             </div>
 
                             <!-- Roles -->
@@ -151,10 +161,13 @@
 
                                 <x-select name="role_id" aria-label="Default select example">
                                     <option selected disabled>Choose Role</option>
-                                    <option {{$selected->role->first()->id == "6"? 'selected':''}}  value="6">Moderator</option>
-                                    <option {{$selected->role->first()->id == "7"? 'selected':''}}  value="7">Editor</option>
-                                    <option {{$selected->role->first()->id == "8"? 'selected':''}}  value="8">Viewer</option>
+                                    <option {{$selected->role->first()->id == "6" ? 'selected':''}}  value="6">Moderator</option>
+                                    <option {{$selected->role->first()->id == "7" ? 'selected':''}}  value="7">Editor</option>
+                                    <option {{$selected->role->first()->id == "8" ? 'selected':''}}  value="8">Viewer</option>
                                 </x-select>
+                                @error('roles')
+                                    <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+                                @enderror
                             </div>
                        
 
@@ -169,21 +182,29 @@
                 </x-modal> 
                 @endif
                 
+                @if(isset($del))
                 {{-- Remove member modal --}}
                 <x-modal name="removeMember">
                     <div class="py-5 text-center">
-                        Are you sure you want to remove <br> <b>{Student Name}</b> from <b>{Organization Name}</b>?
+                        Are you sure you want to remove <br> <b>{{$selected->firstName}} {{$selected->lastName}}</b> from <b>{{$currOrg->orgName}}</b>?
                     </div>
+                    
                     <div class="flex justify-center space-x-4 mt-5">
-                        <x-button class="bg-danger hover:bg-rose-600" >
-                            {{ __('Remove') }}
-                        </x-button>
+                        <form action="{{ route('roles.destroy', ['member'=>$selected->id]) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <x-button class="bg-danger hover:bg-rose-600" type="submit" >
+                                {{ __('Remove') }}
+                                
+                            </x-button>
+                        </form>
 
-                        <x-button class="bg-success hover:bg-green-600" @click="removeMember = false">
+                        <x-button class="bg-success hover:bg-green-600" @click="removeMember = false" >
                                 {{ __('Cancel') }}
                         </x-button>
                     </div>
                 </x-modal>
+                @endif
 
             </div>
         </div>

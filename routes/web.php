@@ -30,12 +30,13 @@ require __DIR__.'/auth.php';
 // ROLE TAB: Role managers/moderators == adviser, pres, sao
 Route::group(['middleware'=> ['auth', 'role:moderator']], function(){
     Route::get('roles/invite', [AssignRoleController::class, 'invite'])->name('roles.invite');
-    Route::post('roles/invite', [AssignRoleController::class, 'store'])->name('roles.store');
+    Route::post('roles', [AssignRoleController::class, 'store'])->name('roles.store');
 
-    Route::get('roles/{member}', [AssignRoleController::class, 'edit'])->name('roles.edit');
+    Route::get('roles/{member}/edit', [AssignRoleController::class, 'edit'])->name('roles.edit');
     Route::put('roles/{member}', [AssignRoleController::class, 'update'])->name('roles.update');
 
-    Route::delete('roles/delete', [AssignRoleController::class, 'destroy'])->name('roles.destroy');
+    Route::get('roles/{member}/del', [AssignRoleController::class, 'del'])->name('roles.del');
+    Route::delete('roles/del/{member}', [AssignRoleController::class, 'destroy'])->name('roles.destroy');
 });
 Route::group(['middleware'=> ['auth', 'role:moderator|editor|viewer']], function(){
     Route::get('roles', [AssignRoleController::class, 'index'])->name('roles.index');
