@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Organization;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class OrganizationSeeder extends Seeder
@@ -15,16 +15,14 @@ class OrganizationSeeder extends Seeder
      */
     public function run()
     {
-        $organizations = [
-            [
-                'orgName' => 'Sample Org 1'
-                
-            ], 
-        ];
-        
 
-        foreach($organizations as $i){
-            Organization::create($i);
+        for($i = 1; $i < 3; $i++){
+            DB::table('organizations')->insert(
+                [
+                    'orgName' => 'Sample Org '.$i
+                ]
+            );
+        
         }
 
       

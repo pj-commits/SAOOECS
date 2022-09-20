@@ -35,6 +35,12 @@ class OrganizationUserSeeder extends Seeder
                 'position'=>'Member'
                 
             ], 
+            // [
+            //     'user_id' => 12,
+            //     'organization_id' => 2,
+            //     'position'=>'President'
+                
+            // ], 
         ];
 
         DB::table('organization_user')->insert($orgusers);

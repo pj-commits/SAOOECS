@@ -11,7 +11,9 @@ class Organization extends Model
 
     public function studentOrg()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'organization_user', 'organization_id', 'user_id')
+        ->withPivot(['position'])
+        ->withTimestamps();
     }
 
 }

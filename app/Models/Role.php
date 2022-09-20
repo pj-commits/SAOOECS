@@ -7,4 +7,8 @@ use Laratrust\Models\LaratrustRole;
 class Role extends LaratrustRole
 {
     public $guarded = [];
+    public function role()
+    {
+        return $this->belongsToMany(User::class, 'role_user','role_id','user_id');
+    }
 }
