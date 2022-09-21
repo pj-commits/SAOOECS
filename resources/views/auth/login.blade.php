@@ -1,6 +1,6 @@
 <x-guest-layout>
-
-    <div class="flex bg-primary-blue">
+    {{-- All Default Data for Session Storage is initialized here --}}
+    <div class="flex bg-primary-blue" x-data="initialize_session_data()">
         {{-- Left Side --}}
         <div class="w-full hidden lg:block lg:basis-1/2">
             <div class="flex justify-center items-center h-screen">
@@ -62,7 +62,7 @@
                             </a>
                         @endif
 
-                        <x-button class="ml-3 px-8 bg-primary-blue hover:bg-blue-800">
+                        <x-button class="ml-3 px-8" type="submit">
                             {{ __('Sign in') }}
                         </x-button>
                     </div>

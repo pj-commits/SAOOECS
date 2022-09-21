@@ -12,10 +12,24 @@
 
         <!-- Scripts -->
         {{-- Screen Loading --}}
-        <script defer src="{{ asset('js/screen-loader.js')}}"></script>
+        <script defer src="{{ asset('js/screen-loader.js') }}"></script>
+
+        {{-- Papaparse --}}
+        <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.1/papaparse.min.js"></script>
+
+        {{-- Table Handler --}}
+        <script src="{{ asset('js/table-handler.js') }}" defer></script>
+
+        {{-- Session Storage Handler--}}
+        <script src="{{ asset('js/session-storage-handler.js') }}" defer></script>
+
+        {{-- Image Upload Handler--}}
+        {{-- <script src="{{ asset('js/upload-image.js') }}" defer></script> --}}
+
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
+    @livewireStyles
 
     <style>
         [x-cloak] { display: none !important; }
@@ -33,7 +47,7 @@
             </header>
 
             <!-- Page Content -->
-            <main class="pb-24">
+            <main class="pb-24" x-data="loader()">
                 {{ $slot }}
             </main>
 
@@ -49,9 +63,13 @@
             !! Comment this out to turn off loading screen !!
 
         --}}
-        {{-- <div id="loader" class=" flex flex-col space-y-6 items-center justify-center z-20 fixed top-0 left-0 w-screen h-screen bg-slate-300 bg-opacity-60">
-            <img src="{{ asset('assets/svg/screen-loader-animation/ball-triangle.svg') }}" alt="">
-            <p class="text-sm text-gray-500">Loading...</p>
-        </div>  --}}
+        <div id="loader" class="hidden">
+            <div class="flex flex-col space-y-6 items-center justify-center z-20 fixed top-0 left-0 w-screen h-screen bg-slate-300 bg-opacity-60">
+                <img src="{{ asset('assets/svg/screen-loader-animation/ball-triangle.svg') }}" alt="">
+                <p class="text-sm text-gray-500">Loading...</p>
+            </div> 
+        </div>
+      
+        @livewireScripts
     </body>
 </html>

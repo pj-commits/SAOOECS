@@ -11,9 +11,11 @@
         <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
 
         <!-- Scripts -->
+        <script src="{{ asset('js/table-handler.js') }}"></script>
+        <script src="{{ asset('js/session-storage-handler.js') }}"></script>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body>
+    <body class="overflow-y-hidden">
         <div class="font-sans text-gray-900 antialiased">
             {{ $slot }}
         </div>

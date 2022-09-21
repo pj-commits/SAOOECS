@@ -1,11 +1,442 @@
 <x-app-layout>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    {{ $message }}
-                </div>
+    <div class="pt-12" x-data="set_session_storage_data('nr')"> {{-- nr = Narrative Report --}}
+        <div class="max-w-screen mx-auto px-4 lg:px-8" x-data="get_session_storage_data('nr')">
+            <div class="flex justify-between flex-wrap">
+                <h1 class="flex items-center text-xl">
+                    <span>
+                        <x-svg width="7" height="7" color="bland-600">
+                            <path d="M6 22q-.825 0-1.412-.587Q4 20.825 4 20V4q0-.825.588-1.413Q5.175 2 6 2h8l6 6v4h-2V9h-5V4H6v16h6v2Zm0-2V4v16Zm12.3-5.475 1.075 1.075-3.875 3.85v1.05h1.05l3.875-3.85 1.05 1.05-4.3 4.3H14v-3.175Zm3.175 3.175L18.3 14.525l1.45-1.45q.275-.275.7-.275.425 0 .7.275l1.775 1.775q.275.275.275.7 0 .425-.275.7Z"/>
+                        </x-svg>
+                    </span> 
+                    Narrative Report
+                </h1>
+                <x-button @click="clear_form_session_storage('nr', true), loading(true)">
+                    <x-svg width="5" height="5">
+                        <path d="M11 20.95q-3.025-.375-5.012-2.638Q4 16.05 4 13q0-1.65.65-3.163Q5.3 8.325 6.5 7.2l1.425 1.425q-.95.85-1.437 1.975Q6 11.725 6 13q0 2.2 1.4 3.887 1.4 1.688 3.6 2.063Zm2 0v-2q2.175-.4 3.587-2.075Q18 15.2 18 13q0-2.5-1.75-4.25T12 7h-.075l1.1 1.1-1.4 1.4-3.5-3.5 3.5-3.5 1.4 1.4-1.1 1.1H12q3.35 0 5.675 2.325Q20 9.65 20 13q0 3.025-1.987 5.288Q16.025 20.55 13 20.95Z"/>
+                    </x-svg>
+                    {{ __('Reset') }}
+                </x-button>
+            </div>
+            <hr class="mt-3">
+            <div class="bg-white mt-4 h-auto w-full rounded-sm shadow-sm px-6 py-4">
+                <form action="{{ route('test') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    
+                    {{-- Row #1 --}}               
+                    <div class="grid grid-flow-row auto-rows-max gap-6 md:grid-cols-2">
+
+                        {{-- Event Title --}}
+                        <div>
+                            <x-label for="event_title" :value="__('Event Title')" />
+
+                             <x-select class="mt-1" id="event_title" name="event_title" aria-label="Default select example" @change="storeInput($el)">
+                                <option value='' selected disabled>--select option--</option>
+                            </x-select>
+                        </div>
+
+                        {{-- Date Venue --}}
+                        <div>
+                            <x-label for="venue" :value="__('Venue')" />
+                            
+                            <x-input id="venue" class="mt-1 w-full" type="text" name="venue" required autofocus @keyup="storeInput($el)"/>
+                        </div>
+
+                    </div>
+
+                    {{-- Row #2 --}}          
+                    <div class="mt-2">
+                        <x-label for="remarks" :value="__('Remarks')" />
+
+                        <x-text-area id="remarks" name="remarks" @keyup="storeInput($el)"></x-text-area>
+                    
+                    </div>
+
+
+                    {{-- Row #3 Program Table --}}
+                    <hr class="mt-6 border-1 border-bland-300">
+
+                    <h1 class="text-lg text-bland-600 font-bold my-4">Programs</h1>
+
+                    <div x-data="program_handler()">
+                        <x-table.main>
+                            {{-- Table Head--}}
+                            <x-table.head>
+                                {{-- Insert Table Head Columns Here --}}
+                                <x-table.head-col>Activity</x-table.head-col>
+                                <x-table.head-col>Start Date</x-table.head-col>
+                                <x-table.head-col>End Date</x-table.head-col>
+                                <x-table.head-col class="text-center">Action</x-table.head-col>
+                                {{-- Table Head Columns Ends Here --}}
+                            </x-table.head>
+                            {{-- Table Body --}}
+                            <tbody>
+                                <template x-for="(field, index) in programs[0]" :key="index">
+                                    <tr class="bg-white  hover:bg-bland-100">
+                                        {{-- Insert Table Body Columns Here --}}
+                                        <x-table.body-col>
+                                            <x-input x-model="field.activity"  id="activity" class="mt-1 w-full" type="text" name="activity[]"  readonly autofocus />
+                                        </x-table.body-col>
+                                        <x-table.body-col>
+                                            <x-input x-model="field.start_date" id="start_date" class="mt-1 w-full" type="date" name="start_date[]"  readonly autofocus />
+                                        </x-table.body-col>
+                                        <x-table.body-col>
+                                            <x-input x-model="field.end_date" id="end_date" class="mt-1 w-full" type="date" name="end_date[]" readonly autofocus />
+                                        </x-table.body-col>
+                                        <x-table.body-col class="text-center">
+                                            <x-button bg="bg-semantic-danger" hover="hover:bg-rose-600" @click="removeProgram(index)">
+                                                {{ __('Remove') }}
+                                            </x-button>
+                                        </x-table.body-col>
+                                        {{-- Table Body Columns Ends Here --}}
+                                    </tr>
+                                </template>
+                            </tbody>
+                            <tfoot class="border-t border-bland-200">
+                                <tr>
+                                    {{-- Insert Table Footer Columns Here --}}
+                                    <x-table.footer-col>
+                                        <x-input x-model="newPrograms[0].activity" class="mt-1 w-full" type="text" autofocus />
+                                    </x-table.footer-col>
+                                    <x-table.footer-col>
+                                        <x-input x-model="newPrograms[0].start_date" class="mt-1 w-full" type="date" autofocus />
+                                    </x-table.footer-col>
+                                    <x-table.footer-col>
+                                        <x-input x-model="newPrograms[0].end_date" class="mt-1 w-full" type="date" autofocus />
+                                    </x-table.footer-col>
+                                    <x-table.footer-col class="px-1 text-center" @click=addProgram>
+                                        <x-button>
+                                            {{ __('Add Row') }}
+                                        </x-button>
+                                    </x-table.footer-col>
+                                    {{-- Table Footer Columns Ends Here --}}
+                                </tr>
+                            </tfoot>
+                        </x-table.main>
+                        <span x-show="error" class="flex text-sm text-semantic-danger font-light">*<p x-text="msg"></p></span>
+                    </div>
+
+
+                    {{-- Row #4 Participants Table --}}
+                    <hr class="mt-6 border-1 border-bland-300">
+
+                    <div x-data="participant_handler()">
+
+                        <div class="flex justify-between items-end mt-4">
+
+                            <h1 class="text-lg text-bland-600 font-bold">Participants</h1>
+
+                            <div>
+
+                                <div>
+                                    <x-button>
+                                        
+                                        <x-svg>
+                                            <path d="M6 20q-.825 0-1.412-.587Q4 18.825 4 18v-3h2v3h12v-3h2v3q0 .825-.587 1.413Q18.825 20 18 20Zm5-4V7.85l-2.6 2.6L7 9l5-5 5 5-1.4 1.45-2.6-2.6V16Z"/>
+                                        </x-svg>
+                                        {{ __('Upload CSV') }}
+
+                                        <input 
+                                            type="file" 
+                                            name="participants_csv" 
+                                            id="participants_csv" 
+                                            accept=".csv"
+                                            class="absolute cursor-pointer right-0 opacity-0"
+                                            @change="readCSV, loading(true)"
+                                        >
+
+                                    </x-button>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    
+                        {{-- Custom table --}}
+                        <div class="bg-white mt-4 h-auto w-full border-b border-gray-200 shadow-sm">
+                            <div id="participant-container" class="overflow-auto block max-h-[420px] rounded-sm scroll-smooth">
+                                <table class="table-auto w-full border-collapse border text-left">
+                        
+                                    {{-- Table Head--}}
+                                    <thead class="border-b bg-bland-200 sticky top-0 z-10">
+                                        {{-- Insert Table Head Columns Here --}}
+                                        <x-table.head-col>First Name</x-table.head-col>
+                                        <x-table.head-col>Last Name</x-table.head-col>
+                                        <x-table.head-col>Section</x-table.head-col>
+                                        <x-table.head-col>Participated Date</x-table.head-col>
+                                        <x-table.head-col class="text-center">Action</x-table.head-col>
+                                        {{-- Table Head Columns Ends Here --}}
+                                    </thead>
+                                    {{-- Table Body --}}
+                                    <tbody>
+                                        <template x-for="(field, index) in participants[0]" :key="index">
+                                            <tr class="bg-white hover:bg-bland-100 w-full transition duration-300 ease-in-out">
+                                                {{-- Insert Table Body Columns Here --}}
+                                                <x-table.body-col>
+                                                    <x-input x-model="field.first_name"  id="first_name" class="mt-1 w-full" type="text" name="first_name[]"  readonly autofocus />
+                                                </x-table.body-col>
+                                                <x-table.body-col>
+                                                    <x-input x-model="field.last_name" id="last_name" class="mt-1 w-full" type="text" name="last_name[]"  readonly autofocus />
+                                                </x-table.body-col>
+                                                <x-table.body-col>
+                                                    <x-input x-model="field.section" id="section" class="mt-1 w-full" type="text" name="section[]" readonly autofocus />
+                                                </x-table.body-col>
+                                                <x-table.body-col>
+                                                <x-input x-model="field.participated_date" id="participated_date" class="mt-1 w-full" type="date" name="participated_date[]" readonly autofocus />
+                                            </x-table.body-col>
+                                                <x-table.body-col class="text-center">
+                                                    <x-button bg="bg-semantic-danger" hover="hover:bg-rose-600" @click="removeParticipant(index)">
+                                                        {{ __('Remove') }}
+                                                    </x-button>
+                                                </x-table.body-col>
+                                                {{-- Table Body Columns Ends Here --}}
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                    <tfoot class="border-t border-bland-200 bg-white sticky bottom-0">
+                                        <tr>
+                                            {{-- Insert Table Footer Columns Here --}}
+                                            <x-table.footer-col>
+                                                <x-input x-model="newParticipants[0].first_name" class="mt-1 w-full" type="text" autofocus />
+                                            </x-table.footer-col>
+                                            <x-table.footer-col>
+                                                <x-input x-model="newParticipants[0].last_name" class="mt-1 w-full" type="text" autofocus />
+                                            </x-table.footer-col>
+                                            <x-table.footer-col>
+                                                <x-input x-model="newParticipants[0].section" class="mt-1 w-full" type="text" autofocus />
+                                            </x-table.footer-col>
+                                            <x-table.footer-col>
+                                            <x-input x-model="newParticipants[0].participated_date" class="mt-1 w-full" type="date" autofocus />
+                                        </x-table.footer-col>
+                                            <x-table.footer-col class="px-1 text-center">
+                                                <x-button @click="addParticipant">
+                                                    {{ __('Add Row') }}
+                                                </x-button>
+                                            </x-table.footer-col>
+                                            {{-- Table Footer Columns Ends Here --}}
+                                        </tr>
+                                    </tfoot>
+                        
+                                </table>
+                            </div>
+                        </div>
+                        
+                         <span x-show="error" class="flex text-sm text-semantic-danger font-light">*<p x-text="msg"></p></span>
+                    </div>
+                   
+
+                    {{-- Row #6 --}}
+                    <hr class="mt-6 border-1 border-bland-300">
+
+                    <div class="flex justify-center align-center flex-wrap pt-3 space-y-3 md:space-y-0 md:space-x-3">
+
+                        <!-- Official Poster -->
+                        <div class="w-full p-3 border-2 border-dashed hover:border-primary-blue md:w-[49%]">
+                        
+                            <div>
+                                <h1 class="text-lg text-bland-600  my-2 pb-2">Official Poster</h1>
+                                <livewire:single-upload />
+                            </div>
+
+                        </div>
+                    
+                        <!-- Event Images -->
+                        <div class="w-full p-3 border-2 border-dashed hover:border-primary-blue md:w-[49%]">
+
+                            <div>
+                                <h1 class="text-lg text-bland-600 my-2">Event Images</h1>
+                                <livewire:multiple-upload />
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div x-data="comment_suggestion_handler()">
+                        {{-- Row #7 Comments Table --}}
+                        <hr class="mt-6 border-1 border-bland-300">
+
+                            <div class="flex justify-between items-end mt-4">
+
+                                <h1 class="text-lg text-bland-600 font-bold">Comments</h1>
+
+                                <div>
+
+                                    <div>
+                                        <x-button>
+                                            
+                                            <x-svg>
+                                                <path d="M6 20q-.825 0-1.412-.587Q4 18.825 4 18v-3h2v3h12v-3h2v3q0 .825-.587 1.413Q18.825 20 18 20Zm5-4V7.85l-2.6 2.6L7 9l5-5 5 5-1.4 1.45-2.6-2.6V16Z"/>
+                                            </x-svg>
+                                            {{ __('Upload CSV') }}
+
+                                            <input 
+                                                type="file" 
+                                                name="comments_csv" 
+                                                id="comments_csv" 
+                                                accept=".csv"
+                                                class="absolute cursor-pointer right-0 opacity-0"
+                                                @change="readCSV, loading('true')"
+                                            >
+
+                                        </x-button>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        
+                            {{-- Custom table --}}
+                            <div class="bg-white mt-4 h-auto w-full border-b border-gray-200 shadow-sm">
+                                <div id="participant-container" class="overflow-auto block max-h-[420px] rounded-sm scroll-smooth">
+                                    <table class="table-auto w-full border-collapse border text-left">
+                            
+                                        {{-- Table Head--}}
+                                        <thead class="border-b bg-bland-200 sticky top-0 z-10">
+                                            {{-- Insert Table Head Columns Here --}}
+                                            <x-table.head-col class="md:pr-96">Message</x-table.head-col>
+                                            <x-table.head-col class="text-center">Action</x-table.head-col>
+                                            {{-- Table Head Columns Ends Here --}}
+                                        </thead>
+                                        {{-- Table Body --}}
+                                        <tbody>
+                                            <template x-for="(field, index) in comments[0]" :key="index">
+                                                <tr class="bg-white  hover:bg-bland-100">
+                                                    {{-- Insert Table Body Columns Here --}}
+                                                    <x-table.body-col>
+                                                        <x-input x-model="field.message"  id="comment" class="mt-1 w-full" type="text" name="comments[]"  readonly autofocus />
+                                                    </x-table.body-col>
+                                                    <x-table.body-col class="text-center">
+                                                        <x-button bg="bg-semantic-danger" hover="hover:bg-rose-600" @click="removeComment(index)">
+                                                            {{ __('Remove') }}
+                                                        </x-button>
+                                                    </x-table.body-col>
+                                                    {{-- Table Body Columns Ends Here --}}
+                                                </tr>
+                
+                                            </template>
+                                        </tbody>
+                                        <tfoot class="border-t border-bland-200 bg-white sticky bottom-0">
+                                        <tr>
+                                        {{-- Insert Table Footer Columns Here --}}
+                                        <x-table.footer-col>
+                                            <x-input x-model="newComments[0].message" class="mt-1 w-full" type="text" autofocus />
+                                        </x-table.footer-col>
+                                        <x-table.footer-col class="px-1 text-center" @click="addComment">
+                                            <x-button>
+                                                {{ __('Add Row') }}
+                                            </x-button>
+                                        </x-table.footer-col>
+                                        {{-- Table Footer Columns Ends Here --}}
+                                    </tr>
+                                        </tfoot>
+                            
+                                    </table>
+                                </div>
+                            </div>
+                            <span x-show="err_comments" class="flex text-sm text-primary-yellow font-light">*<p x-text="msg_comments"></p></span>
+              
+
+                        {{-- Row #8 Suggestions Table --}}
+                        <hr class="mt-6 border-1 border-bland-300">
+
+                            <div class="flex justify-between items-end mt-4">
+
+                                <h1 class="text-lg text-bland-600 font-bold">Suggestions</h1>
+
+                                <div>
+
+                                </div>
+
+                            </div>
+                        
+                            {{-- Custom table --}}
+                            <div class="bg-white mt-4 h-auto w-full border-b border-gray-200 shadow-sm">
+                                <div id="participant-container" class="overflow-auto block max-h-[420px] rounded-sm scroll-smooth">
+                                    <table class="table-auto w-full border-collapse border text-left">
+                            
+                                        {{-- Table Head--}}
+                                        <thead class="border-b bg-bland-200 sticky top-0 z-10">
+                                            {{-- Insert Table Head Columns Here --}}
+                                            <x-table.head-col class="md:pr-96">Message</x-table.head-col>
+                                            <x-table.head-col class="text-center">Action</x-table.head-col>
+                                            {{-- Table Head Columns Ends Here --}}
+                                        </thead>
+                                        {{-- Table Body --}}
+                                        <tbody>
+                                            <template x-for="(field, index) in suggestions[0]" :key="index">
+                                                <tr class="bg-white  hover:bg-bland-100">
+                                                    {{-- Insert Table Body Columns Here --}}
+                                                    <x-table.body-col>
+                                                        <x-input x-model="field.message"  id="comment" class="mt-1 w-full" type="text" name="suggestions[]"  readonly autofocus />
+                                                    </x-table.body-col>
+                                                    <x-table.body-col class="text-center">
+                                                        <x-button bg="bg-semantic-danger" hover="hover:bg-rose-600" @click="removeSuggestion(index)">
+                                                            {{ __('Remove') }}
+                                                        </x-button>
+                                                    </x-table.body-col>
+                                                    {{-- Table Body Columns Ends Here --}}
+                                                </tr>
+                
+                                            </template>
+                                        </tbody>
+                                        <tfoot class="border-t border-bland-200 bg-white sticky bottom-0">
+                                        <tr>
+                                        {{-- Insert Table Footer Columns Here --}}
+                                        <x-table.footer-col>
+                                            <x-input x-model="newSuggestions[0].message" class="mt-1 w-full" type="text" autofocus />
+                                        </x-table.footer-col>
+                                        <x-table.footer-col class="px-1 text-center" @click="addSuggestion">
+                                            <x-button>
+                                                {{ __('Add Row') }}
+                                            </x-button>
+                                        </x-table.footer-col>
+                                        {{-- Table Footer Columns Ends Here --}}
+                                    </tr>
+                                        </tfoot>
+                            
+                                    </table>
+                                </div>
+                            </div>
+                            <span x-show="err_suggestions" class="flex text-sm text-primary-yellow font-light">*<p x-text="msg_suggestions"></p></span>
+
+
+                        {{-- Row #9 --}}               
+                        <div class="grid grid-flow-row auto-rows-max mt-4 md:grid-cols-4">
+
+                            {{-- Rating --}}
+                            <div>
+                                <x-label for="ratings" :value="__('Rating')" />
+                                
+                                <x-input x-model="getTotalRating" id="ratings" class="mt-1 w-full" type="number" name="ratings" step=".1" required autofocus @keyup="storeInput($el)"/>
+                                <span x-show="err_ratings" class="flex text-sm text-primary-yellow font-light">*<p x-text="msg_ratings"></p></span>
+                            </div>
+
+                        </div>
+            
+                    </div>
+
+                   
+                    
+                    {{-- Submit Button--}}
+                    <div class="mt-8">
+                        <x-button type="submit" class="px-12">
+                            {{ __('Submit') }}
+                        </x-button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </x-app-layout>
+
+
+
+
+
+
+
+
+
+
+
+
