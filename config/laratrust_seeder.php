@@ -12,15 +12,14 @@ return [
     'truncate_tables' => true,
 
     'roles_structure' => [
-        'root' ,
-        'sao',
-        'finance',
-        'acadserv',
-        'adviser',
-        'president',
-        'secretary',
-        'member',
-        'guest'
+        'root' => 'root' ,
+        'sao' => 'sao',
+        'finance' => 'finance',
+        'acadserv' => 'acadserv',
+        'adviser' => 'adviser',
+        'moderator'  => 'president',
+        'editor' => 'secretary',
+        'viewer' => 'member',
     ],
     
     'departments' =>[

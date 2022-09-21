@@ -16,26 +16,31 @@ use Illuminate\Http\Request;
 |
 */
 
+// LOGIN: Auto redirect
 Route::get('/', function () {
     return view('auth.login');
 });
 
-// for an authenticated user. = guest role
-// Route::group(['middleware'=> ['auth']], function(){
-//     Route::get('/dashboard', [DashboardController::class, 'index'])->name('users.dashboard');
-// });
-
-
-// Auth user -- Users dashboard
+// DASHBOARD: For Auth Users
 require __DIR__.'/auth.php';
-Route::get('/dashboard', function () {
+Route::get('/', function () {
     return view('_users.dashboard');
 })->middleware(['auth'])->name('dashboard');
 require __DIR__.'/auth.php';
 
-// Role managers == adviser, pres, sao
-Route::group(['middleware'=> ['auth', 'role:adviser|president|sao']], function(){
-    Route::resource('roles', AssignRoleController::class, ['names' => 'roles']);
+// ROLE TAB: Role managers/moderators == adviser, pres, sao
+Route::group(['middleware'=> ['auth', 'role:moderator']], function(){
+    Route::get('roles/invite', [AssignRoleController::class, 'invite'])->name('roles.invite');
+    Route::post('roles', [AssignRoleController::class, 'store'])->name('roles.store');
+
+    Route::get('roles/{member}/edit', [AssignRoleController::class, 'edit'])->name('roles.edit');
+    Route::put('roles/{member}', [AssignRoleController::class, 'update'])->name('roles.update');
+
+    Route::get('roles/{member}/del', [AssignRoleController::class, 'del'])->name('roles.del');
+    Route::delete('roles/del/{member}', [AssignRoleController::class, 'destroy'])->name('roles.destroy');
+});
+Route::group(['middleware'=> ['auth', 'role:moderator|editor|viewer']], function(){
+    Route::get('roles', [AssignRoleController::class, 'index'])->name('roles.index');
 });
 
 
