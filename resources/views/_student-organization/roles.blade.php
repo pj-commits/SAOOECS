@@ -20,6 +20,8 @@
                 <div class="pt-12">
                     <div class="max-w-screen mx-auto px-4 lg:px-8">
                         <h1 class="text-lg">Organization:</h1>
+                        <div class="bg-white mt-4 h-auto w-full border-b border-gray-200 rounded-sm shadow-sm">
+                            <h1 class="text-md px-6 py-4">Student Organization Name</h1>
                         <div class="bg-white mt-4 h-auto w-full rounded-sm shadow-sm">
                             <h1 class="text-md px-6 py-4">{{$currOrg->orgName}}</h1>
                         </div>
@@ -34,6 +36,9 @@
                             <h1 class="text-lg">Members ({{$orgMembers->count()}})</h1>
                             <div>
                                 {{-- Add Member Modal Button --}}
+
+                                <x-button @click="addMember = true">
+
                                 <x-button class="bg-primary-blue hover:bg-blue-800" onclick="window.location='{{ route('roles.invite') }}'">
                                     {{ __('Add Member') }}
                                 </x-button>
@@ -44,9 +49,9 @@
                             {{-- Table Head--}}
                             <x-table.head>
                                 {{-- Insert Table Head Columns Here --}}
-                                <x-table.head-col>Name</x-table.head-col>
-                                <x-table.head-col>Position</x-table.head-col>
-                                <x-table.head-col>Role</x-table.head-col>
+                                <x-table.head-col class="pl-6">Name</x-table.head-col>
+                                <x-table.head-col class="pl-6">Position</x-table.head-col>
+                                <x-table.head-col class="pl-6">Role</x-table.head-col>
                                 <x-table.head-col class="text-center">Action</x-table.head-col>
                                 {{-- Table Head Columns Ends Here --}}
                             </x-table.head>
@@ -54,6 +59,14 @@
                             @foreach ($orgMembers as $member)
                             <x-table.body>
                                 {{-- Insert Table Body Columns Here --}}
+                                <x-table.body-col class="pl-6">Marc Kenneth Ricahuerta</x-table.body-col>
+                                <x-table.body-col class="pl-6">President </x-table.body-col>
+                                <x-table.body-col class="pl-6">Moderator </x-table.body-col>
+                                <x-table.body-col class="flex justify-center space-x-5 pr-3 pl-3 md:pr-0 md:pl-3">
+                                    <x-button bg="bg-semantic-info" hover="hover:bg-blue-400" @click="editMember = true">
+                                        {{ __('Edit') }}
+                                    </x-button>
+                                    <x-button bg="bg-semantic-danger" hover="hover:bg-rose-600" @click="removeMember = true">
                                 <x-table.body-col>{{$member->firstName}} {{$member->lastName}}</x-table.body-col>
                                 @foreach ($member->studentOrg as $pos)
                                 <x-table.body-col>{{$pos->pivot->position}} </x-table.body-col>
@@ -105,6 +118,13 @@
     
                         <!-- Roles -->
                         <div class="mt-3">
+                            <x-label for="roles" :value="__('Role')" />
+
+                            <x-select name="roles" aria-label="Default select example">
+                                <option selected disabled>--select role--</option>
+                                <option value="moderator">Moderator</option>
+                                <option value="editor">Editor</option>
+                                <option value="viewer">Viewer</option>
                             <x-label for="role_id" :value="__('Role')" />
     
                             <x-select name="role_id" aria-label="Default select example">
@@ -120,6 +140,7 @@
     
                         <!-- Add Member Button -->
                         <div class="flex justify-end mt-8">
+                            <x-button bg="bg-semantic-success" hover="hover:bg-green-600">
                             <x-button class="bg-success hover:bg-green-600" type="submit">
                                 {{ __('Add Member') }}
                             </x-button>
@@ -154,6 +175,13 @@
                                 @enderror
                             </div>
 
+                            <x-select name="roles" aria-label="Default select example">
+                                <option selected disabled>--select role--</option>
+                                <option value="moderator">Moderator</option>
+                                <option value="editor">Editor</option>
+                                <option value="viewer">Viewer</option>
+                            </x-select>
+                        </div
                             <!-- Roles -->
                             <div class="mt-3">
                                 <x-label for="role_id" :value="__('Role')"/>
@@ -173,7 +201,7 @@
 
                         <!-- Edit Member Button -->
                         <div class="flex justify-end mt-8">
-                            <x-button class="bg-success hover:bg-green-600">
+                            <x-button bg="bg-semantic-success" hover="hover:bg-green-600">
                                 {{ __('Edit Member') }}
                             </x-button>
                         </div>
@@ -190,6 +218,11 @@
                     </div>
                     
                     <div class="flex justify-center space-x-4 mt-5">
+                        <x-button bg="bg-semantic-danger" hover="hover:bg-rose-600" >
+                            {{ __('Remove') }}
+                        </x-button>
+
+                        <x-button bg="bg-semantic-success" hover="hover:bg-green-600" @click="removeMember = false">
                         <form action="{{ route('roles.destroy', ['member'=>$selected->id]) }}" method="POST">
                             @csrf
                             @method('DELETE')

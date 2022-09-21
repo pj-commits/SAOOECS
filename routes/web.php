@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AssignRoleController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,5 +75,10 @@ Route::get('forms/liquidation-form', function (){
     return view('_student-organization.liquidation')
         ->with("message", "Hello LF!");
 })->name('liquidation');
+
+
+Route::post('/test', function(Request $request){
+    dd($request);
+})->name('test');
 
 

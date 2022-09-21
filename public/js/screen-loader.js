@@ -1,19 +1,15 @@
-document.onreadystatechange = function() {
-    if (document.readyState !== "complete") {
-        document.querySelector(
-          "body").style.visibility = "hidden";
-        document.querySelector(
-          "#loader").style.visibility = "visible";
-
-    } else {
-        setTimeout(() => {
-
-            document.querySelector(
-          "#loader").style.display = "none";
-            
-        }, 1000);
-
-        document.querySelector(
-          "body").style.visibility = "visible";
-    }      
-};
+function loader(){
+   return{
+        loading(isLoad){
+            if(isLoad) {
+                document.querySelector('#loader').style.display="block"
+                if(document.readyState === "complete"){
+                    setTimeout( () => {
+                        document.querySelector('#loader').style.display="none"
+                    }, 1000)
+                }
+            }
+        }
+   }    
+}
+  
