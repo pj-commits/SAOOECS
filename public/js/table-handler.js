@@ -4,11 +4,11 @@
  * 
  ************************/
 
-//Handles coorganizer's table(add, remove, and retrieve data from session storage). 
+//Handles coorganizer's table(add, remove, and retrieve data from local storage). 
 function coorganizer_handler() {
     return {
         coorganizers: [
-            JSON.parse(sessionStorage.getItem('apf_coorganizers')),
+            JSON.parse(localStorage.getItem('apf_coorganizers')),
         ],
 
         newCoorganizers: [
@@ -27,7 +27,7 @@ function coorganizer_handler() {
             Accepts array of input and store it to newCoorganizers[] in the meantime.
             Validate data from newCoorganizers[]. If empty or invalid, then return error message.
             If success transfer data from newCoorganizers[] to coorganizers[].
-            Then push updated data of coorganizers[] to session storage.
+            Then push updated data of coorganizers[] to local storage.
         */
         addCoorganizer() {
             let verify = true;
@@ -76,7 +76,7 @@ function coorganizer_handler() {
                     phone: this.newCoorganizers[0].phone,
                     email: this.newCoorganizers[0].email,
                 });
-                sessionStorage.setItem('apf_coorganizers', JSON.stringify(this.coorganizers[0]))
+                localStorage.setItem('apf_coorganizers', JSON.stringify(this.coorganizers[0]))
                 this.newCoorganizers = [
                     {
                         coorganization: '',
@@ -88,19 +88,19 @@ function coorganizer_handler() {
                 this.error = false;
             }   
         },
-        //remove deleted data in coorganizers[] then update session storage
+        //remove deleted data in coorganizers[] then update local storage
         removeCoorganizer(index) {
             this.coorganizers[0].splice(index, 1);
-            sessionStorage.setItem('apf_coorganizers', JSON.stringify(this.coorganizers[0]))
+            localStorage.setItem('apf_coorganizers', JSON.stringify(this.coorganizers[0]))
         },
     }
 }
 
-//Handles logistic's table(add, remove, and retrieve data from session storage).
+//Handles logistic's table(add, remove, and retrieve data from local storage).
 function logistic_handler() {
     return {
         logistics: [
-            JSON.parse(sessionStorage.getItem('apf_logistics')),
+            JSON.parse(localStorage.getItem('apf_logistics')),
         ],
 
         newLogistics: [
@@ -119,7 +119,7 @@ function logistic_handler() {
             Accepts array of input and store it to newLogistics[] in the meantime.
             Validate data from newLogistics[]. If empty or invalid, then return error message.
             If success transfer data from newLogistics[] to logistics[].
-            Then push updated data of logistics[] to session storage.
+            Then push updated data of logistics[] to local storage.
         */
         addLogistic() {
             let verify = true;
@@ -152,7 +152,7 @@ function logistic_handler() {
                     venue: this.newLogistics[0].venue,
 
                 });
-                sessionStorage.setItem('apf_logistics', JSON.stringify(this.logistics[0]))
+                localStorage.setItem('apf_logistics', JSON.stringify(this.logistics[0]))
                 this.newLogistics = [
                     {
                         service: '',
@@ -163,19 +163,19 @@ function logistic_handler() {
                 this.error = false;
             }   
         },
-        //remove deleted data in logistics[] then update session storage
+        //remove deleted data in logistics[] then update local storage
         removeLogistic(index) {
             this.logistics[0].splice(index, 1); 
-            sessionStorage.setItem('apf_logistics', JSON.stringify(this.logistics[0]))
+            localStorage.setItem('apf_logistics', JSON.stringify(this.logistics[0]))
         },
     }
 }
 
-//Handles activity's table(add, remove, and retrieve data from session storage).
+//Handles activity's table(add, remove, and retrieve data from local storage).
 function activity_handler() {
     return {
         activities: [
-            JSON.parse(sessionStorage.getItem('apf_activities')),
+            JSON.parse(localStorage.getItem('apf_activities')),
         ],
 
         newActivities: [
@@ -194,7 +194,7 @@ function activity_handler() {
             Accepts array of input and store it to newActivities[] in the meantime.
             Validate data from newActivities[]. If empty or invalid, then return error message.
             If success transfer data from newActivities[] to activities[].
-            Then push updated data of activities[] to session storage.
+            Then push updated data of activities[] to local storage.
         */
         addActivity() {
             let verify = true;
@@ -231,7 +231,7 @@ function activity_handler() {
                     end_date: this.newActivities[0].end_date,
 
                 });
-                sessionStorage.setItem('apf_activities', JSON.stringify(this.activities[0]))
+                localStorage.setItem('apf_activities', JSON.stringify(this.activities[0]))
                 this.newActivities = [
                     {
                         activity: '',
@@ -242,10 +242,10 @@ function activity_handler() {
                 this.error = false;
             }
         },
-        //remove deleted data in activities[] then update session storage
+        //remove deleted data in activities[] then update local storage
         removeActivity(index) {
             this.activities[0].splice(index, 1); 
-            sessionStorage.setItem('apf_activities', JSON.stringify(this.activities[0]))
+            localStorage.setItem('apf_activities', JSON.stringify(this.activities[0]))
         },
     }
 }
@@ -256,11 +256,11 @@ function activity_handler() {
  * 
  ************************/
 
-//Handles requisition_items table(add, remove, and retrieve data from session storage).
+//Handles requisition_items table(add, remove, and retrieve data from local storage).
 function requisition_items_handler() {
     return {
         requisitions: [
-            JSON.parse(sessionStorage.getItem('brf_requisitions')),
+            JSON.parse(localStorage.getItem('brf_requisitions')),
         ],
 
         newRequisitions: [
@@ -278,7 +278,7 @@ function requisition_items_handler() {
             Accepts array of input and store it to newRequisitions[] in the meantime.
             Validate data from newRequisitions[]. If empty or invalid, then return error message.
             If success transfer data from newRequisitions[] to requisitions[].
-            Then push updated data of requisitions[] to session storage.
+            Then push updated data of requisitions[] to local storage.
         */
         addRequisition() {
             let verify = true;
@@ -307,7 +307,7 @@ function requisition_items_handler() {
                     price: this.newRequisitions[0].price,
 
                 });
-                sessionStorage.setItem('brf_requisitions', JSON.stringify(this.requisitions[0]))
+                localStorage.setItem('brf_requisitions', JSON.stringify(this.requisitions[0]))
                 this.newRequisitions = [
                     {
                         quantity: '',
@@ -318,10 +318,10 @@ function requisition_items_handler() {
                 this.error = false;
             }
         },
-        //remove deleted data in requisitions[] then update session storage
+        //remove deleted data in requisitions[] then update local storage
         removeRequisition(index) {
             this.requisitions[0].splice(index, 1); 
-            sessionStorage.setItem('brf_requisitions', JSON.stringify(this.requisitions[0]))
+            localStorage.setItem('brf_requisitions', JSON.stringify(this.requisitions[0]))
         },
 
          //Return total of 'price' field in requisitions[]
@@ -342,11 +342,11 @@ function requisition_items_handler() {
  * 
  ************************/
 
-//Handles program's table(add, remove, and retrieve data from session storage).
+//Handles program's table(add, remove, and retrieve data from local storage).
 function program_handler() {
     return {
         programs: [
-            JSON.parse(sessionStorage.getItem('nr_programs')),
+            JSON.parse(localStorage.getItem('nr_programs')),
         ],
 
         newPrograms: [
@@ -364,7 +364,7 @@ function program_handler() {
             Accepts array of input and store it to newPrograms[] in the meantime.
             Validate data from newPrograms[]. If empty or invalid, then return error message.
             If success transfer data from newPrograms[] to programs[].
-            Then push updated data of programs[] to session storage.
+            Then push updated data of programs[] to local storage.
         */
         addProgram() {
             let verify = true;
@@ -399,7 +399,7 @@ function program_handler() {
                     end_date: this.newPrograms[0].end_date,
 
                 });
-                sessionStorage.setItem('nr_programs', JSON.stringify(this.programs[0]))
+                localStorage.setItem('nr_programs', JSON.stringify(this.programs[0]))
                 this.newPrograms = [
                     {
                         activity: '',
@@ -410,19 +410,19 @@ function program_handler() {
                 this.error = false;
             }
         },
-        //remove deleted data in programs[] then update session storage
+        //remove deleted data in programs[] then update local storage
         removeProgram(index) {
             this.programs[0].splice(index, 1); 
-            sessionStorage.setItem('nr_programs', JSON.stringify(this.programs[0]))
+            localStorage.setItem('nr_programs', JSON.stringify(this.programs[0]))
         },
     }
 }
 
-//Handles participant's table(add, remove, and retrieve data from session storage).
+//Handles participant's table(add, remove, and retrieve data from local storage).
 function participant_handler() {
     return {
         participants: [
-            JSON.parse(sessionStorage.getItem('nr_participants')),
+            JSON.parse(localStorage.getItem('nr_participants')),
         ],
         newParticipants: [
             {
@@ -439,7 +439,7 @@ function participant_handler() {
             Accepts array of input and store it to newParticipants[] in the meantime.
             Validate data from newParticipants[]. If empty or invalid, then return error message.
             If success transfer data from newParticipants[] to participants[].
-            Then push updated data of participants[] to session storage.
+            Then push updated data of participants[] to local storage.
         */
         addParticipant() {
             let verify = true;
@@ -475,7 +475,7 @@ function participant_handler() {
                     participated_date: this.newParticipants[0].participated_date,
 
                 });
-                sessionStorage.setItem('nr_participants', JSON.stringify(this.participants[0]))
+                localStorage.setItem('nr_participants', JSON.stringify(this.participants[0]))
                 this.newParticipants = [
                     {
                         first_name: '',
@@ -490,10 +490,10 @@ function participant_handler() {
             }
         },
 
-        //remove deleted data in participants[] then update session storage
+        //remove deleted data in participants[] then update local storage
         removeParticipant(index) {
             this.participants[0].splice(index, 1); 
-            sessionStorage.setItem('nr_participants', JSON.stringify(this.participants[0]))
+            localStorage.setItem('nr_participants', JSON.stringify(this.participants[0]))
         },
 
         //Checks if  specific key exists in uploaded file
@@ -507,7 +507,7 @@ function participant_handler() {
 
         /* 
             Will read and process uploaded csv file. If there's an error, will return error message.
-           If no error push uploaded data to participants array and to session storage. 
+           If no error push uploaded data to participants array and to local storage. 
         */  
         readCSV(){
             let csv_data;
@@ -553,7 +553,7 @@ function participant_handler() {
                         });
                     })
                     this.error = false;
-                    sessionStorage.setItem('nr_participants', JSON.stringify(this.participants[0]))   
+                    localStorage.setItem('nr_participants', JSON.stringify(this.participants[0]))   
                 }
 
             }, 500)        
@@ -562,11 +562,11 @@ function participant_handler() {
     }
 }
 
-//Handles comment's table(add, remove, and retrieve data from session storage).
+//Handles comment's table(add, remove, and retrieve data from local storage).
 function comment_suggestion_handler() {
     return {
         comments: [
-            JSON.parse(sessionStorage.getItem('nr_comments')),
+            JSON.parse(localStorage.getItem('nr_comments')),
         ],
 
         newComments: [
@@ -576,7 +576,7 @@ function comment_suggestion_handler() {
             }
           ],
         suggestions: [
-            JSON.parse(sessionStorage.getItem('nr_suggestions')),
+            JSON.parse(localStorage.getItem('nr_suggestions')),
         ],
 
         newSuggestions: [
@@ -587,7 +587,7 @@ function comment_suggestion_handler() {
           ],
         
         ratings: [
-            JSON.parse(sessionStorage.getItem('nr_ratings'))
+            JSON.parse(localStorage.getItem('nr_ratings'))
         ],
 
         err_comments: false,
@@ -601,7 +601,7 @@ function comment_suggestion_handler() {
             Accepts array of input and store it to newComments[] in the meantime.
             Validate data from newComments[]. If empty or invalid, then return error message.
             If success transfer data from newComments[] to comments[].
-            Then push updated data of comments[] to session storage.
+            Then push updated data of comments[] to local storage.
         */
         addComment() {
             let verify = true;
@@ -619,7 +619,7 @@ function comment_suggestion_handler() {
 
 
                 });
-                sessionStorage.setItem('nr_comments', JSON.stringify(this.comments[0]))
+                localStorage.setItem('nr_comments', JSON.stringify(this.comments[0]))
                 this.newComments = [
                     {
                         message: '',
@@ -630,17 +630,17 @@ function comment_suggestion_handler() {
             }
         },
 
-        //remove deleted data in comments[] then update session storage
+        //remove deleted data in comments[] then update local storage
         removeComment(index) {
             this.comments[0].splice(index, 1); 
-            sessionStorage.setItem('nr_comments', JSON.stringify(this.comments[0]))
+            localStorage.setItem('nr_comments', JSON.stringify(this.comments[0]))
         },
 
          /* 
             Accepts array of input and store it to newSuggestions[] in the meantime.
             Validate data from newSuggestions[]. If empty or invalid, then return error message.
             If success transfer data from newSuggestions[] to suggestions[].
-            Then push updated data of suggestions[] to session storage.
+            Then push updated data of suggestions[] to local storage.
         */
         addSuggestion() {
             let verify = true;
@@ -658,7 +658,7 @@ function comment_suggestion_handler() {
 
 
                 });
-                sessionStorage.setItem('nr_suggestions', JSON.stringify(this.suggestions[0]))
+                localStorage.setItem('nr_suggestions', JSON.stringify(this.suggestions[0]))
                 this.newSuggestions = [
                     {
                         message: '',
@@ -669,10 +669,10 @@ function comment_suggestion_handler() {
             }
         },
 
-        //remove deleted data in suggestions[] then update session storage
+        //remove deleted data in suggestions[] then update local storage
         removeSuggestion(index) {
             this.suggestions[0].splice(index, 1); 
-            sessionStorage.setItem('nr_suggestions', JSON.stringify(this.suggestions[0]))
+            localStorage.setItem('nr_suggestions', JSON.stringify(this.suggestions[0]))
         },
 
         //Checks if  specific key exists in uploaded file
@@ -686,7 +686,7 @@ function comment_suggestion_handler() {
 
         /* 
             Will read and process uploaded csv file. If there's an error, will return error message.
-            If no error push uploaded data to participants array and to session storage. 
+            If no error push uploaded data to participants array and to local storage. 
         */  
         readCSV(){
             let csv_data;
@@ -727,7 +727,7 @@ function comment_suggestion_handler() {
                         });
                     })
                     this.err_comments= false;
-                    sessionStorage.setItem('nr_comments', JSON.stringify(this.comments[0]))   
+                    localStorage.setItem('nr_comments', JSON.stringify(this.comments[0]))   
                 }
 
             }, 500)  
@@ -752,7 +752,7 @@ function comment_suggestion_handler() {
                         });
                     })
                     this.err_suggestions = false;
-                    sessionStorage.setItem('nr_suggestions', JSON.stringify(this.suggestions[0])) 
+                    localStorage.setItem('nr_suggestions', JSON.stringify(this.suggestions[0])) 
                     
                 }
             },700)
@@ -778,7 +778,7 @@ function comment_suggestion_handler() {
                         });
                     })
                     this.err_ratings = false;
-                    sessionStorage.setItem('nr_ratings', JSON.stringify(this.ratings[0])) ;
+                    localStorage.setItem('nr_ratings', JSON.stringify(this.ratings[0])) ;
                     this.getTotalRating(); 
                 }
             },900)
@@ -810,7 +810,7 @@ function comment_suggestion_handler() {
         storeInput($el){
             this.ratings[0] = [{rating :$el.value}]
             console.log(JSON.stringify(this.ratings[0]))
-            sessionStorage.setItem("nr_ratings", JSON.stringify(this.ratings[0]))
+            localStorage.setItem("nr_ratings", JSON.stringify(this.ratings[0]))
            
         }
     }
@@ -823,11 +823,11 @@ function comment_suggestion_handler() {
  * 
  ************************/
 
-//Handles liquidation_item table(add, remove, and retrieve data from session storage).
+//Handles liquidation_item table(add, remove, and retrieve data from local storage).
 function liquidation_items_handler() {
     return {
         liquidations: [
-            JSON.parse(sessionStorage.getItem('lf_liquidations')),
+            JSON.parse(localStorage.getItem('lf_liquidations')),
         ],
 
         newLiquidations: [
@@ -845,7 +845,7 @@ function liquidation_items_handler() {
             Accepts array of input and store it to newLiquidations[] in the meantime.
             Validate data from newLiquidations[]. If empty or invalid, then return error message.
             If success transfer data from newLiquidations[] to liquidations[].
-            Then push updated data of liquidations[] to session storage.
+            Then push updated data of liquidations[] to local storage.
         */
         addLiquidation() {
             let verify = true;
@@ -874,7 +874,7 @@ function liquidation_items_handler() {
                     price: this.newLiquidations[0].price,
 
                 });
-                sessionStorage.setItem('lf_liquidations', JSON.stringify(this.liquidations[0]))
+                localStorage.setItem('lf_liquidations', JSON.stringify(this.liquidations[0]))
                 this.newLiquidations = [
                     {
                         date_bought: '',
@@ -886,10 +886,10 @@ function liquidation_items_handler() {
             }
         },
 
-        //remove deleted data in liquidations[] then update session storage
+        //remove deleted data in liquidations[] then update local storage
         removeLiquidation(index) {
             this.liquidations[0].splice(index, 1); 
-            sessionStorage.setItem('lf_liquidations', JSON.stringify(this.liquidations[0]))
+            localStorage.setItem('lf_liquidations', JSON.stringify(this.liquidations[0]))
         },
 
         //Return total of 'price' field in liquidations[]

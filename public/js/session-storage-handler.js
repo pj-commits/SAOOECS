@@ -1,18 +1,18 @@
-function initialize_session_data(){
-    sessionStorage.clear();
+function initialize_local_data(){
+    localStorage.clear();
     //Sidebar
-    sessionStorage.setItem('_x_dropdown', false);
+    localStorage.setItem('_x_dropdown', false);
     //Forms  
-    clear_form_session_storage('apf');
-    clear_form_session_storage('brf');
-    clear_form_session_storage('nr');
-    clear_form_session_storage('lf');
+    clear_form_local_storage('apf');
+    clear_form_local_storage('brf');
+    clear_form_local_storage('nr');
+    clear_form_local_storage('lf');
 
 }
 
 
-//Clear data in session storage for passed form type 
-function clear_form_session_storage(form, reload = false){
+//Clear data in local storage for passed form type 
+function clear_form_local_storage(form, reload = false){
 
     let target_form = forms_array(form);
     let target_form_tables = form_tables_array(form);
@@ -20,15 +20,15 @@ function clear_form_session_storage(form, reload = false){
     //Form Inputs
     target_form.forEach(element => {
         if(element === 'duration_unit'){
-            sessionStorage.setItem(form+'_'+element, '"day(s)"');
+            localStorage.setItem(form+'_'+element, '"day(s)"');
         }else{
-        sessionStorage.setItem(form+'_'+element, '')
+        localStorage.setItem(form+'_'+element, '')
         }
     });
      
      //Form Tables
      target_form_tables.forEach(element => {
-        sessionStorage.setItem(form+'_'+element, JSON.stringify([]))
+        localStorage.setItem(form+'_'+element, JSON.stringify([]))
      });
 
      if(reload === true){
@@ -43,7 +43,7 @@ function clear_form_session_storage(form, reload = false){
 
 /********************************** 
  * 
- * Handles set and get of data to session storage
+ * Handles set and get of data to local storage
  * 
  * apf = Activity Proposal Form
  * 
@@ -55,26 +55,26 @@ function clear_form_session_storage(form, reload = false){
  * 
 **********************************/
 
-//Push data to session storage if event occured in an element
-function set_session_storage_data(form){
+//Push data to local storage if event occured in an element
+function set_local_storage_data(form){
     return{
 
         storeInput($el) {
             let name = $el.name;
             let value = $el.value;
 
-            sessionStorage.setItem(form+'_'+name, JSON.stringify(value));
+            localStorage.setItem(form+'_'+name, JSON.stringify(value));
         }
     }
 }
 
 //Assign value to input fields if data is available after onload of window
-function get_session_storage_data(form){ 
+function get_local_storage_data(form){ 
 
     let current_form = forms_array(form) 
     
     current_form.forEach(element =>{
-        document.getElementById(element).value = sessionStorage.getItem(form+'_'+element).slice(1, -1);  
+        document.getElementById(element).value = localStorage.getItem(form+'_'+element).slice(1, -1);  
     })
 }
 

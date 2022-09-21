@@ -133,7 +133,6 @@ class AssignRoleController extends Controller
         $selected->role->first()->pivot->role_id = $request->role_id; 
         $selected->role->first()->pivot->update();
 
-
         return redirect()->route('roles.index', compact('currOrg', 'orgMembers','invite', 'selected'));
     }
 
