@@ -25,7 +25,9 @@
                         </div>
                     </div>
                 </div>
-                
+
+                <!-- Alert Message For adding, editing and deleting org member -->
+                <x-alert-message/>              
 
                 <!-- table -->
                 <div class="mt-8">
@@ -108,12 +110,12 @@
                             <x-label for="role_id" :value="__('Role')" />
     
                             <x-select name="role_id" aria-label="Default select example">
-                                <option selected disabled>--choose role--</option>
+                                <option value="" selected disabled>--choose role--</option>
                                 <option value="6">Moderator</option>
                                 <option value="7">Editor</option>
                                 <option value="8">Viewer</option>
                             </x-select>
-                            @error('roles')
+                            @error('role_id')
                                 <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                             @enderror
                         </div>
@@ -165,7 +167,7 @@
                                     <option {{$selected->role->first()->id == "7" ? 'selected':''}}  value="7">Editor</option>
                                     <option {{$selected->role->first()->id == "8" ? 'selected':''}}  value="8">Viewer</option>
                                 </x-select>
-                                @error('roles')
+                                @error('role_id')
                                     <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                                 @enderror
                             </div>
