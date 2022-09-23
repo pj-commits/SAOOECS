@@ -26,7 +26,7 @@
                     </div>
                 </div>
 
-                <!-- Alert Message For adding, editing and deleting org member -->
+                <!-- Alert Message For adding, editing, and deleting org member -->
                 <x-alert-message/>              
 
                 <!-- table -->
@@ -34,12 +34,14 @@
                     <div class="max-w-screen mx-auto px-4 lg:px-8">
                         <div class="flex justify-between">
                             <h1 class="text-lg">Members ({{$orgMembers->count()}})</h1>
+                            @if(Auth::user()->hasRole('moderator'))
                             <div>
                                 {{-- Add Member Modal Button --}}
                                 <x-button onclick="window.location='{{ route('roles.invite') }}'">
                                     {{ __('Add Member') }}
                                 </x-button>
                             </div>
+                            @endif
                         </div>
 
                         <x-table.main>
@@ -49,7 +51,9 @@
                                 <x-table.head-col class="pl-6">Name</x-table.head-col>
                                 <x-table.head-col class="pl-6">Position</x-table.head-col>
                                 <x-table.head-col class="pl-6">Role</x-table.head-col>
+                                @if(Auth::user()->hasRole('moderator'))
                                 <x-table.head-col class="text-center">Action</x-table.head-col>
+                                @endif
                                 {{-- Table Head Columns Ends Here --}}
                             </x-table.head>
                             {{-- Table Head Body --}}
@@ -64,15 +68,16 @@
                                 @foreach($member->role as $pos)
                                 <x-table.body-col class="pl-6">{{$pos->display_name}}</x-table.body-col>
                                 @endforeach
+                                @if(Auth::user()->hasRole('moderator'))
                                 <x-table.body-col class="flex justify-center space-x-5">
                                     <x-button bg="bg-semantic-info" hover="hover:bg-blue-400" onclick="window.location='{{ route('roles.edit', $member) }}'" >
                                         {{ __('Edit') }}
                                     </x-button>
                                     <x-button bg="bg-semantic-danger" hover="hover:bg-rose-600"  onclick="window.location='{{ route('roles.del', $member) }}'">
                                         {{ __('Remove') }}
-                                        
                                     </x-button>
                                 </x-table.body-col>
+                                @endif
                                 {{-- Table Body Columns Ends Here --}}
                             </x-table.body>
                             @endforeach

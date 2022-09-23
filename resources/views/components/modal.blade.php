@@ -2,17 +2,18 @@
 
 
 <div x-cloak x-show="{{ $name }}" class="z-30 fixed top-0 left-0 w-screen h-screen bg-gray-900 bg-opacity-30">
-    <div x-cloak
-    x-data="{alert: false }" 
-    x-show="alert"     
-    x-transition:enter="transition ease-out duration-300"
-    x-transition:enter-start="opacity-0 translate-y-6"
-    x-transition:enter-end="opacity-100"
-    x-transition:leave="transition ease-in duration-300"
-    x-transition:leave-start="opacity-100"
-    x-transition:leave-end="opacity-0 translate-y-12"
-    x-init="setTimeout( () => alert = true, 200)" 
-    class="flex justify-center items-center w-full h-full p-4">
+    <div 
+        x-cloak
+        x-data="{alert: false }" 
+        x-show="alert"     
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 translate-y-6"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-300"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0 translate-y-12"
+        x-init="setTimeout( () => alert = true, 200)" 
+        class="flex justify-center items-center w-full h-full p-4">
         <div class="relative bg-white py-12 px-8 w-96 rounded-lg shadow-sm" @click.outside="{{ $name }} = false, alert = false">
             <div class="absolute top-5 right-7 cursor-pointer" @click="{{ $name }} = false, alert = false">
                 <svg xmlns="http://www.w3.org/2000/svg" class="fill-bland-400 hover:fill-bland-600" fill="currentColor" height="24" width="24">
