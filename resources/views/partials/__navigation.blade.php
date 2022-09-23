@@ -1,5 +1,5 @@
 <!-- Top Menu -->
-<div class="w-full bg-white">
+<div class="w-full bg-white fixed top-0 right-0 z-30">
     <div class="flex justify-between md:justify-end h-16 border-b-4 border-primary-yellow ">
         <!-- Mobile Header -->
         <div class="inline-flex items-center justify-center lg:hidden">

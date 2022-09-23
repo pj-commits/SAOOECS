@@ -1,5 +1,5 @@
 <!-- Sidebar Menu -->
-<div :class="{ '!translate-x-0': open }" class="fixed top-0 left-0 z-20 w-64 h-screen overflow-y-auto transition duration-300 ease-in-out transform -translate-x-full bg-secondary-gray shadow-lg sm:w-64 lg:translate-x-0">
+<div :class="{ '!translate-x-0': open }" class="fixed top-0 left-0 z-40 w-64 h-screen overflow-y-auto transition duration-300 ease-in-out transform -translate-x-full bg-secondary-gray shadow-lg sm:w-64 lg:translate-x-0">
     <!-- Sidebar Header -->
     <div class="flex items-center p-4 mb-3 h-20">
         <div class="inline-flex items-center justify-center w-full md:justify-center">
@@ -127,4 +127,4 @@
 
     </div>
 </div>
-<div :class="{ '!inline': open }" class="z-10 fixed top-0 left-0 w-screen h-screen bg-gray-900 bg-opacity-30 hidden lg:!hidden transition ease-in-out duration-300 pl-64" @click="open = false"></div>
+<div :class="{ '!inline': open }" class="z-30 fixed top-0 left-0 w-screen h-screen bg-gray-900 bg-opacity-30 hidden lg:!hidden transition ease-in-out duration-300 pl-64" @click="open = false"></div>

@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="pt-12" x-data="set_local_storage_data('brf')"> {{-- brf = Budget Requisition Form --}}
+    <div class="pt-24" x-data="set_local_storage_data('brf')"> {{-- brf = Budget Requisition Form --}}
         <div class="max-w-screen mx-auto px-4 lg:px-8" x-data="get_local_storage_data('brf')">
             <div class="flex justify-between flex-wrap">
                 <h1 class="flex items-center text-xl">

@@ -17,7 +17,7 @@
             @endif
       
                 <!-- Org Name -->
-                <div class="pt-12">
+                <div class="pt-24">
                     <div class="max-w-screen mx-auto px-4 lg:px-8">
                         <h1 class="text-lg">Organization:</h1>
                         <div class="bg-white mt-4 h-auto w-full rounded-sm shadow-sm">

@@ -110,7 +110,7 @@ class AssignRoleController extends Controller
         $currOrgId = DB::table('organization_user')->where('user_id', '=', $currUserId)->pluck('organization_id')->first();
         $currOrg = Organization::with('studentOrg')->where('id', '=', $currOrgId)->first();
         $orgMembers = $currOrg->studentOrg;
-        $invite = true;
+        $invite = false;
         $del = false;
         
         $selected = User::findorfail($member);

@@ -11,12 +11,12 @@ class DashboardController extends Controller
         //show pages for differnet users
         if(Auth::user()->hasRole('root')){
             return view('dashboard.root');
-        }elseif(Auth::user()->hasRole('president|secretary|member')){
-            return view('dashboard.student');
+        }elseif(Auth::user()->hasRole('moderator|editor|viewer')){
+            return view('_student-organization.dashboard');
         }elseif(Auth::user()->hasRole('sao|acadserv|finance')){
-            return view('dashboard.approver');
+            return view('_approvers.dashboard');
         }
-        return view('dashboard.guest');
+        return view('_users.dashboard');
     } 
 
 }

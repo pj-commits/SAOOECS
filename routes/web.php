@@ -23,10 +23,8 @@ Route::get('/', function () {
 
 // DASHBOARD: For Auth Users
 require __DIR__.'/auth.php';
-Route::get('/', function () {
-    return view('_users.dashboard');
-})->middleware(['auth'])->name('dashboard');
-require __DIR__.'/auth.php';
+Route::get('/',  [DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard');
+
 
 // ROLE TAB: Role managers/moderators == adviser, pres, sao
 Route::group(['middleware'=> ['auth', 'role:moderator']], function(){
