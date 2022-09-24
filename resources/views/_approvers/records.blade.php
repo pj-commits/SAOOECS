@@ -5,9 +5,9 @@
 
 
                 <div class="flex flex-col justify-center items-center py-16 px-2 md:px-8">
-                    <img class="w-auto h-auto sm:h-96 object-cover" src="{{ asset('assets/img/stud-org-no-pending-forms.jpg')}}" alt="No Forms Pending"/>
+                    <img class="w-96 h-96" src="{{ asset('assets/img/no-record-found.jpg')}}" alt="No Forms Pending"/>
                     <div class="text-center space-y-3 mt-3">
-                        <h1 class="text-2xl text-bland-500 font-bold tracking-wider">No Pending Form! 📣 </h1>
+                        <h1 class="text-2xl text-bland-500 font-bold tracking-wider">No Existing Record! approvers 📣 </h1>
                         <p class="text-sm text-bland-400">Looks like nothing to see here. </p>
                     </div>
                 </div>
@@ -17,7 +17,3 @@
         </div>
     </div>
 </x-app-layout>
-
-
-
-

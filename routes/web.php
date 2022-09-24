@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AssignRoleController;
+use App\Http\Controllers\RecordsController;
 use Illuminate\Http\Request;
 
 /*
@@ -39,15 +40,14 @@ Route::group(['middleware'=> ['auth', 'role:moderator']], function(){
 });
 Route::group(['middleware'=> ['auth', 'role:moderator|editor|viewer']], function(){
     Route::get('roles', [AssignRoleController::class, 'index'])->name('roles.index');
+
 });
+
+//Remove this when functions for records tab will be put under development.
+Route::get('records', [RecordsController::class, 'index'])->name('records');
 
 
 //Below Are Test Route only
-Route::get('records', function (){
-    return view('_users.records')
-        ->with("message", "Hello Records!");
-})->name('records');
-
 Route::get('submitted-forms', function (){
     return view('_approvers.submitted-forms')
         ->with("message", "Hello Submitted Forms!");
@@ -55,22 +55,22 @@ Route::get('submitted-forms', function (){
 
 //Forms
 Route::get('forms/activity-proposal-form', function (){
-    return view('_student-organization.activity-proposal')
+    return view('_student-organization.forms.activity-proposal')
         ->with("message", "Hello APF!");
 })->name('activity-proposal');
 
 Route::get('forms/budget-requisition-form', function (){
-    return view('_student-organization.budget-requisition')
+    return view('_student-organization.forms.budget-requisition')
         ->with("message", "Hello RF!");
 })->name('budget-requisition');
 
 Route::get('forms/narrative-report', function (){
-    return view('_student-organization.narrative')
+    return view('_student-organization.forms.narrative')
         ->with("message", "Hello NR!");
 })->name('narrative');
 
 Route::get('forms/liquidation-form', function (){
-    return view('_student-organization.liquidation')
+    return view('_student-organization.forms.liquidation')
         ->with("message", "Hello LF!");
 })->name('liquidation');
 

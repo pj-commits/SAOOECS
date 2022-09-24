@@ -77,7 +77,7 @@
                             <x-table.head>
                                 {{-- Insert Table Head Columns Here --}}
                                 <x-table.head-col class="pr-12 sm:pr-3">Quantity</x-table.head-col>
-                                <x-table.head-col>Particulars/Purpoe</x-table.head-col>
+                                <x-table.head-col>Particulars/Purpose</x-table.head-col>
                                 <x-table.head-col class="pr-12 sm:pr-3">Price (₱)</x-table.head-col>
                                 <x-table.head-col class="text-center">Action</x-table.head-col>
                                 {{-- Table Head Columns Ends Here --}}

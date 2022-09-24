@@ -88,7 +88,6 @@ Note: custom route name is allowed, but try to lessen its usage and make an alia
     - Submit form (submit to next approver)
     - Delete form
     - View form
-    - Download form
     - Email
 
 4. Sprint 4: Form Approval
