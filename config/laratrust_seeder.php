@@ -26,6 +26,5 @@ return [
         'Finance',
         'SOCIT',
         'Academic Services'
-    ]
-
+    ],
 ];

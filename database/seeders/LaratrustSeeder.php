@@ -47,7 +47,13 @@ class LaratrustSeeder extends Seeder
                     'middleName' => null,
                     'lastName' => ucwords(str_replace('_', ' ', $rolename)),
                     'phoneNumber' => '09123456789',
-                    'email' => $rolename.'@apc.edu.ph',
+                    'email' => 
+                    (   $rolename == 'president' || 
+                        $rolename == 'secretary' ||
+                        $rolename == 'member'   ? 
+                            $rolename.'@student.apc.edu.ph' 
+                        :   $rolename.'@apc.edu.ph'
+                    ),
                     'password' => bcrypt('password')
                 ]);
                 $user->attachRole($role);

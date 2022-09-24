@@ -102,7 +102,7 @@
     
                         <!-- Position -->
                         <div class="mt-3">
-                            <x-label for="position" :value="__('Posiiton')" />
+                            <x-label for="position" :value="__('Position')" />
     
                             <x-input id="position" class="block mt-1 w-full" type="text" name="position" :value="old('position')" required autofocus />
                             @error('position')
