@@ -539,7 +539,7 @@ function participant_handler() {
 
                         verify = false;
                         this.error = true;
-                        this.msg = "Unable to load file! - File must contain the ff: First Name, Last Name, Section, and Particapted Date!";
+                        this.msg = "File must have the ff: First Name, Last Name, Section, and Date Participated columns";
                 }
 
                 //If no error encountered while uploading the file, then the data from csv_data will be pushed to participants array
@@ -717,7 +717,7 @@ function comment_suggestion_handler() {
                     console.log(!this.isKeyExists(csv_data[0], 'comments'));
                         verify_comments_csv = false;
                         this.err_comments = true;
-                        this.msg_comments = "Warning: File must contain Comments!";
+                        this.msg_comments = "File doesn't have Comments column!";
                 }
                 //If no error encountered while uploading the file, then the data from csv_data will be pushed to comments array
                 if(verify_comments_csv === true){
@@ -741,7 +741,7 @@ function comment_suggestion_handler() {
 
                     verify_suggestions_csv = false;
                     this.err_suggestions = true;
-                    this.msg_suggestions = "Warning: File must contain Suggestions!";
+                    this.msg_suggestions = "File doesn't have Suggestions column!";
                 }
 
                 //If no error encountered while uploading the file, then the data from csv_data will be pushed to suggestions array
@@ -766,7 +766,7 @@ function comment_suggestion_handler() {
 
                     verify_ratings_csv = false;
                     this.err_ratings = true;
-                    this.msg_ratings = "Warning: File does not contain Ratings!";
+                    this.msg_ratings = "File doesn't have Ratings column!";
                 }
 
                 //If no error encountered while uploading the file, then the data from csv_data will be pushed to suggestions array

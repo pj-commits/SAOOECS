@@ -27,21 +27,19 @@ class UserSeeder extends Seeder
         foreach (array_slice($config, 4) as $key => $rolename ) {
             $this->command->info('Wait pre, gumagawa ng extra accounts para sa '. strtoupper($rolename));
         
-        for($i = 1; $i < 3; $i++){
-            DB::table('users')->insert(
-                [
-                    'firstName' => 'Sample',
-                    'middleName' => null,
-                    'lastName' => ucwords(str_replace('_', ' ', $rolename)).$i,
-                    'phoneNumber' => '09123456789',
-                    'email' => $rolename.$i.'@apc.edu.ph',
-                    'password' => bcrypt('password')
-                ]
-            );
+            for($i = 1; $i < 3; $i++){
+                DB::table('users')->insert(
+                    [
+                        'firstName' => 'Sample',
+                        'middleName' => null,
+                        'lastName' => ucwords(str_replace('_', ' ', $rolename)).$i,
+                        'phoneNumber' => '09123456789',
+                        'email' => $rolename.$i.'@apc.edu.ph',
+                        'password' => bcrypt('password')
+                    ]
+                );
+            }
         }
-    }
-
-        
     }
     
 }

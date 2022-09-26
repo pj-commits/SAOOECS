@@ -42,7 +42,7 @@
 
                                 {{-- Duration unit --}}
                                 <x-select class="mt-1" id="duration_unit" name="duration_unit" aria-label="Default select example" @change="storeInput($el)">
-                                    <option value="day(s)" seected >Day(s)</option>
+                                    <option value="day(s)" selected >Day(s)</option>
                                     <option value="weeks(s)">Weeks(s)</option>
                                     <option value="motnhs(s)">Month(s)</option>
                                 </x-select>
@@ -74,7 +74,7 @@
                         <div>
                             <x-label for="org_name" :value="__('Organization Name')" />
 
-                            <x-input id="org_name" class="mt-1 w-full" type="text" name="org_name" value="Student Organization" readonly autofocus />
+                            <x-input id="org_name" class="mt-1 w-full" type="text" name="org_name" value="Brewing Minds" readonly autofocus />
                         </div>
 
                         {{-- Name of organizer --}}

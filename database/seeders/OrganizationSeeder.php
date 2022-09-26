@@ -16,19 +16,20 @@ class OrganizationSeeder extends Seeder
     public function run()
     {
 
-        for($i = 1; $i < 3; $i++){
-            DB::table('organizations')->insert(
-                [
-                    'orgName' => 'Sample Org '.$i
-                ]
-            );
+        // for($i = 1; $i < 3; $i++){
+        //     DB::table('organizations')->insert(
+        //         [
+        //             'orgName' => 'Sample Org '.$i
+        //         ]
+        //     );
         
-        }
+        // }
 
-      
-
-        
-
+        DB::table('organizations')->insert(
+            [
+                'orgName' => 'Brewing Minds',
+            ]
+        );
     }
    
     

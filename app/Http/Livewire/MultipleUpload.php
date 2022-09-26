@@ -22,10 +22,11 @@ class MultipleUpload extends Component
 	public function save() 
 	{
 		$this->validate([
-			'title' => ['required'],
 			'attachments' => ['required'],
 			'attachments.*' => ['required', 'mimes:jpeg,jpg,png', 'max:1024'],
 		], [], ['attachments.*' => 'attachments']);
+
+		dd($this);
 	}
 
     public function render()

@@ -125,30 +125,6 @@
 
                             <h1 class="text-lg text-bland-600 font-bold">Participants</h1>
 
-                            <div>
-
-                                <div>
-                                    <x-button>
-                                        
-                                        <x-svg>
-                                            <path d="M6 20q-.825 0-1.412-.587Q4 18.825 4 18v-3h2v3h12v-3h2v3q0 .825-.587 1.413Q18.825 20 18 20Zm5-4V7.85l-2.6 2.6L7 9l5-5 5 5-1.4 1.45-2.6-2.6V16Z"/>
-                                        </x-svg>
-                                        {{ __('Upload CSV') }}
-
-                                        <input 
-                                            type="file" 
-                                            name="participants_csv" 
-                                            id="participants_csv" 
-                                            accept=".csv"
-                                            class="absolute cursor-pointer right-0 opacity-0"
-                                            @change="readCSV, loading(true)"
-                                        >
-
-                                    </x-button>
-                                </div>
-
-                            </div>
-
                         </div>
                     
                         {{-- Custom table --}}
@@ -219,8 +195,30 @@
                                 </table>
                             </div>
                         </div>
-                        
-                         <span x-show="error" class="flex text-sm text-semantic-danger font-light">*<p x-text="msg"></p></span>
+                        <span x-show="error" class="flex text-sm text-semantic-danger font-light">*<p x-text="msg"></p></span>
+
+                    
+                        <div class="flex justify-end mt-2">
+
+                            <x-button>
+                                
+                                <x-svg>
+                                    <path d="M6 20q-.825 0-1.412-.587Q4 18.825 4 18v-3h2v3h12v-3h2v3q0 .825-.587 1.413Q18.825 20 18 20Zm5-4V7.85l-2.6 2.6L7 9l5-5 5 5-1.4 1.45-2.6-2.6V16Z"/>
+                                </x-svg>
+                                {{ __('Upload CSV') }}
+
+                                <input 
+                                    type="file" 
+                                    name="participants_csv" 
+                                    id="participants_csv" 
+                                    accept=".csv"
+                                    class="absolute cursor-pointer right-0 opacity-0"
+                                    @change="readCSV, loading(true)"
+                                >
+
+                            </x-button>
+                        </div>
+
                     </div>
                    
 
@@ -251,37 +249,13 @@
 
                     </div>
 
+                    {{-- Row #7 Comments Table --}}
                     <div x-data="comment_suggestion_handler()">
-                        {{-- Row #7 Comments Table --}}
                         <hr class="mt-6 border-1 border-bland-300">
 
                             <div class="flex justify-between items-end mt-4">
 
                                 <h1 class="text-lg text-bland-600 font-bold">Comments</h1>
-
-                                <div>
-
-                                    <div>
-                                        <x-button>
-                                            
-                                            <x-svg>
-                                                <path d="M6 20q-.825 0-1.412-.587Q4 18.825 4 18v-3h2v3h12v-3h2v3q0 .825-.587 1.413Q18.825 20 18 20Zm5-4V7.85l-2.6 2.6L7 9l5-5 5 5-1.4 1.45-2.6-2.6V16Z"/>
-                                            </x-svg>
-                                            {{ __('Upload CSV') }}
-
-                                            <input 
-                                                type="file" 
-                                                name="comments_csv" 
-                                                id="comments_csv" 
-                                                accept=".csv"
-                                                class="absolute cursor-pointer right-0 opacity-0"
-                                                @change="readCSV, loading('true')"
-                                            >
-
-                                        </x-button>
-                                    </div>
-
-                                </div>
 
                             </div>
                         
@@ -333,11 +307,32 @@
                                     </table>
                                 </div>
                             </div>
-                            <span x-show="err_comments" class="flex text-sm text-primary-yellow font-light">*<p x-text="msg_comments"></p></span>
+                            <span x-show="err_comments" class="flex text-sm text-semantic-danger font-light">*<p x-text="msg_comments"></p></span>
+                            <div class="flex justify-end items-center mt-4 space-x-2">
+
+                                <p class="text-xs text-bland-400 font-light italic">*For Comments, Suggestions, and Rating</p>
+                                <x-button>
+                                    
+                                    <x-svg>
+                                        <path d="M6 20q-.825 0-1.412-.587Q4 18.825 4 18v-3h2v3h12v-3h2v3q0 .825-.587 1.413Q18.825 20 18 20Zm5-4V7.85l-2.6 2.6L7 9l5-5 5 5-1.4 1.45-2.6-2.6V16Z"/>
+                                    </x-svg>
+                                    {{ __('Upload CSV') }}
+
+                                    <input 
+                                        type="file" 
+                                        name="comments_csv" 
+                                        id="comments_csv" 
+                                        accept=".csv"
+                                        class="absolute cursor-pointer right-0 opacity-0"
+                                        @change="readCSV, loading('true')"
+                                    >
+
+                                </x-button>
+                            </div>
+
               
 
                         {{-- Row #8 Suggestions Table --}}
-                        <hr class="mt-6 border-1 border-bland-300">
 
                             <div class="flex justify-between items-end mt-4">
 
@@ -397,7 +392,7 @@
                                     </table>
                                 </div>
                             </div>
-                            <span x-show="err_suggestions" class="flex text-sm text-primary-yellow font-light">*<p x-text="msg_suggestions"></p></span>
+                            <span x-show="err_suggestions" class="flex text-sm text-semantic-danger font-light">*<p x-text="msg_suggestions"></p></span>
 
 
                         {{-- Row #9 --}}               
@@ -408,7 +403,7 @@
                                 <x-label for="ratings" :value="__('Rating')" />
                                 
                                 <x-input x-model="getTotalRating" id="ratings" class="mt-1 w-full" type="number" name="ratings" step=".1" required autofocus @keyup="storeInput($el)"/>
-                                <span x-show="err_ratings" class="flex text-sm text-primary-yellow font-light">*<p x-text="msg_ratings"></p></span>
+                                <span x-show="err_ratings" class="flex text-sm text-semantic-danger font-light">*<p x-text="msg_ratings"></p></span>
                             </div>
 
                         </div>

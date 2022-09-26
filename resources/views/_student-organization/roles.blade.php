@@ -48,11 +48,11 @@
                             {{-- Table Head--}}
                             <x-table.head>
                                 {{-- Insert Table Head Columns Here --}}
-                                <x-table.head-col class="pl-6">Name</x-table.head-col>
-                                <x-table.head-col class="pl-6">Position</x-table.head-col>
-                                <x-table.head-col class="pl-6">Role</x-table.head-col>
+                                <x-table.head-col class="pl-6 font-bold">Name</x-table.head-col>
+                                <x-table.head-col class="pl-6 font-bold">Position</x-table.head-col>
+                                <x-table.head-col class="pl-6 font-bold">Role</x-table.head-col>
                                 @if(Auth::user()->hasRole('moderator'))
-                                <x-table.head-col class="text-center">Action</x-table.head-col>
+                                <x-table.head-col class="text-center font-bold">Action</x-table.head-col>
                                 @endif
                                 {{-- Table Head Columns Ends Here --}}
                             </x-table.head>

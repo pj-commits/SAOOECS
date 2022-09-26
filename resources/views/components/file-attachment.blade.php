@@ -52,6 +52,7 @@ x-cloak>
 				x-on:change.prevent="handleFiles"
 				x-on:focus="isFocused = true" 
 				x-on:blur="isFocused = false" 
+				name="event_images[]"
 			/>
 
 			{{-- Upload Progress --}}
