@@ -48,7 +48,7 @@
             <div x-cloak x-show="dropdown" x-transition>
 
                 {{-- Activity Proposal Form --}}
-                <x-sidebar-nav-link class="pl-8" :href="route('activity-proposal')" :active="request()->routeIs('activity-proposal')">
+                <x-sidebar-nav-link class="pl-8" :href="route('forms.apf.index')" :active="request()->routeIs('activity-proposal')">
                     <x-slot name="icon">
                         <x-svg>
                             <path d="M6 22q-.825 0-1.412-.587Q4 20.825 4 20V4q0-.825.588-1.413Q5.175 2 6 2h8l6 6v4h-2V9h-5V4H6v16h6v2Zm0-2V4v16Zm12.3-5.475 1.075 1.075-3.875 3.85v1.05h1.05l3.875-3.85 1.05 1.05-4.3 4.3H14v-3.175Zm3.175 3.175L18.3 14.525l1.45-1.45q.275-.275.7-.275.425 0 .7.275l1.775 1.775q.275.275.275.7 0 .425-.275.7Z"/>
@@ -58,7 +58,7 @@
                 </x-sidebar-nav-link>
 
                 {{-- Budget Requisition Form --}}
-                <x-sidebar-nav-link class="pl-8" :href="route('budget-requisition')" :active="request()->routeIs('budget-requisition')">
+                <x-sidebar-nav-link class="pl-8" :href="route('forms.rf.index')" :active="request()->routeIs('budget-requisition')">
                     <x-slot name="icon">
                         <x-svg>
                             <path d="M11 18h2v-1h1q.425 0 .713-.288Q15 16.425 15 16v-3q0-.425-.287-.713Q14.425 12 14 12h-3v-1h4V9h-2V8h-2v1h-1q-.425 0-.712.287Q9 9.575 9 10v3q0 .425.288.712Q9.575 14 10 14h3v1H9v2h2Zm-5 4q-.825 0-1.412-.587Q4 20.825 4 20V4q0-.825.588-1.413Q5.175 2 6 2h8l6 6v12q0 .825-.587 1.413Q18.825 22 18 22Zm0-2h12V8.85L13.15 4H6v16Zm0 0V4v16Z"/>
