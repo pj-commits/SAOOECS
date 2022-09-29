@@ -102,7 +102,7 @@
             </x-sidebar-nav-link>
             @endif
 
-            @if(Auth::user()->hasRole('adviser|sao|acadserve|finance')) 
+            @if(Auth::user()->hasRole('adviser|sao|acadserv|finance')) 
             {{-- Submitted Forms --}}
             <x-sidebar-nav-link :href="route('submitted-forms')" :active="request()->routeIs('submitted-forms')" @click="dropdown = false">
                 <x-slot name="icon">
