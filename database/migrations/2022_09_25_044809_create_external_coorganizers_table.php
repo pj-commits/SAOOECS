@@ -15,10 +15,11 @@ return new class extends Migration
     {
         Schema::create('external_coorganizers', function (Blueprint $table) {
             $table->id();
-            $table->string('coorganization');
+            $table->foreignId('proposal_id');
             $table->string('coorganizer');
+            $table->string('coorganization');
             $table->string('email');
-            $table->string('phoneNumber');  
+            $table->string('phone_number');  
             $table->timestamps();
         });
     }

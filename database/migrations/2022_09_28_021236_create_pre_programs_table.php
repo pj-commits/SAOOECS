@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('activities', function (Blueprint $table) {
+        Schema::create('pre_programs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('proposal_id')->constrained();
+            $table->foreignId('proposal_id');
             $table->string('activity');
-            $table->date('startDate');
-            $table->date('endDate');
+            $table->dateTime('start_date_time');
+            $table->dateTime('end_date_time');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('activities');
+        Schema::dropIfExists('pre_programs');
     }
 };

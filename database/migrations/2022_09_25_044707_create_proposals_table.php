@@ -16,20 +16,23 @@ return new class extends Migration
         Schema::create('proposals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('form_id')->constrained();
-            $table->foreignId('organizer');
-            $table->date('targetDate');
-            $table->integer('durationVal');
-            $table->string('durationUnit');
+            $table->foreignId('organization_users_id');
+            $table->date('target_date');
+            $table->integer('activity_title');
+            $table->integer('duration_val');
+            $table->string('duration_unit');
             $table->string('venue');
-            $table->string('actClassificationA');
-            $table->string('actClassificationB');
+            $table->string('act_classification');
+            $table->string('act_location');
             $table->string('description');
-            $table->string('outcome');
             $table->string('rationale');
-            $table->string('primaryAudience');
-            $table->integer('numPrimaryAudience');
-            $table->string('secondaryAudience')->nullable();
-            $table->integer('numSecondaryAudience')->nullable();
+            $table->string('outcome');
+            $table->string('primary_audience');
+            $table->integer('num_primary_audience');
+            $table->string('secondary_audience');
+            $table->integer('num_secondary_audience');
+            $table->integer('internal_coorganizer');
+            $table->tinyInteger('have_requisition');
             $table->timestamps();
         });
     }

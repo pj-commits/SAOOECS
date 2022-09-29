@@ -15,30 +15,30 @@ return new class extends Migration
     {
         Schema::create('forms', function (Blueprint $table) {
             $table->id();
-            $table->integer("createdBy");
-            $table->string('formType');
-            $table->string('orgName');
-            $table->string('controlNumber');
-            $table->string('eventTitle');
-            $table->string('currApprover');
+            $table->foreignId('created_by_user_org_id');
+            $table->string('form_type');
+            $table->string('org_name');
+            $table->string('control_number');
+            $table->string('event_title');
+            $table->string('curr_approver');
             $table->string('status');
 
             //Adviser
-            $table->foreignId('adviserFacultyId')->nullable();
-            $table->boolean('adviserIsApprove')->default(0);
-            $table->dateTime('adviserDateApproved')->nullable();
+            $table->foreignId('adviser_faculty_id')->nullable();
+            $table->boolean('adviser_is_approve')->default(0);
+            $table->dateTime('adviser_date_approved')->nullable();
             //SAO
-            $table->foreignId('saoStaffId')->nullable();
-            $table->boolean('saoIsApprove')->default(0);
-            $table->dateTime('saoDateApproved')->nullable();
+            $table->foreignId('sao_staff_id')->nullable();
+            $table->boolean('sao_is_approve')->default(0);
+            $table->dateTime('sao_date_approved')->nullable();
             //Academic Services
-            $table->foreignId('acadServStaffId')->nullable();
-            $table->boolean('acadServIsApprove')->default(0);
-            $table->dateTime('acadServDateApproved')->nullable();
+            $table->foreignId('acad_serv_faculty_id')->nullable();
+            $table->boolean('acad_serv_is_approve')->default(0);
+            $table->dateTime('acad_serv_date_approved')->nullable();
             //Finance
-            $table->foreignId('financeStaffId')->nullable();
-            $table->boolean('financeIsApprove')->default(0);
-            $table->dateTime('financeDateApproved')->nullable();
+            $table->foreignId('finance_staff_id')->nullable();
+            $table->boolean('finance_is_approve')->default(0);
+            $table->dateTime('finance_date_approved')->nullable();
             
             $table->timestamps();
         });

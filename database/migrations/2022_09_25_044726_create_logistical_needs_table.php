@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('logistical_needs', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('proposal_id');
+            $table->string('service');
+            $table->date('date_needed');
             $table->timestamps();
         });
     }

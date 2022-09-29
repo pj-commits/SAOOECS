@@ -10,18 +10,8 @@ class Form extends Model
     use HasFactory;
 
     protected $fillable = [
-        'createdBy',
-        'formType',
-        'orgName',
-        'controlNumber',
-        'eventTitle',
-        'currApprover',
-        'status',
-        'adviserIsApprove',
-        'saoIsApprove',
-        'acadServIsApprove',
-        'financeIsApprove',
-        'remarks',
+        'org_name',
+        'event_title',
     ];
 
     public function proposal()

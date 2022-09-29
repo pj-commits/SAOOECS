@@ -6,17 +6,14 @@ use Illuminate\Http\Request;
 
 class APFController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // display form
     public function index()
     {
         return view('_student-organization.forms.activity-proposal')
         ->with("message", "Hello APF!");
     }
 
+    // save form
     public function store(Request $request)
     {
         dd($request);
