@@ -326,7 +326,7 @@
                              {{-- Table Head--}}
                              <x-table.head>
                                  {{-- Insert Table Head Columns Here --}}
-                                 <x-table.head-col>Activities</x-table.head-col>
+                                 <x-table.head-col>Activity</x-table.head-col>
                                  <x-table.head-col>Start Date</x-table.head-col>
                                  <x-table.head-col>End Date</x-table.head-col>
                                  <x-table.head-col class="text-center">Action</x-table.head-col>
