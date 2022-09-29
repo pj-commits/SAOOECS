@@ -166,7 +166,8 @@ function form_tables_array(form){
     ];
 
     let lf_tables = [
-        'liquidations'
+        'liquidations',
+        'proof_of_payments'
     ];
 
     if(form === "apf"){

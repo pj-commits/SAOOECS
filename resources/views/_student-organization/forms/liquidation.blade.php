@@ -81,6 +81,7 @@
                             {{-- Table Head--}}
                             <x-table.head>
                                 {{-- Insert Table Head Columns Here --}}
+                                <x-table.head-col class="w-32 pr-12 sm:pr-3">Item No.</x-table.head-col>
                                 <x-table.head-col class="pr-12 sm:pr-3">Date Bought</x-table.head-col>
                                 <x-table.head-col>Particulars/Items</x-table.head-col>
                                 <x-table.head-col class="pr-12 sm:pr-3">Price (₱)</x-table.head-col>
@@ -92,6 +93,9 @@
                                 <template x-for="(field, index) in liquidations[0]" :key="index">
                                     <tr class="bg-white  hover:bg-bland-100">
                                         {{-- Insert Table Body Columns Here --}}
+                                        <x-table.body-col>
+                                            <x-input x-model="field.item_number"  id="item_number" class="mt-1 w-full" type="text" name="item_number[]"  readonly autofocus />
+                                        </x-table.body-col>
                                         <x-table.body-col>
                                             <x-input x-model="field.date_bought"  id="date_bought" class="mt-1 w-full" type="date" name="date_bought[]"  readonly autofocus />
                                         </x-table.body-col>
@@ -115,6 +119,9 @@
                                 <tr>
                                     {{-- Insert Table Footer Columns Here --}}
                                     <x-table.footer-col>
+                                        <x-input x-model="getItemNumber()" class="mt-1 w-full" type="text" readonly />
+                                    </x-table.footer-col>
+                                    <x-table.footer-col>
                                         <x-input x-model="newLiquidations[0].date_bought" class="mt-1 w-full" type="date" autofocus />
                                     </x-table.footer-col>
                                     <x-table.footer-col>
@@ -132,19 +139,22 @@
                                 </tr>
                                 <tr class="bg-bland-100">
                                     {{-- Insert Table Footer Columns Here --}}
-                                   <x-table.footer-col>
-                                       {{-- Empty Space --}}
-                                   </x-table.footer-col>
-                                   <x-table.footer-col  class="text-right">
-                                       <p>Total:</p>
-                                   </x-table.footer-col>
-                                   <x-table.footer-col class="pl-4">
-                                       <span class="flex">₱ <p x-text="getTotal()"></p></span>
-                                   </x-table.footer-col>
-                                   <x-table.footer-col>
-                                       {{-- Empty Space --}}
-                                   </x-table.footer-col>
-                                   {{-- Table Footer Columns Ends Here --}}
+                                    <x-table.footer-col>
+                                        {{-- Empty Space --}}
+                                    </x-table.footer-col>
+                                    <x-table.footer-col>
+                                        {{-- Empty Space --}}
+                                    </x-table.footer-col>
+                                    <x-table.footer-col  class="text-right">
+                                        <p>Total:</p>
+                                    </x-table.footer-col>
+                                    <x-table.footer-col class="pl-4">
+                                        <span class="flex">₱ <p x-text="getTotal()"></p></span>
+                                    </x-table.footer-col>
+                                    <x-table.footer-col>
+                                        {{-- Empty Space --}}
+                                    </x-table.footer-col>
+                                    {{-- Table Footer Columns Ends Here --}}
                                 </tr>
                             </tfoot>
                         </x-table.main>
@@ -155,14 +165,90 @@
                     {{-- Row #4 --}}
                     <div class="pt-3">
                         <!-- Proof of payments -->
-                        <div class="w-full p-3 border-2 border-dashed hover:border-primary-blue">
+                        {{-- <div class="w-full p-3 border-2 border-dashed hover:border-primary-blue">
 
                             <div>
                                 <h1 class="text-lg text-bland-600 my-2">Proof of Payments</h1>
                                 <livewire:multiple-upload />
                             </div>
 
-                        </div>
+                        </div> --}}
+
+                    <hr class="mt-6 border-1 border-bland-300">
+
+                    <h1 class="text-lg text-bland-600 font-bold my-4">Proof of Payment</h1>
+                    
+                    <div x-data="proof_of_payments()">
+                        <x-table.main>
+                            {{-- Table Head--}}
+                            <x-table.head>
+                                {{-- Insert Table Head Columns Here --}}
+                                <x-table.head-col>Item From</x-table.head-col>
+                                <x-table.head-col>Item To</x-table.head-col>
+                                <x-table.head-col>Proof of Payment</x-table.head-col>
+                                <x-table.head-col>Action</x-table.head-col>
+                                {{-- Table Head Columns Ends Here --}}
+                            </x-table.head>
+                            {{-- Table Body --}}
+                            <tbody>
+                                <template x-for="(field, index) in proofOfPayments[0]" :key="index">
+                                    <tr class="bg-white  hover:bg-bland-100">
+                                        {{-- Insert Table Body Columns Here --}}
+                                        <x-table.body-col>
+                                            <x-input x-model="field.itemFrom"  id="itemFrom" class="mt-1 w-full" type="text" name="itemFrom[]" readonly autofocus />
+                                        </x-table.body-col>
+                                        <x-table.body-col>
+                                            <x-input x-model="field.itemTo" id="itemTo" class="mt-1 w-full" type="text" name="itemTo[]" readonly autofocus />
+                                        </x-table.body-col>
+                                        <x-table.body-col>
+                                            <x-input x-model="field.image" id="image" class="mt-1 w-full" type="file" name="image[]" readonly autofocus />
+                                        </x-table.body-col>
+                                        <x-table.body-col class="text-center px-1">
+                                            <x-button bg="bg-semantic-danger" hover="hover:bg-rose-600" @click="removeProofOfPayment(index)">
+                                                {{ __('Remove') }}
+                                            </x-button>
+                                        </x-table.body-col>
+                                        {{-- Table Body Columns Ends Here --}}
+                                    </tr>
+                                </template>
+                            </tbody>
+                            <tfoot class="border-t border-bland-200">
+                                <tr>
+                                    {{-- Insert Table Footer Columns Here --}}
+                                    <x-table.footer-col>
+                                        <x-input x-model="newProofOfPayments[0].itemFrom" class="mt-1 w-full" type="text" autofocus />
+                                    </x-table.footer-col>
+                                    <x-table.footer-col>
+                                        <x-input x-model="newProofOfPayments[0].itemTo" class="mt-1 w-full" type="text" autofocus />
+                                    </x-table.footer-col>
+                                    <x-table.footer-col>
+                                        <input  x-model="newProofOfPayments[0].image" class="form-control
+                                        w-full
+                                        px-3
+                                        py-1.5
+                                        text-sm
+                                        font-normal
+                                        text-gray-700
+                                        bg-white bg-clip-padding
+                                        border border-solid border-gray-300
+                                        rounded
+                                        transition
+                                        ease-in-out
+                                        m-0
+                                        focus:text-gray-700 focus:bg-white focus:border-primary-blue focus:outline-none" type="file" id="image">  
+                                    </x-table.footer-col>
+                                    <x-table.footer-col class="text-center">
+                                        <x-button @click="addProofOfPayment">
+                                            {{ __('Add Row') }}
+                                        </x-button>
+                                    </x-table.footer-col>
+                                    {{-- Table Footer Columns Ends Here --}}
+                                </tr>
+                            </tfoot>
+                        </x-table.main>
+                        <span x-show="error" class="flex text-sm text-semantic-danger font-light">*<p x-text="msg"></p></span>
+                    </div>
+
 
                     </div>
 

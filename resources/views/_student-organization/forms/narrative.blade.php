@@ -77,10 +77,10 @@
                                             <x-input x-model="field.activity"  id="activity" class="mt-1 w-full" type="text" name="activity[]"  readonly autofocus />
                                         </x-table.body-col>
                                         <x-table.body-col>
-                                            <x-input x-model="field.start_date" id="start_date" class="mt-1 w-full" type="date" name="start_date[]"  readonly autofocus />
+                                            <x-input x-model="field.start_date" id="start_date" class="mt-1 w-full" type="datetime-local" name="start_date[]"  readonly autofocus />
                                         </x-table.body-col>
                                         <x-table.body-col>
-                                            <x-input x-model="field.end_date" id="end_date" class="mt-1 w-full" type="date" name="end_date[]" readonly autofocus />
+                                            <x-input x-model="field.end_date" id="end_date" class="mt-1 w-full" type="datetime-local" name="end_date[]" readonly autofocus />
                                         </x-table.body-col>
                                         <x-table.body-col class="text-center">
                                             <x-button bg="bg-semantic-danger" hover="hover:bg-rose-600" @click="removeProgram(index)">
@@ -98,10 +98,10 @@
                                         <x-input x-model="newPrograms[0].activity" class="mt-1 w-full" type="text" autofocus />
                                     </x-table.footer-col>
                                     <x-table.footer-col>
-                                        <x-input x-model="newPrograms[0].start_date" class="mt-1 w-full" type="date" autofocus />
+                                        <x-input x-model="newPrograms[0].start_date" class="mt-1 w-full" type="datetime-local" autofocus />
                                     </x-table.footer-col>
                                     <x-table.footer-col>
-                                        <x-input x-model="newPrograms[0].end_date" class="mt-1 w-full" type="date" autofocus />
+                                        <x-input x-model="newPrograms[0].end_date" class="mt-1 w-full" type="datetime-local" autofocus />
                                     </x-table.footer-col>
                                     <x-table.footer-col class="px-1 text-center" @click=addProgram>
                                         <x-button>
@@ -308,29 +308,7 @@
                                 </div>
                             </div>
                             <span x-show="err_comments" class="flex text-sm text-semantic-danger font-light">*<p x-text="msg_comments"></p></span>
-                            <div class="flex justify-end items-center mt-4 space-x-2">
 
-                                <p class="text-xs text-bland-400 font-light italic">*For Comments, Suggestions, and Rating</p>
-                                <x-button>
-                                    
-                                    <x-svg>
-                                        <path d="M6 20q-.825 0-1.412-.587Q4 18.825 4 18v-3h2v3h12v-3h2v3q0 .825-.587 1.413Q18.825 20 18 20Zm5-4V7.85l-2.6 2.6L7 9l5-5 5 5-1.4 1.45-2.6-2.6V16Z"/>
-                                    </x-svg>
-                                    {{ __('Upload CSV') }}
-
-                                    <input 
-                                        type="file" 
-                                        name="comments_csv" 
-                                        id="comments_csv" 
-                                        accept=".csv"
-                                        class="absolute cursor-pointer right-0 opacity-0"
-                                        @change="readCSV, loading('true')"
-                                    >
-
-                                </x-button>
-                            </div>
-
-              
 
                         {{-- Row #8 Suggestions Table --}}
 
@@ -393,6 +371,27 @@
                                 </div>
                             </div>
                             <span x-show="err_suggestions" class="flex text-sm text-semantic-danger font-light">*<p x-text="msg_suggestions"></p></span>
+                            <div class="flex justify-end items-center mt-4 space-x-2">
+
+                                <p class="text-xs text-bland-400 font-light italic">*For Comments, Suggestions, and Rating</p>
+                                <x-button>
+                                    
+                                    <x-svg>
+                                        <path d="M6 20q-.825 0-1.412-.587Q4 18.825 4 18v-3h2v3h12v-3h2v3q0 .825-.587 1.413Q18.825 20 18 20Zm5-4V7.85l-2.6 2.6L7 9l5-5 5 5-1.4 1.45-2.6-2.6V16Z"/>
+                                    </x-svg>
+                                    {{ __('Upload CSV') }}
+
+                                    <input 
+                                        type="file" 
+                                        name="comments_csv" 
+                                        id="comments_csv" 
+                                        accept=".csv"
+                                        class="absolute cursor-pointer right-0 opacity-0"
+                                        @change="readCSV, loading('true')"
+                                    >
+
+                                </x-button>
+                            </div>
 
 
                         {{-- Row #9 --}}               

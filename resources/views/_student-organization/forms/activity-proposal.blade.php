@@ -107,7 +107,11 @@
                         <div>
                             <x-label for="act_location" :value="__('Activity Location')" />
 
-                            <x-input id="act_location" class="mt-1 w-full" type="text" name="act_location" required autofocus @keyup="storeInput($el)"/>
+                            <x-select class="mt-1" id="act_location" name="act_location" aria-label="Default select example" @change="storeInput($el)">
+                                <option value='' disabled selected>--select option--</option>
+                                <option value="In-Campus">In-Campus</option>
+                                <option value="Off-Campus">Off-Campus</option>
+                            </x-select>
                         </div>
 
                     </div>
@@ -159,7 +163,10 @@
                                 <tr>
                                     {{-- Insert Table Footer Columns Here --}}
                                     <x-table.footer-col>
-                                        <x-input x-model="newCoorganizers[0].coorganization" class="mt-1 w-full" type="text" autofocus />
+                                        <x-select x-model="newCoorganizers[0].coorganization" class="mt-1 w-full"  class="mt-1" id="act_location" name="act_location" aria-label="Default select example">
+                                            <option value="Internal">Internal</option>
+                                            <option value="External">External</option>
+                                        </x-select>
                                     </x-table.footer-col>
                                     <x-table.footer-col>
                                         <x-input x-model="newCoorganizers[0].name" class="mt-1 w-full" type="text" autofocus />
@@ -312,7 +319,7 @@
                      {{-- Row #11 Coorganizer Table --}}
                      <hr class="mt-6 border-1 border-bland-300">
 
-                     <h1 class="text-lg text-bland-600 font-bold my-4">Activities</h1>
+                     <h1 class="text-lg text-bland-600 font-bold my-4">Programs</h1> {{-- Programs/Activites --}}
 
                      <div x-data="activity_handler()">
                          <x-table.main>
@@ -334,10 +341,10 @@
                                              <x-input x-model="field.activity"  id="activity" class="mt-1 w-full" type="text" name="activity[]"  readonly autofocus />
                                          </x-table.body-col>
                                          <x-table.body-col>
-                                             <x-input x-model="field.start_date" id="start_date" class="mt-1 w-full" type="date" name="start_date[]"  readonly autofocus />
+                                             <x-input x-model="field.start_date" id="start_date" class="mt-1 w-full" type="datetime-local" name="start_date[]"  readonly autofocus />
                                          </x-table.body-col>
                                          <x-table.body-col>
-                                             <x-input x-model="field.end_date" id="end_date" class="mt-1 w-full" type="date" name="end_date[]" readonly autofocus />
+                                             <x-input x-model="field.end_date" id="end_date" class="mt-1 w-full" type="datetime-local" name="end_date[]" readonly autofocus />
                                          </x-table.body-col>
                                          <x-table.body-col class="text-center">
                                              <x-button bg="bg-semantic-danger" hover="hover:bg-rose-600" @click="removeActivity(index)">
@@ -355,10 +362,10 @@
                                          <x-input x-model="newActivities[0].activity" class="mt-1 w-full" type="text" autofocus />
                                      </x-table.footer-col>
                                      <x-table.footer-col>
-                                         <x-input x-model="newActivities[0].start_date" class="mt-1 w-full" type="date" autofocus />
+                                         <x-input x-model="newActivities[0].start_date" class="mt-1 w-full" type="datetime-local" autofocus />
                                      </x-table.footer-col>
                                      <x-table.footer-col>
-                                         <x-input x-model="newActivities[0].end_date" class="mt-1 w-full" type="date" autofocus />
+                                         <x-input x-model="newActivities[0].end_date" class="mt-1 w-full" type="datetime-local" autofocus />
                                      </x-table.footer-col>
                                      <x-table.footer-col class="px-1 text-center">
                                          <x-button @click="addActivity()">
