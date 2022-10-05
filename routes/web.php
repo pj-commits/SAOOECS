@@ -98,11 +98,9 @@ Route::post('/test', function(Request $request){
     dd($request);
 })->name('test');
 
-<<<<<<< HEAD
 Route::get('/test-details', function(){
     return view('_approvers.view-details.liquidation');
 });
-=======
 
 
 //Email
@@ -127,4 +125,3 @@ Route::get('/lf', function (){
 Route::get('/org', function (){
     return new OrgMemAddEmail();
 });
->>>>>>> f2c7e45c194b5631b1de26caeb5c611706e976eb
