@@ -183,28 +183,48 @@
                             {{-- Table Head--}}
                             <x-table.head>
                                 {{-- Insert Table Head Columns Here --}}
-                                <x-table.head-col>Item From</x-table.head-col>
-                                <x-table.head-col>Item To</x-table.head-col>
-                                <x-table.head-col>Proof of Payment</x-table.head-col>
-                                <x-table.head-col>Action</x-table.head-col>
+                                <x-table.head-col class="">Item From</x-table.head-col>
+                                <x-table.head-col class="">Item To</x-table.head-col>
+                                <x-table.head-col class="">Proof of Payment</x-table.head-col>
+                                <x-table.head-col class="text-center">
+                                    <x-button @click="addNewRow">
+                                        <x-svg class="mr-0">
+                                            <path d="M11 17h2v-4h4v-2h-4V7h-2v4H7v2h4Zm-6 4q-.825 0-1.413-.587Q3 19.825 3 19V5q0-.825.587-1.413Q4.175 3 5 3h14q.825 0 1.413.587Q21 4.175 21 5v14q0 .825-.587 1.413Q19.825 21 19 21Zm0-2h14V5H5v14ZM5 5v14V5Z"/>
+                                        </x-svg>
+                                    </x-button>
+                                </x-table.head-col>
                                 {{-- Table Head Columns Ends Here --}}
                             </x-table.head>
                             {{-- Table Body --}}
                             <tbody>
-                                <template x-for="(field, index) in proofOfPayments[0]" :key="index">
+                                <template x-for="(row, index) in rows" :key="index">
                                     <tr class="bg-white  hover:bg-bland-100">
                                         {{-- Insert Table Body Columns Here --}}
                                         <x-table.body-col>
-                                            <x-input x-model="field.itemFrom"  id="itemFrom" class="mt-1 w-full" type="text" name="itemFrom[]" readonly autofocus />
+                                            <x-input x-model="row.itemFrom"  id="itemFrom" class="mt-1 w-full" type="number" min="1" name="itemFrom[]"  required autofocus />
                                         </x-table.body-col>
                                         <x-table.body-col>
-                                            <x-input x-model="field.itemTo" id="itemTo" class="mt-1 w-full" type="text" name="itemTo[]" readonly autofocus />
+                                            <x-input x-model="row.itemTo"  id="itemTo" class="mt-1 w-full" type="number" min="1" name="itemTo[]"  required autofocus />
                                         </x-table.body-col>
                                         <x-table.body-col>
-                                            <x-input x-model="field.image" id="image" class="mt-1 w-full" type="file" name="image[]" readonly autofocus />
+                                                <input x-model="row.image" class="form-control
+                                                block
+                                                w-full
+                                                px-3
+                                                py-1.5
+                                                text-base
+                                                font-normal
+                                                text-gray-700
+                                                bg-white bg-clip-padding
+                                                border border-solid border-gray-300
+                                                rounded
+                                                transition
+                                                ease-in-out
+                                                m-0
+                                                focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" id="image" name="image[]">
                                         </x-table.body-col>
                                         <x-table.body-col class="text-center px-1">
-                                            <x-button bg="bg-semantic-danger" hover="hover:bg-rose-600" @click="removeProofOfPayment(index)">
+                                            <x-button bg="bg-semantic-danger" hover="hover:bg-rose-600" @click="removeRow(index)">
                                                 {{ __('Remove') }}
                                             </x-button>
                                         </x-table.body-col>
@@ -212,41 +232,9 @@
                                     </tr>
                                 </template>
                             </tbody>
-                            <tfoot class="border-t border-bland-200">
-                                <tr>
-                                    {{-- Insert Table Footer Columns Here --}}
-                                    <x-table.footer-col>
-                                        <x-input x-model="newProofOfPayments[0].itemFrom" class="mt-1 w-full" type="text" autofocus />
-                                    </x-table.footer-col>
-                                    <x-table.footer-col>
-                                        <x-input x-model="newProofOfPayments[0].itemTo" class="mt-1 w-full" type="text" autofocus />
-                                    </x-table.footer-col>
-                                    <x-table.footer-col>
-                                        <input  x-model="newProofOfPayments[0].image" class="form-control
-                                        w-full
-                                        px-3
-                                        py-1.5
-                                        text-sm
-                                        font-normal
-                                        text-gray-700
-                                        bg-white bg-clip-padding
-                                        border border-solid border-gray-300
-                                        rounded
-                                        transition
-                                        ease-in-out
-                                        m-0
-                                        focus:text-gray-700 focus:bg-white focus:border-primary-blue focus:outline-none" type="file" id="image">  
-                                    </x-table.footer-col>
-                                    <x-table.footer-col class="text-center">
-                                        <x-button @click="addProofOfPayment">
-                                            {{ __('Add Row') }}
-                                        </x-button>
-                                    </x-table.footer-col>
-                                    {{-- Table Footer Columns Ends Here --}}
-                                </tr>
-                            </tfoot>
+
                         </x-table.main>
-                        <span x-show="error" class="flex text-sm text-semantic-danger font-light">*<p x-text="msg"></p></span>
+                        
                     </div>
 
 

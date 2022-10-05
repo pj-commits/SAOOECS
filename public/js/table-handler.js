@@ -919,69 +919,16 @@ function liquidation_items_handler() {
 //Handles liquidation_item table(add, remove, and retrieve data from local storage).
 function proof_of_payments() {
     return {
-        proofOfPayments: [
-            JSON.parse(localStorage.getItem('lf_proof_of_payments')),
-        ],
-
-        newProofOfPayments: [
-            {
+       rows: [],
+       addNewRow(){
+            this.rows.push({
                 itemFrom: '',
                 itemTo: '',
                 image: '',
-            }
-          ],
-
-        error: false,
-        msg: '',
-
-        /* 
-            Accepts array of input and store it to newLiquidations[] in the meantime.
-            Validate data from newLiquidations[]. If empty or invalid, then return error message.
-            If success transfer data from newLiquidations[] to liquidations[].
-            Then push updated data of liquidations[] to local storage.
-        */
-        addProofOfPayment() {
-            let verify = true;
-
-            console.log(this.newProofOfPayments[0].image)
-            //Validate inputs
-            if(this.newProofOfPayments[0].itemFrom.length < 1){
-                verify = false;
-                this.error = true;
-                this.msg = "Item From is empty or invalid!";
-            }
-            if(this.newProofOfPayments[0].itemTo.length < 1){
-                verify = false;
-                this.error = true;
-                this.msg = "Item To is empty or invalid!";
-            }
-
-            console.log(this.newProofOfPayments[0].image.files[0].name)
-
-            if(verify === true){
-                this.proofOfPayments[0].push({
-                    itemFrom: this.newProofOfPayments[0].itemFrom,
-                    itemTo: this.newProofOfPayments[0].itemTo,
-                    image: this.newProofOfPayments[0].image,
-        
-
-                });
-                localStorage.setItem('lf_proof_of_payments', JSON.stringify(this.proofOfPayments[0]))
-                this.newProofOfPayments = [
-                    {
-                        itemFrom: '',
-                        itemTo: '',
-                        image: '',
-                    }
-                ]
-                this.error = false;
-            }
-        },
-
-        //remove deleted data in liquidations[] then update local storage and item number 
-        removeProofOfPayment(index) {
-            this.proofOfPayments[0].splice(index, 1); 
-            localStorage.setItem('lf_proof_of_payments', JSON.stringify(this.proofOfPayments[0]))
-        },
+        })
+       },
+       removeRow(index){
+        this.rows.splice(index, 1);
+       },
     }
 }

@@ -164,7 +164,7 @@
                                     {{-- Insert Table Footer Columns Here --}}
                                     <x-table.footer-col>
                                         <x-select x-model="newCoorganizers[0].coorganization" class="mt-1 w-full"  class="mt-1" id="act_location" name="act_location" aria-label="Default select example">
-                                            <option value="Internal">Internal</option>
+                                            <option value="Internal" selected>Internal</option>
                                             <option value="External">External</option>
                                         </x-select>
                                     </x-table.footer-col>

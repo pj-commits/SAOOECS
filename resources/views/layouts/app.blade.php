@@ -64,7 +64,7 @@
 
         --}}
         <div id="loader" class="hidden">
-            <div class="flex flex-col space-y-6 items-center justify-center z-20 fixed top-0 left-0 w-screen h-screen bg-slate-300 bg-opacity-60">
+            <div class="flex flex-col space-y-6 items-center justify-center z-50 fixed top-0 left-0 w-screen h-screen bg-slate-300 bg-opacity-60">
                 <img src="{{ asset('assets/svg/screen-loader-animation/ball-triangle.svg') }}" alt="">
                 <p class="text-sm text-gray-500">Loading...</p>
             </div> 

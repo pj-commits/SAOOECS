@@ -79,4 +79,6 @@ Route::post('/test', function(Request $request){
     dd($request);
 })->name('test');
 
-
+Route::get('/test-details', function(){
+    return view('_approvers.view-details.liquidation');
+});
