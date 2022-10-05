@@ -9,6 +9,12 @@ class Staff extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'department_id',
+        'position'
+    ];
+
     public function facultyUser()
     {
         return $this->belongsTo(User::class);

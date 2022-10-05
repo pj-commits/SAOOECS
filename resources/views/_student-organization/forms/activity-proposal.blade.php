@@ -95,11 +95,11 @@
 
                             <x-select class="mt-1" id="act_classification" name="act_classification" aria-label="Default select example" @change="storeInput($el)">
                                 <option value='' disabled selected>--select option--</option>
-                                <option value="t1">Workshop/Seminar/Training/Symposium/Forum/Team Building</option>
+                                <option value="t1">CSR/Community Service</option>
                                 <option value="t2">Games/Competition</option>
-                                <option value="t3">Social Event/Party/Celebration</option>
-                                <option value="t4">CSR/Community Service</option>
-                                <option value="t5">Marketing</option>
+                                <option value="t3">Marketing</option>
+                                <option value="t4">Social Event/Party/Celebration</option>
+                                <option value="t5">Workshop/Seminar/Training/Symposium/Forum/Team Building</option>
                             </x-select>
                         </div>
 
@@ -164,7 +164,12 @@
                                     {{-- Insert Table Footer Columns Here --}}
                                     <x-table.footer-col>
                                         <x-select x-model="newCoorganizers[0].coorganization" class="mt-1 w-full"  class="mt-1" id="act_location" name="act_location" aria-label="Default select example">
+<<<<<<< HEAD
                                             <option value="Internal" selected>Internal</option>
+=======
+                                            <option selected disabled value="">--select option--</option>
+                                            <option value="Internal">Internal</option>
+>>>>>>> f2c7e45c194b5631b1de26caeb5c611706e976eb
                                             <option value="External">External</option>
                                         </x-select>
                                     </x-table.footer-col>
