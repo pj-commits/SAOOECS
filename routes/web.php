@@ -4,6 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AssignRoleController;
 use App\Http\Controllers\RecordsController;
+use App\Mail\apfSubmittedEmail;
+use App\Mail\rfSubmittedEmail;
+use App\Mail\nrSubmittedEmail;
+use App\Mail\lfSubmittedEmail;
+use App\Mail\OrgMemAddEmail;
 use Illuminate\Http\Request;
 
 /*
@@ -80,3 +85,26 @@ Route::post('/test', function(Request $request){
 })->name('test');
 
 
+
+//Email
+
+//Submitted Forms
+Route::get('/apf', function (){
+    return new apfSubmittedEmail();
+});
+
+Route::get('/rf', function (){
+    return new rfSubmittedEmail();
+});
+
+Route::get('/nr', function (){
+    return new nrSubmittedEmail();
+});
+
+Route::get('/lf', function (){
+    return new lfSubmittedEmail();
+});
+
+Route::get('/org', function (){
+    return new OrgMemAddEmail();
+});

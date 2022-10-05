@@ -7,24 +7,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class InviteMail extends Mailable
+class nrSubmittedEmail extends Mailable
 {
     use Queueable, SerializesModels;
-
-    public $currOrgName;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($currOrgName) 
+    public function __construct()
     {
-        // $this->position = $position;
-        // $this->role = $role;
-        $this->currOrgName = $currOrgName;
-
-
+        //
     }
 
     /**
@@ -34,7 +28,7 @@ class InviteMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('email.invite')
-                    ->subject('SAO Invitation');
+        return $this->markdown('email.nrSubmittedNotif')
+                    ->subject('Narrative Report Submitted');
     }
 }

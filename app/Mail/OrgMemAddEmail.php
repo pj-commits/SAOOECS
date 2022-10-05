@@ -7,24 +7,22 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class InviteMail extends Mailable
+class OrgMemAddEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $currOrgName;
+    // public $emailData;
+    // public $orgName;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($currOrgName) 
+    public function __construct() //$emailData, $orgName
     {
-        // $this->position = $position;
-        // $this->role = $role;
-        $this->currOrgName = $currOrgName;
-
-
+        // $this -> emailData= $emailData;
+        // $this -> orgName= $orgName;
     }
 
     /**
@@ -34,7 +32,7 @@ class InviteMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('email.invite')
-                    ->subject('SAO Invitation');
+        return $this->markdown('email.OrgMemAddNotif')
+                    ->subject('Added in the Student Organization');
     }
 }
