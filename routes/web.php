@@ -83,7 +83,6 @@ Route::get('submitted-forms', function (){
 
 
 
-
 Route::get('forms/narrative-report', function (){
     return view('_student-organization.forms.narrative')
         ->with("message", "Hello NR!");

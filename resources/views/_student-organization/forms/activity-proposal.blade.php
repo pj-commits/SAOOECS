@@ -95,11 +95,11 @@
 
                             <x-select class="mt-1" id="act_classification" name="act_classification" aria-label="Default select example" @change="storeInput($el)">
                                 <option value='' disabled selected>--select option--</option>
-                                <option value="t1">Workshop/Seminar/Training/Symposium/Forum/Team Building</option>
+                                <option value="t1">CSR/Community Service</option>
                                 <option value="t2">Games/Competition</option>
-                                <option value="t3">Social Event/Party/Celebration</option>
-                                <option value="t4">CSR/Community Service</option>
-                                <option value="t5">Marketing</option>
+                                <option value="t3">Marketing</option>
+                                <option value="t4">Social Event/Party/Celebration</option>
+                                <option value="t5">Workshop/Seminar/Training/Symposium/Forum/Team Building</option>
                             </x-select>
                         </div>
 

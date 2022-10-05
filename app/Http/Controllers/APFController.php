@@ -14,10 +14,14 @@ class APFController extends Controller
     }
 
     // save form
-    public function store(Request $request)
+    public function store(APFRequest $request)
     {
-        dd($request);
         
+        Form::create($request->validated());
+        
+        // dd($request);
+        return redirect()->route('forms.apf.index');
+
     }
 
     /**
