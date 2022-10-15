@@ -17,21 +17,21 @@ class StaffSeeder extends Seeder
     {
         $staffs = [
             [
-                'user_id' => 2,
+                'user_id' => 1,
                 'department_id' => 1,
-                'position'=>'Sao'
+                'position'=>'Sao Head'
                 
             ], 
             [
-                'user_id' =>3,
+                'user_id' =>2,
                 'department_id' => 2,
-                'position'=> 'Finance'
+                'position'=> 'Finance Head'
                 
             ], 
             [
-                'user_id' => 4,
+                'user_id' => 3,
                 'department_id' => 3,
-                'position'=> 'Academic Services'
+                'position'=> 'Academic Services Head'
                 
             ], 
         ];

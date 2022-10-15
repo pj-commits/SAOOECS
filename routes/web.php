@@ -7,11 +7,13 @@ use App\Http\Controllers\APFController;
 use App\Http\Controllers\RecordsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AssignRoleController;
+use App\Http\Controllers\OrganizationController;
 use App\Mail\apfSubmittedEmail;
 use App\Mail\rfSubmittedEmail;
 use App\Mail\nrSubmittedEmail;
 use App\Mail\lfSubmittedEmail;
 use App\Mail\OrgMemAddEmail;
+use App\Models\Organization;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,6 +69,13 @@ Route::group(['middleware'=>['auth', 'role:moderator|editor']], function(){
 
 });
 
+//Test Organization
+Route::get('organization', [OrganizationController::class, 'index'])->name('organization.index');
+Route::get('organization/{id}/{invite}', [OrganizationController::class, 'show'])->name('organization.show');
+Route::post('organization/{id}/addMember', [OrganizationController::class, 'store'])->name('organization.store');
+Route::get('organization/{id}/{edit}/{member}', [OrganizationController::class, 'edit'])->name('organization.edit');
+Route::put('organization/{id}/{member}/editMember', [OrganizationController::class, 'update'])->name('organization.update');
+
 
 
 
@@ -102,6 +111,9 @@ Route::get('/test-details', function(){
     return view('_approvers.view-details.liquidation');
 });
 
+Route::get('/test-edit', function(){
+    return view('_student-organization.edit-forms.activity-proposal');
+});
 
 //Email
 

@@ -18,29 +18,41 @@ class OrganizationUserSeeder extends Seeder
     {
         $orgusers = [
             [
+                'user_id' => 5,
+                'organization_id' => 1,
+                'position'=>'President',
+                'role' => 'Moderator',
+            ],
+            [
+                'user_id' => 4,
+                'organization_id' => 1,
+                'position'=>'Adviser',
+                'role' => 'Editor',
+            ],  
+            [
                 'user_id' => 6,
                 'organization_id' => 1,
-                'position'=>'President'
-                
+                'position'=>'Secretary',
+                'role' => 'Editor',
             ], 
             [
                 'user_id' => 7,
                 'organization_id' => 1,
-                'position'=>'Secretary'
-                
+                'position'=>'Member',
+                'role' => 'Viewer',
             ], 
             [
-                'user_id' => 8,
-                'organization_id' => 1,
-                'position'=>'Member'
-                
+                'user_id' => 7,
+                'organization_id' => 2,
+                'position'=>'President',
+                'role' => 'Moderator',
             ], 
-            // [
-            //     'user_id' => 12,
-            //     'organization_id' => 2,
-            //     'position'=>'President'
-                
-            // ], 
+            [
+                'user_id' => 1,
+                'organization_id' => 2,
+                'position'=>'Adviser',
+                'role' => 'Moderator',
+            ], 
         ];
 
         DB::table('organization_user')->insert($orgusers);

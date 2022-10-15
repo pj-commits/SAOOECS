@@ -11,10 +11,42 @@ class DashboardController extends Controller
         //show pages for differnet users
         if(Auth::user()->hasRole('root')){
             return view('dashboard.root');
-        }elseif(Auth::user()->hasRole('moderator|editor|viewer')){
+        }elseif(Auth::user()->checkUserType('Student')){
             return view('_student-organization.dashboard');
-        }elseif(Auth::user()->hasRole('sao|acadserv|finance|adviser')){
-            return view('_approvers.dashboard');
+        }elseif(Auth::user()->checkUserType('Professor|Staff')){
+            $pendingForms = [
+                [
+                    'id' => '1',
+                    'eventTitle' => 'HigmigKantuhan',
+                    'eventDate' => '10/11/22',
+                    'formType' => 'APF'
+                ],
+                [
+                    'id' => '3',
+                    'eventTitle' => 'HigmigKantuhan',
+                    'eventDate' => '10/11/22',
+                    'formType' => 'BRF'
+                ],
+                [
+                    'id' => '4',
+                    'eventTitle' => 'HigmigKantuhan',
+                    'eventDate' => '10/11/22',
+                    'formType' => 'NR'
+                ],
+                [
+                    'id' => '5',
+                    'eventTitle' => 'HigmigKantuhan',
+                    'eventDate' => '10/11/22',
+                    'formType' => 'LF'
+                ],
+                [
+                    'id' => '2',
+                    'eventTitle' => 'Isawa mo at isasayaw ko',
+                    'eventDate' => '10/12/2022',
+                    'formType' => 'APF'
+                ],
+            ];
+            return view('_approvers.dashboard')->with('pendingForms', $pendingForms);
         }
         return view('_users.dashboard');
     } 

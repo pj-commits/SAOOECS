@@ -19,13 +19,7 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'firstName',
-        'middleName',
-        'lastName',
-        'phoneNumber',
-        'email',
-        'password',
+    protected $guarded = [
     ];
 
     /**
@@ -51,6 +45,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsToMany(Organization::class, 'organization_user','user_id','organization_id')
             ->withPivot(['position'])
+            ->withPivot(['role'])
             ->withTimestamps();
         // , 'organization_user','user_id','organization_id'
     }
@@ -68,5 +63,35 @@ class User extends Authenticatable implements MustVerifyEmail
     public function userStaff()
     {
         return $this->hasOne(Staff::class);
+    }
+
+    public function checkUserType($authUserType){
+
+        $UserTypeArr = explode("|", $authUserType);
+
+        foreach($UserTypeArr as $authUserType){
+            if($this->userType === $authUserType){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function checkOrgRole($role, $orgId){
+        $authOrgRole = $this->belongsToMany(Organization::class, 'organization_user','user_id','organization_id')->where('organization_id', '=', $orgId)
+        ->pluck('role');
+
+        if($authOrgRole->count() > 0){
+
+            $roleArr = explode('|', $role);
+
+            foreach($roleArr as $role){
+                if($authOrgRole[0] === $role){
+                    return true;
+                }
+            }
+            return false;
+        }
+        return false;
     }
 }
