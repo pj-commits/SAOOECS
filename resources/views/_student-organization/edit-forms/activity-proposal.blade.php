@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="pt-24" x-data="set_local_storage_data('apf')"> {{-- apf = Activity Proposal Form --}}
-        <div class="max-w-screen mx-auto px-4 lg:px-8" x-data="get_local_storage_data('apf')">
+    <div class="pt-24"> 
+        <div class="max-w-screen mx-auto px-4 lg:px-8">
             <div class="flex justify-between flex-wrap">
                 <h1 class="flex items-center text-xl">
                     <span>
@@ -10,14 +10,13 @@
                     </span> 
                     Activity Proposal Form
                 </h1>
-                <x-button @click="clear_form_local_storage('apf', true), loading(true)">
-                    <x-svg>
-                        <path d="M11 20.95q-3.025-.375-5.012-2.638Q4 16.05 4 13q0-1.65.65-3.163Q5.3 8.325 6.5 7.2l1.425 1.425q-.95.85-1.437 1.975Q6 11.725 6 13q0 2.2 1.4 3.887 1.4 1.688 3.6 2.063Zm2 0v-2q2.175-.4 3.587-2.075Q18 15.2 18 13q0-2.5-1.75-4.25T12 7h-.075l1.1 1.1-1.4 1.4-3.5-3.5 3.5-3.5 1.4 1.4-1.1 1.1H12q3.35 0 5.675 2.325Q20 9.65 20 13q0 3.025-1.987 5.288Q16.025 20.55 13 20.95Z"/>
-                    </x-svg>
-                    {{ __('Reset') }}
-                </x-button>
             </div>
+
             <hr class="mt-3">
+            
+            <!-- Form Deinied - Message -->
+            <x-edit-form-message message="Activity Proposal Form"/>
+
             <div class="bg-white mt-4 h-auto w-full rounded-sm shadow-sm px-6 py-4">
                 <form action="{{ route('test') }}" method="POST">
                     @csrf
@@ -28,7 +27,7 @@
                         <div>
                             <x-label for="target_date" :value="__('Target Date of Event')" />
 
-                            <x-input id="target_date" class="mt-1 w-full" type="date" name="target_date" required autofocus @change="storeInput($el)" />
+                            <x-input id="target_date" class="mt-1 w-full" type="date" name="target_date" required autofocus />
                         </div>
 
                         
@@ -38,10 +37,10 @@
                             
                             <div class="flex space-x-4">
                                 {{-- Number of Days --}}
-                                <x-input id="duration_val" class="mt-1 w-full" type="number" min="1" name="duration_val" required autofocus @keyup="storeInput($el)" />
+                                <x-input id="duration_val" class="mt-1 w-full" type="number" min="1" name="duration_val" required autofocus />
 
                                 {{-- Duration unit --}}
-                                <x-select class="mt-1" id="duration_unit" name="duration_unit" aria-label="Default select example" @change="storeInput($el)">
+                                <x-select class="mt-1" id="duration_unit" name="duration_unit" aria-label="Default select example">
                                     <option value="day(s)" selected >Day(s)</option>
                                     <option value="weeks(s)">Weeks(s)</option>
                                     <option value="motnhs(s)">Month(s)</option>
@@ -54,7 +53,7 @@
                         <div>
                             <x-label for="venue" :value="__('Venue')" />
                             
-                            <x-input id="venue" class="mt-1 w-full" type="text" name="venue" required autofocus @keyup="storeInput($el)"/>
+                            <x-input id="venue" class="mt-1 w-full" type="text" name="venue" required autofocus/>
                         </div>
 
                     </div>
@@ -67,7 +66,7 @@
                         <div>
                             <x-label for="event_title" :value="__('Event Title')" />
 
-                            <x-input id="event_title" class="mt-1 w-full" type="text" name="event_title" required autofocus @keyup="storeInput($el)" />
+                            <x-input id="event_title" class="mt-1 w-full" type="text" name="event_title" required autofocus />
                         </div>
 
                         {{-- Name of organization --}}
@@ -81,7 +80,7 @@
                         <div>
                             <x-label for="organizer_name" :value="__('Name of Organizer')" />
                             
-                            <x-input id="organizer_name" class="mt-1 w-full" type="text" name="organizer_name" required autofocus @keyup="storeInput($el)"/>
+                            <x-input id="organizer_name" class="mt-1 w-full" type="text" name="organizer_name" required autofocus/>
                         </div>
 
                     </div>
@@ -93,7 +92,7 @@
                         <div>
                             <x-label for="act_classification" :value="__('Activity Classification')" />
 
-                            <x-select class="mt-1" id="act_classification" name="act_classification" aria-label="Default select example" @change="storeInput($el)">
+                            <x-select class="mt-1" id="act_classification" name="act_classification" aria-label="Default select example">
                                 <option value='' disabled selected>--select option--</option>
                                 <option value="t1">CSR/Community Service</option>
                                 <option value="t2">Games/Competition</option>
@@ -107,7 +106,7 @@
                         <div>
                             <x-label for="act_location" :value="__('Activity Location')" />
 
-                            <x-select class="mt-1" id="act_location" name="act_location" aria-label="Default select example" @change="storeInput($el)">
+                            <x-select class="mt-1" id="act_location" name="act_location" aria-label="Default select example">
                                 <option value='' disabled selected>--select option--</option>
                                 <option value="In-Campus">In-Campus</option>
                                 <option value="Off-Campus">Off-Campus</option>
@@ -257,7 +256,7 @@
                     <div class="mt-2">
                         <x-label for="description" :value="__('Description')" />
 
-                        <x-text-area id="description" name="description" @keyup="storeInput($el)"></x-text-area>
+                        <x-text-area id="description" name="description"></x-text-area>
                         
                     </div>
 
@@ -265,7 +264,7 @@
                     <div class="mt-2">
                         <x-label for="rationale" :value="__('Rationale')" />
 
-                        <x-text-area id="rationale" name="rationale" @keyup="storeInput($el)"></x-text-area>
+                        <x-text-area id="rationale" name="rationale"></x-text-area>
                         
                     </div>
 
@@ -273,7 +272,7 @@
                     <div class="mt-2">
                         <x-label for="outcome" :value="__('Outcome')" />
 
-                        <x-text-area id="outcome" name="outcome"  @keyup="storeInput($el)"></x-text-area>
+                        <x-text-area id="outcome" name="outcome" ></x-text-area>
                         <span class="text-xs text-bland-400 font-light italic">*If it is classified as a Workshop/Training/Seminar/Symposium/Forum/Team Building, Learning outcomes or objective should be written here</span>
                     
 
@@ -284,7 +283,7 @@
                         <div>
                             <x-label for="primary_target_audience" :value="__('Primary Target Audience/Beneficiary')" />
 
-                            <x-input id="primary_target_audience" class="mt-1 w-full" type="text" name="primary_target_audience" required autofocus @keyup="storeInput($el)"/>
+                            <x-input id="primary_target_audience" class="mt-1 w-full" type="text" name="primary_target_audience" required autofocus/>
                         </div>
 
 
@@ -292,7 +291,7 @@
                         <div >
                             <x-label for="num_primary_audience" :value="__('Number of Participants/Audience')" />
                             
-                            <x-input id="num_primary_audience" class="mt-1 w-full" type="number" min="0" name="num_primary_audience" required autofocus @keyup="storeInput($el)"/>
+                            <x-input id="num_primary_audience" class="mt-1 w-full" type="number" min="0" name="num_primary_audience" required autofocus/>
                         </div>
 
                     </div>
@@ -304,7 +303,7 @@
                         <div>
                             <x-label for="secondary_target_audience" :value="__('Secondary Target Audience/Beneficiary')" />
 
-                            <x-input id="secondary_target_audience" class="mt-1 w-full" type="text" name="secondary_target_audience" required autofocus @keyup="storeInput($el)"/>
+                            <x-input id="secondary_target_audience" class="mt-1 w-full" type="text" name="secondary_target_audience" required autofocus/>
                         </div>
 
 
@@ -312,7 +311,7 @@
                         <div>
                             <x-label for="num_secondary_audience" :value="__('Number of Participants/Audience')" />
                             
-                            <x-input id="num_secondary_audience" class="mt-1 w-full" type="number" min="0" name="num_secondary_audience" required autofocus @keyup="storeInput($el)"/>
+                            <x-input id="num_secondary_audience" class="mt-1 w-full" type="number" min="0" name="num_secondary_audience" required autofocus/>
                         </div>
 
                     </div>

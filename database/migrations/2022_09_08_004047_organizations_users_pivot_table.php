@@ -18,6 +18,7 @@ class OrganizationsUsersPivotTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('organization_id')->constrained()->onDelete('cascade');
             $table->string('position')->default('Pending');
+            $table->string('role')->default('Pending');
             $table->timestamps();
         });
     }

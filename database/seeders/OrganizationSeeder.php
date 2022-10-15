@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Organization;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -25,11 +26,20 @@ class OrganizationSeeder extends Seeder
         
         // }
 
-        DB::table('organizations')->insert(
+        $organizations = [
             [
                 'orgName' => 'Brewing Minds',
-            ]
-        );
+                'adviser' => 'Sample Adviser'
+            ],
+            [
+                'orgName' => 'Tricky Tech',
+                'adviser' => 'Sample Sao'
+            ],
+        ];
+
+        foreach($organizations as $i){
+            Organization::create($i);
+        }
     }
    
     

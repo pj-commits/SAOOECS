@@ -1,7 +1,10 @@
+@php
+    $isModerator = Auth::user()->checkOrgRole('Moderator', $currOrg->id)
+@endphp
 <x-app-layout>
     <div x-data="{ modal: false }">
         <!--Roles -->
-        @if($invite === true)
+        @if($invite === 'true')
         <div x-data="{ addMember : true }">
         @else
         <div x-data="{ addMember : false }">
@@ -35,10 +38,10 @@
                         <div class="max-w-screen mx-auto px-4 lg:px-8">
                             <div class="flex justify-between">
                                 <h1 class="text-lg">Members ({{$orgMembers->count()}})</h1>
-                                @if(Auth::user()->hasRole('moderator'))
+                                @if($isModerator)
                                 <div>
                                     {{-- Add Member Modal Button --}}
-                                    <x-button onclick="window.location='{{ route('roles.invite') }}'">
+                                    <x-button onclick="window.location='{{ route('organization.show', ['id' => $currOrg->id, 'invite' => 'true']) }}'">
                                         {{ __('Add Member') }}
                                     </x-button>
                                 </div>
@@ -52,7 +55,7 @@
                                     <x-table.head-col class="pl-6 font-bold">Name</x-table.head-col>
                                     <x-table.head-col class="pl-6 font-bold">Position</x-table.head-col>
                                     <x-table.head-col class="pl-6 font-bold">Role</x-table.head-col>
-                                    @if(Auth::user()->hasRole('moderator'))
+                                    @if($isModerator)
                                     <x-table.head-col class="text-center font-bold">Action</x-table.head-col>
                                     @endif
                                     {{-- Table Head Columns Ends Here --}}
@@ -61,17 +64,12 @@
                                 @foreach ($orgMembers as $member)
                                 <x-table.body>
                                     {{-- Insert Table Body Columns Here --}}
-                                    <x-table.body-col class="pl-6">{{$member->firstName}} {{$member->lastName}}</x-table.body-col>
-                                    @foreach ($member->studentOrg as $pos)
-                                    <x-table.body-col class="pl-6">{{$pos->pivot->position}} </x-table.body-col>
-                                    @endforeach
-
-                                    @foreach($member->role as $pos)
-                                    <x-table.body-col class="pl-6">{{$pos->display_name}}</x-table.body-col>
-                                    @endforeach
-                                    @if(Auth::user()->hasRole('moderator'))
+                                    <x-table.body-col class="pl-6">{{ $member->firstName }} {{ $member->lastName }}</x-table.body-col>
+                                    <x-table.body-col class="pl-6">{{ $member->pivot->position }} </x-table.body-col>
+                                    <x-table.body-col class="pl-6">{{ $member->pivot->role }}</x-table.body-col>
+                                    @if($isModerator)
                                     <x-table.body-col class="flex justify-center space-x-5">
-                                        <x-button bg="bg-semantic-info" hover="hover:bg-blue-400" onclick="window.location='{{ route('roles.edit', $member) }}'" >
+                                        <x-button bg="bg-semantic-info" hover="hover:bg-blue-400" onclick="window.location='{{ route('organization.edit', ['id' => $currOrg->id, 'edit' => 'true', 'member' => $member]) }}'" >
                                             {{ __('Edit') }}
                                         </x-button>
                                         <x-button bg="bg-semantic-danger" hover="hover:bg-rose-600"  onclick="window.location='{{ route('roles.del', $member) }}'">
@@ -89,7 +87,7 @@
 
                     {{-- Modal for add member --}}
                     <x-modal name="addMember">
-                        <form action="{{ route('roles.store') }}" method="POST">
+                        <form action="{{ route('organization.store', ['id' => $currOrg->id]) }}" method="POST">
                             @csrf
                             <!-- Email Address -->
                             <div>
@@ -113,15 +111,15 @@
         
                             <!-- Roles -->
                             <div class="mt-3">
-                                <x-label for="role_id" :value="__('Role')" />
+                                <x-label for="role" :value="__('Role')" />
         
-                                <x-select name="role_id" aria-label="Default select example">
+                                <x-select name="role" aria-label="Default select example">
                                     <option value="" selected disabled>--choose role--</option>
-                                    <option value="6">Moderator</option>
-                                    <option value="7">Editor</option>
-                                    <option value="8">Viewer</option>
+                                    <option value="Moderator">Moderator</option>
+                                    <option value="Editor">Editor</option>
+                                    <option value="Viewer">Viewer</option>
                                 </x-select>
-                                @error('role_id')
+                                @error('role')
                                     <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                                 @enderror
                             </div>
@@ -139,8 +137,7 @@
                     @if(!empty($selected))
                     {{-- Modal for edit member --}}
                     <x-modal name="editMember">
-                        
-                        <form action="{{route('roles.update', ['member' => $selected->id ]) }}" method="POST">
+                        <form action="{{route('organization.update', ['id' => $currOrg ,'member' => $selected->id ]) }}" method="POST">
                             @csrf
                             @method('PUT') 
 
@@ -164,16 +161,16 @@
 
                                 <!-- Roles -->
                                 <div class="mt-3">
-                                    <x-label for="role_id" :value="__('Role')"/>
+                                    <x-label for="role" :value="__('Role')"/>
                                     {{-- @dd($selected->role->first()->id) --}}
 
-                                    <x-select name="role_id" aria-label="Default select example">
+                                    <x-select name="role" aria-label="Default select example">
                                         <option selected disabled>--choose role--</option>
-                                        <option {{$selected->role->first()->id == "6" ? 'selected':''}}  value="6">Moderator</option>
-                                        <option {{$selected->role->first()->id == "7" ? 'selected':''}}  value="7">Editor</option>
-                                        <option {{$selected->role->first()->id == "8" ? 'selected':''}}  value="8">Viewer</option>
+                                        <option {{$selected->studentOrg->first()->pivot->role == "Moderator" ? 'selected':''}}  value="Moderator">Moderator</option>
+                                        <option {{$selected->studentOrg->first()->pivot->role == "Editor" ? 'selected':''}}  value="Editor">Editor</option>
+                                        <option {{$selected->studentOrg->first()->pivot->role == "Viewer" ? 'selected':''}}  value="Viewer">Viewer</option>
                                     </x-select>
-                                    @error('role_id')
+                                    @error('role')
                                         <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                                     @enderror
                                 </div>
@@ -189,7 +186,7 @@
                         </form>
                     </x-modal> 
                     @endif
-                    
+                   
                     @if(isset($del))
                     {{-- Remove member modal --}}
                     <x-modal name="removeMember">

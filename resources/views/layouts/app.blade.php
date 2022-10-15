@@ -23,8 +23,8 @@
         {{-- Session Storage Handler--}}
         <script src="{{ asset('js/session-storage-handler.js') }}" defer></script>
 
-        {{-- Image Upload Handler--}}
-        {{-- <script src="{{ asset('js/upload-image.js') }}" defer></script> --}}
+        {{-- Calendar Handler--}}
+        <script src="{{ asset('js/calendar.js') }}" defer></script>
 
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -35,7 +35,7 @@
         [x-cloak] { display: none !important; }
     </style>
 
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased scroll-y-hidden ">
         <div class="relative min-h-screen bg-gray-100 lg:pl-64">
             
             <!-- Page Heading -->
