@@ -115,7 +115,7 @@ class AssignRoleController extends Controller
         
         $selected = User::findorfail($member);
     
-        return view('_student-organization.roles', compact('currOrg', 'orgMembers', 'invite', 'selected'));
+        return view('_student-organization.roles', compact('currOrg', 'orgMembers', 'invite', 'selected', 'del'));
     }
 
     public function update(Request $request, $member)

@@ -71,7 +71,6 @@ class OrganizationController extends Controller
         //capitalized first letter of position
         $position = ucfirst($request->position);
 
-
         //attach role, org, position to fetched
         // $user->attachRole($request->role_id);
         $user->studentOrg()->attach($orgId, ['position' => $position, 'role' => $request->role]);
@@ -90,13 +89,13 @@ class OrganizationController extends Controller
         $currOrg = Organization::with('studentOrg')->where('id', '=', $orgId)->first();
         $orgMembers = $currOrg->studentOrg;
         $invite = $isInvite;
+        $modal = 0;
         
-        return view('_student-organization.roles', compact('currOrg', 'orgMembers', 'invite'));
+        return view('_student-organization.roles', compact('currOrg', 'orgMembers', 'invite', 'modal'));
     }
 
-    public function edit($orgId, $isEdit, $memberId)
+    public function select($orgId, $modal, $memberId)
     {
-
         $currOrg = Organization::with('studentOrg')->where('id', '=', $orgId)->first();
         $orgMembers = $currOrg->studentOrg;
         $invite = false;
@@ -104,7 +103,7 @@ class OrganizationController extends Controller
         
         $selected = User::findorfail($memberId);
         
-        return view('_student-organization.roles', compact('currOrg', 'orgMembers', 'invite', 'selected'));
+        return view('_student-organization.roles', compact('currOrg', 'orgMembers', 'invite', 'selected', 'modal'));
     }
 
     public function update(Request $request, $orgId, $memberId)
@@ -136,8 +135,16 @@ class OrganizationController extends Controller
         return Redirect::route('organization.show', ['id'=>$currOrg->id, 'invite' => 'false'])->with('edit', $message);
     }
 
-    public function destroy($id)
+    public function destroy($orgId, $member)
     {
-        //
+        $currOrg = Organization::with('studentOrg')->where('id', '=', $orgId)->first();
+
+        $invite = false;
+       
+        $selected = User::findorfail($member);
+        $selected->studentOrg()->detach();
+        $message = $selected->firstName.' '.$selected->lastName.' was successfully removed from the organization.';
+        
+        return Redirect::route('organization.show', ['id'=>$currOrg->id, 'invite' => 'false'])->with('remove', $message);
     }
 }

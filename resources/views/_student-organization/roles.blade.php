@@ -4,17 +4,17 @@
 <x-app-layout>
     <div x-data="{ modal: false }">
         <!--Roles -->
-        @if($invite === 'true')
+        @if($invite === 'invite')
         <div x-data="{ addMember : true }">
         @else
         <div x-data="{ addMember : false }">
         @endif
-            @if(!empty($selected) && !isset($del))
+            @if($modal === 'edit')
             <div x-data="{ editMember : true }">
             @else
             <div x-data="{ editMember : false }">
             @endif
-                @if(isset($del))
+                @if($modal === 'del')
                 <div x-data="{ removeMember : true }">
                 @else
                 <div x-data="{ removeMember : false }">
@@ -31,7 +31,7 @@
                     </div>
 
                     <!-- Alert Message For adding, editing, and deleting org member -->
-                    <x-alert-message/>              
+                    <x-alert-message/>   
 
                     <!-- table -->
                     <div class="mt-8">
@@ -41,7 +41,7 @@
                                 @if($isModerator)
                                 <div>
                                     {{-- Add Member Modal Button --}}
-                                    <x-button onclick="window.location='{{ route('organization.show', ['id' => $currOrg->id, 'invite' => 'true']) }}'">
+                                    <x-button onclick="window.location='{{ route('organization.show', ['id' => $currOrg->id, 'invite' => 'invite']) }}'">
                                         {{ __('Add Member') }}
                                     </x-button>
                                 </div>
@@ -69,10 +69,10 @@
                                     <x-table.body-col class="pl-6">{{ $member->pivot->role }}</x-table.body-col>
                                     @if($isModerator)
                                     <x-table.body-col class="flex justify-center space-x-5">
-                                        <x-button bg="bg-semantic-info" hover="hover:bg-blue-400" onclick="window.location='{{ route('organization.edit', ['id' => $currOrg->id, 'edit' => 'true', 'member' => $member]) }}'" >
+                                        <x-button bg="bg-semantic-info" hover="hover:bg-blue-400" onclick="window.location='{{ route('organization.select', ['id' => $currOrg->id, 'modal' => 'edit', 'member' => $member]) }}'" >
                                             {{ __('Edit') }}
                                         </x-button>
-                                        <x-button bg="bg-semantic-danger" hover="hover:bg-rose-600"  onclick="window.location='{{ route('roles.del', $member) }}'">
+                                        <x-button bg="bg-semantic-danger" hover="hover:bg-rose-600"  onclick="window.location='{{ route('organization.select', ['id' => $currOrg->id, 'modal' => 'del' , 'member' => $member]) }}'" >
                                             {{ __('Remove') }}
                                         </x-button>
                                     </x-table.body-col>
@@ -84,6 +84,7 @@
                             </x-table.main>
                         </div>
                     </div>
+            
 
                     {{-- Modal for add member --}}
                     <x-modal name="addMember">
@@ -133,8 +134,9 @@
                         </form>
                         
                     </x-modal>
+                    {{-- @dd($modal) --}}
 
-                    @if(!empty($selected))
+                    @if($modal === 'edit')
                     {{-- Modal for edit member --}}
                     <x-modal name="editMember">
                         <form action="{{route('organization.update', ['id' => $currOrg ,'member' => $selected->id ]) }}" method="POST">
@@ -187,7 +189,7 @@
                     </x-modal> 
                     @endif
                    
-                    @if(isset($del))
+                    @if($modal === 'del')
                     {{-- Remove member modal --}}
                     <x-modal name="removeMember">
                         <div class="py-5 text-center">
@@ -195,7 +197,7 @@
                         </div>
                         
                         <div class="flex justify-center space-x-4 mt-5">
-                            <form action="{{ route('roles.destroy', ['member'=>$selected->id]) }}" method="POST">
+                            <form action="{{ route('organization.destroy', ['id' => $currOrg ,'member' => $selected->id ]) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <x-button bg="bg-semantic-danger" hover="hover:bg-rose-600" type="submit" >
