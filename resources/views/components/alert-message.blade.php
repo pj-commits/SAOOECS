@@ -14,7 +14,7 @@
       $textColor = 'text-blue-700';
       $message = session('edit');
   }elseif(session()->has('remove')){
-      $bg = 'bg-rose-100 border-semantic-danger';
+      $bg = 'bg-rose-100 border-semantic-warning';
       $hasAlert = true;
       $fill = 'fill-rose-700';
       $textColor = 'text-rose-700';

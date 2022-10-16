@@ -52,8 +52,8 @@ function calendar() {
       return today.toDateString() === d.toDateString() ? true : false;
     },
 
-    addEvent(pendingForms) {
-        pendingForms.forEach(form => {
+    addEvent(forms) {
+        forms.forEach(form => {
             this.events.push({
                 id: form.id,
                 event_date: new Date(form.eventDate),

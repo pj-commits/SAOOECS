@@ -2,108 +2,36 @@
   $forms = json_encode($pendingForms);
 @endphp
 <x-app-layout>
-    <div x-data="{ listOfEventsModal: false, modal: true }" class="pt-16"> 
-        <div class="w-auto h-auto m-2 lg:w-3/4">
+  <div class="flex space-x-4 pt-24 px-4 lg:px-8">
+    
+    <!-- Calendar -->
+    <x-dashboard.calendar forms="{{!! $forms !!}}"/>
 
-            <div x-data="calendar()" x-init="[initDate(), getNoOfDays()]" x-cloak>
-              <div class="container mx-auto px-4 lg:px-8" @load.window="addEvent({{ $forms }})">
+    <!-- Cards -->
+    <div class="flex flex-col justify-between  w-1/4">
+      
+        <x-dashboard.card name="APF" number="100">
+          <path d="M6 22q-.825 0-1.412-.587Q4 20.825 4 20V4q0-.825.588-1.413Q5.175 2 6 2h8l6 6v4h-2V9h-5V4H6v16h6v2Zm0-2V4v16Zm12.3-5.475 1.075 1.075-3.875 3.85v1.05h1.05l3.875-3.85 1.05 1.05-4.3 4.3H14v-3.175Zm3.175 3.175L18.3 14.525l1.45-1.45q.275-.275.7-.275.425 0 .7.275l1.775 1.775q.275.275.275.7 0 .425-.275.7Z"/>
+        </x-dashboard.card>
 
-                <div class="bg-white rounded-sm shadow overflow-hidden h-auto">
-          
-                  <div class="flex items-center justify-between py-2 px-6">
-                    <div>
-                      <span x-text="MONTH_NAMES[month]" class="text-lg font-bold text-gray-800"></span>
-                      <span x-text="year" class="ml-1 text-lg text-gray-600 font-normal"></span>
-                    </div>
-                    <div class="border rounded-lg px-1" style="padding-top: 2px;">
-                      <button 
-                        type="button"
-                        class="leading-none rounded-lg transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 p-1 items-center" 
-                        :class="{'cursor-not-allowed opacity-25': month == 0 }"
-                        :disabled="month == 0 ? true : false"
-                        @click="month--; getNoOfDays()">
-                        <svg class="h-6 w-6 text-gray-500 inline-flex leading-none"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                        </svg>  
-                      </button>
-                      <div class="border-r inline-flex h-6"></div>		
-                      <button 
-                        type="button"
-                        class="leading-none rounded-lg transition ease-in-out duration-100 inline-flex items-center cursor-pointer hover:bg-gray-200 p-1" 
-                        :class="{'cursor-not-allowed opacity-25': month == 11 }"
-                        :disabled="month == 11 ? true : false"
-                        @click="month++; getNoOfDays()">
-                        <svg class="h-6 w-6 text-gray-500 inline-flex leading-none"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>									  
-                      </button>
-                    </div>
-                  </div>	
-          
-                  <div class="-mx-1 -mb-1">
-                    <div class="flex flex-wrap" style="margin-bottom: 10px;">
-                      <template x-for="(day, index) in DAYS" :key="index">	
-                        <div style="width: 14.26%" class="px-2 py-2">
-                          <div
-                            x-text="day" 
-                            class="text-gray-600 text-sm uppercase tracking-wide font-bold text-center"></div>
-                        </div>
-                      </template>
-                    </div>
-          
-                    <div class="flex flex-wrap border-t border-l">
-                      <template x-for="blankday in blankdays">
-                        <div 
-                          style="width: 14.28%; height:80px"
-                          class="text-center border-r border-b px-4 pt-2"	
-                        ></div>
-                      </template>	
-                      <template x-for="(date, dateIndex) in no_of_days" :key="dateIndex">	
-                        <div style="width: 14.28%; height: 80px" class="px-4 pt-2 border-r border-b relative">
-                          <div
-                            x-text="date"
-                            class="inline-flex w-6 h-6 items-center justify-center cursor-pointer text-center leading-none rounded-full transition ease-in-out duration-100"
-                            :class="{'bg-blue-500 text-white': isToday(date) == true, 'text-gray-700 hover:bg-blue-200': isToday(date) == false }">
-                          </div>
+        <x-dashboard.card name="BRF" number="200">
+          <path d="M11 18h2v-1h1q.425 0 .713-.288Q15 16.425 15 16v-3q0-.425-.287-.713Q14.425 12 14 12h-3v-1h4V9h-2V8h-2v1h-1q-.425 0-.712.287Q9 9.575 9 10v3q0 .425.288.712Q9.575 14 10 14h3v1H9v2h2Zm-5 4q-.825 0-1.412-.587Q4 20.825 4 20V4q0-.825.588-1.413Q5.175 2 6 2h8l6 6v12q0 .825-.587 1.413Q18.825 22 18 22Zm0-2h12V8.85L13.15 4H6v16Zm0 0V4v16Z"/>
+        </x-dashboard.card>
 
+        <x-dashboard.card name="NR" number="300">
+          <path d="M8 20q-.825 0-1.412-.587Q6 18.825 6 18v-3h3v-2.25q-.875-.05-1.662-.388-.788-.337-1.438-1.012v-1.1H4.75L1.5 7q.9-1.15 2.225-1.625Q5.05 4.9 6.4 4.9q.675 0 1.313.1.637.1 1.287.375V4h12v13q0 1.25-.875 2.125T18 20Zm3-5h6v2q0 .425.288.712.287.288.712.288t.712-.288Q19 17.425 19 17V6h-8v.6l6 6V14h-1.4l-2.85-2.85-.2.2q-.35.35-.738.625-.387.275-.812.425ZM5.6 8.25h2.3v2.15q.3.2.625.275.325.075.675.075.575 0 1.038-.175.462-.175.912-.625l.2-.2-1.4-1.4q-.725-.725-1.625-1.088Q7.425 6.9 6.4 6.9q-.5 0-.95.075-.45.075-.9.225ZM8 18h7.15q-.075-.225-.112-.475Q15 17.275 15 17H8Zm0 0v-1 1Z"/>
+        </x-dashboard.card>
 
-                          <div style="height: 40px;" class="overflow-y-auto mt-1">
+        <x-dashboard.card name="LF" number="400">
+          <path d="M6 22q-.825 0-1.412-.587Q4 20.825 4 20V4q0-.825.588-1.413Q5.175 2 6 2h9l5 5v13q0 .825-.587 1.413Q18.825 22 18 22Zm0-2h12V8h-4V4H6v16Zm6-1q1.675 0 2.838-1.175Q16 16.65 16 15v-4h-2v4q0 .825-.575 1.413Q12.85 17 12 17q-.825 0-1.412-.587Q10 15.825 10 15V9.5q0-.225.15-.363Q10.3 9 10.5 9q.225 0 .363.137.137.138.137.363V15h2V9.5q0-1.05-.725-1.775Q11.55 7 10.5 7q-1.05 0-1.775.725Q8 8.45 8 9.5V15q0 1.65 1.175 2.825Q10.35 19 12 19ZM6 4v4-4 16V4Z"/>
+        </x-dashboard.card>
 
-                            <template x-if="getEvents(date, 'getLength') > 0">
-                              <div class="px-2 py-1 rounded-lg mt-1 overflow-hidden border cursor-pointer border-blue-200 text-blue-800 bg-blue-100 hover:absolute hover:z-30" @click="listOfEventsModal = true, modal = true, getEvents(date, 'modalEvents')">
-                                <p class="text-sm truncate leading-tight hover:text-clip"><span x-text="getEvents(date, 'getLength')"></span><span> Pending Form</span></p>
-                              </div>
-                            </template>
-                          </div>
-
-                        </div>
-                      </template>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Modal List of Pending Forms -->
-              <x-modal name="listOfEventsModal">
-                <template x-for="event in listOfEvents">	
-                  <div
-                    @click="console.log(event.id)"
-                    class="px-2 py-1 rounded-lg mt-1 overflow-hidden border cursor-pointer"
-                    :class="{
-                      'border-blue-200 text-blue-800 bg-blue-100': event.form_type === 'APF',
-                      'border-red-200 text-red-800 bg-red-100': event.form_type === 'BRF',
-                      'border-yellow-200 text-yellow-800 bg-yellow-100': event.form_type === 'NR',
-                      'border-green-200 text-green-800 bg-green-100': event.form_type === 'LF',
-                    }"
-                  >
-                    <p class="text-sm truncate leading-tight"><span x-text="event.form_description"></span> - <span x-text="event.event_title"></span></p>
-                  </div>
-                </template>
-              </x-modal>
-
-            </div>
-        </div>
     </div>
+    
+
+
+  </div>
+    
 </x-app-layout>
 
 
