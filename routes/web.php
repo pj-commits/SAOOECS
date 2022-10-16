@@ -73,10 +73,13 @@ Route::group(['middleware'=>['auth', 'role:moderator|editor']], function(){
 Route::get('organization', [OrganizationController::class, 'index'])->name('organization.index');
 Route::get('organization/{id}/{invite}', [OrganizationController::class, 'show'])->name('organization.show');
 Route::post('organization/{id}/addMember', [OrganizationController::class, 'store'])->name('organization.store');
-Route::get('organization/{id}/{edit}/{member}', [OrganizationController::class, 'edit'])->name('organization.edit');
+
+Route::get('organization/{id}/{modal}/{member}', [OrganizationController::class, 'select'])->name('organization.select');
+
+
 Route::put('organization/{id}/{member}/editMember', [OrganizationController::class, 'update'])->name('organization.update');
 
-
+Route::delete('organization/{id}/{member}/del', [OrganizationController::class, 'destroy'])->name('organization.destroy');
 
 
 
