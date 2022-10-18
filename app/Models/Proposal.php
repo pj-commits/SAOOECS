@@ -9,42 +9,24 @@ class Proposal extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'organizer',
-        'targetDate',
-        'durationVal',
-        'durationUnit',
-        'venue',
-        'actClassificationA',
-        'actClassificationB',
-        'description',
-        'outcome',
-        'rationale',
-        'primaryAudience',
-        'numPrimaryAudience',
-        'secondaryAudience',
-        'numSecondaryAudience',
-    ];
-
-    protected $dates = [
-        'targetDate'
-    ];
+    protected $guarded = [];
 
     public function form()
     {
-        return $this->belongsTo(Form::class);
-    }
-    public function activity()
-    {
-        return $this->hasMany(Activity::class);
+        return $this->morphOne(Form::class, 'formable');
     }
 
+    // PROPOSAL CHILD FORMS
+    public function preprograms()
+    {
+        return $this->hasMany(PrePrograms::class);
+    }
     public function logisticalNeed()
     {
-        return $this->hasMany(logisticalNeed::class);
+        return $this->hasMany(LogisticalNeed::class);
     }
     public function externalCoorganizer()
     {
-        return $this->belongsToMany(ExternalCoorganizer::class);
+        return $this->hasMany(ExternalCoorganizer::class);
     }
 }

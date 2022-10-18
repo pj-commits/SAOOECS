@@ -19,7 +19,7 @@
             </div>
             <hr class="mt-3">
             <div class="bg-white mt-4 h-auto w-full rounded-sm shadow-sm px-6 py-4">
-                <form action="{{ route('test') }}" method="POST">
+                <form action="{{ route('forms.apf.store') }}" method="POST">
                     @csrf
                     {{-- Row #1 --}}
                     <div class="grid grid-flow-row auto-rows-max gap-6 md:grid-cols-3">
@@ -72,9 +72,13 @@
 
                         {{-- Name of organization --}}
                         <div>
-                            <x-label for="org_name" :value="__('Organization Name')" />
-
-                            <x-input id="org_name" class="mt-1 w-full" type="text" name="org_name" value="Brewing Minds" readonly autofocus />
+                            <x-label for="org_id" :value="__('Organization Name')" />
+                            <x-select class="mt-1" id="org_id" name="org_id" aria-label="Default select example" required @change="storeInput($el)">
+                                <option value='' disabled selected>--select option--</option>
+                                @foreach($authOrgList as $org)
+                                <option value="{{$org->id}}">{{$org->org_name}}</option>
+                                @endforeach
+                            </x-select>
                         </div>
 
                         {{-- Name of organizer --}}
@@ -282,9 +286,9 @@
 
                         {{-- Primary Target Audience/Beneficiary --}}
                         <div>
-                            <x-label for="primary_target_audience" :value="__('Primary Target Audience/Beneficiary')" />
+                            <x-label for="primary_audience" :value="__('Primary Target Audience/Beneficiary')" />
 
-                            <x-input id="primary_target_audience" class="mt-1 w-full" type="text" name="primary_target_audience" required autofocus @keyup="storeInput($el)"/>
+                            <x-input id="primary_audience" class="mt-1 w-full" type="text" name="primary_audience" required autofocus @keyup="storeInput($el)"/>
                         </div>
 
 
@@ -302,9 +306,9 @@
 
                         {{-- Sesecondary Target Audience/Beneficiary --}}
                         <div>
-                            <x-label for="secondary_target_audience" :value="__('Secondary Target Audience/Beneficiary')" />
+                            <x-label for="secondary_audience" :value="__('Secondary Target Audience/Beneficiary')" />
 
-                            <x-input id="secondary_target_audience" class="mt-1 w-full" type="text" name="secondary_target_audience" required autofocus @keyup="storeInput($el)"/>
+                            <x-input id="secondary_audience" class="mt-1 w-full" type="text" name="secondary_audience" required autofocus @keyup="storeInput($el)"/>
                         </div>
 
 

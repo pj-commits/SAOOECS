@@ -53,6 +53,12 @@ class OrganizationUserSeeder extends Seeder
                 'position'=>'Adviser',
                 'role' => 'Moderator',
             ], 
+            [
+                'user_id' => 5,
+                'organization_id' => 2,
+                'position'=>'Adviser',
+                'role' => 'Moderator',
+            ], 
         ];
 
         DB::table('organization_user')->insert($orgusers);

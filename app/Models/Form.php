@@ -30,4 +30,14 @@ class Form extends Model
         return $this->hasOne(Requisition::class);
     }
 
+    public function byOrg(){
+        return $this->belongsTo(OrganizationUser::class, 'organization_user_id');
+    }
+
+    // Form Polymorphism lol
+    public function formable(){
+        return $this->morphTo();
+
+    }
+
 }

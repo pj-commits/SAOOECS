@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('proposal_id');
             $table->string('service');
+            $table->string('venue');
             $table->date('date_needed');
             $table->timestamps();
         });

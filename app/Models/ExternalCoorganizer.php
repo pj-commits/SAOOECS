@@ -9,15 +9,10 @@ class ExternalCoorganizer extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'coorganization',
-        'coorganizer',
-        'email',
-        'phoneNumber'
-    ];
-
+    protected $guarded = [];
+    
     public function proposal()
     {
-        return $this->belongsToMany(Proposal::class);
+        return $this->belongsTo(Proposal::class);
     }
 }

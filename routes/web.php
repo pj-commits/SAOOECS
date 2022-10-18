@@ -73,13 +73,20 @@ Route::group(['middleware'=>['auth', 'role:moderator|editor']], function(){
 Route::get('organization', [OrganizationController::class, 'index'])->name('organization.index');
 Route::get('organization/{id}/{invite}', [OrganizationController::class, 'show'])->name('organization.show');
 Route::post('organization/{id}/addMember', [OrganizationController::class, 'store'])->name('organization.store');
-
 Route::get('organization/{id}/{modal}/{member}', [OrganizationController::class, 'select'])->name('organization.select');
-
-
 Route::put('organization/{id}/{member}/editMember', [OrganizationController::class, 'update'])->name('organization.update');
-
 Route::delete('organization/{id}/{member}/del', [OrganizationController::class, 'destroy'])->name('organization.destroy');
+
+// FORMS: APF
+Route::get('forms/activity-proposal-form', [APFController::class, 'index'])->name('forms.apf.index');
+Route::post('forms/activity-proposal-form/create', [APFController::class, 'store'])->name('forms.apf.store');
+// Route::get('forms/activity-proposal-form/try', [APFController::class, 'show'])->name('forms.apf.show');
+
+// RF
+Route::get('forms/budget-requisition-form', [RFController::class, 'index'])->name('forms.rf.index');
+Route::post('forms/budget-requisition-form/', [RFController::class, 'store'])->name('forms.rf.store');
+
+
 
 
 

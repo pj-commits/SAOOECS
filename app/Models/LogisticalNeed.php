@@ -9,15 +9,7 @@ class LogisticalNeed extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-            'service',
-            'dateNeeded',
-            'venue',
-    ];
-
-    protected $dates = [
-        'dateNeeded',
-    ];
+    protected $guarded = [];
 
     public function proposal()
     {
