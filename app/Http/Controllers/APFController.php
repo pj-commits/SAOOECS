@@ -33,20 +33,20 @@ class APFController extends Controller
         $proposal = $request->safe()->except(['coorganization', 'coorganizer_name', 'coorganizer_phone', 'coorganizer_email', 'service', 'logistics_date_needed','logistics_venue', 'activity', 'start_date', 'end_date' ]);
         $proposal = Proposal::create($proposal);
 
-        // Event create: This will connect the form to one event
-        $event = Event::create([
-                'event_title' => $proposal->event_title,
-                'organization_id' => $proposal->org_id,
-        ]);
+        $event =+ 1;
+
         // Form create
         $form = $proposal->form()->create([
-            'prep_by' => auth()->id(),
+            'event_title' => $proposal->event_title,
+            'organization_id' => $proposal->org_id,
+            'organization_user_id' => auth()->id(),
             'control_number'=> $this->generateUniqueCode(),
             'adviser_staff_id' => 5,
             'sao_staff_id' => 2,
             'acadserv_staff_id' => 4,
             'finance_staff_id' => 3,
-            'event_id' => $event->id,
+            'event_id' => $event
+  
         ]);
 
         // Logistics create
@@ -110,4 +110,5 @@ class APFController extends Controller
   
         return $control_number;
     }
+
 }

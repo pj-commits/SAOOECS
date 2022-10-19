@@ -41,7 +41,7 @@
                                 <div class="py-4 space-y-2">
                                     <div class="grid grid-cols-2">
                                         <p>Date Submitted: {{$form->created_at}}</p>
-                                        <p>Submitted By: {{$form->prep_by}}</p>
+                                        <p>Submitted By: {{$form->events}}</p>
                                     </div>
                                     <div class="grid grid-cols-2">
                                         <p>Form Type: {{$form->formable_type}}</p>

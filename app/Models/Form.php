@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use \Znck\Eloquent\Traits\BelongsToThrough;
 
 class Form extends Model
 {
@@ -27,15 +28,12 @@ class Form extends Model
         return $this->hasOne(Requisition::class);
     }
 
-    public function byOrgUser(){
-        return $this->belongsTo(OrganizationUser::class, 'prep_by');
-    }
-
     // Form Polymorphism lol
     public function formable(){
         return $this->morphTo();
     }
 
+    // Events Relations
     public function events(){
         return $this->belongsTo(Event::class);
     }

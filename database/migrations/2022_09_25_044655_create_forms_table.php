@@ -21,10 +21,11 @@ return new class extends Migration
         });
         Schema::create('forms', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('prep_by')->constrained('users');
+            $table->unsignedInteger('event_id');
 
             $table->string('formable_type');
             $table->unsignedInteger('formable_id');
+            $table->string('event_title');
 
             $table->foreignId('event_id')->constrained('events');
             $table->string('control_number');
