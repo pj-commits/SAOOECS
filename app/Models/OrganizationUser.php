@@ -10,8 +10,8 @@ class OrganizationUser extends Pivot
     protected $table = 'organization_user';
     protected $guarded = [];
 
-    public function orgForm(){
-        return $this->hasMany(Form::class, 'organization_user_id');
+    public function prepBy(){
+        return $this->hasMany(Form::class, 'prep_by');
     }
     
 

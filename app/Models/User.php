@@ -94,4 +94,20 @@ class User extends Authenticatable implements MustVerifyEmail
         }
         return false;
     }
+
+    public function prepBy(){
+        return $this->hasManyThrough(
+            Form::class,
+            OrganizationUser::class,
+            'user_id',
+            'prep_by',
+            'id'
+        );
+        
+    }
+
+
+
+
+
 }

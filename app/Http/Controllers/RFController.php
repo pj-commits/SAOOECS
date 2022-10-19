@@ -13,6 +13,9 @@ class RFController extends Controller
      */
     public function index()
     {
+        // Fetch event that exists in current org
+        // $eventList = Event::where('')->event;
+
         return view('_student-organization.forms.budget-requisition')
         ->with("message", "Hello RF!");
     }

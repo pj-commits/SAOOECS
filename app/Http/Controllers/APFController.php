@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Form;
 use App\Models\User;
+use App\Models\Event;
 use App\Models\Proposal;
 use App\Models\PrePrograms;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Models\LogisticalNeed;
 use App\Models\OrganizationUser;
@@ -26,92 +28,86 @@ class APFController extends Controller
 
     // save form
     public function store(APFRequest $request)
-    {   
-     
-        //Validate Request // Divide
+    {    
+        //Proposal 
         $proposal = $request->safe()->except(['coorganization', 'coorganizer_name', 'coorganizer_phone', 'coorganizer_email', 'service', 'logistics_date_needed','logistics_venue', 'activity', 'start_date', 'end_date' ]);
-        $coorg = collect($request->safe()->only('coorganization', 'coorganizer_name', 'coorganizer_phone', 'coorganizer_email'));
-        $logistics = $request->safe()->only('service', 'logistics_date_needed', 'logistics_venue');
-        $activity = collect($request->safe()->only('activity', 'start_date', 'end_date'));
-
         $proposal = Proposal::create($proposal);
 
-        //Control Number
-        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $pin = mt_rand(10000, 99999)
-            . mt_rand(10000, 99999)
-            . $characters[rand(0, strlen($characters) - 1)]
-            . $characters[rand(0, strlen($characters) - 1)]
-            . $characters[rand(0, strlen($characters) - 1)]
-            . $characters[rand(0, strlen($characters) - 1)]
-            . $characters[rand(0, strlen($characters) - 1)];
-        $controlNumber = str_shuffle($pin);
-        
+        // Event create: This will connect the form to one event
+        $event = Event::create([
+                'event_title' => $proposal->event_title,
+                'organization_id' => $proposal->org_id,
+        ]);
+        // Form create
         $form = $proposal->form()->create([
             'prep_by' => auth()->id(),
-            'adviser_faculty_id' => 5,
+            'control_number'=> $this->generateUniqueCode(),
+            'adviser_staff_id' => 5,
             'sao_staff_id' => 2,
-            'acad_serv_id' => 4,
+            'acadserv_staff_id' => 4,
             'finance_staff_id' => 3,
-            'form_type' => 'APF',
-            'org_id' => $proposal->org_id,
-            'control_number' => $controlNumber,
-            'event_title' => $proposal->event_title,
+            'event_id' => $event->id,
         ]);
 
-
-        dd($coorg);
-        
-
-        dd($logistics);
-    
-        for($i = 0; $i < 3; $i++){
-            foreach($logistics as $l => $i){
-                dd($l, $i, $logistics);
-            }
+        // Logistics create
+        for($i = 0; $i < count($request->service); $i++){
+            $proposal->logisticalNeed()->create([
+                    'service' => $request->service[$i],
+                    'date_needed' => $request->logistics_date_needed[$i],
+                    'venue' => $request->logistics_venue[$i],
+                ]);
         }
-    
-        dd('uwu');
-        
-        ExternalCoorganizer::create($coorg);
-        PrePrograms::create($activity);
-        
-        // dd($request);
-        return redirect()->route('forms.apf.index');
 
+         // External Coorg create
+         for($i = 0; $i < count($request->coorganization); $i++){
+            $proposal->externalCoorganizer()->create([
+                    'coorganization' => $request->coorganization[$i],
+                    'coorganizer' => $request->coorganizer_name[$i],
+                    'email' => $request->coorganizer_phone[$i],
+                    'phone_number' => $request->coorganizer_email[$i],
+                ]);
+        }
+
+        // Pre-programs create
+        for($i = 0; $i < count($request->activity); $i++){
+            $proposal->preprograms()->create([
+                    'activity' => $request->activity[$i],
+                    'start_date_time' => $request->start_date[$i],
+                    'end_date_time' => $request->end_date[$i],
+                ]);
+        }
+
+        // dd($proposal, $event, $form);
+    
+    
+        return redirect('/')->with('add', 'APF created successfully!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // show form to edit
     public function show($id)
     {
     
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // update form
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // delete form
     public function destroy($id)
     {
         //
+    }
+
+    // Control Number
+    public function generateUniqueCode()
+    {
+        do {
+            $control_number = random_int(100000, 999999);
+        } while (Form::where("control_number", "=", $control_number)->first());
+  
+        return $control_number;
     }
 }

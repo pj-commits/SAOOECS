@@ -2,17 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Form;
+use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function index(){
+
+        //Fetch form with event id na org id == myorglist
+        $authOrgList = Auth::user()->studentOrg->pluck('id')->toArray();
+        // $myForms = Form::whereHas('events', function($q){
+        //     $q->whereIn('org_id', $authOrgList);
+        // })->get();
+        // $myForms = Form::has('events')->get();
+        $myForms = Form::all();
+        // dd($myForms);
+
         //show pages for differnet users
         if(Auth::user()->hasRole('root')){
             return view('dashboard.root');
         }elseif(Auth::user()->checkUserType('Student')){
-            return view('_student-organization.dashboard');
+            return view('_student-organization.dashboard', compact('myForms'));
         }elseif(Auth::user()->checkUserType('Professor|Staff')){
             $pendingForms = [
                 [

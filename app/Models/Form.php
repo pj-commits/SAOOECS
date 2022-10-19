@@ -9,10 +9,7 @@ class Form extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'org_name',
-        'event_title',
-    ];
+    protected $guarded = [];
 
     public function proposal()
     {
@@ -30,14 +27,19 @@ class Form extends Model
         return $this->hasOne(Requisition::class);
     }
 
-    public function byOrg(){
-        return $this->belongsTo(OrganizationUser::class, 'organization_user_id');
+    public function byOrgUser(){
+        return $this->belongsTo(OrganizationUser::class, 'prep_by');
     }
 
     // Form Polymorphism lol
     public function formable(){
         return $this->morphTo();
-
     }
+
+    public function events(){
+        return $this->belongsTo(Event::class);
+    }
+
+    
 
 }

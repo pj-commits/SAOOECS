@@ -13,21 +13,27 @@ return new class extends Migration
      */
     public function up()
     {
+        Schema::create('events', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('organization_id')->constrained('organizations');
+            $table->string('event_title');
+            $table->timestamps();
+        });
         Schema::create('forms', function (Blueprint $table) {
             $table->id();
-            // $table->integer('prep_by')->default(auth()->id());
-            
-            $table->string('formable_type');
-            $table->integer('formable_id');
+            $table->foreignId('prep_by')->constrained('users');
 
-            $table->integer('org_id')->default(0);
-            $table->string('control_number')->default(0);
-            $table->string('event_title');
+            $table->string('formable_type');
+            $table->unsignedInteger('formable_id');
+
+            $table->foreignId('event_id')->constrained('events');
+            $table->string('control_number');
+
             $table->string('curr_approver')->default('Adviser');
             $table->string('status')->default('Pending');
 
             //Adviser
-            $table->foreignId('adviser_faculty_id')->nullable();
+            $table->foreignId('adviser_staff_id')->nullable();
             $table->boolean('adviser_is_approve')->default(0);
             $table->dateTime('adviser_date_approved')->nullable();
             //SAO
@@ -35,9 +41,9 @@ return new class extends Migration
             $table->boolean('sao_is_approve')->default(0);
             $table->dateTime('sao_date_approved')->nullable();
             //Academic Services
-            $table->foreignId('acad_serv_faculty_id')->nullable();
-            $table->boolean('acad_serv_is_approve')->default(0);
-            $table->dateTime('acad_serv_date_approved')->nullable();
+            $table->foreignId('acadserv_staff_id')->nullable();
+            $table->boolean('acadserv_is_approve')->default(0);
+            $table->dateTime('acadserv_date_approved')->nullable();
             //Finance
             $table->foreignId('finance_staff_id')->nullable();
             $table->boolean('finance_is_approve')->default(0);
@@ -54,6 +60,7 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('events');
         Schema::dropIfExists('forms');
     }
 };

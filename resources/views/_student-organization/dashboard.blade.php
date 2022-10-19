@@ -16,6 +16,7 @@
             </div> --}}
 
             {{-- If there's pending form --}} 
+            <x-alert-message/>  
             <div class="max-w-screen mx-auto px-4 lg:px-8">
                 <div class="bg-white mt-4 h-auto w-full rounded-sm shadow-sm px-6 py-4">
 
@@ -23,13 +24,14 @@
                     <hr>
 
                     <!-- Accordion -->
+                    @foreach($myForms as $form)
                     <div class="">
                         <div x-data="{ open: false}">
                             <div class="h-auto grid grid-flow-row auto-rows-max mt-4 border-2 border-bland-100 rounded-t-md px-8 py-4 shadow-md cursor-pointer
                             lg:grid-cols-3" @click="open = !open">
-                                <p class="">Even Title: {HimigKantahan}</p>
-                                <p class="">Current Approver: {Academic Services Head}</p>
-                                <p class="lg:text-end">Status: {Pending}</p>
+                                <p class="">Even Title: {{$form->event_title}}</p>
+                                <p class="">Current Approver: {{$form->curr_approver}}</p>
+                                <p class="lg:text-end">Status: {{$form->status}}</p>
                             </div>
                             <!-- Accordion Body -->
                             <div x-cloak x-transition 
@@ -38,12 +40,12 @@
                                 <!-- Accordion Body Top -->
                                 <div class="py-4 space-y-2">
                                     <div class="grid grid-cols-2">
-                                        <p>Date Submitted:</p>
-                                        <p>Submitted By:</p>
+                                        <p>Date Submitted: {{$form->created_at}}</p>
+                                        <p>Submitted By: {{$form->prep_by}}</p>
                                     </div>
                                     <div class="grid grid-cols-2">
-                                        <p>Form Type:</p>
-                                        <p>Control Number:</p>
+                                        <p>Form Type: {{$form->formable_type}}</p>
+                                        <p>Control Number: {{$form->control_number}} </p>
                                     </div>
                                 </div>
 
@@ -51,10 +53,10 @@
                                 <!-- Accordion Body Bottom -->
                                 <!-- Tracker -->
                                 <x-tracker orientation="vertical">
-                                   <x-tracker-item orientation="vertical" approver="Adviser" dateApproved="September 22, 2022"/>
-                                   <x-tracker-item orientation="vertical" approver="SAO Head"/>
-                                   <x-tracker-item orientation="vertical" approver="Academic Services Head"/>
-                                   <x-tracker-item orientation="vertical" approver="Finance Head"/> 
+                                   <x-tracker-item orientation="vertical" approver="Adviser" dateApproved="{{$form->adviser_date_approved}}"/>
+                                   <x-tracker-item orientation="vertical" approver="SAO Head" dateApproved="{{$form->sao_date_approved}}"/>
+                                   <x-tracker-item orientation="vertical" approver="Academic Services Head" dateApproved="{{$form->acadserv_date_approved}}"/>
+                                   <x-tracker-item orientation="vertical" approver="Finance Head" dateApproved="{{$form->finance_date_approved}}"/> 
                                 </x-tracker>
 
                                 <!-- cancelForm Button && Push Notes -->
@@ -68,6 +70,7 @@
                             </div>
                         </div>
                     </div>
+                    @endforeach
 
                 </div>
             </div>
