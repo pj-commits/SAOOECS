@@ -28,6 +28,10 @@ class Form extends Model
         return $this->hasOne(Requisition::class);
     }
 
+    public function fromOrgUser(){
+        return $this->belongsTo(OrganizationUser::class, 'prep_by');
+    }
+
     // Form Polymorphism lol
     public function formable(){
         return $this->morphTo();

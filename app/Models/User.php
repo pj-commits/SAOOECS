@@ -95,6 +95,13 @@ class User extends Authenticatable implements MustVerifyEmail
         return false;
     }
 
+    public function toOrgUser()
+    {
+        return $this->belongsToMany(OrganizationUser::class, 'user_id');
+    }
+
+
+
 
 
 

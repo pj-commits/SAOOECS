@@ -10,7 +10,11 @@ class OrganizationUser extends Pivot
     protected $table = 'organization_user';
     protected $guarded = [];
 
-    public function prepBy(){
+    public function fromUser(){
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function toForm(){
         return $this->hasMany(Form::class, 'prep_by');
     }
     

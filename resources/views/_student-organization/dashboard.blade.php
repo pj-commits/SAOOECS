@@ -41,19 +41,20 @@
                                 <div class="py-4 space-y-2">
                                     <div class="grid grid-cols-2">
                                         <p>Date Submitted: {{$form->created_at}}</p>
-                                        <p>Submitted By: {{$form->events}}</p>
+                                        <p>Submitted By: {{$form->fromOrgUser->fromUser->firstName}} {{$form->fromOrgUser->fromUser->lastName}}</p>
                                     </div>
                                     <div class="grid grid-cols-2">
                                         <p>Form Type: {{$form->formable_type}}</p>
                                         <p>Control Number: {{$form->control_number}} </p>
                                     </div>
                                 </div>
+                                
 
                                 <hr>
                                 <!-- Accordion Body Bottom -->
                                 <!-- Tracker -->
                                 <x-tracker orientation="vertical">
-                                   <x-tracker-item orientation="vertical" approver="Adviser" dateApproved="{{$form->adviser_date_approved}}"/>
+                                   <x-tracker-item orientation="vertical" approver="Adviser" dateApproved="{{date('M d, Y g:i a', strtotime($form->adviser_date_approved))}}"/>
                                    <x-tracker-item orientation="vertical" approver="SAO Head" dateApproved="{{$form->sao_date_approved}}"/>
                                    <x-tracker-item orientation="vertical" approver="Academic Services Head" dateApproved="{{$form->acadserv_date_approved}}"/>
                                    <x-tracker-item orientation="vertical" approver="Finance Head" dateApproved="{{$form->finance_date_approved}}"/> 

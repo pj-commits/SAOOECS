@@ -38,7 +38,7 @@ class APFController extends Controller
         // Form create
         $form = $proposal->form()->create([
             'event_title' => $proposal->event_title,
-            'org_id' => $proposal->org_id,
+            'organization_id' => $proposal->org_id,
             'prep_by' => auth()->id(),
             'control_number'=> $this->generateUniqueCode(),
             'adviser_staff_id' => 5,
@@ -46,7 +46,6 @@ class APFController extends Controller
             'acadserv_staff_id' => 4,
             'finance_staff_id' => 3,
             'event_id' => $event
-  
         ]);
 
         // Logistics create
@@ -76,10 +75,6 @@ class APFController extends Controller
                     'end_date_time' => $request->end_date[$i],
                 ]);
         }
-
-        // dd($proposal, $event, $form);
-    
-    
         return redirect('/')->with('add', 'APF created successfully!');
     }
 

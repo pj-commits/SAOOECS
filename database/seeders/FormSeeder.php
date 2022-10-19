@@ -40,8 +40,8 @@ class FormSeeder extends Seeder
 
         $form = [
             [
-                "prep_by" => 1,
-                "org_id" => 1,
+                "prep_by" => 5,
+                "organization_id" => 1,
                 "control_number" => 284108,
                 "adviser_staff_id" => 5,
                 "sao_staff_id" => 2,

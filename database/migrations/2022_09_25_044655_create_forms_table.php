@@ -13,17 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('events', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('organization_id')->constrained('organizations');
-            $table->string('event_title');
-            $table->timestamps();
-        });
         Schema::create('forms', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('event_id');
-            $table->unsignedInteger('prep_by');
-            $table->unsignedInteger('org_id');
+            $table->foreignId('prep_by')->constrained('users');
+            $table->foreignId('organization_id')->constrained('organizations');
             $table->string('event_title');
 
             $table->string('formable_type');
@@ -62,7 +56,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('events');
         Schema::dropIfExists('forms');
     }
 };
