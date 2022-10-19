@@ -22,12 +22,13 @@ return new class extends Migration
         Schema::create('forms', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('event_id');
+            $table->unsignedInteger('prep_by');
+            $table->unsignedInteger('org_id');
+            $table->string('event_title');
 
             $table->string('formable_type');
             $table->unsignedInteger('formable_id');
-            $table->string('event_title');
-
-            $table->foreignId('event_id')->constrained('events');
+            
             $table->string('control_number');
 
             $table->string('curr_approver')->default('Adviser');

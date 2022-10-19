@@ -38,8 +38,8 @@ class APFController extends Controller
         // Form create
         $form = $proposal->form()->create([
             'event_title' => $proposal->event_title,
-            'organization_id' => $proposal->org_id,
-            'organization_user_id' => auth()->id(),
+            'org_id' => $proposal->org_id,
+            'prep_by' => auth()->id(),
             'control_number'=> $this->generateUniqueCode(),
             'adviser_staff_id' => 5,
             'sao_staff_id' => 2,

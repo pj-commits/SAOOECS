@@ -38,24 +38,20 @@ class FormSeeder extends Seeder
             ],
         ];
 
-        $event = [
-            [
-                "event_title" => "Git Fundamentals 2022",
-                "organization_id" => 1
-            ]
-        ];
-
         $form = [
             [
-                "prep_by" => 5,
+                "prep_by" => 1,
+                "org_id" => 1,
                 "control_number" => 284108,
                 "adviser_staff_id" => 5,
                 "sao_staff_id" => 2,
                 "acadserv_staff_id" => 4,
                 "finance_staff_id" => 3,
-                "event_id" => $make->id,
+                "event_id" => 1,
                 "formable_id" => 4,
                 "formable_type" => "APF",
+                "event_title" => "Git Fundamentals 2022",
+                
 
             ]
         ];
@@ -64,10 +60,6 @@ class FormSeeder extends Seeder
 
         foreach($proposal as $i){
             Proposal::create($i);
-        }
-
-        foreach($event as $i){
-             Event::create($i);
         }
 
         foreach($form as $i){
