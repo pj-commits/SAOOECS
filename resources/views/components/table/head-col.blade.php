@@ -1,0 +1,1 @@
+<th scope="col" {{ $attributes->merge(['class' => 'text-sm font-bold px-3 py-4 whitespace-nowrap' ]) }} > {{ $slot }}</th> 
