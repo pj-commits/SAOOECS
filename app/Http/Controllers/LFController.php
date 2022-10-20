@@ -63,8 +63,8 @@ class LFController extends Controller
         for($i = 0; $i < count($request->itemFrom); $i++){
             $imageName = time().'.'.$request->image[$i]->extension();
             $liquidation->liquidationItem()->create([
-                    'itemFrom' => $request->itemFrom[$i],
-                    'itemTo' => $request->itemTo[$i],
+                    'item_from' => $request->itemFrom[$i],
+                    'item_to' => $request->itemTo[$i],
                     'image' => $request->image[$i]->storeAs('receipts',$imageName),
                 ]);
         }

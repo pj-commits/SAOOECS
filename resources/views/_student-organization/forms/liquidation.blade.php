@@ -37,7 +37,7 @@
             @endif
             <hr class="mt-3">
             <div class="bg-white mt-4 h-auto w-full rounded-sm shadow-sm px-6 py-4">
-                <form action="{{ route('forms.lf.store') }}" method="POST"  enctype="multipart/form-data">
+                <form action="{{ route('forms.liquidation.store') }}" method="POST"  enctype="multipart/form-data">
                     @csrf
 
                      {{-- Row #1 --}}                 

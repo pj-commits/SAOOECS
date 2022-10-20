@@ -19,9 +19,9 @@ class RFController extends Controller
                 $query->whereIn('organization_id',$authOrgList);
                 $query->where('status','Pending');
             })->orderBy('event_title')->get(['event_title', 'event_id']);
-        $dept = Department::orderBy('name')->get();
+        $departments = Department::orderBy('name')->get();
 
-        return view('_student-organization.forms.budget-requisition', compact('eventList', 'dept'))
+        return view('_student-organization.forms.budget-requisition', compact('eventList', 'departments'))
         ->with("message", "Hello RF!");
     }
 

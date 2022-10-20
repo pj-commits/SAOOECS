@@ -33,7 +33,7 @@
             </div>
             <hr class="mt-3">
             <div class="bg-white mt-4 h-auto w-full rounded-sm shadow-sm px-6 py-4">
-                <form action="{{ route('forms.apf.store') }}" method="POST">
+                <form action="{{ route('forms.activity-proposal.store') }}" method="POST">
                     @csrf
                     {{-- Row #1 --}}
                     <div class="grid grid-flow-row auto-rows-max gap-6 md:grid-cols-3">

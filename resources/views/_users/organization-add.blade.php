@@ -6,7 +6,7 @@
     <div class="pt-24">
         <div class="px-4 lg:px-8">
             <h1 class="text-xl"><span class="text-primary-blue hover:text-semantic-info"> <a href="{{ route('organization.index') }}"> Organizations </a></span>/ 
-                <span class="text-primary-blue hover:text-semantic-info"> <a href="{{ route('organization.show', ['id' => $currOrg->id]) }}"> {{ $currOrg->orgName }}</a></span> / Add Member</h1>
+                <span class="text-primary-blue hover:text-semantic-info"> <a href="{{ route('organization.show', ['id' => $currOrg->id]) }}"> {{ $currOrg->org_name }}</a></span> / Add Member</h1>
             <div class="flex">
                 <div class="basis-full h-auto bg-white mt-4 rounded-sm shadow-sm p-6 lg:basis-[50%] xl:basis-[40%]">
                     <form action="{{ route('organization.store', ['id' => $currOrg->id]) }}" method="POST">
@@ -18,7 +18,7 @@
         
                                 <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
                                 @error('email')
-                                    <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
         
@@ -28,7 +28,7 @@
         
                                 <x-input id="position" class="block mt-1 w-full" type="text" name="position" :value="old('position')" required autofocus />
                                 @error('position')
-                                    <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
         
@@ -43,7 +43,7 @@
                                     <option value="Viewer">Viewer</option>
                                 </x-select>
                                 @error('role')
-                                    <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
         

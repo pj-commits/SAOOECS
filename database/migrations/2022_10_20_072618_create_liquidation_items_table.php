@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('liquidation_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('liquidation_id')->constrained()->onDelete('cascade');
-            $table->unsignedInteger('itemFrom'); 
-            $table->unsignedInteger('itemTo'); 
+            $table->unsignedInteger('item_from'); 
+            $table->unsignedInteger('item_to'); 
             $table->string('image');
             $table->timestamps();
         });

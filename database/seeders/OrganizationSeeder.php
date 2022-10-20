@@ -32,18 +32,18 @@ class OrganizationSeeder extends Seeder
                 'adviser' => 'Sample Adviser'
             ],
             [
-                'orgName' => 'Gaming Genesis',
+                'org_name' => 'Gaming Genesis',
                 'adviser' => 'Sample Sao'
             ],
             [
-                'orgName' => 'APC Robotics Organization',
+                'org_name' => 'APC Robotics Organization',
                 'adviser' => 'Marc Kenneth Ricahuerta'
             ],
             [
-                'orgName' => 'The Tourism Management Society',
+                'org_name' => 'The Tourism Management Society',
                 'adviser' => 'Paul John Signo'
             ],            [
-                'orgName' => 'Bahay Bombilya',
+                'org_name' => 'Bahay Bombilya',
                 'adviser' => 'Michelle Manadero'
             ],
             

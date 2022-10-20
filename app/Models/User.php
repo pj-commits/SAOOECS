@@ -71,7 +71,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $UserTypeArr = explode("|", $authUserType);
 
         foreach($UserTypeArr as $authUserType){
-            if($this->userType === $authUserType){
+            if($this->user_type === $authUserType){
                 return true;
             }
         }

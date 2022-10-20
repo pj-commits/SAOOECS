@@ -5,7 +5,7 @@
     <!-- Org Name -->
     <div class="pt-24">
         <div class="max-w-screen mx-auto px-4 lg:px-8">
-            <h1 class="text-xl"><span class="text-primary-blue hover:text-semantic-info"> <a href="{{ route('organization.index') }}"> Organizations </a></span>/ {{$currOrg->orgName}}</h1>
+            <h1 class="text-xl"><span class="text-primary-blue hover:text-semantic-info"> <a href="{{ route('organization.index') }}"> Organizations </a></span>/ {{ $currOrg->org_name }}</h1>
             {{-- <div class="bg-white mt-4 h-auto w-full rounded-sm shadow-sm">
                 <h1 class="text-md px-6 py-4">{{$currOrg->orgName}}</h1>
             </div> --}}
@@ -46,7 +46,7 @@
                 @foreach ($orgMembers as $member)
                 <x-table.body>
                     {{-- Insert Table Body Columns Here --}}
-                    <x-table.body-col class="pl-6">{{ $member->firstName }} {{ $member->lastName }}</x-table.body-col>
+                    <x-table.body-col class="pl-6">{{ $member->first_name }} {{ $member->last_name }}</x-table.body-col>
                     <x-table.body-col class="pl-6">{{ $member->pivot->position }} </x-table.body-col>
                     <x-table.body-col class="pl-6">{{ $member->pivot->role }}</x-table.body-col>
                     @if($isModerator)

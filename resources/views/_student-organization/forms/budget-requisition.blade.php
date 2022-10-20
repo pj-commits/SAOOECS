@@ -33,7 +33,7 @@
             </div>
             <hr class="mt-3">
             <div class="bg-white mt-4 h-auto w-full rounded-sm shadow-sm px-6 py-4">
-                <form action="{{ route('forms.rf.store') }}" method="POST">
+                <form action="{{ route('forms.requisition.store') }}" method="POST">
                     @csrf
 
                     {{-- Row #1 --}}                 
@@ -177,8 +177,8 @@
 
                         <x-select class="mt-1" id="department_id" name="department_id" aria-label="Default select example" @change="storeInput($el)">
                             <option value='' selected disabled>--select option--</option>
-                            @foreach($dept as $d)
-                            <option value="{{$d->id}}">{{$d->name}}</option>
+                            @foreach($departments as $department)
+                            <option value="{{ $department->id }}">{{ $department->name }}</option>
                             @endforeach
                         </x-select>
                     </div>

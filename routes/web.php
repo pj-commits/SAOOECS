@@ -5,11 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LFController;
 use App\Http\Controllers\RFController;
 use App\Http\Controllers\APFController;
+use App\Http\Controllers\NRController;
 use App\Http\Controllers\RecordsController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\AssignRoleController;
-use App\Http\Controllers\LFController;
-use App\Http\Controllers\NRController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\SubmittedFormsController;
 use App\Mail\apfSubmittedEmail;
@@ -17,7 +15,6 @@ use App\Mail\rfSubmittedEmail;
 use App\Mail\nrSubmittedEmail;
 use App\Mail\lfSubmittedEmail;
 use App\Mail\OrgMemAddEmail;
-use App\Models\Organization;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,7 +63,6 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('organization', [OrganizationController::class, 'index'])->name('organization.index');
     Route::get('organization/{id}', [OrganizationController::class, 'show'])->name('organization.show');
 });
-        Route::get('forms/liquidation-form', [LFController::class, 'index'])->name('forms.liquidation.index');
 Route::group(['middleware' => ['auth', 'isModerator']], function(){
     Route::get('organization/{id}/add', [OrganizationController::class, 'add'])->name('organization.add');
     Route::post('organization/{id}/add/store', [OrganizationController::class, 'store'])->name('organization.store');
@@ -89,7 +85,7 @@ Route::group(['middleware' => ['auth', 'isModerator']], function(){
 Route::group(['middleware' => ['auth', 'isStudent']], function(){
         // APF
         Route::get('forms/activity-proposal-form', [APFController::class, 'index'])->name('forms.activity-proposal.index');
-        Route::post('forms/activity-proposal-form', [APFController::class, 'store'])->name('forms.activity-proposal.store');
+        Route::post('forms/activity-proposal-form/create', [APFController::class, 'store'])->name('forms.activity-proposal.store');
         // RF
         Route::get('forms/budget-requisition-form', [RFController::class, 'index'])->name('forms.requisition.index');
         Route::post('forms/budget-requisition-form', [RFController::class, 'store'])->name('forms.requisition.store');
@@ -97,19 +93,8 @@ Route::group(['middleware' => ['auth', 'isStudent']], function(){
         Route::get('forms/narrative-report', [NRController::class, 'index'])->name('forms.narrative.index');
         // LF   
         Route::get('forms/liquidation-form', [LFController::class, 'index'])->name('forms.liquidation.index');
+        Route::post('forms/liquidation-form/create', [LFController::class, 'store'])->name('forms.liquidation.store');
 });
-
-
-
-// FORMS: APF
-Route::get('forms/activity-proposal-form', [APFController::class, 'index'])->name('forms.apf.index');
-Route::post('forms/activity-proposal-form/create', [APFController::class, 'store'])->name('forms.apf.store');
-    // LF
-
-
-// FORMS: LF
-Route::get('forms/liquidation-form', [LFController::class, 'index'])->name('forms.lf.index');
-Route::post('forms/liquidation-form/create', [LFController::class, 'store'])->name('forms.lf.store');
 
 
 

@@ -31,10 +31,10 @@ class UserSeeder extends Seeder
         //     for($i = 1; $i < 3; $i++){
         //         DB::table('users')->insert(
         //             [
-        //                 'firstName' => 'Sample',
-        //                 'middleName' => null,
-        //                 'lastName' => ucwords(str_replace('_', ' ', $rolename)).$i,
-        //                 'phoneNumber' => '09123456789',
+        //                 'first_name' => 'Sample',
+        //                 'middle_name' => null,
+        //                 'last_name' => ucwords(str_replace('_', ' ', $rolename)).$i,
+        //                 'phone_number' => '09123456789',
         //                 'email' => $rolename.$i.'@apc.edu.ph',
         //                 'password' => bcrypt('password')
         //             ]
@@ -45,211 +45,211 @@ class UserSeeder extends Seeder
         $users = [
             //1
             [
-                'firstName' => 'Sample',
-                'middleName' => null,
-                'lastName' => 'Sao',
-                'phoneNumber' => '09123456789',
-                'userType' => 'Staff',
+                'first_name' => 'Sample',
+                'middle_name' => null,
+                'last_name' => 'Sao',
+                'phone_number' => '09123456789',
+                'user_type' => 'Staff',
                 'email' => 'sao@apc.edu.ph',
                 'password' => bcrypt('password')
             ],
             //2
             [
-                'firstName' => 'Sample',
-                'middleName' => null,
-                'lastName' => 'Finance',
-                'phoneNumber' => '09123456789',
-                'userType' => 'Staff',
+                'first_name' => 'Sample',
+                'middle_name' => null,
+                'last_name' => 'Finance',
+                'phone_number' => '09123456789',
+                'user_type' => 'Staff',
                 'email' => 'finance@apc.edu.ph',
                 'password' => bcrypt('password')
             ],
             //3
             [
-                'firstName' => 'Sample',
-                'middleName' => null,
-                'lastName' => 'AcadServ',
-                'phoneNumber' => '09123456789',
-                'userType' => 'Staff',
+                'first_name' => 'Sample',
+                'middle_name' => null,
+                'last_name' => 'AcadServ',
+                'phone_number' => '09123456789',
+                'user_type' => 'Staff',
                 'email' => 'acadserv@apc.edu.ph',
                 'password' => bcrypt('password')
             ],
             //4
             [
-                'firstName' => 'Sample',
-                'middleName' => null,
-                'lastName' => 'Adviser',
-                'phoneNumber' => '09123456789',
-                'userType' => 'Professor',
+                'first_name' => 'Sample',
+                'middle_name' => null,
+                'last_name' => 'Adviser',
+                'phone_number' => '09123456789',
+                'user_type' => 'Professor',
                 'email' => 'adviser@apc.edu.ph',
                 'password' => bcrypt('password')
             ],
             //5
             [
-                'firstName' => 'Sample',
-                'middleName' => null,
-                'lastName' => 'President',
-                'phoneNumber' => '09123456789',
-                'userType' => 'Student',
+                'first_name' => 'Sample',
+                'middle_name' => null,
+                'last_name' => 'President',
+                'phone_number' => '09123456789',
+                'user_type' => 'Student',
                 'email' => 'president@student.apc.edu.ph',
                 'password' => bcrypt('password')
             ],
             //6
             [
-                'firstName' => 'Sample',
-                'middleName' => null,
-                'lastName' => 'Vice-President',
-                'phoneNumber' => '09123456789',
-                'userType' => 'Student',
+                'first_name' => 'Sample',
+                'middle_name' => null,
+                'last_name' => 'Vice-President',
+                'phone_number' => '09123456789',
+                'user_type' => 'Student',
                 'email' => 'vice@student.apc.edu.ph',
                 'password' => bcrypt('password')
             ],
             //7
             [
-                'firstName' => 'Morganica',
-                'middleName' => 'Scanlan',
-                'lastName' => 'Bounde',
-                'phoneNumber' => '09123456789',
-                'userType' => 'Student',
+                'first_name' => 'Morganica',
+                'middle_name' => 'Scanlan',
+                'last_name' => 'Bounde',
+                'phone_number' => '09123456789',
+                'user_type' => 'Student',
                 'email' => 'msbounde@student.apc.edu.ph',
                 'password' => bcrypt('password')
             ],
             //8
             [
-                'firstName' => 'Ellswerth',
-                'middleName' => 'Kinkaid',
-                'lastName' => 'Pieche',
-                'phoneNumber' => '09123456789',
-                'userType' => 'Student',
+                'first_name' => 'Ellswerth',
+                'middle_name' => 'Kinkaid',
+                'last_name' => 'Pieche',
+                'phone_number' => '09123456789',
+                'user_type' => 'Student',
                 'email' => 'ekpieche@student.apc.edu.ph',
                 'password' => bcrypt('password')
             ],
             //9
             [
-                'firstName' => 'Janice',
-                'middleName' => 'Stables',
-                'lastName' => 'Baden',
-                'phoneNumber' => '09123456789',
-                'userType' => 'Student',
+                'first_name' => 'Janice',
+                'middle_name' => 'Stables',
+                'last_name' => 'Baden',
+                'phone_number' => '09123456789',
+                'user_type' => 'Student',
                 'email' => 'jsbaden@student.apc.edu.ph',
                 'password' => bcrypt('password')
             ],
             //10
             [
-                'firstName' => 'Mark',
-                'middleName' => 'Ludmann',
-                'lastName' => 'Kittman',
-                'phoneNumber' => '09123456789',
-                'userType' => 'Student',
+                'first_name' => 'Mark',
+                'middle_name' => 'Ludmann',
+                'last_name' => 'Kittman',
+                'phone_number' => '09123456789',
+                'user_type' => 'Student',
                 'email' => 'mlkittman@student.apc.edu.ph',
                 'password' => bcrypt('password')
             ],
             //11
             [
-                'firstName' => 'Cairistiona',
-                'middleName' => 'Kayser',
-                'lastName' => 'Fellgatt',
-                'phoneNumber' => '09123456789',
-                'userType' => 'Student',
+                'first_name' => 'Cairistiona',
+                'middle_name' => 'Kayser',
+                'last_name' => 'Fellgatt',
+                'phone_number' => '09123456789',
+                'user_type' => 'Student',
                 'email' => 'ckfellgatt@student.apc.edu.ph',
                 'password' => bcrypt('password')
             ],
             //12
             [
-                'firstName' => 'Sydney',
-                'middleName' => 'Yegorovnin',
-                'lastName' => 'Vynall',
-                'phoneNumber' => '09123456789',
-                'userType' => 'Student',
+                'first_name' => 'Sydney',
+                'middle_name' => 'Yegorovnin',
+                'last_name' => 'Vynall',
+                'phone_number' => '09123456789',
+                'user_type' => 'Student',
                 'email' => 'syvynall@student.apc.edu.ph',
                 'password' => bcrypt('password')
             ],
             //13
             [
-                'firstName' => 'Gregorio',
-                'middleName' => 'Geake',
-                'lastName' => 'Branthwaite',
-                'phoneNumber' => '09123456789',
-                'userType' => 'Student',
+                'first_name' => 'Gregorio',
+                'middle_name' => 'Geake',
+                'last_name' => 'Branthwaite',
+                'phone_number' => '09123456789',
+                'user_type' => 'Student',
                 'email' => 'ggbranthwaite@student.apc.edu.ph',
                 'password' => bcrypt('password')
             ],
             //14
             [
-                'firstName' => 'Dyann',
-                'middleName' => 'Durgan',
-                'lastName' => 'Enser',
-                'phoneNumber' => '09123456789',
-                'userType' => 'Student',
+                'first_name' => 'Dyann',
+                'middle_name' => 'Durgan',
+                'last_name' => 'Enser',
+                'phone_number' => '09123456789',
+                'user_type' => 'Student',
                 'email' => 'ddenser@student.apc.edu.ph',
                 'password' => bcrypt('password')
             ],
             //15
             [
-                'firstName' => 'Gale',
-                'middleName' => 'Appleby',
-                'lastName' => 'Cheyenne',
-                'phoneNumber' => '09123456789',
-                'userType' => 'Student',
+                'first_name' => 'Gale',
+                'middle_name' => 'Appleby',
+                'last_name' => 'Cheyenne',
+                'phone_number' => '09123456789',
+                'user_type' => 'Student',
                 'email' => 'gacheyenne@student.apc.edu.ph',
                 'password' => bcrypt('password')
             ],
             //16
             [
-                'firstName' => 'Gale',
-                'middleName' => 'Origan',
-                'lastName' => 'Marrion',
-                'phoneNumber' => '09123456789',
-                'userType' => 'Student',
+                'first_name' => 'Gale',
+                'middle_name' => 'Origan',
+                'last_name' => 'Marrion',
+                'phone_number' => '09123456789',
+                'user_type' => 'Student',
                 'email' => 'gomarrion@student.apc.edu.ph',
                 'password' => bcrypt('password')
             ],
             //17
             [
-                'firstName' => 'Marc Kenneth',
-                'middleName' => 'Elfa',
-                'lastName' => 'Ricahuerta',
-                'phoneNumber' => '09123456789',
-                'userType' => 'Professor',
+                'first_name' => 'Marc Kenneth',
+                'middle_name' => 'Elfa',
+                'last_name' => 'Ricahuerta',
+                'phone_number' => '09123456789',
+                'user_type' => 'Professor',
                 'email' => 'mericahuerta@apc.edu.ph',
                 'password' => bcrypt('password')
             ],
             //18
             [
-                'firstName' => 'Paul John',
-                'middleName' => 'Deluna',
-                'lastName' => 'Signo',
-                'phoneNumber' => '09123456789',
-                'userType' => 'Professor',
+                'first_name' => 'Paul John',
+                'middle_name' => 'Deluna',
+                'last_name' => 'Signo',
+                'phone_number' => '09123456789',
+                'user_type' => 'Professor',
                 'email' => 'pdsigno@apc.edu.ph',
                 'password' => bcrypt('password')
             ],
             //19
             [
-                'firstName' => 'Michelle',
-                'middleName' => 'Montales',
-                'lastName' => 'Manadero',
-                'phoneNumber' => '09123456789',
-                'userType' => 'Professor',
+                'first_name' => 'Michelle',
+                'middle_name' => 'Montales',
+                'last_name' => 'Manadero',
+                'phone_number' => '09123456789',
+                'user_type' => 'Professor',
                 'email' => 'mmmanadero@apc.edu.ph',
                 'password' => bcrypt('password')
             ],
             //20
             [
-                'firstName' => 'Louise Gerard',
-                'middleName' => 'Martinez',
-                'lastName' => 'Binotapa',
-                'phoneNumber' => '09123456789',
-                'userType' => 'Professor',
+                'first_name' => 'Louise Gerard',
+                'middle_name' => 'Martinez',
+                'last_name' => 'Binotapa',
+                'phone_number' => '09123456789',
+                'user_type' => 'Professor',
                 'email' => 'lmbinotapa@apc.edu.ph',
                 'password' => bcrypt('password')
             ],
             //21
             [
-                'firstName' => 'Therese Nicole',
-                'middleName' => 'Conception',
-                'lastName' => 'Yumul',
-                'phoneNumber' => '09123456789',
-                'userType' => 'Professor',
+                'first_name' => 'Therese Nicole',
+                'middle_name' => 'Conception',
+                'last_name' => 'Yumul',
+                'phone_number' => '09123456789',
+                'user_type' => 'Professor',
                 'email' => 'tcyumul@apc.edu.ph',
                 'password' => bcrypt('password')
             ],

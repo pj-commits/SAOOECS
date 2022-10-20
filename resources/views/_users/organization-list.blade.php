@@ -32,7 +32,7 @@
                 @foreach ($authOrgList as $org)
                 <x-table.body>
                     {{-- Insert Table Body Columns Here --}}
-                    <x-table.body-col class="pl-6"> {{ $org->orgName }}</x-table.body-col>
+                    <x-table.body-col class="pl-6"> {{ $org->org_name }}</x-table.body-col>
                     <x-table.body-col class="pl-6"> {{ $org->adviser }}</x-table.body-col>
                     <x-table.body-col class="pl-6">
                         <a class="text-primary-blue hover:text-blue-800 hover:underline hover:underline-offset-4" href="{{ route('organization.show', ['id' => $org->id]) }}" >View</a>
