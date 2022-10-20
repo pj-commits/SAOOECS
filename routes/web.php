@@ -1,19 +1,20 @@
 <?php
 
+use App\Mail\OrgMemAddEmail;
+use App\Models\Organization;
 use Illuminate\Http\Request;
+use App\Mail\lfSubmittedEmail;
+use App\Mail\nrSubmittedEmail;
+use App\Mail\rfSubmittedEmail;
+use App\Mail\apfSubmittedEmail;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LFController;
 use App\Http\Controllers\RFController;
 use App\Http\Controllers\APFController;
 use App\Http\Controllers\RecordsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AssignRoleController;
 use App\Http\Controllers\OrganizationController;
-use App\Mail\apfSubmittedEmail;
-use App\Mail\rfSubmittedEmail;
-use App\Mail\nrSubmittedEmail;
-use App\Mail\lfSubmittedEmail;
-use App\Mail\OrgMemAddEmail;
-use App\Models\Organization;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,9 +83,13 @@ Route::get('forms/activity-proposal-form', [APFController::class, 'index'])->nam
 Route::post('forms/activity-proposal-form/create', [APFController::class, 'store'])->name('forms.apf.store');
 // Route::get('forms/activity-proposal-form/try', [APFController::class, 'show'])->name('forms.apf.show');
 
-// RF
+// FORMS: RF
 Route::get('forms/budget-requisition-form', [RFController::class, 'index'])->name('forms.rf.index');
 Route::post('forms/budget-requisition-form/create', [RFController::class, 'store'])->name('forms.rf.store');
+
+// FORMS: LF
+Route::get('forms/liquidation-form', [LFController::class, 'index'])->name('forms.lf.index');
+Route::post('forms/liquidation-form/create', [LFController::class, 'store'])->name('forms.lf.store');
 
 
 
@@ -106,11 +111,6 @@ Route::get('forms/narrative-report', function (){
     return view('_student-organization.forms.narrative')
         ->with("message", "Hello NR!");
 })->name('narrative');
-
-Route::get('forms/liquidation-form', function (){
-    return view('_student-organization.forms.liquidation')
-        ->with("message", "Hello LF!");
-})->name('liquidation');
 
 
 Route::post('/test', function(Request $request){

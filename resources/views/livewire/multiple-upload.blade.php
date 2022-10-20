@@ -11,10 +11,10 @@
         <x-input-error for="attachments" class="mt-2" />
     </div>
 
-    {{-- <x-button class="mt-5" wire:click.prevent="save" type="button" wire:loading.attr="disabled"
+    <x-button class="mt-5" wire:click.prevent="save" type="button" wire:loading.attr="disabled"
     	wire:loading.class="cursor-not-allowed"
     >
         Save
-    </x-button> --}}
+    </x-button>
    
 </div>

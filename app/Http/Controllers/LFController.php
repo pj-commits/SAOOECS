@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Form;
-use App\Models\Department;
 use Illuminate\Http\Request;
-use App\Http\Requests\RFRequest;
+use App\Http\Requests\LFRequest;
 use Illuminate\Support\Facades\Auth;
 
-class RFController extends Controller
+class LFController extends Controller
 {
     public function index()
     {
@@ -19,15 +18,18 @@ class RFController extends Controller
                 $query->whereIn('organization_id',$authOrgList);
                 $query->where('status','Pending');
             })->orderBy('event_title')->get(['event_title', 'event_id']);
-        $dept = Department::orderBy('name')->get();
 
-        return view('_student-organization.forms.budget-requisition', compact('eventList', 'dept'))
-        ->with("message", "Hello RF!");
+        return view('_student-organization.forms.liquidation', compact('eventList'))
+        ->with("message", "Hello LF!");
     }
 
-    public function store(RFRequest $request)
-    {
-        $rf = $request->safe()->except(['event_id','quantity','purpose','price']);
+    public function store(LFRequest $request)
+    {   
+        // foreach($request as $r){
+        //     dd(gettype($r));
+        // }
+        
+        $lf = $request->safe()->only(['end_date','cash_advance','cv_number','deduct']);
         $event = Form::where('event_id', $request->event_id)->get()->first();
      
         $form = Form::create([
@@ -40,29 +42,38 @@ class RFController extends Controller
             'acadserv_staff_id' => 4,
             'finance_staff_id' => 3,
             'event_id' => $request->event_id,
-            'form_type' => 'RF'
+            'form_type' => 'LF'
         ]);
 
-        // Requisition Create
-        $requisition = $form->requisition()->create($rf);
+        // Liquidation Create
+        $liquidation = $form->liquidation()->create($lf);
 
-        // Req_Items create
-        for($i = 0; $i < count($request->quantity); $i++){
-            $requisition->reqItems()->create([
-                    'quantity' => $request->quantity[$i],
-                    'purposes' => $request->purpose[$i],
+        // Proof of Payments create
+        for($i = 0; $i < count($request->item_number); $i++){
+            $liquidation->proofOfPayment()->create([
+                    'item_number' => $request->item_number[$i],
+                    'date_bought' => $request->date_bought[$i],
+                    'item' => $request->item[$i],
                     'price' => $request->price[$i],
                 ]);
         }
+
+        // Liquidation Items create
+       
+        for($i = 0; $i < count($request->itemFrom); $i++){
+            $imageName = time().'.'.$request->image[$i]->extension();
+            $liquidation->liquidationItem()->create([
+                    'itemFrom' => $request->itemFrom[$i],
+                    'itemTo' => $request->itemTo[$i],
+                    'image' => $request->image[$i]->storeAs('receipts',$imageName),
+                ]);
+        }
+
+       
         return redirect('/')->with('add', 'RF created successfully!');
+       
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
@@ -98,5 +109,4 @@ class RFController extends Controller
   
         return $control_number;
     }
-
 }

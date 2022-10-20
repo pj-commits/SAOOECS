@@ -227,7 +227,8 @@
 
                     <div class="flex justify-center align-center flex-wrap pt-3 space-y-3 md:space-y-0 md:space-x-3">
 
-                        <!-- Official Poster -->
+                        <livewire:n-r-controller/>
+                        {{-- <!-- Official Poster -->
                         <div class="w-full p-3 border-2 border-dashed hover:border-primary-blue md:w-[49%]">
                         
                             <div>
@@ -245,7 +246,7 @@
                                 <livewire:multiple-upload />
                             </div>
 
-                        </div>
+                        </div> --}}
 
                     </div>
 

@@ -26,7 +26,7 @@ class MultipleUpload extends Component
 			'attachments.*' => ['required', 'mimes:jpeg,jpg,png', 'max:1024'],
 		], [], ['attachments.*' => 'attachments']);
 
-		dd($this);
+		// dd($this);
 	}
 
     public function render()
