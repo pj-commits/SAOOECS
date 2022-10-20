@@ -28,10 +28,5 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment('production')) {
             URL::forceScheme('https');
         }
-
-        Relation::morphMap([
-            'APF' => 'App\Models\Proposal',
-            'LF' => 'App\Models\Liquidation'
-        ]);
     }
 }

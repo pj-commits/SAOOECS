@@ -16,13 +16,12 @@ class DashboardController extends Controller
         //Fetch form with event id na org id == myorglist
         $authOrgList = Auth::user()->studentOrg->pluck('id')->toArray();
         $myForms = Form::whereIn('organization_id', $authOrgList)->get();
-        $try = OrganizationUser::all();
 
         //show pages for differnet users
         if(Auth::user()->hasRole('root')){
             return view('dashboard.root');
         }elseif(Auth::user()->checkUserType('Student')){
-            return view('_student-organization.dashboard', compact('myForms', 'try'));
+            return view('_student-organization.dashboard', compact('myForms'));
         }elseif(Auth::user()->checkUserType('Professor|Staff')){
             $pendingForms = [
                 [

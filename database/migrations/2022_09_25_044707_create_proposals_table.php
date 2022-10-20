@@ -15,12 +15,11 @@ return new class extends Migration
     {
         Schema::create('proposals', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('form_id')->constrained()->onDelete('cascade');
             $table->date('target_date');
             $table->integer('duration_val');
             $table->string('duration_unit');
             $table->string('venue');
-            $table->string('event_title');
-            $table->integer('org_id');
             $table->string('organizer_name');
             $table->string('act_classification');
             $table->string('act_location');

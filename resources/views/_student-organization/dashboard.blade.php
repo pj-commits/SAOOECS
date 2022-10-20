@@ -44,7 +44,7 @@
                                         <p>Submitted By: {{$form->fromOrgUser->fromUser->firstName}} {{$form->fromOrgUser->fromUser->lastName}}</p>
                                     </div>
                                     <div class="grid grid-cols-2">
-                                        <p>Form Type: {{$form->formable_type}}</p>
+                                        <p>Form Type: {{$form->form_type}}</p>
                                         <p>Control Number: {{$form->control_number}} </p>
                                     </div>
                                 </div>

@@ -13,7 +13,7 @@ class RFRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,15 @@ class RFRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'event_id' => 'required',
+            'date_filed' => 'required',
+            'date_needed' => 'required',
+            'payment' => 'required',
+                'quantity.*' => 'required',
+                'purpose.*' => 'required',
+                'price.*' => 'required',
+            'remarks' => 'required',
+            'department_id' => 'required',
         ];
     }
 }

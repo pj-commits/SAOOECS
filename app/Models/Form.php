@@ -31,17 +31,6 @@ class Form extends Model
     public function fromOrgUser(){
         return $this->belongsTo(OrganizationUser::class, 'prep_by');
     }
-
-    // Form Polymorphism lol
-    public function formable(){
-        return $this->morphTo();
-    }
-
-    // Events Relations
-    public function events(){
-        return $this->belongsTo(Event::class);
-    }
-
     
 
 }

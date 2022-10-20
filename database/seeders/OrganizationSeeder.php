@@ -35,6 +35,10 @@ class OrganizationSeeder extends Seeder
                 'org_name' => 'Tricky Tech',
                 'adviser' => 'Sample Sao'
             ],
+            [
+                'org_name' => 'Code Seekers',
+                'adviser' => 'John Doe'
+            ],
         ];
 
         foreach($organizations as $i){

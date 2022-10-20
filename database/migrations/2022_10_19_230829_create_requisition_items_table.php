@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('pre_programs', function (Blueprint $table) {
+        Schema::create('requisition_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('proposal_id')->constrained()->onDelete('cascade');
-            $table->string('activity');
-            $table->dateTime('start_date_time');
-            $table->dateTime('end_date_time');
+            $table->foreignId('requisition_id')->constrained()->onDelete('cascade');
+            $table->unsignedInteger('quantity');
+            $table->string('purposes');
+            $table->decimal('price',5,2);
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pre_programs');
+        Schema::dropIfExists('requisition_items');
     }
 };

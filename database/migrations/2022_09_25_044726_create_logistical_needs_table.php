@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('logistical_needs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('proposal_id');
+            $table->foreignId('proposal_id')->constrained()->onDelete('cascade');
             $table->string('service');
             $table->string('venue');
             $table->date('date_needed');

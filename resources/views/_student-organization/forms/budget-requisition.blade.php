@@ -19,7 +19,7 @@
             </div>
             <hr class="mt-3">
             <div class="bg-white mt-4 h-auto w-full rounded-sm shadow-sm px-6 py-4">
-                <form action="{{ route('test') }}" method="POST">
+                <form action="{{ route('forms.rf.store') }}" method="POST">
                     @csrf
 
                     {{-- Row #1 --}}                 
@@ -29,8 +29,11 @@
                         <div>
                             <x-label for="event_title" :value="__('Event Title')" />
 
-                            <x-select class="mt-1" id="event_title" name="event_title" aria-label="Default select example" @change="storeInput($el)">
+                            <x-select class="mt-1" id="event_id" name="event_id" aria-label="Default select example" @change="storeInput($el)">
                                 <option value='' selected disabled>--select option--</option>
+                                @foreach($eventList as $event)
+                                <option value="{{$event->event_id}}">{{$event->event_title}}</option>
+                                @endforeach
                             </x-select>
                         </div>
 
@@ -156,9 +159,14 @@
 
                     {{-- Row #5 --}}
                     <div class="grid mt-4 md:grid-cols-3">
-                        <x-label for="charge_to" :value="__('Charge To')" />
+                        <x-label for="department_id" :value="__('Charge To')" />
 
-                        <x-input id="charge_to" class="mt-1 w-full" type="text" name="charge_to" required autofocus @keyup="storeInput($el)"/>
+                        <x-select class="mt-1" id="department_id" name="department_id" aria-label="Default select example" @change="storeInput($el)">
+                            <option value='' selected disabled>--select option--</option>
+                            @foreach($dept as $d)
+                            <option value="{{$d->id}}">{{$d->name}}</option>
+                            @endforeach
+                        </x-select>
                     </div>
 
                     <div class="mt-8">

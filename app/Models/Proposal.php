@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Proposal extends Model
 {
@@ -13,7 +13,7 @@ class Proposal extends Model
 
     public function form()
     {
-        return $this->morphOne(Form::class, 'formable');
+        return $this->belongsTo(Form::class);
     }
 
     // PROPOSAL CHILD FORMS

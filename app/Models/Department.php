@@ -17,4 +17,10 @@ class Department extends Model
     {
         return $this->hasMany(Staff::class);
     }
+
+    //To Requisition
+    public function departmentList()
+    {
+        return $this->hasOne(Requisition::class);
+    }
 }

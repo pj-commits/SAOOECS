@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Models\LogisticalNeed;
 use App\Models\OrganizationUser;
 use App\Http\Requests\APFRequest;
+use Illuminate\Support\Facades\DB;
 use App\Models\ExternalCoorganizer;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,24 +30,26 @@ class APFController extends Controller
     // save form
     public function store(APFRequest $request)
     {    
-        //Proposal 
-        $proposal = $request->safe()->except(['coorganization', 'coorganizer_name', 'coorganizer_phone', 'coorganizer_email', 'service', 'logistics_date_needed','logistics_venue', 'activity', 'start_date', 'end_date' ]);
-        $proposal = Proposal::create($proposal);
-
-        $event =+ 1;
+        
+        $proposal = $request->safe()->except(['org_id','event_title','coorganization', 'coorganizer_name', 'coorganizer_phone', 'coorganizer_email', 'service', 'logistics_date_needed','logistics_venue', 'activity', 'start_date', 'end_date' ]);
+        $e = DB::table('forms')->latest('event_id')->where('form_type', 'APF')->first();
 
         // Form create
-        $form = $proposal->form()->create([
-            'event_title' => $proposal->event_title,
-            'organization_id' => $proposal->org_id,
+        $form = Form::create([
+            'event_title' => $request->event_title,
+            'organization_id' => $request->org_id,
             'prep_by' => auth()->id(),
             'control_number'=> $this->generateUniqueCode(),
             'adviser_staff_id' => 5,
             'sao_staff_id' => 2,
             'acadserv_staff_id' => 4,
             'finance_staff_id' => 3,
-            'event_id' => $event
+            'event_id' => $e->event_id+1,
+            'form_type' => 'APF'
         ]);
+
+        //Proposal Create
+        $proposal = $form->proposal()->create($proposal);
 
         // Logistics create
         for($i = 0; $i < count($request->service); $i++){
@@ -105,5 +108,6 @@ class APFController extends Controller
   
         return $control_number;
     }
+
 
 }

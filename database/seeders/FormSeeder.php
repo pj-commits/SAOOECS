@@ -23,8 +23,6 @@ class FormSeeder extends Seeder
                 "duration_val" => 1,
                 "duration_unit" => "day(s)",
                 "venue" => "Asia Pacific College",
-                "event_title" => "Git Fundamentals 2022",
-                "org_id" => "1",
                 "organizer_name" => "Michelle Manadero",
                 "act_classification" => "t5",
                 "act_location" => "In-Campus",
@@ -35,7 +33,26 @@ class FormSeeder extends Seeder
                 "num_primary_audience" => 200,
                 "secondary_audience" => "2nd Year SOCIT Students",
                 "num_secondary_audience" => 100,
+                "form_id" =>1,
             ],
+            [
+                "target_date" => "2022-10-26",
+                "duration_val" => 1,
+                "duration_unit" => "day(s)",
+                "venue" => "Asia Pacific College",
+                "organizer_name" => "Michelle Manadero",
+                "act_classification" => "t5",
+                "act_location" => "In-Campus",
+                "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostru.",
+                "rationale" => "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.",
+                "outcome" => "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias exceptur.",
+                "primary_audience" => "1st Year SOCIT Students",
+                "num_primary_audience" => 200,
+                "secondary_audience" => "2nd Year SOCIT Students",
+                "num_secondary_audience" => 100,
+                "form_id" =>2,
+            ],
+
         ];
 
         $form = [
@@ -48,8 +65,21 @@ class FormSeeder extends Seeder
                 "acadserv_staff_id" => 4,
                 "finance_staff_id" => 3,
                 "event_id" => 1,
-                "formable_id" => 4,
-                "formable_type" => "APF",
+                "form_type" => "APF",
+                "event_title" => "Git Fundamentals 2022",
+                
+
+            ],
+            [
+                "prep_by" => 6,
+                "organization_id" => 3,
+                "control_number" => 284108,
+                "adviser_staff_id" => 5,
+                "sao_staff_id" => 2,
+                "acadserv_staff_id" => 4,
+                "finance_staff_id" => 3,
+                "event_id" => 1,
+                "form_type" => "APF",
                 "event_title" => "Git Fundamentals 2022",
                 
 
@@ -58,12 +88,14 @@ class FormSeeder extends Seeder
 
 
 
-        foreach($proposal as $i){
-            Proposal::create($i);
-        }
+
+     
 
         foreach($form as $i){
             Form::create($i);
+        }
+        foreach($proposal as $i){
+            Proposal::create($i);
         }
 
         

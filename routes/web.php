@@ -84,7 +84,7 @@ Route::post('forms/activity-proposal-form/create', [APFController::class, 'store
 
 // RF
 Route::get('forms/budget-requisition-form', [RFController::class, 'index'])->name('forms.rf.index');
-Route::post('forms/budget-requisition-form/', [RFController::class, 'store'])->name('forms.rf.store');
+Route::post('forms/budget-requisition-form/create', [RFController::class, 'store'])->name('forms.rf.store');
 
 
 

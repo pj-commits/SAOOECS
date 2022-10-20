@@ -20,8 +20,9 @@ return new class extends Migration
             $table->foreignId('organization_id')->constrained('organizations');
             $table->string('event_title');
 
-            $table->string('formable_type');
-            $table->unsignedInteger('formable_id');
+            // $table->string('formable_type');
+            // $table->foreignId('formable_id')->constrained()->onDelete('cascade');
+            $table->string('form_type');
             
             $table->string('control_number');
 

@@ -13,12 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('pre_programs', function (Blueprint $table) {
+        Schema::create('requisitions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('proposal_id')->constrained()->onDelete('cascade');
-            $table->string('activity');
-            $table->dateTime('start_date_time');
-            $table->dateTime('end_date_time');
+            $table->foreignId('form_id')->constrained()->onDelete('cascade');
+            $table->foreignId('department_id');
+            $table->date('date_filed');
+            $table->date('date_needed');
+            $table->string('payment');
+            $table->string('remarks');
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pre_programs');
+        Schema::dropIfExists('requisitions');
     }
 };
