@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PrePrograms extends Model
+class RequisitionItem extends Model
 {
     use HasFactory;
-    
     protected $guarded = [];
 
-    public function proposal()
+    // PROPOSAL CHILD FORMS
+    public function req()
     {
-        return $this->belongsTo(Proposal::class);
+        return $this->belongsTo(Requisition::class);
     }
 }

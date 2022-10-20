@@ -28,7 +28,7 @@ class OrganizationSeeder extends Seeder
 
         $organizations = [
             [
-                'orgName' => 'Brewing Minds',
+                'org_name' => 'Brewing Minds',
                 'adviser' => 'Sample Adviser'
             ],
             [

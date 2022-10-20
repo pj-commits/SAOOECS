@@ -2,12 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Form;
+use App\Models\User;
+use App\Models\Event;
 use Illuminate\Http\Request;
+use App\Models\OrganizationUser;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function index(){
+
+        //Fetch form with event id na org id == myorglist
+        $authOrgList = Auth::user()->studentOrg->pluck('id')->toArray();
+        $myForms = Form::whereIn('organization_id', $authOrgList)->get();
+
         //show pages for differnet users
         if(Auth::user()->checkUserType('Student')){
             return view('_student-organization.dashboard');

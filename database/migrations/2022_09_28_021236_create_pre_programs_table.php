@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('pre_programs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('proposal_id');
+            $table->foreignId('proposal_id')->constrained()->onDelete('cascade');
             $table->string('activity');
             $table->dateTime('start_date_time');
             $table->dateTime('end_date_time');

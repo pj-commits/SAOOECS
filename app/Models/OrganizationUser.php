@@ -2,19 +2,22 @@
 
 namespace App\Models;
 
-use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class OrganizationUser extends Model
+class OrganizationUser extends Pivot
 {
-    use HasFactory;
+    //Pivot table organization_user
+    protected $table = 'organization_user';
+    protected $guarded = [];
 
-    // public function org()
-    // {
-    //     return $this->belongsTo(User::class, 'user_id', 'id');
-    // }
-//     public function adviser(){
-//         // return $this->belongsTo(Approver::class, 'approver_adviser_id', 'id');
-//     }
+    public function fromUser(){
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function toForm(){
+        return $this->hasMany(Form::class, 'prep_by');
+    }
+    
+
+
 }

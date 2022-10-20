@@ -13,10 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('organizations', function (Blueprint $table) {
+        Schema::create('proof_of_payments', function (Blueprint $table) {
             $table->id();
-            $table->string('org_name');
-            $table->string('adviser');
+            $table->foreignId('liquidation_id')->constrained()->onDelete('cascade');
+            $table->unsignedInteger('item_number');
+            $table->date('date_bought');
+            $table->string('item');
+            $table->decimal('price', 5, 2);
             $table->timestamps();
         });
     }
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('organizations');
+        Schema::dropIfExists('proof_of_payments');
     }
 };

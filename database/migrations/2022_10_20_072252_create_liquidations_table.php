@@ -13,10 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('organizations', function (Blueprint $table) {
+        Schema::create('liquidations', function (Blueprint $table) {
             $table->id();
-            $table->string('org_name');
-            $table->string('adviser');
+            $table->foreignId('form_id')->constrained()->onDelete('cascade');
+            $table->date('end_date');
+            $table->decimal('cash_advance', 5, 2);
+            $table->integer('cv_number');
+            $table->decimal('deduct');
             $table->timestamps();
         });
     }
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('organizations');
+        Schema::dropIfExists('liquidations');
     }
 };

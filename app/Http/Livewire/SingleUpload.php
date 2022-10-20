@@ -10,6 +10,7 @@ class SingleUpload extends Component
     use WithFileUploads;
 
 	public $attachment;
+	
 
 	public function updatedAttachment()
     {

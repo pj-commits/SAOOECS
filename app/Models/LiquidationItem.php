@@ -5,14 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PrePrograms extends Model
+class LiquidationItem extends Model
 {
     use HasFactory;
     
     protected $guarded = [];
 
-    public function proposal()
+    // BELONGS TO
+    public function liquidation()
     {
-        return $this->belongsTo(Proposal::class);
+        return $this->belongsTo(Liquidation::class);
     }
 }

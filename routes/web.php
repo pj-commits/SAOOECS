@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LFController;
 use App\Http\Controllers\RFController;
 use App\Http\Controllers\APFController;
 use App\Http\Controllers\RecordsController;
@@ -65,7 +66,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('organization', [OrganizationController::class, 'index'])->name('organization.index');
     Route::get('organization/{id}', [OrganizationController::class, 'show'])->name('organization.show');
 });
-
+        Route::get('forms/liquidation-form', [LFController::class, 'index'])->name('forms.liquidation.index');
 Route::group(['middleware' => ['auth', 'isModerator']], function(){
     Route::get('organization/{id}/add', [OrganizationController::class, 'add'])->name('organization.add');
     Route::post('organization/{id}/add/store', [OrganizationController::class, 'store'])->name('organization.store');
@@ -73,6 +74,7 @@ Route::group(['middleware' => ['auth', 'isModerator']], function(){
     Route::put('organization/{id}/edit/{member}/update', [OrganizationController::class, 'update'])->name('organization.update');
     Route::delete('organization/{id}/edit/{member}/remove', [OrganizationController::class, 'destroy'])->name('organization.destroy');
 });
+
 
 
 
@@ -99,8 +101,15 @@ Route::group(['middleware' => ['auth', 'isStudent']], function(){
 
 
 
+// FORMS: APF
+Route::get('forms/activity-proposal-form', [APFController::class, 'index'])->name('forms.apf.index');
+Route::post('forms/activity-proposal-form/create', [APFController::class, 'store'])->name('forms.apf.store');
+    // LF
 
 
+// FORMS: LF
+Route::get('forms/liquidation-form', [LFController::class, 'index'])->name('forms.lf.index');
+Route::post('forms/liquidation-form/create', [LFController::class, 'store'])->name('forms.lf.store');
 
 
 

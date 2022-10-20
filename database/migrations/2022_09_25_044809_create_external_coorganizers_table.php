@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('external_coorganizers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('proposal_id');
+            $table->foreignId('proposal_id')->constrained()->onDelete('cascade');
             $table->string('coorganizer');
             $table->string('coorganization');
             $table->string('email');

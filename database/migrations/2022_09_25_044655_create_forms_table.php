@@ -15,16 +15,22 @@ return new class extends Migration
     {
         Schema::create('forms', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('created_by_user_org_id');
-            $table->string('form_type');
-            $table->string('org_name');
-            $table->string('control_number');
+            $table->unsignedInteger('event_id');
+            $table->foreignId('prep_by')->constrained('users');
+            $table->foreignId('organization_id')->constrained('organizations');
             $table->string('event_title');
-            $table->string('curr_approver');
-            $table->string('status');
+
+            // $table->string('formable_type');
+            // $table->foreignId('formable_id')->constrained()->onDelete('cascade');
+            $table->string('form_type');
+            
+            $table->string('control_number');
+
+            $table->string('curr_approver')->default('Adviser');
+            $table->string('status')->default('Pending');
 
             //Adviser
-            $table->foreignId('adviser_faculty_id')->nullable();
+            $table->foreignId('adviser_staff_id')->nullable();
             $table->boolean('adviser_is_approve')->default(0);
             $table->dateTime('adviser_date_approved')->nullable();
             //SAO
@@ -32,9 +38,9 @@ return new class extends Migration
             $table->boolean('sao_is_approve')->default(0);
             $table->dateTime('sao_date_approved')->nullable();
             //Academic Services
-            $table->foreignId('acad_serv_faculty_id')->nullable();
-            $table->boolean('acad_serv_is_approve')->default(0);
-            $table->dateTime('acad_serv_date_approved')->nullable();
+            $table->foreignId('acadserv_staff_id')->nullable();
+            $table->boolean('acadserv_is_approve')->default(0);
+            $table->dateTime('acadserv_date_approved')->nullable();
             //Finance
             $table->foreignId('finance_staff_id')->nullable();
             $table->boolean('finance_is_approve')->default(0);

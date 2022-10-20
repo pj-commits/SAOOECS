@@ -24,6 +24,7 @@
                     </span> 
                     Liquidation Form
                 </h1>
+                
                 <x-button @click="clear_form_local_storage('lf', true), loading(true)">
                     <x-svg>
                         <path d="M11 20.95q-3.025-.375-5.012-2.638Q4 16.05 4 13q0-1.65.65-3.163Q5.3 8.325 6.5 7.2l1.425 1.425q-.95.85-1.437 1.975Q6 11.725 6 13q0 2.2 1.4 3.887 1.4 1.688 3.6 2.063Zm2 0v-2q2.175-.4 3.587-2.075Q18 15.2 18 13q0-2.5-1.75-4.25T12 7h-.075l1.1 1.1-1.4 1.4-3.5-3.5 3.5-3.5 1.4 1.4-1.1 1.1H12q3.35 0 5.675 2.325Q20 9.65 20 13q0 3.025-1.987 5.288Q16.025 20.55 13 20.95Z"/>
@@ -31,9 +32,12 @@
                     {{ __('Reset') }}
                 </x-button>
             </div>
+            @if($errors->any())
+                {!! implode('', $errors->all('<div>:message</div>')) !!}
+            @endif
             <hr class="mt-3">
             <div class="bg-white mt-4 h-auto w-full rounded-sm shadow-sm px-6 py-4">
-                <form action="{{ route('test') }}" method="POST">
+                <form action="{{ route('forms.lf.store') }}" method="POST"  enctype="multipart/form-data">
                     @csrf
 
                      {{-- Row #1 --}}                 
@@ -43,8 +47,11 @@
                         <div>
                             <x-label for="event_title" :value="__('Event Title')" />
 
-                            <x-select class="mt-1" id="event_title" name="event_title" aria-label="Default select example" @change="storeInput($el)">
+                            <x-select class="mt-1" id="event_id" name="event_id" aria-label="Default select example" @change="storeInput($el)">
                                 <option value='' selected disabled>--select option--</option>
+                                @foreach($eventList as $event)
+                                <option value="{{$event->event_id}}">{{$event->event_title}}</option>
+                                @endforeach
                             </x-select>
                         </div>
 
@@ -221,7 +228,7 @@
                                             <x-input x-model="row.itemTo"  id="itemTo" class="mt-1 w-full" type="number" min="1" name="itemTo[]"  required autofocus />
                                         </x-table.body-col>
                                         <x-table.body-col>
-                                                <input x-model="row.image" class="form-control
+                                                <input x-model="row.image" type="file" class="form-control 
                                                 block
                                                 w-full
                                                 px-3
