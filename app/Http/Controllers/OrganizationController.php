@@ -2,32 +2,55 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Organization;
-use Illuminate\Validation\Rule;
 use App\Models\User;
+use Illuminate\Http\Request;
+use App\Models\Organization;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use App\Helper\Helper;
+
 class OrganizationController extends Controller
 {
     public function index()
     {
-        $authOrgList = Auth::user()->studentOrg;
+        $getAuthOrgList = Auth::user()->studentOrg;
 
-        return view('_student-organization.organization-list', compact('authOrgList'));
+        //Pagination
+        $authOrgList = Helper::paginate($getAuthOrgList, count($getAuthOrgList), 10); 
+
+        return view('_users.organization-list', compact('authOrgList'));
     }
 
-    public function create()
+
+
+    public function show($orgId)
     {
-        //
+        Helper::isAuthorized('Moderator|Viewer|Editor', $orgId);
+        $currOrg = Organization::with('studentOrg')->where('id', '=', $orgId)->first();
+        $getOrgMembers = $currOrg->studentOrg;
+        $totalMembers = count($getOrgMembers);
+    
+        $orgMembers = Helper::paginate($getOrgMembers, count($getOrgMembers), 10);
+        
+        return view('_users.organization-info', compact('currOrg', 'orgMembers', 'totalMembers'));
     }
+
+
+
+    public function add($orgId)
+    {
+        Helper::isAuthorized('Moderator', $orgId);
+        $currOrg = Organization::with('studentOrg')->where('id', '=', $orgId)->first();
+
+        return view('_users.organization-add', compact('currOrg'));
+    }
+
+
 
     public function store(Request $request, $orgId)
-    {
-        $currOrg = Organization::with('studentOrg')->where('id', '=', $orgId)->first();
-                
+    {  
         //fetch from dummy user api
         //Get key. if user is not in api = error
         $response = json_decode(Http::get('https://sample-user-api.herokuapp.com/users'));
@@ -38,7 +61,7 @@ class OrganizationController extends Controller
             'email' =>  [
                 'required',
                 'email',
-                Rule::unique('users','email'),
+                // Rule::unique('user','email'),
                 
                 function($attribute, $value, $fail){
                     $response = json_decode(Http::get('https://sample-user-api.herokuapp.com/users'));
@@ -58,93 +81,83 @@ class OrganizationController extends Controller
 
         //create/store fetched
         $getUser = $response[$key];
-        $user = User::create([
-            'firstName' => $getUser->firstName,
-            'middleName' => $getUser->middleName,
-            'lastName' => $getUser->lastName,
-            'phoneNumber' => $getUser->phoneNumber,
-            'email' => $getUser->email,
-            'userType' => 'Student',
-            'password' => bcrypt($getUser->password)
-        ]);
 
+        //Check if user have alredy data on the 'user' table
+        if(!User::where('email', $request->email)->exists()){
+            $user = User::create([
+                'firstName' => $getUser->firstName,
+                'middleName' => $getUser->middleName,
+                'lastName' => $getUser->lastName,
+                'phoneNumber' => $getUser->phoneNumber,
+                'email' => $getUser->email,
+                'userType' => 'Student',
+                'password' => bcrypt($getUser->password)
+            ]);
+
+        }else{
+
+            $recruiteeId = User::where('email', $request->email)->first()->id;
+            $isUserAlredyInOrg = DB::table('organization_user')->where('organization_id', $orgId)->where('user_id', $recruiteeId)->exists();
+            
+            //Check if user is already part of the organization
+            if($isUserAlredyInOrg){
+                $message = 'User is already part of this organization!';
+                return redirect()->back()->with('error', $message);
+            }else{
+                $user = User::findOrFail($recruiteeId);
+            }
+        }
+        
         //capitalized first letter of position
         $position = ucfirst($request->position);
-
         //attach role, org, position to fetched
-        // $user->attachRole($request->role_id);
         $user->studentOrg()->attach($orgId, ['position' => $position, 'role' => $request->role]);
+        $message = $user->firstName.' '. $user->lastName.' was successfully assigned as '. $position.'!';
 
         //Register the fetched. This will send verification email. Customize the email under resources/views/vendor
         // event(new Registered($user));
-
-        $message = $user->firstName.' '. $user->lastName.' was successfully assigned as '. $position.'!';
-       
-        // return redirect()->back()->with('add', $message)->with('invite', $invite);
-        return Redirect::route('organization.show', ['id'=>$currOrg->id, 'invite' => 'false'])->with('add', $message);
+    
+        return Redirect::route('organization.show', ['id'=>$orgId])->with('add', $message);
     }
 
-    public function show($orgId, $isInvite)
-    {
-        $currOrg = Organization::with('studentOrg')->where('id', '=', $orgId)->first();
-        $orgMembers = $currOrg->studentOrg;
-        $invite = $isInvite;
-        $modal = 0;
-        
-        return view('_student-organization.roles', compact('currOrg', 'orgMembers', 'invite', 'modal'));
-    }
 
-    public function select($orgId, $modal, $memberId)
-    {
-        $currOrg = Organization::with('studentOrg')->where('id', '=', $orgId)->first();
-        $orgMembers = $currOrg->studentOrg;
-        $invite = false;
 
-        
+    public function select($orgId, $memberId)
+    {
+        Helper::isAuthorized('Moderator', $orgId);
+        $currOrg = Organization::with('studentOrg')->where('id', '=', $orgId)->first();
         $selected = User::findorfail($memberId);
-        
-        return view('_student-organization.roles', compact('currOrg', 'orgMembers', 'invite', 'selected', 'modal'));
+
+        return view('_users.organization-edit', compact('currOrg','selected'));
     }
+
+
 
     public function update(Request $request, $orgId, $memberId)
     {
-
-        $currOrg = Organization::with('studentOrg')->where('id', '=', $orgId)->first();
-        $orgMembers = $currOrg->studentOrg;
-        $invite = false;
-
         $selected = User::findorfail($memberId);
 
-        // $member = $selected->id;
-        // dd($selected->role->first()->id);
-
-        $formFields = $request->validate([
+        $request->validate([
             'position' => 'required|max:30',
             'role' => 'required' 
         ]);
 
         //capitalized first letter of position
         $position = ucfirst($request->position);
-
-        
         $selected->studentOrg()->update(['position' => $position, 'role' => $request->role]);
-
-
         $message = $selected->firstName.' '.$selected->lastName.' was succesfully edited!';
 
-        return Redirect::route('organization.show', ['id'=>$currOrg->id, 'invite' => 'false'])->with('edit', $message);
+        return Redirect::route('organization.show', ['id'=>$orgId])->with('edit', $message);
     }
+
+
 
     public function destroy($orgId, $member)
     {
-        $currOrg = Organization::with('studentOrg')->where('id', '=', $orgId)->first();
-
-        $invite = false;
-       
         $selected = User::findorfail($member);
-        $selected->studentOrg()->detach();
+        $selected->studentOrg()->detach($orgId);
         $message = $selected->firstName.' '.$selected->lastName.' was successfully removed from the organization.';
         
-        return Redirect::route('organization.show', ['id'=>$currOrg->id, 'invite' => 'false'])->with('remove', $message);
+        return Redirect::route('organization.show', ['id'=>$orgId])->with('remove', $message);
     }
 }

@@ -35,7 +35,7 @@
         [x-cloak] { display: none !important; }
     </style>
 
-    <body class="font-sans antialiased scroll-y-hidden ">
+    <body class="font-sans antialiased">
         <div class="relative min-h-screen bg-gray-100 lg:pl-64">
             
             <!-- Page Heading -->

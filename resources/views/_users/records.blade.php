@@ -1,20 +1,22 @@
+@php
+    $hasRecords = false;
+@endphp
 <x-app-layout>
-    <div class="pt-24">
-        {{-- If there's no record--}} 
-        {{-- <div class="max-w-screen mx-auto px-4 lg:px-8">
-            <div class="mt-4 h-auto w-full rounded-sm shadow-sm px-6 py-4">
-                <div class="flex flex-col justify-center items-center py-16 px-2 md:px-8">
-                    <img class="w-auto h-auto sm:h-96 object-cover" src="{{ asset('assets/img/no-record-found.png')}}" alt="No Forms Pending"/>
-                    <div class="text-center space-y-3 mt-3">
-                        <h1 class="text-2xl text-bland-500 font-bold tracking-wider">No Existing Record! 📣 </h1>
-                        <p class="text-sm text-bland-400">Looks like nothing to see here. </p>
-                    </div>
-                </div>
+    {{-- If there's no record--}}
+    @if(!$hasRecords) 
+    <div class="mt-14 h-auto w-full rounded-sm px-6 py-4">
+        <div class="flex flex-col justify-center items-center py-16 px-2 md:px-8">
+            <img class="w-auto h-auto sm:h-96 object-cover" src="{{ asset('assets/img/no-record-found.png')}}" alt="No Organization"/>
+            <div class="text-center space-y-3 mt-6">
+                <h1 class="text-2xl text-bland-500 font-bold tracking-wide">No Existing Record! 📣 </h1>
+                <p class="text-sm text-bland-400">Looks like nothing to see here. </p>
             </div>
-        </div> --}}
-
-        {{-- If there's a record --}}
-        <!-- Actions -->
+        </div>
+    </div>
+    @else
+    {{-- If there's a record --}}
+    <!-- Actions -->
+    <div class="pt-24">
         <div class="px-4 lg:px-8">
             <form action="">
                 @csrf
@@ -45,6 +47,7 @@
                     <x-table.head>
                         {{-- Insert Table Head Columns Here --}}
                         <x-table.head-col class="pl-6 font-bold">Event Title</x-table.head-col>
+                        <x-table.head-col class="pl-6 font-bold">Organization</x-table.head-col>
                         <x-table.head-col class="pl-6 font-bold">Form Type</x-table.head-col>
                         <x-table.head-col class="pl-6 font-bold">Date Submitted</x-table.head-col>
                         <x-table.head-col class="pl-6 font-bold">Date Finished</x-table.head-col>
@@ -56,6 +59,7 @@
                     <x-table.body>
                         {{-- Insert Table Body Columns Here --}}
                         <x-table.body-col class="pl-6">HimigKantahan</x-table.body-col>
+                        <x-table.body-col class="pl-6">Chorale</x-table.body-col>
                         <x-table.body-col class="pl-6">Activity Proposal Form</x-table.body-col>
                         <x-table.head-col class="pl-6">September 3, 2022 - 2:03 PM</x-table.head-col>
                         <x-table.head-col class="pl-6">September 5, 2022 - 5:32 PM</x-table.head-col>
@@ -71,4 +75,5 @@
             </div>
         </div>
     </div>
+    @endif
 </x-app-layout>

@@ -7,7 +7,10 @@ use App\Http\Controllers\APFController;
 use App\Http\Controllers\RecordsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AssignRoleController;
+use App\Http\Controllers\LFController;
+use App\Http\Controllers\NRController;
 use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\SubmittedFormsController;
 use App\Mail\apfSubmittedEmail;
 use App\Mail\rfSubmittedEmail;
 use App\Mail\nrSubmittedEmail;
@@ -33,79 +36,79 @@ Route::get('/', function () {
 
 // DASHBOARD: For Auth Users
 require __DIR__.'/auth.php';
-Route::get('/',  [DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard');
 
 
-// ROLE TAB: Role managers/moderators == adviser, pres, sao
-Route::group(['middleware'=> ['auth', 'role:moderator|editor|viewer']], function(){
-    Route::get('roles', [AssignRoleController::class, 'index'])->name('roles.index');
-});
-Route::group(['middleware'=> ['auth', 'role:moderator']], function(){
-    // Add member
-    Route::get('roles/invite', [AssignRoleController::class, 'invite'])->name('roles.invite');
-    Route::post('roles', [AssignRoleController::class, 'store'])->name('roles.store');
-    //Edit Member
-    Route::get('roles/{member}/edit', [AssignRoleController::class, 'edit'])->name('roles.edit');
-    Route::put('roles/{member}', [AssignRoleController::class, 'update'])->name('roles.update');
-    //Delete Member
-    Route::get('roles/{member}/del', [AssignRoleController::class, 'del'])->name('roles.del');
-    Route::delete('roles/del/{member}', [AssignRoleController::class, 'destroy'])->name('roles.destroy');
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Dashboard Tab - Submitted Forms Tab - Records Tab
+|--------------------------------------------------------------------------
+*/
+Route::group(['middleware' => ['auth']], function() {
+    Route::get('/',  [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('submitted-forms', [SubmittedFormsController::class, 'index'])->middleware('isApprover')->name('submitted-forms');
+    Route::get('records', [RecordsController::class, 'index'])->name('records');
 });
 
-// FORMS TAB: moderator and editor: 
-//  -- index, store, show, approve, deny, track, calendar
-Route::group(['middleware'=>['auth', 'role:moderator|editor']], function(){
-    // APF
-    Route::get('forms/activity-proposal-form', [APFController::class, 'index'])->name('forms.apf.index');
-    Route::post('forms/activity-proposal-form', [APFController::class, 'store'])->name('forms.apf.store');
 
-    // RF
-    Route::get('forms/budget-requisition-form', [RFController::class, 'index'])->name('forms.rf.index');
-    Route::post('forms/budget-requisition-form', [RFController::class, 'store'])->name('forms.rf.store');
 
-    // NR
 
-    // LF
 
+/*
+|--------------------------------------------------------------------------
+| Organizations Tab
+|--------------------------------------------------------------------------
+*/
+Route::group(['middleware' => ['auth']], function(){
+    Route::get('organization', [OrganizationController::class, 'index'])->name('organization.index');
+    Route::get('organization/{id}', [OrganizationController::class, 'show'])->name('organization.show');
 });
 
-//Test Organization
-Route::get('organization', [OrganizationController::class, 'index'])->name('organization.index');
-Route::get('organization/{id}/{invite}', [OrganizationController::class, 'show'])->name('organization.show');
-Route::post('organization/{id}/addMember', [OrganizationController::class, 'store'])->name('organization.store');
-
-Route::get('organization/{id}/{modal}/{member}', [OrganizationController::class, 'select'])->name('organization.select');
-
-
-Route::put('organization/{id}/{member}/editMember', [OrganizationController::class, 'update'])->name('organization.update');
-
-Route::delete('organization/{id}/{member}/del', [OrganizationController::class, 'destroy'])->name('organization.destroy');
+Route::group(['middleware' => ['auth', 'isModerator']], function(){
+    Route::get('organization/{id}/add', [OrganizationController::class, 'add'])->name('organization.add');
+    Route::post('organization/{id}/add/store', [OrganizationController::class, 'store'])->name('organization.store');
+    Route::get('organization/{id}/edit/{member}', [OrganizationController::class, 'select'])->name('organization.select');
+    Route::put('organization/{id}/edit/{member}/update', [OrganizationController::class, 'update'])->name('organization.update');
+    Route::delete('organization/{id}/edit/{member}/remove', [OrganizationController::class, 'destroy'])->name('organization.destroy');
+});
 
 
 
-//Remove this when functions for records tab will be put under development.
-Route::get('records', [RecordsController::class, 'index'])->name('records');
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Forms Tab
+|--------------------------------------------------------------------------
+*/
+Route::group(['middleware' => ['auth', 'isStudent']], function(){
+        // APF
+        Route::get('forms/activity-proposal-form', [APFController::class, 'index'])->name('forms.activity-proposal.index');
+        Route::post('forms/activity-proposal-form', [APFController::class, 'store'])->name('forms.activity-proposal.store');
+        // RF
+        Route::get('forms/budget-requisition-form', [RFController::class, 'index'])->name('forms.requisition.index');
+        Route::post('forms/budget-requisition-form', [RFController::class, 'store'])->name('forms.requisition.store');
+        // NR
+        Route::get('forms/narrative-report', [NRController::class, 'index'])->name('forms.narrative.index');
+        // LF   
+        Route::get('forms/liquidation-form', [LFController::class, 'index'])->name('forms.liquidation.index');
+});
+
+
+
+
+
+
+
+
+
+
 
 
 //Below Are Test Route only
-Route::get('submitted-forms', function (){
-    return view('_approvers.submitted-forms')
-        ->with("message", "Hello Submitted Forms!");
-})->name('submitted-forms');
-
-
-
-Route::get('forms/narrative-report', function (){
-    return view('_student-organization.forms.narrative')
-        ->with("message", "Hello NR!");
-})->name('narrative');
-
-Route::get('forms/liquidation-form', function (){
-    return view('_student-organization.forms.liquidation')
-        ->with("message", "Hello LF!");
-})->name('liquidation');
-
-
 Route::post('/test', function(Request $request){
     dd($request);
 })->name('test');

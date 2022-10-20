@@ -1,4 +1,18 @@
+@php
+    $isModeratorOrEditor = Auth::user()->checkRole('Moderator|Editor');
+@endphp
 <x-app-layout>
+    @if(!$isModeratorOrEditor)
+    <div class="mt-8 h-auto w-full rounded-sm px-6 py-4">
+        <div class="flex flex-col justify-center items-center py-16 px-2 md:px-8">
+            <img class="w-auto h-auto sm:h-96 object-cover" src="{{ asset('assets/img/restricted.png')}}" alt="No Forms Pending"/>
+            <div class="text-center space-y-3 mt-6">
+                <h1 class="text-2xl text-bland-500 font-bold tracking-wide">Authorized Users Only! 🚫 </h1>
+                <p class="text-sm text-bland-400">Sorry, but you don't have permission to access this page. </p>
+            </div>
+        </div>
+    </div>
+    @else
     <div class="pt-24" x-data="set_local_storage_data('apf')"> {{-- apf = Activity Proposal Form --}}
         <div class="max-w-screen mx-auto px-4 lg:px-8" x-data="get_local_storage_data('apf')">
             <div class="flex justify-between flex-wrap">
@@ -290,7 +304,7 @@
 
                         {{-- Number of Participants/Audience --}}
                         <div >
-                            <x-label for="num_primary_audience" :value="__('Number of Participants/Audience')" />
+                            <x-label for="num_primary_audience" :value="__('Number of Primary Participants/Audience')" />
                             
                             <x-input id="num_primary_audience" class="mt-1 w-full" type="number" min="0" name="num_primary_audience" required autofocus @keyup="storeInput($el)"/>
                         </div>
@@ -310,7 +324,7 @@
 
                         {{-- Number of Participants/Audience --}}
                         <div>
-                            <x-label for="num_secondary_audience" :value="__('Number of Participants/Audience')" />
+                            <x-label for="num_secondary_audience" :value="__('Number of Secondary Participants/Audience')" />
                             
                             <x-input id="num_secondary_audience" class="mt-1 w-full" type="number" min="0" name="num_secondary_audience" required autofocus @keyup="storeInput($el)"/>
                         </div>
@@ -397,6 +411,7 @@
             </div>
         </div>
     </div>
+    @endif
 </x-app-layout>
 
 

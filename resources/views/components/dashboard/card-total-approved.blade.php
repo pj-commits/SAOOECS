@@ -35,11 +35,10 @@
  }
 
 @endphp
-
-<div class="{{ $bg }} px-4 py-2 rounded-sm shadow">
+<div class="{{ $bg }} px-4 py-4 mb-4 rounded-sm shadow lg:mr-0 lg:mb-0">
     <div class="flex items-center space-x-4">
-      <div class="{{ $color }} rounded-full p-2">
-        <x-svg width="w-10" height="w-10" color="{{ $fill }}" class="mr-0">
+      <div class="{{ $color }} rounded-full p-2 hover:animate-pulse">
+        <x-svg width="w-7" height="w-7" color="{{ $fill }}" marginRight="mr-0">
             {{ $slot }}
         </x-svg>
       </div>

@@ -56,11 +56,12 @@ function calendar() {
         forms.forEach(form => {
             this.events.push({
                 id: form.id,
-                event_date: new Date(form.eventDate),
+                organization: form.organization,
                 event_title: form.eventTitle,
                 form_type: form.formType,
-                form_description: form,
-                form_description: this.form_dictionary[form.formType]
+                description: this.form_dictionary[form.formType],
+                deadline: new Date(form.deadline),
+                date_submitted: new Date(form.dateSubmitted)
               });
         });
     },
@@ -89,8 +90,7 @@ function calendar() {
     },
 
     getEvents(date, type){
-
-      let events = this.events.filter(event => new Date(event.event_date).toDateString() === new Date(this.year, this.month, date).toDateString());
+      let events = this.events.filter(event => new Date(event.deadline).toDateString() === new Date(this.year, this.month, date).toDateString());
 
       if(type === "getLength"){
         return events.length;
@@ -99,5 +99,9 @@ function calendar() {
       }
 
     },
+
+    getRandomNum(){
+       return Math.ceil((Math.random() * 4));
+    }
   }
 }
