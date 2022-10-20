@@ -1,21 +1,22 @@
+@php
+    $hasPendingForms = false;   
+@endphp
 <x-app-layout>
+    {{-- If there's no pending form --}}
+    @if(!$hasPendingForms)
+    <div class="mt-14 h-auto w-full rounded-sm px-6 py-4">
+        <div class="flex flex-col justify-center items-center py-16 px-2 md:px-8">
+            <img class="w-auto h-auto sm:h-96 object-cover" src="{{ asset('assets/img/no-pending-form.png')}}" alt="No Pending Forms"/>
+            <div class="text-center space-y-3 mt-6">
+                <h1 class="text-2xl text-bland-500 font-bold tracking-wide">No Pending Form! 📣 </h1>
+                <p class="text-sm text-bland-400">Looks like nothing to see here. </p>
+            </div>
+        </div>
+    </div>
+    @else
+    {{-- If there's pending form --}} 
     <div x-data="{cancelForm: false, modal:true} ">
-        <div class="pt-16"> 
-
-            {{-- If there's no pending form --}} 
-            {{-- <div class="max-w-screen mx-auto px-4 lg:px-8">
-                <div class="mt-4 h-auto w-full rounded-sm px-6 py-4">
-                    <div class="flex flex-col justify-center items-center py-16 px-2 md:px-8">
-                        <img class="w-auto h-auto sm:h-96 object-cover" src="{{ asset('assets/img/stud-org-no-pending-forms.png')}}" alt="No Forms Pending"/>
-                        <div class="text-center space-y-3 mt-3">
-                            <h1 class="text-2xl text-bland-500 font-bold tracking-wider">No Pending Form! 📣 </h1>
-                            <p class="text-sm text-bland-400">Looks like nothing to see here. </p>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
-
-            {{-- If there's pending form --}} 
+        <div class="pt-24"> 
             <div class="max-w-screen mx-auto px-4 lg:px-8">
                 <div class="bg-white mt-4 h-auto w-full rounded-sm shadow-sm px-6 py-4">
 
@@ -95,6 +96,7 @@
             </div>
         </x-modal>
     </div>
+    @endif
 </x-app-layout>
 
 

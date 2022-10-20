@@ -289,7 +289,7 @@
 
                         {{-- Number of Participants/Audience --}}
                         <div >
-                            <x-label for="num_primary_audience" :value="__('Number of Participants/Audience')" />
+                            <x-label for="num_primary_audience" :value="__('Number of Primary Participants/Audience')" />
                             
                             <x-input id="num_primary_audience" class="mt-1 w-full" type="number" min="0" name="num_primary_audience" required autofocus/>
                         </div>
@@ -309,7 +309,7 @@
 
                         {{-- Number of Participants/Audience --}}
                         <div>
-                            <x-label for="num_secondary_audience" :value="__('Number of Participants/Audience')" />
+                            <x-label for="num_secondary_audience" :value="__('Number of Secondary Participants/Audience')" />
                             
                             <x-input id="num_secondary_audience" class="mt-1 w-full" type="number" min="0" name="num_secondary_audience" required autofocus/>
                         </div>

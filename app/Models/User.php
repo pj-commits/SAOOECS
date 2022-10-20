@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 use Laratrust\Traits\LaratrustUserTrait;
 
@@ -93,5 +94,24 @@ class User extends Authenticatable implements MustVerifyEmail
             return false;
         }
         return false;
+    }
+
+    public function checkRole($role){
+        $authOrgRole = $this->belongsToMany(Organization::class, 'organization_user','user_id','organization_id')
+        ->pluck('role');
+
+        $roleArr = explode('|', $role);
+
+        foreach($authOrgRole as $authRole){
+            foreach($roleArr as $role){
+                if($authRole === $role){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public function isOrgMember(){
+        return $this->belongsToMany(Organization::class, 'organization_user','user_id','organization_id')->exists();
     }
 }

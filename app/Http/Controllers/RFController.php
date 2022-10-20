@@ -13,8 +13,7 @@ class RFController extends Controller
      */
     public function index()
     {
-        return view('_student-organization.forms.budget-requisition')
-        ->with("message", "Hello RF!");
+        return view('_student-organization.forms.budget-requisition');
     }
 
     /**

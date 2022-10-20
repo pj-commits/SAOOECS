@@ -16,24 +16,69 @@ class StaffSeeder extends Seeder
     public function run()
     {
         $staffs = [
+            //SAO
             [
                 'user_id' => 1,
                 'department_id' => 1,
-                'position'=>'Sao Head'
+                'position'=>'Head'
                 
             ], 
+            //Finance
             [
                 'user_id' =>2,
                 'department_id' => 2,
-                'position'=> 'Finance Head'
+                'position'=> 'Head'
                 
             ], 
+            //AcadServ
             [
                 'user_id' => 3,
                 'department_id' => 3,
-                'position'=> 'Academic Services Head'
+                'position'=> 'Head'
                 
             ], 
+            //Socit - Sample Adviser
+            [
+                'user_id' => 4,
+                'department_id' => 4,
+                'position'=> 'Professor'
+                
+            ], 
+            //Soma - ken
+            [
+                'user_id' => 16,
+                'department_id' => 5,
+                'position'=> 'Professor'
+                
+            ],
+            //Som - Paul
+            [
+                'user_id' => 17,
+                'department_id' => 6,
+                'position'=> 'Professor'
+                
+            ],
+            //Soe - Mich
+            [
+                'user_id' => 18,
+                'department_id' => 7,
+                'position'=> 'Professor'
+                
+            ],
+            //Socit - Loys
+            [
+                'user_id' => 19,
+                'department_id' => 4,
+                'position'=> 'Professor'
+                
+            ],
+            //Soe - Tere
+            [
+                'user_id' => 20,
+                'department_id' => 7,
+                'position'=> 'Professor'
+                
+            ],
         ];
 
         foreach($staffs as $i){

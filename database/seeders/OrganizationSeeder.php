@@ -32,9 +32,21 @@ class OrganizationSeeder extends Seeder
                 'adviser' => 'Sample Adviser'
             ],
             [
-                'orgName' => 'Tricky Tech',
+                'orgName' => 'Gaming Genesis',
                 'adviser' => 'Sample Sao'
             ],
+            [
+                'orgName' => 'APC Robotics Organization',
+                'adviser' => 'Marc Kenneth Ricahuerta'
+            ],
+            [
+                'orgName' => 'The Tourism Management Society',
+                'adviser' => 'Paul John Signo'
+            ],            [
+                'orgName' => 'Bahay Bombilya',
+                'adviser' => 'Michelle Manadero'
+            ],
+            
         ];
 
         foreach($organizations as $i){

@@ -1,21 +1,22 @@
+@php
+    $hasSubmittedForms = false;
+@endphp
 <x-app-layout>
-    <div class="pt-24">
-        {{-- If there's no record--}} 
-        {{-- <div class="max-w-screen mx-auto px-4 lg:px-8">
-            <div class="bg-white mt-4 h-auto w-full rounded-sm shadow-sm px-6 py-4">
-               
-                <div class="flex flex-col justify-center items-center py-16 px-2 md:px-8">
-                    <img class="w-auto h-auto sm:h-96 object-cover" src="{{ asset('assets/img/no-record-found.png')}}" alt="No Forms Pending"/>
-                    <div class="text-center space-y-3 mt-3">
-                        <h1 class="text-2xl text-bland-500 font-bold tracking-wider">No Existing Record! 📣 </h1>
-                        <p class="text-sm text-bland-400">Looks like nothing to see here. </p>
-                    </div>
-                </div>
+    {{-- If there's no record--}}
+    @if(!$hasSubmittedForms) 
+    <div class="mt-14 h-auto w-full rounded-sm px-6 py-4">
+        <div class="flex flex-col justify-center items-center py-16 px-2 md:px-8">
+            <img class="w-auto h-auto sm:h-96 object-cover" src="{{ asset('assets/img/no-submitted-form.png')}}" alt="No Organization"/>
+            <div class="text-center space-y-3 mt-6">
+                <h1 class="text-2xl text-bland-500 font-bold tracking-wide">You're All Clear! 🎉 </h1>
+                <p class="text-sm text-bland-400">You don't have any pending form to review.</p>
             </div>
-        </div> --}}
-
-        {{-- If there's a record --}}
-        <!-- Actions -->
+        </div>
+    </div>
+    @else
+    {{-- If there's a record --}}
+    <!-- Actions -->
+    <div class="pt-24">
         <div class="px-4 lg:px-8">
             <form action="">
                 @csrf
@@ -75,4 +76,5 @@
         {{-- If search has no result --}}
         
     </div>
+    @endif
 </x-app-layout>

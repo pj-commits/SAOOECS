@@ -9,7 +9,6 @@
 to access these accounts
 
 **Emails:**
-* root@apc.edu.ph
 * sao@apc.edu.ph
 * finance@apc.edu.ph
 * acadserv@apc.edu.ph
@@ -17,7 +16,7 @@ to access these accounts
 * president@student.apc.edu.ph
 * secretary@student.apc.edu.ph
 * member@student.apc.edu.ph
-* guest@student.apc.edu.ph
+
 
 **Password:** password
 
