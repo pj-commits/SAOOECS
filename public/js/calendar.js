@@ -57,9 +57,9 @@ function calendar() {
             this.events.push({
                 id: form.id,
                 organization: form.organization,
-                event_title: form.eventTitle,
-                form_type: form.formType,
-                description: this.form_dictionary[form.formType],
+                event_title: form.event_date,
+                form_type: form.form_type,
+                description: this.form_dictionary[form.form_type],
                 deadline: new Date(form.deadline),
                 date_submitted: new Date(form.dateSubmitted)
               });

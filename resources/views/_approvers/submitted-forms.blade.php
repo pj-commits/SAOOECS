@@ -1,5 +1,5 @@
 @php
-    $hasSubmittedForms = false;
+    $hasSubmittedForms = empty($pendingForms);
 @endphp
 <x-app-layout>
     {{-- If there's no record--}}
@@ -50,23 +50,26 @@
                         <x-table.head-col class="pl-6 font-bold">Organization</x-table.head-col>
                         <x-table.head-col class="pl-6 font-bold">Form Type</x-table.head-col>
                         <x-table.head-col class="pl-6 font-bold">Date Submitted</x-table.head-col>
-                        <x-table.head-col class="pl-6 font-bold">Action</x-table.head-col>
-                
+                        <x-table.head-col class="pl-6 font-bold">Action</x-table.head-col>        
                     {{-- Table Head Columns Ends Here --}}
                     </x-table.head>
+                   
                     {{-- Table Head Body --}}
+                    @foreach($pendingForms as $form)
                     <x-table.body>
                         {{-- Insert Table Body Columns Here --}}
-                        <x-table.body-col class="pl-6">HimigKantahan</x-table.body-col>
-                        <x-table.body-col class="pl-6">Chorale</x-table.body-col>
-                        <x-table.body-col class="pl-6">Activity Proposal Form</x-table.body-col>
-                        <x-table.head-col class="pl-6">September 5, 2022 - 5:32 PM</x-table.head-col>
+                        <x-table.body-col class="pl-6">{{$form->event_title}}</x-table.body-col>
+                        <x-table.body-col class="pl-6">{{$form->fromOrg}}</x-table.body-col>
+                        <x-table.body-col class="pl-6">{{$form->form_type}}</x-table.body-col>
+                        <x-table.head-col class="pl-6">{{date('M d, Y  h:i A', strtotime($form->created_at))}}</x-table.head-col>
                         <x-table.body-col class="pl-6">
                             <a class="text-primary-blue hover:text-blue-800 hover:underline hover:underline-offset-4" href="#">View Details</a>
                         </x-table.body-col>
                 
                         {{-- Table Body Columns Ends Here --}}
                     </x-table.body>
+                    @endforeach
+
                     
                     
                 </x-table.main>

@@ -96,6 +96,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return false;
     }
 
+
     public function checkRole($role){
         $authOrgRole = $this->belongsToMany(Organization::class, 'organization_user','user_id','organization_id')
         ->pluck('role');
@@ -111,7 +112,22 @@ class User extends Authenticatable implements MustVerifyEmail
         }
         return false;
     }
+
+
     public function isOrgMember(){
         return $this->belongsToMany(Organization::class, 'organization_user','user_id','organization_id')->exists();
     }
+
+    public function isOrgAdviser(){
+        $isAdviser = $this->belongsToMany(Organization::class, 'organization_user','user_id','organization_id')->pluck('position');
+        dd($isAdviser);
+   
+        if($isAdviser === 'Adviser'){
+            return true;
+        }
+        return false;
+
+    }
+    
+
 }

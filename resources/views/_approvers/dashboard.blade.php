@@ -1,7 +1,4 @@
-@php
-  $forms = json_encode($pendingForms);
-  $isAcadservOrFinance = false;
-@endphp
+
 <x-app-layout>
   
   {{-- Row #1 --}}

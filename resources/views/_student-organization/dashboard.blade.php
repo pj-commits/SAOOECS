@@ -1,5 +1,5 @@
 @php
-    $hasPendingForms = false;   
+    $hasPendingForms = isset($myForms);   
 @endphp
 <x-app-layout>
     {{-- If there's no pending form --}}
@@ -54,7 +54,8 @@
                                 <!-- Accordion Body Bottom -->
                                 <!-- Tracker -->
                                 <x-tracker orientation="vertical">
-                                   <x-tracker-item orientation="vertical" approver="Adviser" dateApproved="{{date('h:i A  M d, Y', strtotime($form->adviser_date_approved))}}"/>
+                                   {{-- <x-tracker-item orientation="vertical" approver="Adviser" dateApproved="{{date('h:i A  M d, Y', strtotime($form->adviser_date_approved))}}"/> --}}
+                                   <x-tracker-item orientation="vertical" approver="Adviser" dateApproved="{{$form->adviser_date_approved}}"/>
                                    <x-tracker-item orientation="vertical" approver="SAO Head" dateApproved="{{$form->sao_date_approved}}"/>
                                    <x-tracker-item orientation="vertical" approver="Academic Services Head" dateApproved="{{$form->acadserv_date_approved}}"/>
                                    <x-tracker-item orientation="vertical" approver="Finance Head" dateApproved="{{$form->finance_date_approved}}"/> 
