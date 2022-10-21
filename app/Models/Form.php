@@ -33,7 +33,7 @@ class Form extends Model
     }
 
     public function fromOrg(){
-        return $this->belongsTo(Organization::class, 'prep_by');
+        return $this->belongsTo(Organization::class, 'organization_id');
     }
 
     

@@ -16,31 +16,41 @@ class SubmittedFormsController extends Controller
      */
     public function index()
     {
-        /*********************************************************
-        *  Fetch pending forms with current user part of approvers
-        **********************************************************/
+        /****************************************************************
+        *  Fetch forms: 
+        *  1. must be pending
+        *  2. must have curr_approver = current user's dept/name + isHead 
+        *  (defines the forms place in process)
+        *  3. for advisers, forms of his orgs
+        *****************************************************************/
         
         $pendingForms = Form::where('status', '=', 'Pending')
             ->where(function ($query) {
-                $staffId = auth()->user()->userStaff->where('user_id',auth()->user()->id)->pluck('id')->first();
-                $department = DB::table('departments')->find(auth()->user()->userStaff->first()->department_id);
-                $isHead= auth()->user()->userStaff->position === 'Head';
-                $isAdviser = auth()->user()->studentOrg->first()->pivot->position === 'Adviser';
+                $user = auth()->user();
+                $staff = $user->userStaff;
+                $isHead = $staff->position === 'Head';
+                $getAuthOrgIdList = $user->studentOrg->pluck('id');
+                $department = DB::table('departments')->find($staff->department_id);
 
-                if($department->name === 'Student Activities Office' && $isHead){
-                    $departmentCode = 'sao' ;
-                }elseif($department === 'Academic Services'&& $isHead){
-                    $departmentCode = 'acadserv' ;
-                }elseif($department === 'Finance Office' && $isHead){
-                    $departmentCode = 'finance' ;
+            // $query->where('adviser_staff_id', $staff->id);
+            // $query->orWhere('acadserv_staff_id', $staff->id);
+            // $query->orWhere('sao_staff_id', $staff->id);
+            // $query->orWhere('finance_staff_id', $staff->id);
+
+                if($department->name === 'Student Activities Office' && $isHead ){
+                    $query->where('curr_approver', 'SAO');
+                }elseif($department->name === 'Academic Services' && $isHead){
+                    $query->where('curr_approver', 'Academic Services');
+                }elseif($department->name === 'Finance Office'  && $isHead){
+                    $query->where('curr_approver', 'Finance');
                 }else{
-                $departmentCode = 'adviser' ;
-                }
+                    $query->where('curr_approver', 'Adviser');
+                    $query->whereIn('organization_id', $getAuthOrgIdList);
+                }  
+            })
+           ->paginate(10);
 
-                $query->where($departmentCode.'_staff_id', $staffId);
-                $query->where($departmentCode.'_is_approve', 0);
-            })->get();
-            dd($pendingForms);
+
         return view('_approvers.submitted-forms', compact('pendingForms'));
     }
 
