@@ -47,7 +47,7 @@
                 {{-- Row #4 --}}
                 <div class="grid grid-flow-row auto-rows-max gap-6 mt-4 md:grid-cols-4">
                     <p class="font-bold">Organizer: <span class="font-normal">  {{$proposal->organizer_name}} </span></p>
-                    <p class="font-bold md:col-start-4">Organization: <span class="font-normal">  {{$forms->fromOrg->org_name}} </span></p>
+                    {{-- <p class="font-bold md:col-start-4">Organization: <span class="font-normal">  {{$forms->fromOrg->org_name}} </span></p> --}}
                 </div>
 
                 {{-- Row #5 --}}

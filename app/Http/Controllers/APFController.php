@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Form;
 use App\Models\User;
 use App\Models\Event;
@@ -45,7 +46,8 @@ class APFController extends Controller
             'finance_staff_id' => 3,
             'event_id' => $e->event_id+1,
             'form_type' => 'APF',
-            'target_date' => $request->target_date
+            'target_date' => $request->target_date,
+            'deadline' => Carbon::now()->setTimezone('Asia/Manila')->addDays(3),
         ]);
 
         //Proposal Create

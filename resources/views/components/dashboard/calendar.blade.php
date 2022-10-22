@@ -1,5 +1,4 @@
 @props(['forms'])
-
 @php
     $forms = substr($forms, 1, -1);
 @endphp
@@ -94,7 +93,7 @@
         <div class="space-y-2 max-h-72 overflow-y-auto">
           <template x-for="event in listOfEvents">	
             <div
-              @click="console.log(event.id)"
+              @click="viewForm(event.id)"
               class="px-2 py-1 rounded-lg mt-1 overflow-hidden border cursor-pointer"
               :class="{
                 'hover:border-green-200 text-semantic-success hover:bg-green-100 bg-green-50 border-green-300': event.form_type === 'APF',
