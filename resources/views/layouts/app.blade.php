@@ -26,6 +26,12 @@
         {{-- Calendar Handler--}}
         <script src="{{ asset('js/calendar.js') }}" defer></script>
 
+        {{-- Confirmation of Input for Cancel--}}
+        <script src="{{ asset('js/confirmation-input.js') }}" defer></script>
+
+        {{-- Image Upload Handler --}}
+        <script src="{{ asset('js/image-upload.js') }}" defer></script>
+
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>

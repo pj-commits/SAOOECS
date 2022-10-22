@@ -8,19 +8,26 @@ use App\Models\Event;
 use Illuminate\Http\Request;
 use App\Models\OrganizationUser;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
-    public function index(){
-
-        //Fetch form with event id na org id == myorglist
-        $authOrgList = Auth::user()->studentOrg->pluck('id')->toArray();
-        $myForms = Form::whereIn('organization_id', $authOrgList)->get();
-
+    public function index()
+    {
         //show pages for differnet users
-        if(Auth::user()->checkUserType('Student')){
-            return view('_student-organization.dashboard');
-        }elseif(Auth::user()->checkUserType('Professor|Staff')){
+        if(Auth::user()->checkUserType('Student'))
+        {
+            //Fetch form with event id na org id == myorglist
+            $authOrgList = Auth::user()->studentOrg->pluck('id')->toArray();
+            $myForms = Form::where('organization_id', $authOrgList)
+                            ->where('status', '=', 'Pending')
+                            ->orWhere('status', '=', 'Denied')
+                            ->get();
+
+            return view('_student-organization.dashboard', compact('myForms'));
+
+        }elseif(Auth::user()->checkUserType('Professor|Staff'))
+        {
             $pendingForms = [
                 [
                     'id' => '1',
@@ -68,5 +75,22 @@ class DashboardController extends Controller
         }
         return view('_users.dashboard');
     } 
+
+    public function cancel(Request $request)
+    {
+        $form = Form::findOrFail($request->formId);
+        $eventTitle = $form->event_title;
+        
+        if($eventTitle === $request->checker){
+            $form->status = "Cancelled";
+            $form->update();
+
+            $message = $request->checker. " was succesfully cancelled!";
+
+            return redirect()->back()->with('remove', $message);
+        }
+        
+        return redirect()->back()->with('error', 'Do not try it again! This action is recorded.');
+    }
 
 }
