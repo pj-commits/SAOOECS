@@ -15,6 +15,7 @@ class Staff extends Model
         'position'
     ];
 
+    // BELONGS TO
     public function facultyUser()
     {
         return $this->belongsTo(User::class);
@@ -24,4 +25,6 @@ class Staff extends Model
     {
         return $this->belongsTo(Department::class);
     }
+
+
 }

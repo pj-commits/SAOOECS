@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('requisition_id')->constrained()->onDelete('cascade');
             $table->unsignedInteger('quantity');
             $table->string('purposes');
-            $table->decimal('price',5,2);
+            $table->decimal('price',11,2);
             $table->timestamps();
         });
     }

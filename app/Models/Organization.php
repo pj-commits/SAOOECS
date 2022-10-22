@@ -19,8 +19,10 @@ class Organization extends Model
         ->withTimestamps();
     }
 
-    public function orgEvents(){
-        return $this->hasMany(Event::class);
+    public function orgForms(){
+        return $this->hasMany(Form::class);
     }
+
+    
 
 }

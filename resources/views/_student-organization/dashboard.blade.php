@@ -1,6 +1,6 @@
 @php
     $formTypes = [ 'APF' => 'Activity Proposal Form', 'RF' => 'Budget Requisition Form', 'NR' => 'Narrative Report', 'LF' => 'Liquidation Form'];
-    $hasPendingForms = isset($myForms);   
+    $hasPendingForms = !empty($myForms);   
 @endphp
 <x-app-layout>
     @if(Helper::isFormCreated())
@@ -64,8 +64,8 @@
                                         <!-- Accordion Body Top -->
                                         <div class="py-4 space-y-2">
                                             <div class="grid grid-cols-2">
-                                                <p class="text-sm text-bland-600"> <span class="font-bold">Date Submitted: </span>{{ date(' F d, Y - h:i A', strtotime($form->created_at)) }}</p>
-                                                <p class="text-sm text-bland-600"> <span class="font-bold">Submitted By: </span>{{ $form->preparedBy->fromUser->first_name }} {{ $form->preparedBy->fromUser->last_name }}</p>
+                                                <p class="text-sm text-bland-600"> <span class="font-bold">Date Submitted: </span>{{\Carbon\Carbon::parse($form->created_at)->format('M d, Y') }}{{ date(' F d, Y - h:i A', strtotime($form->created_at)) }}</p>
+                                                <p class="text-sm text-bland-600"> <span class="font-bold">Submitted By: </span>{{$form->fromOrgUser->fromUser->first_name}} {{$form->fromOrgUser->fromUser->last_name}}</p>
                                             </div>
                                             <div class="grid grid-cols-2">
                                                 <p class="text-sm text-bland-600"> <span class="font-bold">Form Type: </span>{{ $formTypes[$form->form_type] }}</p>
@@ -74,15 +74,15 @@
                                         </div>
                                         
 
-                                        <hr>
-                                        <!-- Accordion Body Bottom -->
-                                        <!-- Tracker -->
-                                        <x-tracker orientation="vertical">
-                                        <x-tracker-item orientation="vertical" approver="Adviser" dateApproved="{{ date(' F d, Y - h:i A', strtotime($form->adviser_date_approved))  }}"/>
-                                        <x-tracker-item orientation="vertical" approver="SAO Head" dateApproved="{{ $form->sao_date_approved }}"/>
-                                        <x-tracker-item orientation="vertical" approver="Academic Services Head" dateApproved="{{ $form->acadserv_date_approved }}"/>
-                                        <x-tracker-item orientation="vertical" approver="Finance Head" dateApproved="{{ $form->finance_date_approved }}"/> 
-                                        </x-tracker>
+                                <hr>
+                                <!-- Accordion Body Bottom -->
+                                <!-- Tracker -->
+                                <x-tracker orientation="vertical">
+                                    <x-tracker-item orientation="vertical" approver="Adviser" dateApproved="{{$form->adviser_date_approved ? \Carbon\Carbon::parse($form->adviser_date_approved)->format('M d, Y') : null}}"/>
+                                    <x-tracker-item orientation="vertical" approver="SAO" dateApproved="{{$form->sao_date_approved ? \Carbon\Carbon::parse($form->sao_date_approved)->format('M d, Y') : null}}"/>
+                                    <x-tracker-item orientation="vertical" approver="Academic Services" dateApproved="{{$form->acadserv_date_approved ? \Carbon\Carbon::parse($form->acadserv_date_approved)->format('M d, Y') : null}}"/>
+                                    <x-tracker-item orientation="vertical" approver="Finance and Accounting Office" dateApproved="{{$form->finance_date_approved ? \Carbon\Carbon::parse($form->finance_date_approved)->format('M d, Y') : null}}"/>
+                                </x-tracker>
 
                                         <!-- cancelForm Button && Push Notes -->
                                         <div class="flex justify-end space-x-2 my-4">
@@ -113,6 +113,21 @@
                                     <x-button bg="bg-semantic-success" hover="hover:bg-green-600" @click="cancelForm = false, modal=false" >
                                         {{ __('Back') }}
                                         
+                                <hr>
+                                <!-- Accordion Body Bottom -->
+                                <!-- Tracker -->
+                                <x-tracker orientation="vertical">
+                                   {{-- <x-tracker-item orientation="vertical" approver="Adviser" dateApproved="{{date('h:i A  M d, Y', strtotime($form->adviser_date_approved))}}"/> --}}
+                                   <x-tracker-item orientation="vertical" approver="Adviser" dateApproved="{{$form->adviser_date_approved}}"/>
+                                   <x-tracker-item orientation="vertical" approver="SAO Head" dateApproved="{{$form->sao_date_approved}}"/>
+                                   <x-tracker-item orientation="vertical" approver="Academic Services Head" dateApproved="{{$form->acadserv_date_approved}}"/>
+                                   <x-tracker-item orientation="vertical" approver="Finance Head" dateApproved="{{$form->finance_date_approved}}"/> 
+                                </x-tracker>
+
+                                <!-- cancelForm Button && Push Notes -->
+                                <div class="flex justify-end space-x-2 my-4">
+                                    <x-button bg="bg-semantic-danger" hover="hover:bg-rose-600" @click="cancelForm = true,  modal= true">
+                                        {{__('Cancel')}}
                                     </x-button>
 
                                     {{-- Custom button --}}
