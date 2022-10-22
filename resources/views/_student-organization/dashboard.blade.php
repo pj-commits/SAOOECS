@@ -113,6 +113,21 @@
                                     <x-button bg="bg-semantic-success" hover="hover:bg-green-600" @click="cancelForm = false, modal=false" >
                                         {{ __('Back') }}
                                         
+                                <hr>
+                                <!-- Accordion Body Bottom -->
+                                <!-- Tracker -->
+                                <x-tracker orientation="vertical">
+                                   {{-- <x-tracker-item orientation="vertical" approver="Adviser" dateApproved="{{date('h:i A  M d, Y', strtotime($form->adviser_date_approved))}}"/> --}}
+                                   <x-tracker-item orientation="vertical" approver="Adviser" dateApproved="{{$form->adviser_date_approved}}"/>
+                                   <x-tracker-item orientation="vertical" approver="SAO Head" dateApproved="{{$form->sao_date_approved}}"/>
+                                   <x-tracker-item orientation="vertical" approver="Academic Services Head" dateApproved="{{$form->acadserv_date_approved}}"/>
+                                   <x-tracker-item orientation="vertical" approver="Finance Head" dateApproved="{{$form->finance_date_approved}}"/> 
+                                </x-tracker>
+
+                                <!-- cancelForm Button && Push Notes -->
+                                <div class="flex justify-end space-x-2 my-4">
+                                    <x-button bg="bg-semantic-danger" hover="hover:bg-rose-600" @click="cancelForm = true,  modal= true">
+                                        {{__('Cancel')}}
                                     </x-button>
 
                                     {{-- Custom button --}}

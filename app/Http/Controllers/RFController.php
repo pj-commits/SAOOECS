@@ -40,7 +40,7 @@ class RFController extends Controller
             'acadserv_staff_id' => 4,
             'finance_staff_id' => 3,
             'event_id' => $request->event_id,
-            'form_type' => 'RF'
+            'form_type' => 'BRF'
         ]);
 
         // Requisition Create

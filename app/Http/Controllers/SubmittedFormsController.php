@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Form;
+use App\Models\Staff;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SubmittedFormsController extends Controller
 {
@@ -13,7 +16,32 @@ class SubmittedFormsController extends Controller
      */
     public function index()
     {
-        return view('_approvers.submitted-forms');
+        /*********************************************************
+        *  Fetch pending forms with current user part of approvers
+        **********************************************************/
+        
+        $pendingForms = Form::where('status', '=', 'Pending')
+            ->where(function ($query) {
+                $staffId = auth()->user()->userStaff->where('user_id',auth()->user()->id)->pluck('id')->first();
+                $department = DB::table('departments')->find(auth()->user()->userStaff->first()->department_id);
+                $isHead= auth()->user()->userStaff->position === 'Head';
+                $isAdviser = auth()->user()->studentOrg->first()->pivot->position === 'Adviser';
+
+                if($department->name === 'Student Activities Office' && $isHead){
+                    $departmentCode = 'sao' ;
+                }elseif($department === 'Academic Services'&& $isHead){
+                    $departmentCode = 'acadserv' ;
+                }elseif($department === 'Finance Office' && $isHead){
+                    $departmentCode = 'finance' ;
+                }else{
+                $departmentCode = 'adviser' ;
+                }
+
+                $query->where($departmentCode.'_staff_id', $staffId);
+                $query->where($departmentCode.'_is_approve', 0);
+            })->get();
+            dd($pendingForms);
+        return view('_approvers.submitted-forms', compact('pendingForms'));
     }
 
     /**
