@@ -144,8 +144,9 @@ class OrganizationController extends Controller
 
         //capitalized first letter of position
         $position = ucfirst($request->position);
-        $selected->studentOrg()->update(['position' => $position, 'role' => $request->role]);
-        $message = $selected->firstName.' '.$selected->lastName.' was succesfully edited!';
+        $attributes = ['position' => $position, 'role' => $request->role];
+        $selected->studentOrg()->updateExistingPivot($orgId, $attributes);
+        $message = $selected->first_name.' '.$selected->last_name.' was succesfully edited!';
 
         return Redirect::route('organization.show', ['id'=>$orgId])->with('edit', $message);
     }
