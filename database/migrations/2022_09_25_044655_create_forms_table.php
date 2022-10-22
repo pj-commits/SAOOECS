@@ -20,14 +20,12 @@ return new class extends Migration
             $table->foreignId('organization_id')->constrained('organizations');
             $table->string('event_title');
 
-            // $table->string('formable_type');
-            // $table->foreignId('formable_id')->constrained()->onDelete('cascade');
             $table->string('form_type');
-            
             $table->string('control_number');
 
             $table->string('curr_approver')->default('Adviser');
             $table->string('status')->default('Pending');
+            $table->string('remarks')->nullable();
 
             //Adviser
             $table->foreignId('adviser_staff_id')->nullable();

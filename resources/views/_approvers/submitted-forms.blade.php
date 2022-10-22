@@ -1,5 +1,5 @@
 @php
-    $hasSubmittedForms = empty($pendingForms);
+    $hasSubmittedForms = !empty($pendingForms);
 @endphp
 <x-app-layout>
     {{-- If there's no record--}}
@@ -59,9 +59,9 @@
                     <x-table.body>
                         {{-- Insert Table Body Columns Here --}}
                         <x-table.body-col class="pl-6">{{$form->event_title}}</x-table.body-col>
-                        <x-table.body-col class="pl-6">{{$form->fromOrg}}</x-table.body-col>
+                        <x-table.body-col class="pl-6">{{$form->fromOrg->org_name}}</x-table.body-col>
                         <x-table.body-col class="pl-6">{{$form->form_type}}</x-table.body-col>
-                        <x-table.head-col class="pl-6">{{date('M d, Y  h:i A', strtotime($form->created_at))}}</x-table.head-col>
+                        <x-table.body-col class="pl-6">{{date('M d, Y  h:i A', strtotime($form->created_at))}}</x-table.body-col>
                         <x-table.body-col class="pl-6">
                             <a class="text-primary-blue hover:text-blue-800 hover:underline hover:underline-offset-4" href="#">View Details</a>
                         </x-table.body-col>
@@ -73,11 +73,13 @@
                     
                     
                 </x-table.main>
+                <div class="mt-4">
+                    {{ $pendingForms->links('pagination::tailwind')}}
+                </div>
             </div>
         </div>
-
         {{-- If search has no result --}}
-        
     </div>
+
     @endif
 </x-app-layout>

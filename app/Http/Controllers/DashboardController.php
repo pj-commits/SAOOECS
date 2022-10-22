@@ -32,8 +32,7 @@ class DashboardController extends Controller
 
            // forms
            $forms = json_encode(Form::where('status', 'Pending')->get());
-        //    dd(array_filter(json_decode($forms, true), ['form_type' => 'APF']));
-        // //    array_filter ( array $input [, callable $callback = "" ]
+
 
 
             return view('_approvers.dashboard', compact('forms', 'isAcadservOrFinance'));
