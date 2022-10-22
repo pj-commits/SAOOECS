@@ -66,7 +66,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(Staff::class);
     }
 
-    public function test()
+    public function checkOrgUser()
     {
         return $this->hasMany(OrganizationUser::class);
     }
