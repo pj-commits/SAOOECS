@@ -1,5 +1,5 @@
 @php
-    $hasSubmittedForms = !empty($pendingForms);
+    $hasSubmittedForms = $pendingForms->isNotEmpty();
 @endphp
 <x-app-layout>
     <x-alert-message/>   
