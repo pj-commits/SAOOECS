@@ -61,7 +61,7 @@
                     <div class="mt-2">
                         <x-label for="remarks" :value="__('Remarks')" />
 
-                        <x-text-area id="remarks" name="remarks" @keyup="storeInput($el)"></x-text-area>
+                        <x-text-area id="remarks" name="remarks" required @keyup="storeInput($el)"></x-text-area>
                     
                     </div>
 
@@ -239,30 +239,77 @@
                     {{-- Row #6 --}}
                     <hr class="mt-6 border-1 border-bland-300">
 
-                    <div class="flex justify-center align-center flex-wrap pt-3 space-y-3 md:space-y-0 md:space-x-3">
+            
+                    <!-- Official Poster -->
+                    <div x-data="singleUpload()" x-cloak class="w-full">
+                        <div class="mt-4">
 
-                        <livewire:n-r-controller/>
-                        {{-- <!-- Official Poster -->
-                        <div class="w-full p-3 border-2 border-dashed hover:border-primary-blue md:w-[49%]">
-                        
-                            <div>
-                                <h1 class="text-lg text-bland-600  my-2 pb-2">Official Poster</h1>
-                                <livewire:single-upload />
+                            <h1 class="text-lg text-bland-600 font-bold">Official Poster</h1>
+
+                            <div class="mb-3 w-full">
+                                <div class="flex bg-blue-100 py-4 px-2 my-2 rounded-sm">
+                                    <x-svg width="w-4" height="w-4" color="fill-blue-700" marginRight="mr-1">
+                                        <path d="M11 17h2v-6h-2Zm1-8q.425 0 .713-.288Q13 8.425 13 8t-.287-.713Q12.425 7 12 7t-.712.287Q11 7.575 11 8t.288.712Q11.575 9 12 9Zm0 13q-2.075 0-3.9-.788-1.825-.787-3.175-2.137-1.35-1.35-2.137-3.175Q2 14.075 2 12t.788-3.9q.787-1.825 2.137-3.175 1.35-1.35 3.175-2.138Q9.925 2 12 2t3.9.787q1.825.788 3.175 2.138 1.35 1.35 2.137 3.175Q22 9.925 22 12t-.788 3.9q-.787 1.825-2.137 3.175-1.35 1.35-3.175 2.137Q14.075 22 12 22Zm0-2q3.35 0 5.675-2.325Q20 15.35 20 12q0-3.35-2.325-5.675Q15.35 4 12 4 8.65 4 6.325 6.325 4 8.65 4 12q0 3.35 2.325 5.675Q8.65 20 12 20Zm0-8Z"/>
+                                    </x-svg>
+                                    <p class="text-xs font-bold text-blue-700">You can only upload a single file with file extension of JPG, PNG and JPEG</p>
+                                </div>
+                                <input class="form-control block w-96 px-3 py-1.5 my-4 font-normal text-sm text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0
+                                focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" name="official_poster" accept="image/*" id="imgSelect" x-ref="singleFile" @change="previewFile">
                             </div>
-
                         </div>
-                    
-                        <!-- Event Images -->
-                        <div class="w-full p-3 border-2 border-dashed hover:border-primary-blue md:w-[49%]">
 
-                            <div>
-                                <h1 class="text-lg text-bland-600 my-2">Event Images</h1>
-                                <livewire:multiple-upload />
+                        <div class="bg-gray-200 py-2 px-2 mt-2 rounded-sm">
+                            <div class="flex">
+                                <x-svg width="w-4" height="w-4" color="fill-gray-500" marginRight="mr-1">
+                                    <path d="M11.5 22q-2.3 0-3.9-1.6T6 16.5V6q0-1.65 1.175-2.825Q8.35 2 10 2q1.65 0 2.825 1.175Q14 4.35 14 6v9.5q0 1.05-.725 1.775Q12.55 18 11.5 18q-1.05 0-1.775-.725Q9 16.55 9 15.5V6h1.5v9.5q0 .425.288.712.287.288.712.288t.713-.288q.287-.287.287-.712V6q0-1.05-.725-1.775Q11.05 3.5 10 3.5q-1.05 0-1.775.725Q7.5 4.95 7.5 6v10.5q0 1.65 1.175 2.825Q9.85 20.5 11.5 20.5q1.65 0 2.825-1.175Q15.5 18.15 15.5 16.5V6H17v10.5q0 2.3-1.6 3.9T11.5 22Z"/>
+                                </x-svg>
+                                <p class="text-xs font-bold text-gray-500">File</p>
                             </div>
-
-                        </div> --}}
+                    
+                            <template x-if="imgsrc">
+                                <p x-text="fileName" class="text-sm text-blue-600 cursor-pointer mt-4 hover:underline"  @click="window.open(imgsrc)"> </p>
+                            </template>
+           
+                        </div>
 
                     </div>
+
+                    <!-- Event Images -->
+                    <div x-data="multipleUpload()" x-cloak class="w-full">
+                        <div class="mt-12">
+
+                            <h1 class="text-lg text-bland-600 font-bold">Event Images</h1>
+
+                            <div class="mb-3 w-full">
+                                <div class="flex bg-blue-100 py-4 px-2 my-2 rounded-sm">
+                                    <x-svg width="w-4" height="w-4" color="fill-blue-700" marginRight="mr-1">
+                                        <path d="M11 17h2v-6h-2Zm1-8q.425 0 .713-.288Q13 8.425 13 8t-.287-.713Q12.425 7 12 7t-.712.287Q11 7.575 11 8t.288.712Q11.575 9 12 9Zm0 13q-2.075 0-3.9-.788-1.825-.787-3.175-2.137-1.35-1.35-2.137-3.175Q2 14.075 2 12t.788-3.9q.787-1.825 2.137-3.175 1.35-1.35 3.175-2.138Q9.925 2 12 2t3.9.787q1.825.788 3.175 2.138 1.35 1.35 2.137 3.175Q22 9.925 22 12t-.788 3.9q-.787 1.825-2.137 3.175-1.35 1.35-3.175 2.137Q14.075 22 12 22Zm0-2q3.35 0 5.675-2.325Q20 15.35 20 12q0-3.35-2.325-5.675Q15.35 4 12 4 8.65 4 6.325 6.325 4 8.65 4 12q0 3.35 2.325 5.675Q8.65 20 12 20Zm0-8Z"/>
+                                    </x-svg>
+                                    <p class="text-xs font-bold text-blue-700">You can upload multiple file with file extension of JPG, PNG and JPEG</p>
+                                </div>
+                                <input class="form-control block w-96 px-3 py-1.5 my-4 font-normal text-sm text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0
+                                focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" name="event_images[]" accept="image/*" id="imgSelect" x-ref="multipleFile" @change="previewFile" multiple>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-200 py-2 px-2 mt-2 rounded-sm border">
+                            <div class="flex">
+                                <x-svg width="w-4" height="w-4" color="fill-gray-500" marginRight="mr-1">
+                                    <path d="M11.5 22q-2.3 0-3.9-1.6T6 16.5V6q0-1.65 1.175-2.825Q8.35 2 10 2q1.65 0 2.825 1.175Q14 4.35 14 6v9.5q0 1.05-.725 1.775Q12.55 18 11.5 18q-1.05 0-1.775-.725Q9 16.55 9 15.5V6h1.5v9.5q0 .425.288.712.287.288.712.288t.713-.288q.287-.287.287-.712V6q0-1.05-.725-1.775Q11.05 3.5 10 3.5q-1.05 0-1.775.725Q7.5 4.95 7.5 6v10.5q0 1.65 1.175 2.825Q9.85 20.5 11.5 20.5q1.65 0 2.825-1.175Q15.5 18.15 15.5 16.5V6H17v10.5q0 2.3-1.6 3.9T11.5 22Z"/>
+                                </x-svg>
+                                <p class="text-xs font-bold text-gray-500">Files</p>
+                            </div>
+                    
+                            <div class="max-h-44 overflow-y-auto">
+                                <template x-for="(name, index) in fileName" :key="index">
+                                    <p x-text="name" class="text-sm mt-2 text-blue-600 cursor-pointer hover:underline"  @click="window.open(imgsrc[index])"> </p>
+                                </template>
+                            </div>
+                        </div>
+
+                    </div>
+
+                
 
                     {{-- Row #7 Comments Table --}}
                     <div x-data="comment_suggestion_handler()">
@@ -424,8 +471,6 @@
             
                     </div>
 
-                   
-                    
                     {{-- Submit Button--}}
                     <div class="mt-8">
                         <x-button type="submit" class="px-12">
