@@ -20,8 +20,7 @@ class OrganizationUser extends Pivot
         return $this->hasMany(Form::class, 'prep_by', 'user_id');
     }
 
-    
-    
+
     public function getOrgName(){
         return $this->belongsTo(Organization::class, 'organization_id');
     }

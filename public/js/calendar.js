@@ -57,17 +57,18 @@ function calendar() {
             this.events.push({
                 id: form.id,
                 organization: form.organization,
-                event_title: form.event_date,
+                event_title: form.event_title,
                 form_type: form.form_type,
                 description: this.form_dictionary[form.form_type],
                 deadline: new Date(form.deadline),
-                date_submitted: new Date(form.dateSubmitted)
+                date_submitted: new Date(form.created_at)
               });
         });
     },
 
-    viewForm(formId){
-        console.log(formId);
+    viewForm(formId){ 
+      let id = formId
+      window.location.assign("/submitted-forms/details/"+id);
     },
 
     getNoOfDays() {
@@ -91,7 +92,6 @@ function calendar() {
 
     getEvents(date, type){
       let events = this.events.filter(event => new Date(event.deadline).toDateString() === new Date(this.year, this.month, date).toDateString());
-
       if(type === "getLength"){
         return events.length;
       }else if(type === "modalEvents"){

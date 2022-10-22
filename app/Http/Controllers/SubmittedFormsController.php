@@ -42,10 +42,11 @@ class SubmittedFormsController extends Controller
 
                 $department = DB::table('departments')->find($staff->department_id);
 
-                if($user->checkPosition('Adviser')){                            //  are you an adviser of an org?
+                if($user->checkPosition('Adviser')){     
+                                           //  are you an adviser of an org?
                     $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );//  form curr adviser_staff_id == your orgUser Id ?
                     $query->whereIn('organization_id', $getAuthOrgIdList);      //  form is part of curr user's org ? 
-                    $query->where('curr_approver', 'Adviser');                  //  form curr_approver == adviser ?
+                    // $query->where('curr_approver', 'Adviser');                  //  form curr_approver == adviser ?
                 }
 
                 if($department->name === 'Student Activities Office' && $isHead ){
@@ -66,6 +67,7 @@ class SubmittedFormsController extends Controller
             })
            ->paginate(10);
 
+
         return view('_approvers.submitted-forms', compact('pendingForms'));
     }
 
@@ -77,7 +79,6 @@ class SubmittedFormsController extends Controller
 
     public function show(Form $forms)
     {   
-
         if($forms->form_type === 'APF'){
 
             $proposal = Proposal::where('form_id', $forms->id)->firstOrFail();

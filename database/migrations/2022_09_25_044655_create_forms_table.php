@@ -27,6 +27,7 @@ return new class extends Migration
 
             $table->string('curr_approver')->default('Adviser');
             $table->string('status')->default('Pending');
+            $table->date('deadline')->nullable();
             $table->string('remarks')->nullable();
 
             //Adviser

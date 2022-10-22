@@ -1,6 +1,4 @@
-
 <x-app-layout>
-  
   {{-- Row #1 --}}
   <div class="pt-24 px-4 lg:px-8 mb-4">
     <!-- Card - Pending Forms -->

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\OrganizationUser;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -36,8 +37,6 @@ class DashboardController extends Controller
            // forms
            $forms = json_encode(Form::where('status', 'Pending')->get());
 
-
-
             return view('_approvers.dashboard', compact('forms', 'isAcadservOrFinance'));
 
                 
@@ -46,15 +45,12 @@ class DashboardController extends Controller
             /**************************************************
             *  Fetch form with event id na org id == myorglist
             ***************************************************/
-
-            
-    
             $authOrgList = Auth::user()->studentOrg->pluck('id')->toArray();
             // $myForms = Form::whereIn('organization_id', $authOrgList)->get();
 
             $myForms = Form::whereIn('organization_id', $authOrgList)
             ->where(function ($query) {
-                $query->where('status','Pending');
+                $query->where('status','Pending')->orWhere('status', 'Denied');
             })->orderBy('created_at', 'desc')->get();
 
 

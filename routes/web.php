@@ -30,7 +30,7 @@ use App\Mail\OrgMemAddEmail;
 
 // LOGIN: Auto redirect
 Route::get('/', function () {
-    return view('auth.login')->name('login');
+    return view('auth.login');
 });
 
 // DASHBOARD: For Auth Users
