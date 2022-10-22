@@ -2,6 +2,7 @@
     $hasSubmittedForms = !empty($pendingForms);
 @endphp
 <x-app-layout>
+    <x-alert-message/>   
     {{-- If there's no record--}}
     @if(!$hasSubmittedForms) 
     <div class="mt-14 h-auto w-full rounded-sm px-6 py-4">
