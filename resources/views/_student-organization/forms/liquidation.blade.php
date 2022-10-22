@@ -45,7 +45,7 @@
 
                         {{-- Event Title --}}
                         <div>
-                            <x-label for="event_title" :value="__('Event Title')" />
+                            <x-label for="event_id" :value="__('Event Title')" />
 
                             <x-select class="mt-1" id="event_id" name="event_id" aria-label="Default select example" @change="storeInput($el)">
                                 <option value='' selected disabled>--select option--</option>
@@ -62,19 +62,6 @@
                             <x-input id="end_date" class="mt-1 w-full" type="date" name="end_date" required autofocus @change="storeInput($el)"/>
                         </div>
 
-                        {{-- Cash Advance --}}
-                        <div>
-                            <x-label for="cash_advance" :value="__('Cash Advance (₱)')" />
-
-                            <x-input id="cash_advance" class="mt-1 w-full" type="number" min="1" name="cash_advance" required autofocus @keyup="storeInput($el)"/>
-                        </div>
-
-                    </div>
-
-
-                     {{-- Row #2 --}}                 
-                     <div class="grid grid-flow-row auto-rows-max gap-6 md:grid-cols-3 mt-4">
-
                         {{-- CV Number --}}
                         <div>
                             <x-label for="cv_number" :value="__('CV Number')" />
@@ -82,11 +69,34 @@
                             <x-input id="cv_number" class="mt-1 w-full" type="text" name="cv_number" required autofocus @keyup="storeInput($el)"/>
                         </div>
 
+
+                    </div>
+
+
+                     {{-- Row #2 --}}                 
+                     <div x-data="liquidationTotal()" x-init="onLoad" class="grid grid-flow-row auto-rows-max gap-6 md:grid-cols-3 mt-4">
+
+
+                        {{-- Cash Advance --}}
+                        <div>
+                            <x-label for="cash_advance" :value="__('Cash Advance (₱)')" />
+
+                            <x-input id="cash_advance" class="mt-1 w-full" type="number" min="1" name="cash_advance" x-ref="cashAdvance" required autofocus @keyup="storeInput($el), setData($el)"/>
+                        </div>
+
                         {{-- Deduct --}}
                         <div>
                             <x-label for="deduct" :value="__('Deduct (₱)')" />
 
-                            <x-input id="deduct" class="mt-1 w-full" type="number" min="1" name="deduct" required autofocus @keyup="storeInput($el)"/>
+                            <x-input id="deduct" class="mt-1 w-full" type="number" min="1" name="deduct" x-ref="deduct" required autofocus @keyup="storeInput($el), setData($el)"/>
+                        </div>
+
+                        
+                        {{-- Total --}}
+                        <div>
+                            <x-label for="total" :value="__('Total (Cash Advance - Deduct)')" />
+
+                            <x-input id="liquidation_total" class="mt-1 w-full" type="number" min="1" name="liquidationTotal" value="0" x-ref="liquidationTotal" autofocus readonly />
                         </div>
 
                     </div>

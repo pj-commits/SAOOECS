@@ -33,14 +33,15 @@ class RFController extends Controller
         $form = Form::create([
             'event_title' => $event->event_title,
             'organization_id' => $event->organization_id,
-            'prep_by' => auth()->id(),
+            'prep_by' => Auth::user()->id,
             'control_number'=> $this->generateUniqueCode(),
             'adviser_staff_id' => 5,
             'sao_staff_id' => 2,
             'acadserv_staff_id' => 4,
             'finance_staff_id' => 3,
             'event_id' => $request->event_id,
-            'form_type' => 'RF'
+            'form_type' => 'BRF',
+            'target_date' => $event->target_date
         ]);
 
         // Requisition Create
@@ -54,7 +55,7 @@ class RFController extends Controller
                     'price' => $request->price[$i],
                 ]);
         }
-        return redirect('/')->with('add', 'RF created successfully!');
+        return redirect('dashboard')->with('add-rf', 'Budget Requisition Form was successfully created!');
     }
 
     /**

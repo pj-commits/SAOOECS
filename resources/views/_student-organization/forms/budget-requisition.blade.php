@@ -41,7 +41,7 @@
 
                         {{-- Event Title --}}
                         <div>
-                            <x-label for="event_title" :value="__('Event Title')" />
+                            <x-label for="event_id" :value="__('Event Title')" />
 
                             <x-select class="mt-1" id="event_id" name="event_id" aria-label="Default select example" @change="storeInput($el)">
                                 <option value='' selected disabled>--select option--</option>
@@ -93,8 +93,9 @@
                             {{-- Table Head--}}
                             <x-table.head>
                                 {{-- Insert Table Head Columns Here --}}
-                                <x-table.head-col class="pr-12 sm:pr-3">Quantity</x-table.head-col>
+                                <x-table.head-col class="w-32 pr-12 sm:pr-3">Item No.</x-table.head-col>
                                 <x-table.head-col>Particulars/Purpose</x-table.head-col>
+                                <x-table.head-col class="pr-12 sm:pr-3">Quantity</x-table.head-col>
                                 <x-table.head-col class="pr-12 sm:pr-3">Price (₱)</x-table.head-col>
                                 <x-table.head-col class="text-center">Action</x-table.head-col>
                                 {{-- Table Head Columns Ends Here --}}
@@ -105,10 +106,13 @@
                                     <tr class="bg-white  hover:bg-bland-100">
                                         {{-- Insert Table Body Columns Here --}}
                                         <x-table.body-col>
-                                            <x-input x-model="field.quantity"  id="quantity" class="mt-1 w-full" type="number" min="1" name="quantity[]"  readonly autofocus />
+                                            <x-input x-model="field.item_number"  id="item_number" class="mt-1 w-full" type="text" name="item_number[]"  readonly autofocus />
                                         </x-table.body-col>
                                         <x-table.body-col>
                                             <x-input x-model="field.purpose" id="purpose" class="mt-1 w-full" type="text" name="purpose[]"  readonly autofocus />
+                                        </x-table.body-col>
+                                        <x-table.body-col>
+                                            <x-input x-model="field.quantity"  id="quantity" class="mt-1 w-full" type="number" min="1" name="quantity[]"  readonly autofocus />
                                         </x-table.body-col>
                                         <x-table.body-col>
                                             <x-input x-model="field.price" id="price" class="mt-1 w-full" type="number" min="1" name="price[]" readonly autofocus />
@@ -127,10 +131,13 @@
                                 <tr>
                                     {{-- Insert Table Footer Columns Here --}}
                                     <x-table.footer-col>
-                                        <x-input x-model="newRequisitions[0].quantity" class="mt-1 w-full" type="number" min="1" autofocus />
+                                        <x-input x-model="getItemNumber()" class="mt-1 w-full" type="text" readonly />
                                     </x-table.footer-col>
                                     <x-table.footer-col>
                                         <x-input x-model="newRequisitions[0].purpose" class="mt-1 w-full" type="text" autofocus />
+                                    </x-table.footer-col>
+                                    <x-table.footer-col>
+                                        <x-input x-model="newRequisitions[0].quantity" class="mt-1 w-full" type="number" min="1" autofocus />
                                     </x-table.footer-col>
                                     <x-table.footer-col>
                                         <x-input x-model="newRequisitions[0].price" class="mt-1 w-full" type="number" min="1" autofocus />
@@ -144,6 +151,9 @@
                                 </tr>
                                 <tr class="bg-bland-100">
                                     {{-- Insert Table Footer Columns Here --}}
+                                    <x-table.footer-col>
+                                        {{-- Empty Space --}}
+                                    </x-table.footer-col>
                                    <x-table.footer-col>
                                        {{-- Empty Space --}}
                                    </x-table.footer-col>

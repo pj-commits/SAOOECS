@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('form_id')->constrained()->onDelete('cascade');
             $table->date('end_date');
-            $table->decimal('cash_advance', 5, 2);
+            $table->decimal('cash_advance', 11, 2);
             $table->integer('cv_number');
-            $table->decimal('deduct');
+            $table->decimal('deduct', 11, 2);
             $table->timestamps();
         });
     }

@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Notifications\Notifiable;
+use Laratrust\Traits\LaratrustUserTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Auth;
-use Laravel\Sanctum\HasApiTokens;
-use Laratrust\Traits\LaratrustUserTrait;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -42,6 +43,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    // BELONGS TO
     public function studentOrg()
     {
         return $this->belongsToMany(Organization::class, 'organization_user','user_id','organization_id')
@@ -56,16 +58,20 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(Role::class, 'role_user','user_id','role_id');
     }
 
-    public function userFaculty()
-    {
-        return $this->hasOne(Faculty::class);
-    }
+    // HAS
+
 
     public function userStaff()
     {
         return $this->hasOne(Staff::class);
     }
 
+    public function checkOrgUser()
+    {
+        return $this->hasMany(OrganizationUser::class);
+    }
+
+    // LOGICS
     public function checkUserType($authUserType){
 
         $UserTypeArr = explode("|", $authUserType);
@@ -96,6 +102,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return false;
     }
 
+
     public function checkRole($role){
         $authOrgRole = $this->belongsToMany(Organization::class, 'organization_user','user_id','organization_id')
         ->pluck('role');
@@ -111,7 +118,29 @@ class User extends Authenticatable implements MustVerifyEmail
         }
         return false;
     }
+
+    public function checkPosition($position){
+        $authOrgPosition = $this->belongsToMany(Organization::class, 'organization_user','user_id','organization_id')
+        ->pluck('position');
+
+        $positionArr = explode('|', $position);
+
+        foreach($authOrgPosition as $authPosition){
+            foreach($positionArr as $position){
+                if($authPosition === $position){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public function isOrgMember(){
         return $this->belongsToMany(Organization::class, 'organization_user','user_id','organization_id')->exists();
     }
+
+    public function isOrgAdviser($userId){
+        return $this->belongsToMany(Organization::class, 'organization_user','user_id','organization_id')->where('user_id', $userId)->where('position', 'Adviser');
+    }
+    
 }

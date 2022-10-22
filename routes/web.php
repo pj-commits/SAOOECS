@@ -10,6 +10,7 @@ use App\Http\Controllers\RecordsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\SubmittedFormsController;
+use App\Http\Controllers\TestController;
 use App\Mail\apfSubmittedEmail;
 use App\Mail\rfSubmittedEmail;
 use App\Mail\nrSubmittedEmail;
@@ -29,7 +30,7 @@ use App\Mail\OrgMemAddEmail;
 
 // LOGIN: Auto redirect
 Route::get('/', function () {
-    return view('auth.login');
+    return view('auth.login')->name('login');
 });
 
 // DASHBOARD: For Auth Users
@@ -37,7 +38,8 @@ require __DIR__.'/auth.php';
 
 
 
-
+Route::get('test-test', [TestController::class, 'index'])->name('test-test');
+Route::post('test-test-test', [TestController::class, 'store'])->name('test-store');
 
 /*
 |--------------------------------------------------------------------------
@@ -45,7 +47,8 @@ require __DIR__.'/auth.php';
 |--------------------------------------------------------------------------
 */
 Route::group(['middleware' => ['auth']], function() {
-    Route::get('/',  [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('dashboard',  [DashboardController::class, 'index'])->name('dashboard');
+    Route::post('dashboard/cancel-form',  [DashboardController::class, 'cancel'])->name('dashboard.cancel');
     Route::get('submitted-forms', [SubmittedFormsController::class, 'index'])->middleware('isApprover')->name('submitted-forms');
     Route::get('records', [RecordsController::class, 'index'])->name('records');
 });
@@ -97,10 +100,19 @@ Route::group(['middleware' => ['auth', 'isStudent']], function(){
 });
 
 
+/*
+|--------------------------------------------------------------------------
+| Submitted forms review details
+|--------------------------------------------------------------------------
+*/
+Route::group(['middleware' => ['auth', 'isApprover']], function(){
+        Route::get('/submitted-forms', [SubmittedFormsController::class, 'index'])->name('submitted-forms.index');
+        Route::get('/submitted-forms/details/{forms}', [SubmittedFormsController::class, 'show'])->name('submitted-forms.show');
+        Route::put('/submitted-forms/details/{forms}/approve', [SubmittedFormsController::class, 'approve'])->name('submitted-forms.approve');
+        Route::put('/submitted-forms/details/{forms}/deny', [SubmittedFormsController::class, 'deny'])->name('submitted-forms.deny');
 
 
-
-
+});
 
 //Below Are Test Route only
 Route::post('/test', function(Request $request){
@@ -109,7 +121,7 @@ Route::post('/test', function(Request $request){
 
 Route::get('/test-details', function(){
     return view('_approvers.view-details.liquidation');
-});
+})->name('test-details');
 
 Route::get('/test-edit', function(){
     return view('_student-organization.edit-forms.activity-proposal');

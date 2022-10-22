@@ -1,12 +1,12 @@
 @props(['bg' => 'none', 'fill' => 'none'])
 
 @php
-  if(session()->has('add')){
+  if(session()->has('add') || Helper::isFormCreated()){
       $hasAlert = true;
       $bg = 'bg-green-100 border-semantic-success';
       $fill = 'fill-green-700';
       $textColor = 'text-green-700';
-      $message = session('add');
+      $message = Helper::getFormCreationMessage() ?? session('add');
   }elseif(session()->has('edit')){
       $bg = 'bg-blue-100 border-primary-blue';
       $hasAlert = true;

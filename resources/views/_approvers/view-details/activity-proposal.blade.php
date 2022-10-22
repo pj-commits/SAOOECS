@@ -11,15 +11,15 @@
                     Activity Proposal Form
                 </h1>
             </div>
-
+   
             <!-- Tracker large Screen -->
             <div class="py-4 hidden xl:block">
                 <x-tracker orientation="horizontal">
-                    <x-tracker-item orientation="horizontal" approver="Adviser" dateApproved="September 22, 2022"/>
-                    <x-tracker-item orientation="horizontal" approver="SAO Head" dateApproved="September 22, 2022"/>
-                    <x-tracker-item orientation="horizontal" approver="Academic Services Head" dateApproved="September 22, 2022"/>
-                    <x-tracker-item orientation="horizontal" approver="Finance Head"/> 
-                 </x-tracker>
+                    <x-tracker-item orientation="horizontal" approver="Adviser" dateApproved="{{$forms->adviser_date_approved ? \Carbon\Carbon::parse($forms->adviser_date_approved)->format('M d, Y') : null}}"/>
+                    <x-tracker-item orientation="horizontal" approver="SAO" dateApproved="{{$forms->sao_date_approved ? \Carbon\Carbon::parse($forms->sao_date_approved)->format('M d, Y') : null}}"/>
+                    <x-tracker-item orientation="horizontal" approver="Academic Services" dateApproved="{{$forms->acadserv_date_approved ? \Carbon\Carbon::parse($forms->acadserv_date_approved)->format('M d, Y') : null}}"/>
+                    <x-tracker-item orientation="horizontal" approver="Finance and Accounting Office" dateApproved="{{$forms->finance_date_approved ? \Carbon\Carbon::parse($forms->finance_date_approved)->format('M d, Y') : null}}"/>
+                </x-tracker>
             </div>
 
             <hr class="mt-3">
@@ -27,33 +27,33 @@
                 
                 {{-- Row #1 --}}
                 <div class="grid grid-flow-row auto-rows-max gap-6 mt-4 md:grid-cols-4">
-                       <p class="font-bold">Event Title: <span class="font-normal"> {Data Here}</span></p>
-                       <p class="font-bold md:col-start-4">Date Submitted: <span class="font-normal"> {Data Here}</span></p>
+                       <p class="font-bold">Event Title: <span class="font-normal"> {{$forms->event_title}}</span></p>
+                       <p class="font-bold md:col-start-4">Date Submitted: <span class="font-normal">{{date('M d, Y', strtotime($forms->created_at))}}</span></p> 
                 </div>
 
                 {{-- Row #2 --}}
                 <div class="grid grid-flow-row auto-rows-max gap-6 mt-4 md:grid-cols-4">
-                    <p class="font-bold">Duration of Event: <span class="font-normal"> {Data Here}</span></p>
-                    <p class="font-bold md:col-start-4">Target Date of Event: <span class="font-normal"> {Data Here}</span></p>
+                    <p class="font-bold">Duration of Event: <span class="font-normal">  {{$proposal->duration_val}} {{$proposal->duration_unit}}</span></p>
+                    <p class="font-bold md:col-start-4">Target Date of Event: <span class="font-normal">  {{date('M d, Y', strtotime($forms->target_date))}} </span></p>
                 </div>
 
                 {{-- Row #3 --}}
                 <div class="grid grid-flow-row auto-rows-max gap-6 mt-4 md:grid-cols-1 mb-4">
-                    <p class="font-bold">Activity Classification: <span class="font-normal"> {Data Here}</span></p>
+                    <p class="font-bold">Activity Classification: <span class="font-normal">  {{$proposal->classification($proposal->act_classification)}} </span></p>
                 </div>
 
                 <hr>
 
                 {{-- Row #4 --}}
                 <div class="grid grid-flow-row auto-rows-max gap-6 mt-4 md:grid-cols-4">
-                    <p class="font-bold">Organizer: <span class="font-normal"> {Data Here}</span></p>
-                    <p class="font-bold md:col-start-4">Organization: <span class="font-normal"> {Data Here}</span></p>
+                    <p class="font-bold">Organizer: <span class="font-normal">  {{$proposal->organizer_name}} </span></p>
+                    <p class="font-bold md:col-start-4">Organization: <span class="font-normal">  {{$forms->fromOrg->org_name}} </span></p>
                 </div>
 
                 {{-- Row #5 --}}
                 <div class="grid grid-flow-row auto-rows-max gap-6 mt-4 md:grid-cols-4 mb-4">
-                    <p class="font-bold">Email: <span class="font-normal"> {Data Here}</span></p>
-                    <p class="font-bold md:col-start-4">Contact Number: <span class="font-normal"> {Data Here}</span></p>
+                    <p class="font-bold">Email: <span class="font-normal">  {{$forms->fromOrgUser->fromUser->email}} </span></p>
+                    <p class="font-bold md:col-start-4">Contact Number: <span class="font-normal">  {{$forms->fromOrgUser->fromUser->phone_number}} </span></p>
                 </div>
 
                 <hr>
@@ -67,6 +67,7 @@
                             {{-- Table Head--}}
                             <thead class="border-b bg-bland-200 sticky top-0 z-10">
                                 {{-- Insert Table Head Columns Here --}}
+                                <x-table.head-col>#</x-table.head-col>
                                 <x-table.head-col>Co-Organization</x-table.head-col>
                                 <x-table.head-col>Co-organizer</x-table.head-col>
                                 <x-table.head-col>Contact Number</x-table.head-col>
@@ -75,20 +76,27 @@
                             </thead>
                             {{-- Table Body --}}
                             <tbody>
+                                @php $i = 1; @endphp
+                                @foreach($externalCoorganizers as $coorg)
+                                
                                 <tr class="bg-white  hover:bg-bland-100 border-b border-bland-20">
                                     <x-table.body-col>
-                                        <p class="pl-2">{Data Here}</p>
+                                        <p class="pl-2"> {{$i++}} </p>
                                     </x-table.body-col>
                                     <x-table.body-col>
-                                        <p class="pl-2">{Data Here}</p>
+                                        <p class="pl-2"> {{$coorg->coorganization}} </p>
                                     </x-table.body-col>
                                     <x-table.body-col>
-                                        <p class="pl-2">{Data Here}</p>
+                                        <p class="pl-2"> {{$coorg->coorganizer}} </p>
                                     </x-table.body-col>
                                     <x-table.body-col>
-                                        <p class="pl-2">{Data Here}</p>
+                                        <p class="pl-2"> {{$coorg->phone_number}} </p>
+                                    </x-table.body-col>
+                                    <x-table.body-col>
+                                        <p class="pl-2"> {{$coorg->email}} </p>
                                     </x-table.body-col>
                                 </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -98,22 +106,22 @@
 
                 {{-- Row #7 --}}
                 <div class="grid grid-flow-row auto-rows-max gap-6 mt-4 md:grid-cols-4 mb-4">
-                    <p class="font-bold col-span-2">Primary Target Audience/Beneficiary: <span class="font-normal"> {Data Here}</span></p>
-                    <p class="font-bold col-span-2 md:col-start-3">Number of Participants/Beneficiary: <span class="font-normal"> {Data Here}</span></p>
+                    <p class="font-bold col-span-2">Primary Target Audience/Beneficiary: <span class="font-normal">  {{$proposal->primary_audience}} </span></p>
+                    <p class="font-bold col-span-2 md:col-start-3">Number of Participants/Beneficiary: <span class="font-normal">   {{$proposal->num_primary_audience}} </span></p>
                 </div>
 
                 {{-- Row #8 --}}
                 <div class="grid grid-flow-row auto-rows-max gap-6 mt-4 md:grid-cols-4 mb-4">
-                    <p class="font-bold col-span-2">Secondary Target Audience/Beneficiary: <span class="font-normal"> {Data Here}</span></p>
-                    <p class="font-bold col-span-2 md:col-start-3">Number of Participants/Beneficiary: <span class="font-normal"> {Data Here}</span></p>
+                    <p class="font-bold col-span-2">Secondary Target Audience/Beneficiary: <span class="font-normal">  {{$proposal->secondary_audience}} </span></p>
+                    <p class="font-bold col-span-2 md:col-start-3">Number of Participants/Beneficiary: <span class="font-normal">  {{$proposal->num_secondary_audience}} </span></p>
                 </div>
 
                 <hr>
 
                 {{-- Row #9 --}}
                 <div class="flex my-4 space-x-2">
-                    <p class="font-bold">Description: </p>
-                    <p>{Data Here}</p>
+                    <p class="font-bold" >Description: </p>
+                    <p> {{$proposal->description}} </p>
                 </div>
 
                 <hr>
@@ -121,7 +129,7 @@
                 {{-- Row #10 --}}
                 <div class="flex my-4 space-x-2">
                     <p class="font-bold">Rationale: </p>
-                    <p>{Data Here}</p>
+                    <p> {{$proposal->rationale}} </p>
                 </div>
 
                 <hr>
@@ -129,46 +137,12 @@
                 {{-- Row #11 --}}
                 <div class="flex my-4 space-x-2">
                     <p class="font-bold">Outcome: </p>
-                    <p>{Data Here}</p>
+                    <p> {{$proposal->outcome}} </p>
                 </div>
             
                 <hr>
 
                 {{-- Row #12 --}}
-                <h1 class="text-lg text-bland-600 font-bold my-4">Programs</h1>
-                <div class="bg-white mt-4 h-auto w-full border-b border-gray-200 shadow-sm">
-                    <div id="participant-container" class="overflow-auto block max-h-[420px] rounded-sm scroll-smooth">
-                        <table class="table-auto w-full border-collapse border text-left">
-                
-                            {{-- Table Head--}}
-                            <thead class="border-b bg-bland-200 sticky top-0 z-10">
-                                {{-- Insert Table Head Columns Here --}}
-                                <x-table.head-col>Activity</x-table.head-col>
-                                <x-table.head-col>Start Date</x-table.head-col>
-                                <x-table.head-col>End Date</x-table.head-col>
-                                {{-- Table Head Columns Ends Here --}}
-                            </thead>
-                            {{-- Table Body --}}
-                            <tbody>
-                                <tr class="bg-white  hover:bg-bland-100 border-b border-bland-20">
-                                    <x-table.body-col>
-                                        <p class="pl-2">{Data Here}</p>
-                                    </x-table.body-col>
-                                    <x-table.body-col>
-                                        <p class="pl-2">{Data Here}</p>
-                                    </x-table.body-col>
-                                    <x-table.body-col>
-                                        <p class="pl-2">{Data Here}</p>
-                                    </x-table.body-col>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <hr class="mt-4">
-
-                {{-- Row #13 --}}
                 <h1 class="text-lg text-bland-600 font-bold my-4">Logistical Needs</h1>
                 <div class="bg-white mt-4 h-auto w-full border-b border-gray-200 shadow-sm">
                     <div id="participant-container" class="overflow-auto block max-h-[420px] rounded-sm scroll-smooth">
@@ -177,6 +151,48 @@
                             {{-- Table Head--}}
                             <thead class="border-b bg-bland-200 sticky top-0 z-10">
                                 {{-- Insert Table Head Columns Here --}}
+                                <x-table.head-col>#</x-table.head-col>
+                                <x-table.head-col>Items/Service/Support</x-table.head-col>
+                                <x-table.head-col>Date Needed</x-table.head-col>
+                                <x-table.head-col>Venue</x-table.head-col>
+                                {{-- Table Head Columns Ends Here --}}
+                            </thead>
+                            {{-- Table Body --}}
+                            <tbody>
+                                @php $i = 1; @endphp
+                                @foreach($logisticalNeeds as $logistic)
+                                <tr class="bg-white  hover:bg-bland-100 border-b border-bland-20">
+                                    <x-table.body-col>
+                                        <p class="pl-2"> {{$i++}} </p>
+                                    </x-table.body-col>
+                                    <x-table.body-col>
+                                        <p class="pl-2"> {{$logistic->service}} </p>
+                                    </x-table.body-col>
+                                    <x-table.body-col>
+                                        <p class="pl-2"> {{$logistic->venue}} </p>
+                                    </x-table.body-col>
+                                    <x-table.body-col>
+                                        <p class="pl-2"> {{date('M d, Y ', strtotime($logistic->date_needed))}} </p>
+                                    </x-table.body-col>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <hr class="mt-4">
+
+                {{-- Row #13 --}}
+                <h1 class="text-lg text-bland-600 font-bold my-4">Programs</h1>
+                <div class="bg-white mt-4 h-auto w-full border-b border-gray-200 shadow-sm">
+                    <div id="participant-container" class="overflow-auto block max-h-[420px] rounded-sm scroll-smooth">
+                        <table class="table-auto w-full border-collapse border text-left">
+                
+                            {{-- Table Head--}}
+                            <thead class="border-b bg-bland-200 sticky top-0 z-10">
+                                {{-- Insert Table Head Columns Here --}}
+                                <x-table.head-col>#</x-table.head-col>
                                 <x-table.head-col>Activity</x-table.head-col>
                                 <x-table.head-col>Start Date</x-table.head-col>
                                 <x-table.head-col>End Date</x-table.head-col>
@@ -184,17 +200,14 @@
                             </thead>
                             {{-- Table Body --}}
                             <tbody>
+                                @php $i = 1; @endphp
+                                @foreach($prePrograms as $program)
                                 <tr class="bg-white  hover:bg-bland-100 border-b border-bland-20">
-                                    <x-table.body-col>
-                                        <p class="pl-2">{Data Here}</p>
-                                    </x-table.body-col>
-                                    <x-table.body-col>
-                                        <p class="pl-2">{Data Here}</p>
-                                    </x-table.body-col>
-                                    <x-table.body-col>
-                                        <p class="pl-2">{Data Here}</p>
-                                    </x-table.body-col>
-                                </tr>
+                                    <x-table.body-col><p class="pl-2"> {{$i++}} </p></x-table.body-col>
+                                    <x-table.body-col><p class="pl-2"> {{$program->activity}} </p></x-table.body-col> 
+                                    <x-table.body-col><p class="pl-2"> {{date('M d, Y  h:i A', strtotime($program->start_date_time))}} </p></x-table.body-col>
+                                    <x-table.body-col><p class="pl-2"> {{date('M d, Y  h:i A', strtotime($program->end_date_time))}} </p></x-table.body-col>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -203,27 +216,87 @@
                 <hr class="mt-4">
 
                 <div class="mt-8 mb-2">
-                    <x-button class="px-8">
-                        {{ __('Approve') }}
-                    </x-button>
-                    <x-button class="px-12" bg="bg-semantic-danger" hover="hover:bg-rose-600">
-                        {{ __('Deny') }}
-                    </x-button>
+                    <form action="{{ route('submitted-forms.approve', ['forms' => $forms->id]) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                            <x-button class="px-8" type="submit" >
+                                {{ __('Approve') }}
+                            </x-button>
+                    </form>
+
+                    <form action="{{ route('submitted-forms.deny', ['forms' => $forms->id]) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <x-input id="remarks" class="mt-1 w-full" type="text" name="remarks" autofocus/>
+
+                        <x-button class="px-12" bg="bg-semantic-danger" hover="hover:bg-rose-600" type="submit">
+                            {{ __('Deny') }}
+                        </x-button>
+                    </form>
                 </div>
 
                 <!-- Tracker Small Screen-->
                 <div class="py-4 block xl:hidden">
                     <x-tracker orientation="vertical">
-                        <x-tracker-item orientation="vertical" approver="Adviser"/>
-                        <x-tracker-item orientation="vertical" approver="SAO Head"/>
-                        <x-tracker-item orientation="vertical" approver="Academic Services Head"/>
-                        <x-tracker-item orientation="vertical" approver="Finance Head"/> 
-                     </x-tracker>
+                        <x-tracker-item orientation="vertical" approver="Adviser" dateApproved="{{$forms->adviser_date_approved ? \Carbon\Carbon::parse($forms->adviser_date_approved)->format('M d, Y') : null}}"/>
+                        <x-tracker-item orientation="vertical" approver="SAO" dateApproved="{{$forms->sao_date_approved ? \Carbon\Carbon::parse($forms->sao_date_approved)->format('M d, Y') : null}}"/>
+                        <x-tracker-item orientation="vertical" approver="Academic Services" dateApproved="{{$forms->acadserv_date_approved ? \Carbon\Carbon::parse($forms->acadserv_date_approved)->format('M d, Y') : null}}"/>
+                        <x-tracker-item orientation="vertical" approver="Finance and Accounting Office" dateApproved="{{$forms->finance_date_approved ? \Carbon\Carbon::parse($forms->finance_date_approved)->format('M d, Y') : null}}"/>
+                    </x-tracker>
                 </div>
 
 
             </div>
         </div>
+        
+        {{-- <x-modal name="approve">
+            <div class="py-5 text-center">
+                Confirm action to <br> <b>{{$forms->event_title}}</b>?
+            </div>
+            
+            <div class="flex justify-center space-x-4 mt-5">
+                <form action="{{ route('submitted-forms.approve', ['id' => $form->id]) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <x-button bg="bg-semantic-danger" hover="hover:bg-rose-600" type="submit" >
+                        {{ __('Remove') }}
+                        
+                    </x-button>
+                </form>
+
+                <x-button bg="bg-semantic-success" hover="hover:bg-green-600" @click="approve = false, modal = false" >
+                        {{ __('Cancel') }}
+                </x-button>
+            </div>
+        </x-modal>
+
+        <x-modal name="deny">
+            <div class="py-5 text-center">
+                Confirm action to <br> <b>{{$forms->event_title}}</b>?
+            </div>
+            
+            <div class="flex justify-center space-x-4 mt-5">
+                <form action="{{ route('submitted-forms.deny', ['id' => $form->id]) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+
+                    <x-input id="remarks" class="mt-1 w-full" type="text" name="remarks"  autofocus/>
+                    
+                    <x-button bg="bg-semantic-danger" hover="hover:bg-rose-600" type="submit" >
+                        {{ __('Remove') }}
+                        
+                    </x-button>
+                </form>
+
+                <x-button bg="bg-semantic-success" hover="hover:bg-green-600" @click="deny" = false, modal = false" >
+                        {{ __('Cancel') }}
+                </x-button>
+            </div>
+        </x-modal> --}}
+
+
+
+
     </div>
 </x-app-layout>
 

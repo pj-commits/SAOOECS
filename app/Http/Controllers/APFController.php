@@ -30,22 +30,22 @@ class APFController extends Controller
     // save form
     public function store(APFRequest $request)
     {    
-        
-        $proposal = $request->safe()->except(['org_id','event_title','coorganization', 'coorganizer_name', 'coorganizer_phone', 'coorganizer_email', 'service', 'logistics_date_needed','logistics_venue', 'activity', 'start_date', 'end_date' ]);
+        $proposal = $request->safe()->except(['target_date','org_id','event_title','coorganization', 'coorganizer_name', 'coorganizer_phone', 'coorganizer_email', 'service', 'logistics_date_needed','logistics_venue', 'activity', 'start_date', 'end_date' ]);
         $e = DB::table('forms')->latest('event_id')->where('form_type', 'APF')->first();
 
         // Form create
         $form = Form::create([
             'event_title' => $request->event_title,
             'organization_id' => $request->org_id,
-            'prep_by' => auth()->id(),
+            'prep_by' => Auth::user()->id,
             'control_number'=> $this->generateUniqueCode(),
             'adviser_staff_id' => 5,
             'sao_staff_id' => 2,
             'acadserv_staff_id' => 4,
             'finance_staff_id' => 3,
             'event_id' => $e->event_id+1,
-            'form_type' => 'APF'
+            'form_type' => 'APF',
+            'target_date' => $request->target_date
         ]);
 
         //Proposal Create
@@ -78,7 +78,7 @@ class APFController extends Controller
                     'end_date_time' => $request->end_date[$i],
                 ]);
         }
-        return redirect('/')->with('add', 'APF created successfully!');
+        return redirect('dashboard')->with('add-apf', 'Activity Proposal Form was successfully created!');
     }
 
     // show form to edit

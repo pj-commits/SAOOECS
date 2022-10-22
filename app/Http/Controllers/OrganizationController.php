@@ -85,12 +85,12 @@ class OrganizationController extends Controller
         //Check if user have alredy data on the 'user' table
         if(!User::where('email', $request->email)->exists()){
             $user = User::create([
-                'firstName' => $getUser->firstName,
-                'middleName' => $getUser->middleName,
-                'lastName' => $getUser->lastName,
-                'phoneNumber' => $getUser->phoneNumber,
+                'first_name' => $getUser->firstName,
+                'middle_name' => $getUser->middleName,
+                'last_name' => $getUser->lastName,
+                'phone_number' => $getUser->phoneNumber,
                 'email' => $getUser->email,
-                'userType' => 'Student',
+                'user_type' => 'Student',
                 'password' => bcrypt($getUser->password)
             ]);
 
@@ -112,7 +112,7 @@ class OrganizationController extends Controller
         $position = ucfirst($request->position);
         //attach role, org, position to fetched
         $user->studentOrg()->attach($orgId, ['position' => $position, 'role' => $request->role]);
-        $message = $user->firstName.' '. $user->lastName.' was successfully assigned as '. $position.'!';
+        $message = $user->first_name.' '. $user->last_name.' was successfully assigned as '. $position.'!';
 
         //Register the fetched. This will send verification email. Customize the email under resources/views/vendor
         // event(new Registered($user));

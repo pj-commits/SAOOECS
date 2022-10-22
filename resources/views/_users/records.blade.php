@@ -1,5 +1,5 @@
 @php
-    $hasRecords = false;
+    $hasRecords = $approvedAndCancelled->isNotEmpty();
 @endphp
 <x-app-layout>
     {{-- If there's no record--}}

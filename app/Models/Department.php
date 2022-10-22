@@ -8,14 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Department extends Model
 {
     use HasFactory;
-    public function departmentFaculty()
-    {
-        return $this->hasMany(Faculty::class);
-    }
 
     public function departmentStaff()
     {
-        return $this->hasMany(Staff::class);
+        return $this->hasMany(Staff::class, 'department_id');
     }
 
     //To Requisition

@@ -31,6 +31,7 @@ function coorganizer_handler() {
         */
         addCoorganizer() {
             let verify = true;
+            let reg_name = /^[a-zA-Z]+$/;
             let reg_email = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
             let reg_phone = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
             
@@ -54,14 +55,13 @@ function coorganizer_handler() {
                     this.error = true;
                     this.msg = "Invalid Contact Number!";
                 }
-
-                if(coorganizer.name.length < 1){
+                if(coorganizer.name.length < 1 ){
                     verify = false;
                     this.error = true;
-                    this.msg = "Coorganizer is empty!";
+                    this.msg = "Coorganizer is empty or invalid!";
                 }
 
-                if(coorganizer.coorganization.length < 1){
+                if(coorganizer.coorganization.length < 1 ){
                     verify = false;
                     this.error = true;
                     this.msg = "Co-oorganization is empty!";
@@ -128,12 +128,12 @@ function logistic_handler() {
             if(this.newLogistics[0].venue.length < 1){
                 verify = false;
                 this.error = true;
-                this.msg = "Venue is empty!";
+                this.msg = "Venue is empty or invalid!";
             }
             if(this.newLogistics[0].date_needed.length < 1){
                 verify = false;
                 this.error = true;
-                this.msg = "Date Needed is empty!";
+                this.msg = "Date Needed is empty or invalid!";
             }else if(Date.parse(this.newLogistics[0].date_needed) < Date.parse(this.current_date)){
                 verify = false;
                 this.error = true;
@@ -142,7 +142,7 @@ function logistic_handler() {
             if(this.newLogistics[0].service.length < 1){
                 verify = false;
                 this.error = true;
-                this.msg = "Service is empty!";
+                this.msg = "Service is empty or invalid!";
             }
 
             if(verify === true){
@@ -289,19 +289,20 @@ function requisition_items_handler() {
                 this.error = true;
                 this.msg = "Price is empty!";
             }
-            if(this.newRequisitions[0].purpose.length < 1){
-                verify = false;
-                this.error = true;
-                this.msg = "Purpose is empty!";
-            }
             if(this.newRequisitions[0].quantity.length < 1){
                 verify = false;
                 this.error = true;
                 this.msg = "Quantity is empty!";
             }
+            if(this.newRequisitions[0].purpose.length < 1){
+                verify = false;
+                this.error = true;
+                this.msg = "Purpose is empty!";
+            }
 
             if(verify === true){
                 this.requisitions[0].push({
+                    item_number: this.requisitions[0].length + 1,
                     quantity: this.newRequisitions[0].quantity,
                     purpose: this.newRequisitions[0].purpose,
                     price: this.newRequisitions[0].price,
@@ -320,7 +321,14 @@ function requisition_items_handler() {
         },
         //remove deleted data in requisitions[] then update local storage
         removeRequisition(index) {
+            count = 0;
+
             this.requisitions[0].splice(index, 1); 
+
+            this.requisitions[0].forEach(item => {
+                count++;
+                item.item_number = count;
+            })
             localStorage.setItem('brf_requisitions', JSON.stringify(this.requisitions[0]))
         },
 
@@ -332,6 +340,9 @@ function requisition_items_handler() {
             })
 
             return total
+        },
+        getItemNumber(){
+            return this.requisitions[0].length + 1
         }
     }
 }
@@ -448,23 +459,23 @@ function participant_handler() {
             if(this.newParticipants[0].participated_date.length < 1){
                 verify = false;
                 this.error = true;
-                this.msg = "Date Participated is empty!";
+                this.msg = "Date Participated is empty or invalid!";
             }
             if(this.newParticipants[0].section.length < 1){
                 verify = false;
                 this.error = true;
-                this.msg = "Section is empty!";
+                this.msg = "Section is empty or invalid!";
             }
             if(this.newParticipants[0].last_name.length < 1){
                 verify = false;
                 this.error = true;
-                this.msg = "Last Name is empty!";
+                this.msg = "Last Name is empty or invalid!";
             }
 
             if(this.newParticipants[0].first_name.length < 1){
                 verify = false;
                 this.error = true;
-                this.msg = "First Name is empty!";
+                this.msg = "First Name is empty or invalid!";
             }
 
             if(verify === true){
@@ -610,7 +621,7 @@ function comment_suggestion_handler() {
             if(this.newComments[0].message.length < 1){
                 verify = false;
                 this.err_comments = true;
-                this.msg_comments = "Message is empty!";
+                this.msg_comments = "Message is empty or invalid!";
             }
 
             if(verify === true){
@@ -649,7 +660,7 @@ function comment_suggestion_handler() {
             if(this.newSuggestions[0].message.length < 1){
                 verify = false;
                 this.err_suggestions = true;
-                this.msg_suggestions = "Message is empty!";
+                this.msg_suggestions = "Message is empty or invalid!";
             }
 
             if(verify === true){
@@ -854,17 +865,17 @@ function liquidation_items_handler() {
             if(this.newLiquidations[0].price.length < 1){
                 verify = false;
                 this.error = true;
-                this.msg = "Price is empty!";
+                this.msg = "Price is empty or invalid!";
             }
             if(this.newLiquidations[0].item.length < 1){
                 verify = false;
                 this.error = true;
-                this.msg = "Particulars/Items is empty!";
+                this.msg = "Particulars/Items is empty or invalid!";
             }
             if(this.newLiquidations[0].date_bought.length < 1){
                 verify = false;
                 this.error = true;
-                this.msg = "Date Bought is empty!";
+                this.msg = "Date Bought is empty or invalid!";
             }
 
             if(verify === true){
@@ -930,5 +941,44 @@ function proof_of_payments() {
        removeRow(index){
         this.rows.splice(index, 1);
        },
+    }
+}
+
+function liquidationTotal(){
+    return{
+        total:0,
+        cashAdvance:0,
+        deduct:0,
+
+        setData($el){
+            if($el.id === 'cash_advance'){
+                this.cashAdvance = $el.value;
+            }else if($el.id === 'deduct'){
+                this.deduct = $el.value;
+            }
+
+            this.total = this.cashAdvance - this.deduct;
+
+            this.getTotal();
+
+        },
+
+        onLoad(){
+            this.cashAdvance = this.$refs.cashAdvance.value;
+            this.deduct = this.$refs.deduct.value;
+
+            this.total = this.cashAdvance - this.deduct;
+
+            this.getTotal();
+            
+        },
+
+        getTotal(){
+            if(this.cashAdvance > 0 && this.deduct > 0){
+                this.$refs.liquidationTotal.value = this.total;
+            }else{
+                this.$refs.liquidationTotal.value = 0;
+            }
+        }
     }
 }
