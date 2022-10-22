@@ -216,12 +216,23 @@
                 <hr class="mt-4">
 
                 <div class="mt-8 mb-2">
-                    <x-button class="px-8">
-                        {{ __('Approve') }}
-                    </x-button>
-                    <x-button class="px-12" bg="bg-semantic-danger" hover="hover:bg-rose-600">
-                        {{ __('Deny') }}
-                    </x-button>
+                    <form action="{{ route('submitted-forms.approve', ['forms' => $forms->id]) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                            <x-button class="px-8" type="submit" >
+                                {{ __('Approve') }}
+                            </x-button>
+                    </form>
+
+                    <form action="{{ route('submitted-forms.deny', ['forms' => $forms->id]) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <x-input id="remarks" class="mt-1 w-full" type="text" name="remarks" autofocus/>
+
+                        <x-button class="px-12" bg="bg-semantic-danger" hover="hover:bg-rose-600" type="submit">
+                            {{ __('Deny') }}
+                        </x-button>
+                    </form>
                 </div>
 
                 <!-- Tracker Small Screen-->
@@ -238,7 +249,7 @@
             </div>
         </div>
         
-        <x-modal name="approve">
+        {{-- <x-modal name="approve">
             <div class="py-5 text-center">
                 Confirm action to <br> <b>{{$forms->event_title}}</b>?
             </div>
@@ -253,11 +264,35 @@
                     </x-button>
                 </form>
 
-                <x-button bg="bg-semantic-success" hover="hover:bg-green-600" @click="removeMember = false, modal = false" >
+                <x-button bg="bg-semantic-success" hover="hover:bg-green-600" @click="approve = false, modal = false" >
                         {{ __('Cancel') }}
                 </x-button>
             </div>
         </x-modal>
+
+        <x-modal name="deny">
+            <div class="py-5 text-center">
+                Confirm action to <br> <b>{{$forms->event_title}}</b>?
+            </div>
+            
+            <div class="flex justify-center space-x-4 mt-5">
+                <form action="{{ route('submitted-forms.deny', ['id' => $form->id]) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+
+                    <x-input id="remarks" class="mt-1 w-full" type="text" name="remarks"  autofocus/>
+                    
+                    <x-button bg="bg-semantic-danger" hover="hover:bg-rose-600" type="submit" >
+                        {{ __('Remove') }}
+                        
+                    </x-button>
+                </form>
+
+                <x-button bg="bg-semantic-success" hover="hover:bg-green-600" @click="deny" = false, modal = false" >
+                        {{ __('Cancel') }}
+                </x-button>
+            </div>
+        </x-modal> --}}
 
 
 
