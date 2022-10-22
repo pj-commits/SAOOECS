@@ -22,11 +22,11 @@
                 @csrf
                 <div class="flex items-center justify-end space-x-1">
                     <x-select class="w-48" id="form_type" name="form_type" aria-label="Default select example">
-                        <option value="" selected>Form Type</option>
-                        <option value="APF">Activity Proposal Form</option>
-                        <option value="RF">Requisition Form</option>
-                        <option value="NR">Narrative Report</option>
-                        <option value="LF">Liquidation Form</option>
+                        <option value="" selected>All</option>
+                        <option value="/?form_type=APF">Activity Proposal Form</option>
+                        <option value="/?form_type=BRF">Requisition Form</option>
+                        <option value="/?form_type=NR">Narrative Report</option>
+                        <option value="/?form_type=LF">Liquidation Form</option>
                     </x-select>
                     <x-input class="w-48 md:w-64" type="search" id="search" name="search" placeholder="Search"/>
                     <x-button type="submit">
@@ -63,7 +63,7 @@
                         <x-table.body-col class="pl-6">{{$form->form_type}}</x-table.body-col>
                         <x-table.body-col class="pl-6">{{date('M d, Y  h:i A', strtotime($form->created_at))}}</x-table.body-col>
                         <x-table.body-col class="pl-6">
-                            <a class="text-primary-blue hover:text-blue-800 hover:underline hover:underline-offset-4" href="#">View Details</a>
+                            <a class="text-primary-blue hover:text-blue-800 hover:underline hover:underline-offset-4" href="{{ route('submitted-forms.show', ['forms' => $form->id]) }}">View Details</a>
                         </x-table.body-col>
                 
                         {{-- Table Body Columns Ends Here --}}
@@ -83,3 +83,5 @@
 
     @endif
 </x-app-layout>
+
+

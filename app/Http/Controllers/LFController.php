@@ -11,7 +11,7 @@ class LFController extends Controller
 {
     public function index()
     {
-        // Fetch Approved events (via APF) that exists in orgs curr user belongs 
+        // Fetch !! Approved !! events (via APF) that exists in orgs curr user belongs 
         $eventList = Form::where('form_type', '=', 'APF')
             ->where(function ($query) {
                 $authOrgList = Auth::user()->studentOrg->pluck('id')->toArray();
@@ -20,7 +20,7 @@ class LFController extends Controller
             })->orderBy('event_title')->get(['event_title', 'event_id']);
 
         return view('_student-organization.forms.liquidation', compact('eventList'))
-        ->with("message", "Hello LF!");
+        ->with("message", "Hello LF!"); 
     }
 
     public function store(LFRequest $request)
@@ -38,15 +38,26 @@ class LFController extends Controller
             'acadserv_staff_id' => 4,
             'finance_staff_id' => 3,
             'event_id' => $request->event_id,
-            'form_type' => 'LF'
+            'form_type' => 'LF',
+            'target_date' => $event->target_date
         ]);
 
         // Liquidation Create
         $liquidation = $form->liquidation()->create($lf);
 
         // Proof of Payments create
-        for($i = 0; $i < count($request->item_number); $i++){
+        for($i = 0; $i < count($request->itemFrom); $i++){
+            $imageName = 'receipt'.time().'.'.$request->image[$i]->extension();
             $liquidation->proofOfPayment()->create([
+                'item_from' => $request->itemFrom[$i],
+                'item_to' => $request->itemTo[$i],
+                'image' => $request->image[$i]->storeAs('receipts',$imageName),
+            ]);
+        }
+
+        // Liquidation Items create
+        for($i = 0; $i < count($request->item_number); $i++){
+            $liquidation->liquidationItem()->create([
                     'item_number' => $request->item_number[$i],
                     'date_bought' => $request->date_bought[$i],
                     'item' => $request->item[$i],
@@ -54,18 +65,8 @@ class LFController extends Controller
                 ]);
         }
 
-        // Liquidation Items create
-        for($i = 0; $i < count($request->itemFrom); $i++){
-            $imageName = time().'.'.$request->image[$i]->extension();
-            $liquidation->liquidationItem()->create([
-                    'item_from' => $request->itemFrom[$i],
-                    'item_to' => $request->itemTo[$i],
-                    'image' => $request->image[$i]->storeAs('receipts',$imageName),
-                ]);
-        }
-
        
-        return redirect('/')->with('add', 'RF created successfully!');
+        return redirect('/')->with('add', 'Liquidation Form created successfully!');
        
     }
 

@@ -15,11 +15,11 @@
             <!-- Tracker large Screen -->
             <div class="py-4 hidden xl:block">
                 <x-tracker orientation="horizontal">
-                    <x-tracker-item orientation="horizontal" approver="Adviser" dateApproved="September 22, 2022"/>
-                    <x-tracker-item orientation="horizontal" approver="SAO Head" dateApproved="September 22, 2022"/>
-                    <x-tracker-item orientation="horizontal" approver="Academic Services Head" dateApproved="September 22, 2022"/>
-                    <x-tracker-item orientation="horizontal" approver="Finance Head"/> 
-                 </x-tracker>
+                    <x-tracker-item orientation="horizontal" approver="Adviser" dateApproved="{{$forms->adviser_date_approved ? \Carbon\Carbon::parse($forms->adviser_date_approved)->format('M d, Y') : null}}"/>
+                    <x-tracker-item orientation="horizontal" approver="SAO" dateApproved="{{$forms->sao_date_approved ? \Carbon\Carbon::parse($forms->sao_date_approved)->format('M d, Y') : null}}"/>
+                    <x-tracker-item orientation="horizontal" approver="Academic Services" dateApproved="{{$forms->acadserv_date_approved ? \Carbon\Carbon::parse($forms->acadserv_date_approved)->format('M d, Y') : null}}"/>
+                    <x-tracker-item orientation="horizontal" approver="Finance and Accounting Office" dateApproved="{{$forms->finance_date_approved ? \Carbon\Carbon::parse($forms->finance_date_approved)->format('M d, Y') : null}}"/>
+                </x-tracker>
             </div>
 
             <hr class="mt-3">
@@ -27,21 +27,21 @@
                 
                 {{-- Row #1 --}}
                 <div class="grid grid-flow-row auto-rows-max gap-6 my-4 md:grid-cols-4">
-                       <p class="font-bold">Event Title: <span class="font-normal"> {Data Here}</span></p>
-                       <p class="font-bold md:col-start-4">Date Submitted: <span class="font-normal"> {Data Here}</span></p>
+                       <p class="font-bold">Event Title: <span class="font-normal"> {{$forms->event_title}}</span></p>
+                       <p class="font-bold md:col-start-4">Date Submitted: <span class="font-normal">{{date('M d, Y', strtotime($forms->created_at))}}</span></p>
                 </div>
 
                 <hr>
 
                 {{-- Row #2 --}}
                 <div class="grid grid-flow-row auto-rows-max gap-6 my-4 md:grid-cols-4">
-                    <p class="font-bold">Cash Advance: <span class="font-normal"> {Data Here}</span></p>
-                    <p class="font-bold md:col-start-4">CV Number: <span class="font-normal"> {Data Here}</span></p>
+                    <p class="font-bold">Cash Advance: <span class="font-normal"> {{$forms->cash_advance}}</span></p>
+                    <p class="font-bold md:col-start-4">CV Number: <span class="font-normal"> {{$liquidation->cv_number}}</span></p>
                 </div>
 
                 {{-- Row #3 --}}
                 <div class="grid grid-flow-row auto-rows-max gap-6 my-4 md:grid-cols-1">
-                    <p class="font-bold">Deduct: <span class="font-normal"> {Data Here}</span></p>
+                    <p class="font-bold">Deduct: <span class="font-normal"> {{$liquidation->deduct}}</span></p>
                 </div>
 
                 <hr>
@@ -55,24 +55,31 @@
                             {{-- Table Head--}}
                             <thead class="border-b bg-bland-200 sticky top-0 z-10">
                                 {{-- Insert Table Head Columns Here --}}
-                                <x-table.head-col>Quantity</x-table.head-col>
+                                <x-table.head-col>#</x-table.head-col>
+                                {{-- <x-table.head-col>Quantity</x-table.head-col> --}}
                                 <x-table.head-col>Particular</x-table.head-col>
                                 <x-table.head-col>Price</x-table.head-col>
                                 {{-- Table Head Columns Ends Here --}}
                             </thead>
                             {{-- Table Body --}}
                             <tbody>
+                                {{-- @dd($liquidationItems) --}}
+                                @foreach($liquidationItems as $item)
                                 <tr class="bg-white  hover:bg-bland-100 border-b border-bland-20">
                                     <x-table.body-col>
-                                        <p class="pl-2">{Data Here}</p>
+                                        <p class="pl-2">{{$item->item_number}}</p>
+                                    </x-table.body-col>
+                                    {{-- <x-table.body-col>
+                                        <p class="pl-2">{{$item->quantity}}</p>
+                                    </x-table.body-col> --}}
+                                    <x-table.body-col>
+                                        <p class="pl-2">{{$item->item}}</p>
                                     </x-table.body-col>
                                     <x-table.body-col>
-                                        <p class="pl-2">{Data Here}</p>
-                                    </x-table.body-col>
-                                    <x-table.body-col>
-                                        <p class="pl-2">{Data Here}</p>
+                                        <p class="pl-2">{{$item->price}}</p>
                                     </x-table.body-col>
                                 </tr>
+                                @endforeach
                             </tbody>
                             <tfoot>
                                 <tr class="bg-bland-100">
@@ -84,7 +91,7 @@
                                        <p>Total:</p>
                                    </x-table.footer-col>
                                    <x-table.footer-col class="pl-4">
-                                       <p>{Data Here}</p>                                   
+                                       <p>{{$item->price=+$item->price}}</p>                                   
                                     </x-table.footer-col>
                                    {{-- Table Footer Columns Ends Here --}}
                                 </tr>
@@ -104,20 +111,25 @@
                             {{-- Table Head--}}
                             <thead class="border-b bg-bland-200 sticky top-0 z-10">
                                 {{-- Insert Table Head Columns Here --}}
-                                <x-table.head-col>Itemo No.</x-table.head-col>
+                                <x-table.head-col>Item No.</x-table.head-col>
                                 <x-table.head-col>Proof of Payment</x-table.head-col>
                                 {{-- Table Head Columns Ends Here --}}
                             </thead>
                             {{-- Table Body --}}
                             <tbody>
+                                @foreach($proofOfPayments as $receipt)
                                 <tr class="bg-white  hover:bg-bland-100 border-b border-bland-20">
                                     <x-table.body-col>
-                                        <p class="pl-2">{Data Here} to {Data Here}</p>
+                                        <p class="pl-2">{{$receipt->item_from}}-{{$receipt->item_to}}</p>
                                     </x-table.body-col>
                                     <x-table.body-col>
-                                        <p class="pl-2">{Insert Image Here}</p>
+                                        <p class="pl-2">{{$receipt->image}}</p>
+                                        <img src="{{$receipt->image ? asset('images/'.$receipt->image) : asset('img/rams-logo.png')}}" )'>
+                                        {{-- <a href="/"><img class="w-24" src="{{asset('img/rams-logo.png')}}" alt="" class="logo"/></a> --}}
+                                        
                                     </x-table.body-col>
                                 </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -138,11 +150,11 @@
                 <!-- Tracker Small Screen-->
                 <div class="py-4 block xl:hidden">
                     <x-tracker orientation="vertical">
-                        <x-tracker-item orientation="vertical" approver="Adviser"/>
-                        <x-tracker-item orientation="vertical" approver="SAO Head"/>
-                        <x-tracker-item orientation="vertical" approver="Academic Services Head"/>
-                        <x-tracker-item orientation="vertical" approver="Finance Head"/> 
-                     </x-tracker>
+                        <x-tracker-item orientation="vertical" approver="Adviser" dateApproved="{{$forms->adviser_date_approved ? \Carbon\Carbon::parse($forms->adviser_date_approved)->format('M d, Y') : null}}"/>
+                        <x-tracker-item orientation="vertical" approver="SAO" dateApproved="{{$forms->sao_date_approved ? \Carbon\Carbon::parse($forms->sao_date_approved)->format('M d, Y') : null}}"/>
+                        <x-tracker-item orientation="vertical" approver="Academic Services" dateApproved="{{$forms->acadserv_date_approved ? \Carbon\Carbon::parse($forms->acadserv_date_approved)->format('M d, Y') : null}}"/>
+                        <x-tracker-item orientation="vertical" approver="Finance and Accounting Office" dateApproved="{{$forms->finance_date_approved ? \Carbon\Carbon::parse($forms->finance_date_approved)->format('M d, Y') : null}}"/>
+                    </x-tracker>
                 </div>
 
 

@@ -30,7 +30,7 @@ use App\Mail\OrgMemAddEmail;
 
 // LOGIN: Auto redirect
 Route::get('/', function () {
-    return view('auth.login');
+    return view('auth.login')->name('login');
 });
 
 // DASHBOARD: For Auth Users
@@ -100,10 +100,19 @@ Route::group(['middleware' => ['auth', 'isStudent']], function(){
 });
 
 
+/*
+|--------------------------------------------------------------------------
+| Submitted forms review details
+|--------------------------------------------------------------------------
+*/
+Route::group(['middleware' => ['auth', 'isApprover']], function(){
+        Route::get('/submitted-forms', [SubmittedFormsController::class, 'index'])->name('submitted-forms.index');
+        Route::get('/submitted-forms/details/{forms}', [SubmittedFormsController::class, 'show'])->name('submitted-forms.show');
+        Route::put('/submitted-forms/details/{forms}/approve', [SubmittedFormsController::class, 'approve'])->name('submitted-forms.approve');
+        Route::put('/submitted-forms/details/{forms}/deny', [SubmittedFormsController::class, 'deny'])->name('submitted-forms.deny');
 
 
-
-
+});
 
 //Below Are Test Route only
 Route::post('/test', function(Request $request){

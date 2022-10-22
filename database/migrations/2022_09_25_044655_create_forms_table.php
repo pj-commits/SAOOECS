@@ -20,6 +20,8 @@ return new class extends Migration
             $table->foreignId('organization_id')->constrained('organizations');
             $table->string('event_title');
 
+            $table->date('target_date');
+
             $table->string('form_type');
             $table->string('control_number');
 

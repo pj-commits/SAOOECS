@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('proposals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('form_id')->constrained()->onDelete('cascade');
-            $table->date('target_date');
             $table->integer('duration_val');
             $table->string('duration_unit');
             $table->string('venue');

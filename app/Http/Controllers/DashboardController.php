@@ -25,8 +25,11 @@ class DashboardController extends Controller
         if(Auth::user()->checkUserType('Professor|Staff')){
             // Check if the current user is AcadServ or Finance via department_id in Staff table
            $departmentName = DB::table('departments')->find(auth()->user()->userStaff->first()->department_id, 'name');
+
            if($departmentName === 'Student Activities Office' || 'Finance Office'){
+
                 $isAcadservOrFinance = true;
+
            }
            $isAcadservOrFinance = false ;
 
@@ -44,8 +47,16 @@ class DashboardController extends Controller
             *  Fetch form with event id na org id == myorglist
             ***************************************************/
 
+            
+    
             $authOrgList = Auth::user()->studentOrg->pluck('id')->toArray();
-            $myForms = Form::whereIn('organization_id', $authOrgList)->get();
+            // $myForms = Form::whereIn('organization_id', $authOrgList)->get();
+
+            $myForms = Form::whereIn('organization_id', $authOrgList)
+            ->where(function ($query) {
+                $query->where('status','Pending');
+            })->orderBy('created_at', 'desc')->get();
+
 
             return view('_student-organization.dashboard', compact('myForms'));
         }
