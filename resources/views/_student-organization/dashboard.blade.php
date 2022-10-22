@@ -1,7 +1,8 @@
 @php
-    $hasPendingForms = isset($myForms);   
+    $hasPendingForms = !empty($myForms);   
 @endphp
 <x-app-layout>
+    <x-alert-message/>   
     {{-- If there's no pending form --}}
     @if(!$hasPendingForms)
     <div class="mt-14 h-auto w-full rounded-sm px-6 py-4">
@@ -29,7 +30,8 @@
                         <div x-data="{ open: false}">
                             <div class="h-auto grid grid-flow-row auto-rows-max mt-4 border-2 border-bland-100 rounded-t-md px-8 py-4 shadow-md cursor-pointer
                             lg:grid-cols-3" @click="open = !open">
-                                <p class="">Even Title: {{$form->event_title}}</p>
+                                <p class="">{{\Carbon\Carbon::parse($form->target_date)->format('M d, Y') }}</p>
+                                <p class="">Event Title: {{$form->event_title}}</p>
                                 <p class="">Current Approver: {{$form->curr_approver}}</p>
                                 <p class="lg:text-end">Status: {{$form->status}}</p>
                             </div>
@@ -40,8 +42,8 @@
                                 <!-- Accordion Body Top -->
                                 <div class="py-4 space-y-2">
                                     <div class="grid grid-cols-2">
-                                        <p>Date Submitted: {{$form->created_at}}</p>
-                                        <p>Submitted By: {{$form->fromOrgUser->fromUser->firstName}} {{$form->fromOrgUser->fromUser->lastName}}</p>
+                                        <p>Date submitted: {{\Carbon\Carbon::parse($form->created_at)->format('M d, Y') }}</p>
+                                        <p>Submitted By: {{$form->fromOrgUser->fromUser->first_name}} {{$form->fromOrgUser->fromUser->last_name}}</p>
                                     </div>
                                     <div class="grid grid-cols-2">
                                         <p>Form Type: {{$form->form_type}}</p>
@@ -54,11 +56,10 @@
                                 <!-- Accordion Body Bottom -->
                                 <!-- Tracker -->
                                 <x-tracker orientation="vertical">
-                                   {{-- <x-tracker-item orientation="vertical" approver="Adviser" dateApproved="{{date('h:i A  M d, Y', strtotime($form->adviser_date_approved))}}"/> --}}
-                                   <x-tracker-item orientation="vertical" approver="Adviser" dateApproved="{{$form->adviser_date_approved}}"/>
-                                   <x-tracker-item orientation="vertical" approver="SAO Head" dateApproved="{{$form->sao_date_approved}}"/>
-                                   <x-tracker-item orientation="vertical" approver="Academic Services Head" dateApproved="{{$form->acadserv_date_approved}}"/>
-                                   <x-tracker-item orientation="vertical" approver="Finance Head" dateApproved="{{$form->finance_date_approved}}"/> 
+                                    <x-tracker-item orientation="vertical" approver="Adviser" dateApproved="{{$form->adviser_date_approved ? \Carbon\Carbon::parse($form->adviser_date_approved)->format('M d, Y') : null}}"/>
+                                    <x-tracker-item orientation="vertical" approver="SAO" dateApproved="{{$form->sao_date_approved ? \Carbon\Carbon::parse($form->sao_date_approved)->format('M d, Y') : null}}"/>
+                                    <x-tracker-item orientation="vertical" approver="Academic Services" dateApproved="{{$form->acadserv_date_approved ? \Carbon\Carbon::parse($form->acadserv_date_approved)->format('M d, Y') : null}}"/>
+                                    <x-tracker-item orientation="vertical" approver="Finance and Accounting Office" dateApproved="{{$form->finance_date_approved ? \Carbon\Carbon::parse($form->finance_date_approved)->format('M d, Y') : null}}"/>
                                 </x-tracker>
 
                                 <!-- cancelForm Button && Push Notes -->

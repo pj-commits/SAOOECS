@@ -29,4 +29,19 @@ class Proposal extends Model
     {
         return $this->hasMany(ExternalCoorganizer::class);
     }
+
+    public function classification($actClassification){
+        if($actClassification === 't1'){
+            return 'CSR/Community Service';
+        }elseif($actClassification === 't2'){
+            return 'Games/Competition';
+        }elseif($actClassification === 't3'){
+            return 'Marketing';
+        }elseif($actClassification === 't4'){
+            return 'Social Event/Party/Celebration';
+        }elseif($actClassification === 't5'){
+            return 'Workshop/Seminar/Training/Symposium/Forum/Team Building';
+        }
+
+    }
 }

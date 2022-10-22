@@ -40,7 +40,8 @@ class RFController extends Controller
             'acadserv_staff_id' => 4,
             'finance_staff_id' => 3,
             'event_id' => $request->event_id,
-            'form_type' => 'BRF'
+            'form_type' => 'BRF',
+            'target_date' => $event->target_date
         ]);
 
         // Requisition Create
@@ -54,7 +55,7 @@ class RFController extends Controller
                     'price' => $request->price[$i],
                 ]);
         }
-        return redirect('/')->with('add', 'RF created successfully!');
+        return redirect('/')->with('add', 'Requisition Form created successfully!');
     }
 
     /**

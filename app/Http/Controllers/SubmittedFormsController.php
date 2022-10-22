@@ -4,22 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Form;
 use App\Models\Staff;
+use App\Models\Proposal;
+use App\Models\Liquidation;
+use App\Models\Requisition;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class SubmittedFormsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+ 
     public function index()
     {
         /****************************************************************
         *  Fetch forms: 
         *  1. must be pending
-        *  2. must have curr_approver = current user's dept/name + isHead 
+        *  2. must have forms.curr_approver = current user's dept/name + isHead 
         *  (defines the forms place in process)
         *  3. for advisers, forms of his orgs
         *****************************************************************/
@@ -32,26 +31,87 @@ class SubmittedFormsController extends Controller
                 $getAuthOrgIdList = $user->studentOrg->pluck('id');
                 $department = DB::table('departments')->find($staff->department_id);
 
-            // $query->where('adviser_staff_id', $staff->id);
-            // $query->orWhere('acadserv_staff_id', $staff->id);
-            // $query->orWhere('sao_staff_id', $staff->id);
-            // $query->orWhere('finance_staff_id', $staff->id);
 
                 if($department->name === 'Student Activities Office' && $isHead ){
                     $query->where('curr_approver', 'SAO');
                 }elseif($department->name === 'Academic Services' && $isHead){
                     $query->where('curr_approver', 'Academic Services');
                 }elseif($department->name === 'Finance Office'  && $isHead){
-                    $query->where('curr_approver', 'Finance');
-                }else{
-                    $query->where('curr_approver', 'Adviser');
-                    $query->whereIn('organization_id', $getAuthOrgIdList);
-                }  
+                    $query->where('curr_approver', 'Finance');      
+                }
+                if($user->checkPosition('Adviser')){
+                    $query->orwhereIn('organization_id', $getAuthOrgIdList);
+                    $query->orwhere('curr_approver', 'Adviser');
+                }
+                    
             })
            ->paginate(10);
 
 
+        
+
+        //    dd($pendingForms);
+
+
+
         return view('_approvers.submitted-forms', compact('pendingForms'));
+    }
+
+    public function show(Form $forms)
+    {   
+
+        if($forms->form_type === 'APF'){
+
+            $proposal = Proposal::where('form_id', $forms->id)->firstOrFail();
+
+            $externalCoorganizers = $proposal->externalCoorganizer;
+            $logisticalNeeds = $proposal->logisticalNeed;
+            $prePrograms = $proposal->preprograms;
+
+            return view('_approvers.view-details.activity-proposal', compact('forms', 'proposal', 'externalCoorganizers', 'logisticalNeeds', 'prePrograms' )  );
+
+        }elseif($forms->form_type === 'BRF'){
+
+            $requisition = Requisition::where('form_id', $forms->id)->firstOrFail();
+            
+            $requisitionItems = $requisition->reqItems;
+
+
+            return view('_approvers.view-details.budget-requisition',  compact('forms', 'requisition', 'requisitionItems')  );
+        
+        }elseif($forms->form_type === 'LF'){
+
+            $liquidation = Liquidation::where('form_id', $forms->id)->firstOrFail();
+
+            $proofOfPayments = $liquidation->proofOfPayment;
+            $liquidationItems = $liquidation->liquidationItem;
+
+            // dd($liquidation, $proofOfPayments, $liquidationItems);
+
+
+            return view('_approvers.view-details.liquidation',  compact('forms', 'liquidation', 'proofOfPayments', 'liquidationItems' )  );
+
+        }elseif($forms->form_type === 'NR'){
+
+        $narrative = Narrative::where('form_id', $forms->id)->firstOrFail();
+
+        $participants = $narrative->participant;
+        $postPrograms = $narrative->postProgram;
+        $narrativeImages = $narrative->narrativeImage;
+        $commentSuggestions = $narrative->commentSuggestion;
+
+
+        // $participants = $narrative->reqItems;
+
+        return view('_approvers.view-details.narrative', compact('forms', 'narrative', 'participants', 'postPrograms', 'narrativeImages', 'commentSuggestions' )  );
+
+        }
+
+        return abort('404');
+
+        
+
+
     }
 
     /**
@@ -81,10 +141,6 @@ class SubmittedFormsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
