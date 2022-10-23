@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Form;
 use App\Models\Staff;
 use App\Models\Proposal;
@@ -33,38 +34,60 @@ class SubmittedFormsController extends Controller
                 $user = auth()->user();
                 $staff = $user->userStaff;
                 $isHead = $staff->position === 'Head';
+                $department = DB::table('departments')->find($staff->department_id);
 
-                // LIST: id of orgs curr user belongs to
+                // APPROVER TYPE: Check if true or false
+                $isAdviser = $user->checkPosition('Adviser');
+                $isSaoHead = $department->name === 'Student Activities Office' && $isHead;
+                $isAcadServHead = $department->name === 'Academic Services' && $isHead;
+                $isFinanceHead = $department->name === 'Finance Office'  && $isHead;
+
+                // LIST: id of curr user belongs to
                 $getAuthOrgIdList = $user->studentOrg->pluck('id');
 
                 // LIST: orgUserId of curr user
                 $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id');
 
-                $department = DB::table('departments')->find($staff->department_id);
+
+                // Display ADVISER to-be-approved forms
 
                 if($user->checkPosition('Adviser')){     
                                            //  are you an adviser of an org?
                     $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );//  form curr adviser_staff_id == your orgUser Id ?
                     $query->whereIn('organization_id', $getAuthOrgIdList);      //  form is part of curr user's org ? 
                     $query->where('curr_approver', 'Adviser');                  //  form curr_approver == adviser ?
+                    $query->where('adviser_is_approve', 0);                     //  form is not yet approved
+
                 }
+
+                // Display SAO to-be-approved forms
 
                 if($department->name === 'Student Activities Office' && $isHead ){
                     $query->where('sao_staff_id', $staff->id);
                     $query->where('curr_approver', 'SAO');
                     $query->where('adviser_is_approve', 1);
+                    $query->where('sao_is_approve', 0);                     //  form is not yet approved
+
                 }
+
+                // Display ACADEMIC SERVICES to-be-approved forms
                 
                 if($department->name === 'Academic Services' && $isHead){
                     $query->where('acadserv_staff_id', $staff->id);
                     $query->where('curr_approver', 'Academic Services');
                     $query->where('sao_is_approve', 1);
+                    $query->where('acadserv_is_approve', 0);                     //  form is not yet approved
+
                 }
-                
+
+                // Display FINANCE to-be-approved forms
+
                 if($department->name === 'Finance Office'  && $isHead){
                     $query->where('finance_staff_id', $staff->id);
                     $query->where('curr_approver', 'Finance');
                     $query->where('acadserv_is_approve', 1);
+                    $query->where('finance_is_approve', 0);                     //  form is not yet approved
+
 
                 }
                 
@@ -127,16 +150,159 @@ class SubmittedFormsController extends Controller
 
     }
 
-    /******************************************************************
+    /********************************************************************************
     *  
-    *   Approve
+    *     APPROVE
+    *    1. If (adviser) AND (other approver), auto approve those roles
+    *    2. If normal == normal process
+    *    3. If form is_approve = 1 , skip that one (means, the form is returned to process)
+    *    4. Change current approver every time = to the next
+    *    5. Approved if it's on the last stop
+    *    6. Process:
+    *        APF || RF 	== 1, 2, 3, 4
+    *        LF 		== 1, 4
+    *        NR 		== 1, 2
     *
-    ********************************************************************/
+    *     ___________________________________________________________
+    *    ||  1 = adv      2 = sao     3 = acadserv    4 = finance   ||
+    *    ||_________________________________________________________||
+    *
+    ********************************************************************************/
 
     public function approve(Form $forms)
-    {
+    {   
+        // Declarations
+        $user = auth()->user();
+        $staff = $user->userStaff;
+        $isHead = $staff->position === 'Head';
 
-        $forms->update(array('status' => 'Approved'));
+        $department = DB::table('departments')->find($staff->department_id);
+
+        $isAdviser = $user->checkPosition('Adviser');
+        $isSaoHead = $department->name === 'Student Activities Office' && $isHead;
+        $isAcadServHead = $department->name === 'Academic Services' && $isHead;
+        $isFinanceHead = $department->name === 'Finance Office'  && $isHead;
+
+        $now = Carbon::now()->setTimezone('Asia/Manila');
+        $deadline = Carbon::now()->setTimezone('Asia/Manila')->addDays(3);
+        $adviser = 'Adviser';
+        $sao = 'SAO';
+        $acadserv = 'Academic Services';
+        $finance = 'Finance';
+        $yes = 1;
+        $no = 0;
+        $done = 'Done';
+        $approved = 'Approved';
+
+
+        // dd($now, $deadline )
+
+        // For Narrative = (1 -> 2)
+        if($forms->form_type == 'NR' ){
+
+            if($isAdviser){
+
+                if($forms->adviser_is_approve === 0 ){
+                    $forms->update(array(
+                        'adviser_is_approve' => $yes,
+                        'adviser_date_approved' => $now,
+                        'deadline' => $deadline,
+                        'curr_approver' => $sao
+                    ));
+                }
+            }
+
+            if($isSaoHead){
+                if($forms->sao_is_approve === 0 ){
+                    $forms->update(array(
+                        'sao_is_approve' => $yes,
+                        'sao_date_approved' => $now,
+                        'deadline' => $deadline,
+                        'curr_approver' => $done,
+                        'status' => $approved
+
+                    ));
+                }
+            }
+        }
+
+        // For Liquidation (1 -> 4)
+        if($forms->form_type == 'LF' ){
+
+            if($isAdviser){
+                if($forms->adviser_is_approve === 0 ){
+                    $forms->update(array(
+                        'adviser_is_approve' => $yes,
+                        'acadserv_is_approve' => $yes,
+                        'adviser_date_approved' => $now,
+                        'deadline' => $deadline,
+                        'curr_approver' => $finance
+                    ));
+                }
+            }
+
+            if($isFinanceHead){
+                if($forms->finance_is_approve === 0 ){
+                    $forms->update(array(
+                        'finance_is_approve' => $yes,
+                        'finance_date_approved' => $now,
+                        'deadline' => $deadline,
+                        'curr_approver' => $done,
+                        'status' => $approved
+                    ));
+                }
+            }
+        }
+
+         // For APF and BRF (1 -> 2 -> 3 -> 4)
+         if($forms->form_type == 'APF' || 'BRF' ){
+
+            if($isAdviser){
+                if($forms->adviser_is_approve === 0 ){
+                    $forms->update(array(
+                        'adviser_is_approve' => $yes,
+                        'acadserv_is_approve' => $yes,
+                        'adviser_date_approved' => $now,
+                        'deadline' => $deadline,
+                        'curr_approver' => $sao
+                    ));
+                }
+            }
+
+            if($isSaoHead){
+                if($forms->sao_is_approve === 0 ){
+                    $forms->update(array(
+                        'sao_is_approve' => $yes,
+                        'sao_date_approved' => $now,
+                        'deadline' => $deadline,
+                        'curr_approver' => $acadserv,
+                    ));
+                }
+            }
+
+            if($isAcadServHead){
+                if($forms->acadserv_is_approve === 0 ){
+                    $forms->update(array(
+                        'acadserv_is_approve' => $yes,
+                        'acadserv_date_approved' => $now,
+                        'deadline' => $deadline,
+                        'curr_approver' => $finance,
+                    ));
+                }
+            }
+
+            if($isFinanceHead){
+                if($forms->finance_is_approve === 0 ){
+                    $forms->update(array(
+                        'finance_is_approve' => $yes,
+                        'finance_date_approved' => $now,
+                        'deadline' => $deadline,
+                        'curr_approver' => $done,
+                        'status' => $approved
+                    ));
+                }
+            }
+        }
 
         $message = $forms->event_title.' was approved!';
 
