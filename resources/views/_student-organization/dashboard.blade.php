@@ -23,7 +23,7 @@
     </div>
     @else
     {{-- If there's pending form --}} 
-    <div x-data="{cancelForm: false, modal:true} ">
+    <div x-data="{cancelForm: false, modal:true}">
         <div class="pt-24"> 
             <div class="max-w-screen mx-auto px-4 lg:px-8">
                 <div class="bg-white mt-4 h-auto w-full rounded-sm shadow-sm px-6 py-4">
@@ -71,18 +71,17 @@
                                                 <p class="text-sm text-bland-600"> <span class="font-bold">Form Type: </span>{{ $formTypes[$form->form_type] }}</p>
                                                 <p class="text-sm text-bland-600"> <span class="font-bold">Control Number: </span>{{ $form->control_number }} </p>
                                             </div>
-                                        </div>
-                                        
+                                        </div>            
 
-                                <hr>
-                                <!-- Accordion Body Bottom -->
-                                <!-- Tracker -->
-                                <x-tracker orientation="vertical">
-                                    <x-tracker-item orientation="vertical" approver="Adviser" dateApproved="{{ $form->adviser_date_approved ? \Carbon\Carbon::parse($form->adviser_date_approved)->format('F d, Y - h:i A') : null }}"/>
-                                    <x-tracker-item orientation="vertical" approver="SAO" dateApproved="{{ $form->sao_date_approved ? \Carbon\Carbon::parse($form->sao_date_approved)->format('F d, Y - h:i A') : null }}"/>
-                                    <x-tracker-item orientation="vertical" approver="Academic Services" dateApproved="{{ $form->acadserv_date_approved ? \Carbon\Carbon::parse($form->acadserv_date_approved)->format('F d, Y - h:i A') : null }}"/>
-                                    <x-tracker-item orientation="vertical" approver="Finance and Accounting Office" dateApproved="{{ $form->finance_date_approved ? \Carbon\Carbon::parse($form->finance_date_approved)->format('F d, Y - h:i A') : null }}"/>
-                                </x-tracker>
+                                        <hr>
+                                        <!-- Accordion Body Bottom -->
+                                        <!-- Tracker -->
+                                        <x-tracker orientation="vertical">
+                                            <x-tracker-item orientation="vertical" approver="Adviser" dateApproved="{{ $form->adviser_date_approved ? \Carbon\Carbon::parse($form->adviser_date_approved)->format('F d, Y - h:i A') : null }}"/>
+                                            <x-tracker-item orientation="vertical" approver="SAO" dateApproved="{{ $form->sao_date_approved ? \Carbon\Carbon::parse($form->sao_date_approved)->format('F d, Y - h:i A') : null }}"/>
+                                            <x-tracker-item orientation="vertical" approver="Academic Services" dateApproved="{{ $form->acadserv_date_approved ? \Carbon\Carbon::parse($form->acadserv_date_approved)->format('F d, Y - h:i A') : null }}"/>
+                                            <x-tracker-item orientation="vertical" approver="Finance and Accounting Office" dateApproved="{{ $form->finance_date_approved ? \Carbon\Carbon::parse($form->finance_date_approved)->format('F d, Y - h:i A') : null }}"/>
+                                        </x-tracker>
 
                                         <!-- cancelForm Button && Push Notes -->
                                         <div class="flex justify-end space-x-2 my-4">
@@ -108,7 +107,7 @@
                                     </div>
                                 </template>
                             
-                                <div class="flex justify-end space-x-4 mt-4">          
+                                <div class="flex justify-end space-x-2 mt-4">          
                                     <input type="hidden" id="formId" name="formId" x-ref="formId">
                                     <x-button bg="bg-semantic-success" hover="hover:bg-green-600" @click="cancelForm = false, modal=false">
                                         {{ __('Back') }}
