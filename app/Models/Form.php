@@ -36,7 +36,7 @@ class Form extends Model
     }
 
     public function myOrg(){
-        return $this->belongsTo(Organization::class, 'organization_id');
+        return $this->belongsTo(OrganizationUser::class, 'organization_id', 'organization_id');
     }
 
     public function tableFilter($query, array $filters){
