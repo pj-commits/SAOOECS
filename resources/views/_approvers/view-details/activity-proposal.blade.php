@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="pt-24"> 
-        <div class="max-w-screen mx-auto px-4 lg:px-8">
+    <div x-data="{denyForm: false, modal:false}" class="pt-24"> 
+        <div x-data="{approveForm: false, modal:false}" class="max-w-screen mx-auto px-4 lg:px-8">
             <div class="flex justify-between flex-wrap">
                 <h1 class="flex items-center text-xl">
                     <span>
@@ -15,10 +15,10 @@
             <!-- Tracker large Screen -->
             <div class="py-4 hidden xl:block">
                 <x-tracker orientation="horizontal">
-                    <x-tracker-item orientation="horizontal" approver="Adviser" dateApproved="{{$forms->adviser_date_approved ? \Carbon\Carbon::parse($forms->adviser_date_approved)->format('M d, Y') : null}}"/>
-                    <x-tracker-item orientation="horizontal" approver="SAO" dateApproved="{{$forms->sao_date_approved ? \Carbon\Carbon::parse($forms->sao_date_approved)->format('M d, Y') : null}}"/>
-                    <x-tracker-item orientation="horizontal" approver="Academic Services" dateApproved="{{$forms->acadserv_date_approved ? \Carbon\Carbon::parse($forms->acadserv_date_approved)->format('M d, Y') : null}}"/>
-                    <x-tracker-item orientation="horizontal" approver="Finance and Accounting Office" dateApproved="{{$forms->finance_date_approved ? \Carbon\Carbon::parse($forms->finance_date_approved)->format('M d, Y') : null}}"/>
+                    <x-tracker-item orientation="horizontal" approver="Adviser" dateApproved="{{$forms->adviser_date_approved ? \Carbon\Carbon::parse($forms->adviser_date_approved)->formsat('M d, Y') : null}}"/>
+                    <x-tracker-item orientation="horizontal" approver="SAO" dateApproved="{{$forms->sao_date_approved ? \Carbon\Carbon::parse($forms->sao_date_approved)->formsat('M d, Y') : null}}"/>
+                    <x-tracker-item orientation="horizontal" approver="Academic Services" dateApproved="{{$forms->acadserv_date_approved ? \Carbon\Carbon::parse($forms->acadserv_date_approved)->formsat('M d, Y') : null}}"/>
+                    <x-tracker-item orientation="horizontal" approver="Finance and Accounting Office" dateApproved="{{$forms->finance_date_approved ? \Carbon\Carbon::parse($forms->finance_date_approved)->formsat('M d, Y') : null}}"/>
                 </x-tracker>
             </div>
 
@@ -68,7 +68,7 @@
                 <hr class="mt-8 mb-4">
 
                 {{-- Row #7 --}}
-                <h1 class="text-lg text-bland-600 text-bland-600 font-bold my-4">Coorganizers</h1>
+                <h1 class="text-lg text-bland-600 font-bold my-4">Coorganizers</h1>
                 <div class="bg-white mt-4 h-auto w-full border-b border-gray-200 shadow-sm">
                     <div id="participant-container" class="overflow-auto block max-h-[420px] rounded-sm scroll-smooth">
                         <table class="table-auto w-full border-collapse border text-left">
@@ -114,7 +114,7 @@
                 <hr class="my-4">
 
                 {{-- Row #8 --}}
-                <h1 class="text-lg text-bland-600 text-bland-600 font-bold my-4">Programs</h1>
+                <h1 class="text-lg text-bland-600 font-bold my-4">Programs</h1>
                 <div class="bg-white mt-4 h-auto w-full border-b border-gray-200 shadow-sm">
                     <div id="participant-container" class="overflow-auto block max-h-[420px] rounded-sm scroll-smooth">
                         <table class="table-auto w-full border-collapse border text-left">
@@ -146,7 +146,7 @@
                 <hr class="my-4">
 
                 {{-- Row #9 --}}
-                <h1 class="text-lg text-bland-600 text-bland-600 font-bold my-4">Logistical Needs</h1>
+                <h1 class="text-lg text-bland-600 font-bold my-4">Logistical Needs</h1>
                 <div class="bg-white mt-4 h-auto w-full border-b border-gray-200 shadow-sm">
                     <div id="participant-container" class="overflow-auto block max-h-[420px] rounded-sm scroll-smooth">
                         <table class="table-auto w-full border-collapse border text-left">
@@ -219,87 +219,37 @@
 
 
                 <div class="mt-8 mb-2">
-                    <form action="{{ route('submitted-forms.approve', ['forms' => $forms->id]) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                            <x-button class="px-8" type="submit" >
-                                {{ __('Approve') }}
-                            </x-button>
-                    </form>
 
-                    <form action="{{ route('submitted-forms.deny', ['forms' => $forms->id]) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <x-input id="remarks" class="mt-1 w-full" type="text" name="remarks" autofocus/>
+                    <x-button  bg="bg-semantic-success" hover="hover:bg-green-600" type="button" class="px-8" @click="approveForm = true, modal = true">
+                        {{ __('Approve') }}
+                    </x-button>
 
-                        <x-button class="px-12" bg="bg-semantic-danger" hover="hover:bg-rose-600" type="submit">
-                            {{ __('Deny') }}
-                        </x-button>
-                    </form>
+                    <x-button bg="bg-semantic-danger" hover="hover:bg-rose-600" type="button" class="px-8" @click="denyForm = true, modal = true">
+                        {{ __('Deny') }}
+                    </x-button>
+                   
                 </div>
 
                 <!-- Tracker Small Screen-->
                 <div class="py-4 block xl:hidden">
                     <x-tracker orientation="vertical">
-                        <x-tracker-item orientation="vertical" approver="Adviser" dateApproved="{{$forms->adviser_date_approved ? \Carbon\Carbon::parse($forms->adviser_date_approved)->format('M d, Y') : null}}"/>
-                        <x-tracker-item orientation="vertical" approver="SAO" dateApproved="{{$forms->sao_date_approved ? \Carbon\Carbon::parse($forms->sao_date_approved)->format('M d, Y') : null}}"/>
-                        <x-tracker-item orientation="vertical" approver="Academic Services" dateApproved="{{$forms->acadserv_date_approved ? \Carbon\Carbon::parse($forms->acadserv_date_approved)->format('M d, Y') : null}}"/>
-                        <x-tracker-item orientation="vertical" approver="Finance and Accounting Office" dateApproved="{{$forms->finance_date_approved ? \Carbon\Carbon::parse($forms->finance_date_approved)->format('M d, Y') : null}}"/>
+                        <x-tracker-item orientation="vertical" approver="Adviser" dateApproved="{{$forms->adviser_date_approved ? \Carbon\Carbon::parse($forms->adviser_date_approved)->formsat('M d, Y') : null}}"/>
+                        <x-tracker-item orientation="vertical" approver="SAO" dateApproved="{{$forms->sao_date_approved ? \Carbon\Carbon::parse($forms->sao_date_approved)->formsat('M d, Y') : null}}"/>
+                        <x-tracker-item orientation="vertical" approver="Academic Services" dateApproved="{{$forms->acadserv_date_approved ? \Carbon\Carbon::parse($forms->acadserv_date_approved)->formsat('M d, Y') : null}}"/>
+                        <x-tracker-item orientation="vertical" approver="Finance and Accounting Office" dateApproved="{{$forms->finance_date_approved ? \Carbon\Carbon::parse($forms->finance_date_approved)->formsat('M d, Y') : null}}"/>
                     </x-tracker>
                 </div>
 
 
             </div>
+
+            {{-- Approve Modal --}}
+            <x-view-details.approve id="{{!! $forms->id !!}}" eventTitle="{{!! $forms->event_title !!}}" orgName="{{!! $forms->myOrg->getOrgName->org_name !!}}" formType="{{!! $forms->form_type !!}}" />
+
+            {{-- Dent Modal --}}
+            <x-view-details.deny id="{{!! $forms->id !!}}" eventTitle="{{!! $forms->event_title !!}}" formType="{{!! $forms->form_type !!}}" />
+
         </div>
-        
-        {{-- <x-modal name="approve">
-            <div class="py-5 text-center">
-                Confirm action to <br> <b>{{$forms->event_title}}</b>?
-            </div>
-            
-            <div class="flex justify-center space-x-4 mt-5">
-                <form action="{{ route('submitted-forms.approve', ['id' => $form->id]) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <x-button bg="bg-semantic-danger" hover="hover:bg-rose-600" type="submit" >
-                        {{ __('Remove') }}
-                        
-                    </x-button>
-                </form>
-
-                <x-button bg="bg-semantic-success" hover="hover:bg-green-600" @click="approve = false, modal = false" >
-                        {{ __('Cancel') }}
-                </x-button>
-            </div>
-        </x-modal>
-
-        <x-modal name="deny">
-            <div class="py-5 text-center">
-                Confirm action to <br> <b>{{$forms->event_title}}</b>?
-            </div>
-            
-            <div class="flex justify-center space-x-4 mt-5">
-                <form action="{{ route('submitted-forms.deny', ['id' => $form->id]) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-
-                    <x-input id="remarks" class="mt-1 w-full" type="text" name="remarks"  autofocus/>
-                    
-                    <x-button bg="bg-semantic-danger" hover="hover:bg-rose-600" type="submit" >
-                        {{ __('Remove') }}
-                        
-                    </x-button>
-                </form>
-
-                <x-button bg="bg-semantic-success" hover="hover:bg-green-600" @click="deny" = false, modal = false" >
-                        {{ __('Cancel') }}
-                </x-button>
-            </div>
-        </x-modal> --}}
-
-
-
-
     </div>
 </x-app-layout>
 
@@ -314,3 +264,12 @@
 
 
 
+ {{-- <forms action="{{ route('submitted-forms.deny', ['forms' => $forms->id]) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <x-input id="remarks" class="mt-1 w-full" type="text" name="remarks" autofocus/>
+
+                        <x-button class="px-12" bg="bg-semantic-danger" hover="hover:bg-rose-600" type="submit">
+                            {{ __('Deny') }}
+                        </x-button>
+                    </forms> --}}

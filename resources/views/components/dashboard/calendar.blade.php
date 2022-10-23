@@ -2,7 +2,7 @@
 @php
     $forms = substr($forms, 1, -1);
 @endphp
-<div x-data="{ listOfEventsModal: false, modal: true }" class="w-auto h-auto lg:w-3/4">
+<div x-data="{ listOfEventsModal: false, modal: false }" class="w-auto h-auto lg:w-3/4">
 
     <div x-data="calendar()" x-init="[initDate(), getNoOfDays()]" x-cloak @load.window="addEvent({{ $forms }})">
 
@@ -10,8 +10,8 @@
 
         <div class="flex items-center justify-between py-2 px-6">
           <div>
-            <span x-text="MONTH_NAMES[month]" class="text-2xl font-bold text-gray-800"></span>
-            <span x-text="year" class="ml-1 text-md text-gray-600 font-normal"></span>
+            <span x-text="MONTH_NAMES[month]" class="text-xl font-bold text-gray-800"></span>
+            <span x-text="year" class="ml-1 text-sm text-gray-600 font-normal"></span>
           </div>
           <div class="border rounded-lg px-1" style="padding-top: 2px;">
             <button 

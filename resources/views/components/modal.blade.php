@@ -4,7 +4,7 @@
 <div x-cloak x-show="{{ $name }}" class="z-50 fixed top-0 left-0 w-screen h-screen bg-gray-900 bg-opacity-30">
     <div 
         x-cloak
-        x-init="setTimeout( () => modal = true, 200)" 
+        x-init="setTimeout( () => modal = false, 200)" 
         x-show="modal"     
         x-transition:enter="transition ease-out duration-300"
         x-transition:enter-start="opacity-0 translate-y-6"
