@@ -7,7 +7,7 @@
       </div>
       <div class="text-center leading-tight">
         <p class="text-sm text-gray-600">Total Pending Forms:</p>
-        <p class="font-bold">4</p>
+          {{ $slot }}
       </div>
     </div>
 </div>

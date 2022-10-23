@@ -34,8 +34,18 @@ class DashboardController extends Controller
            }
            $isAcadservOrFinance = false ;
 
-           // forms
-           $forms = json_encode(Form::where('status', 'Pending')->get());
+           // Getting the forms and destructuring it.
+           $getForms = Form::where('status', 'Pending')->get();
+           $forms = [];
+           foreach($getForms as $form){
+                array_push($forms, [
+                    'id' => $form->id,
+                    'organization' => $form->myOrg->getOrgName->org_name,
+                    'event_title' => $form->event_title,
+                    'form_type' => $form->form_type,
+                    'deadline' => $form->deadline,
+                ]);
+           }
 
             return view('_approvers.dashboard', compact('forms', 'isAcadservOrFinance'));
 

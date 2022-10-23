@@ -1,14 +1,20 @@
+@php
+$Forms = json_encode($forms);
+$pendingFormCount = count($forms)   
+@endphp
 <x-app-layout>
   {{-- Row #1 --}}
   <div class="pt-24 px-4 lg:px-8 mb-4">
     <!-- Card - Pending Forms -->
-    <x-dashboard.card-pending-forms/>
+    <x-dashboard.card-pending-forms>
+      {{ $pendingFormCount }}
+    </x-dashboard.card-pending-forms>
   </div>
 
     {{-- Row #2 --}}
     <div class="flex flex-col justify-between px-4 lg:space-x-4 lg:flex-row lg:px-8">
       <!-- Calendar -->
-      <x-dashboard.calendar forms="{{!! $forms !!}}"/>
+      <x-dashboard.calendar forms="{{!! $Forms !!}}"/>
 
       <!-- Cards - Total Approved -->
       @if($isAcadservOrFinance)
