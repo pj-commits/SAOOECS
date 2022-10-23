@@ -27,39 +27,48 @@
                 
                 {{-- Row #1 --}}
                 <div class="grid grid-flow-row auto-rows-max gap-6 mt-4 md:grid-cols-4">
-                       <p class="font-bold">Event Title: <span class="font-normal"> {{$forms->event_title}}</span></p>
-                       <p class="font-bold md:col-start-4">Date Submitted: <span class="font-normal">{{date('M d, Y', strtotime($forms->created_at))}}</span></p> 
+                       <p class="text-bland-600 font-bold">Event Title: <span class="font-normal"> {{$forms->event_title}}</span></p>
+                       <p class="text-bland-600 font-bold md:col-start-4">Date Submitted: <span class="font-normal">{{date('M d, Y', strtotime($forms->created_at))}}</span></p> 
                 </div>
 
                 {{-- Row #2 --}}
                 <div class="grid grid-flow-row auto-rows-max gap-6 mt-4 md:grid-cols-4">
-                    <p class="font-bold">Duration of Event: <span class="font-normal">  {{$proposal->duration_val}} {{$proposal->duration_unit}}</span></p>
-                    <p class="font-bold md:col-start-4">Target Date of Event: <span class="font-normal">  {{date('M d, Y', strtotime($forms->target_date))}} </span></p>
+                    <p class="text-bland-600 font-bold">Duration of Event: <span class="font-normal">  {{$proposal->duration_val}} {{$proposal->duration_unit}}</span></p>
+                    <p class="text-bland-600 font-bold md:col-start-4">Target Date of Event: <span class="font-normal">  {{date('M d, Y', strtotime($forms->target_date))}} </span></p>
                 </div>
 
                 {{-- Row #3 --}}
                 <div class="grid grid-flow-row auto-rows-max gap-6 mt-4 md:grid-cols-1 mb-4">
-                    <p class="font-bold">Activity Classification: <span class="font-normal">  {{$proposal->classification($proposal->act_classification)}} </span></p>
+                    <p class="text-bland-600 font-bold">Activity Classification: <span class="font-normal">  {{$proposal->classification($proposal->act_classification)}} </span></p>
                 </div>
 
-                <hr>
+                <hr class="my-8">
 
                 {{-- Row #4 --}}
                 <div class="grid grid-flow-row auto-rows-max gap-6 mt-4 md:grid-cols-4">
-                    <p class="font-bold">Organizer: <span class="font-normal">  {{$proposal->organizer_name}} </span></p>
-                    {{-- <p class="font-bold md:col-start-4">Organization: <span class="font-normal">  {{$forms->fromOrg->org_name}} </span></p> --}}
+                    <p class="text-bland-600 font-bold">Organizer: <span class="font-normal">  {{$proposal->organizer_name}} </span></p>
+                    <p class="text-bland-600 font-bold md:col-start-4">Organization: <span class="font-normal">  {{$forms->myOrg->getOrgName->org_name}} </span></p>
                 </div>
 
                 {{-- Row #5 --}}
                 <div class="grid grid-flow-row auto-rows-max gap-6 mt-4 md:grid-cols-4 mb-4">
-                    <p class="font-bold">Email: <span class="font-normal">  {{$forms->fromOrgUser->fromUser->email}} </span></p>
-                    <p class="font-bold md:col-start-4">Contact Number: <span class="font-normal">  {{$forms->fromOrgUser->fromUser->phone_number}} </span></p>
+                    <p class="text-bland-600 font-bold">Email: <span class="font-normal">  {{$forms->fromOrgUser->fromUser->email}} </span></p>
+                    <p class="text-bland-600 font-bold md:col-start-4">Contact Number: <span class="font-normal">  {{$forms->fromOrgUser->fromUser->phone_number}} </span></p>
                 </div>
 
-                <hr>
+                <hr class="my-8">
 
                 {{-- Row #6 --}}
-                <h1 class="text-lg text-bland-600 font-bold my-4">Coorganizers</h1>
+                <div class="flex my-4 space-x-2">
+                    <p class="text-bland-600 font-bold" >Description: </p>
+                    <p> {{$proposal->description}} </p>
+                </div>
+
+                
+                <hr class="mt-8 mb-4">
+
+                {{-- Row #7 --}}
+                <h1 class="text-lg text-bland-600 text-bland-600 font-bold my-4">Coorganizers</h1>
                 <div class="bg-white mt-4 h-auto w-full border-b border-gray-200 shadow-sm">
                     <div id="participant-container" class="overflow-auto block max-h-[420px] rounded-sm scroll-smooth">
                         <table class="table-auto w-full border-collapse border text-left">
@@ -102,48 +111,42 @@
                     </div>
                 </div>
 
-                <hr class="mt-4">
-
-                {{-- Row #7 --}}
-                <div class="grid grid-flow-row auto-rows-max gap-6 mt-4 md:grid-cols-4 mb-4">
-                    <p class="font-bold col-span-2">Primary Target Audience/Beneficiary: <span class="font-normal">  {{$proposal->primary_audience}} </span></p>
-                    <p class="font-bold col-span-2 md:col-start-3">Number of Participants/Beneficiary: <span class="font-normal">   {{$proposal->num_primary_audience}} </span></p>
-                </div>
+                <hr class="my-4">
 
                 {{-- Row #8 --}}
-                <div class="grid grid-flow-row auto-rows-max gap-6 mt-4 md:grid-cols-4 mb-4">
-                    <p class="font-bold col-span-2">Secondary Target Audience/Beneficiary: <span class="font-normal">  {{$proposal->secondary_audience}} </span></p>
-                    <p class="font-bold col-span-2 md:col-start-3">Number of Participants/Beneficiary: <span class="font-normal">  {{$proposal->num_secondary_audience}} </span></p>
+                <h1 class="text-lg text-bland-600 text-bland-600 font-bold my-4">Programs</h1>
+                <div class="bg-white mt-4 h-auto w-full border-b border-gray-200 shadow-sm">
+                    <div id="participant-container" class="overflow-auto block max-h-[420px] rounded-sm scroll-smooth">
+                        <table class="table-auto w-full border-collapse border text-left">
+                
+                            {{-- Table Head--}}
+                            <thead class="border-b bg-bland-200 sticky top-0 z-10">
+                                {{-- Insert Table Head Columns Here --}}
+                                <x-table.head-col>#</x-table.head-col>
+                                <x-table.head-col>Activity</x-table.head-col>
+                                <x-table.head-col>Start Date</x-table.head-col>
+                                <x-table.head-col>End Date</x-table.head-col>
+                                {{-- Table Head Columns Ends Here --}}
+                            </thead>
+                            {{-- Table Body --}}
+                            <tbody>
+                                @php $i = 1; @endphp
+                                @foreach($prePrograms as $program)
+                                <tr class="bg-white  hover:bg-bland-100 border-b border-bland-20">
+                                    <x-table.body-col><p class="pl-2"> {{$i++}} </p></x-table.body-col>
+                                    <x-table.body-col><p class="pl-2"> {{$program->activity}} </p></x-table.body-col> 
+                                    <x-table.body-col><p class="pl-2"> {{date('M d, Y  h:i A', strtotime($program->start_date_time))}} </p></x-table.body-col>
+                                    <x-table.body-col><p class="pl-2"> {{date('M d, Y  h:i A', strtotime($program->end_date_time))}} </p></x-table.body-col>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
-                <hr>
+                <hr class="my-4">
 
                 {{-- Row #9 --}}
-                <div class="flex my-4 space-x-2">
-                    <p class="font-bold" >Description: </p>
-                    <p> {{$proposal->description}} </p>
-                </div>
-
-                <hr>
-
-                {{-- Row #10 --}}
-                <div class="flex my-4 space-x-2">
-                    <p class="font-bold">Rationale: </p>
-                    <p> {{$proposal->rationale}} </p>
-                </div>
-
-                <hr>
-
-                {{-- Row #11 --}}
-                <div class="flex my-4 space-x-2">
-                    <p class="font-bold">Outcome: </p>
-                    <p> {{$proposal->outcome}} </p>
-                </div>
-            
-                <hr>
-
-                {{-- Row #12 --}}
-                <h1 class="text-lg text-bland-600 font-bold my-4">Logistical Needs</h1>
+                <h1 class="text-lg text-bland-600 text-bland-600 font-bold my-4">Logistical Needs</h1>
                 <div class="bg-white mt-4 h-auto w-full border-b border-gray-200 shadow-sm">
                     <div id="participant-container" class="overflow-auto block max-h-[420px] rounded-sm scroll-smooth">
                         <table class="table-auto w-full border-collapse border text-left">
@@ -181,39 +184,39 @@
                     </div>
                 </div>
 
-                <hr class="mt-4">
+                <hr class="my-8">
 
-                {{-- Row #13 --}}
-                <h1 class="text-lg text-bland-600 font-bold my-4">Programs</h1>
-                <div class="bg-white mt-4 h-auto w-full border-b border-gray-200 shadow-sm">
-                    <div id="participant-container" class="overflow-auto block max-h-[420px] rounded-sm scroll-smooth">
-                        <table class="table-auto w-full border-collapse border text-left">
-                
-                            {{-- Table Head--}}
-                            <thead class="border-b bg-bland-200 sticky top-0 z-10">
-                                {{-- Insert Table Head Columns Here --}}
-                                <x-table.head-col>#</x-table.head-col>
-                                <x-table.head-col>Activity</x-table.head-col>
-                                <x-table.head-col>Start Date</x-table.head-col>
-                                <x-table.head-col>End Date</x-table.head-col>
-                                {{-- Table Head Columns Ends Here --}}
-                            </thead>
-                            {{-- Table Body --}}
-                            <tbody>
-                                @php $i = 1; @endphp
-                                @foreach($prePrograms as $program)
-                                <tr class="bg-white  hover:bg-bland-100 border-b border-bland-20">
-                                    <x-table.body-col><p class="pl-2"> {{$i++}} </p></x-table.body-col>
-                                    <x-table.body-col><p class="pl-2"> {{$program->activity}} </p></x-table.body-col> 
-                                    <x-table.body-col><p class="pl-2"> {{date('M d, Y  h:i A', strtotime($program->start_date_time))}} </p></x-table.body-col>
-                                    <x-table.body-col><p class="pl-2"> {{date('M d, Y  h:i A', strtotime($program->end_date_time))}} </p></x-table.body-col>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                {{-- Row #10 --}}
+                <div class="grid grid-flow-row auto-rows-max gap-6 mt-6 md:grid-cols-4 mb-6">
+                    <p class="text-bland-600 font-bold col-span-2">Primary Target Audience/Beneficiary: <span class="font-normal">  {{$proposal->primary_audience}} </span></p>
+                    <p class="text-bland-600 font-bold col-span-2 md:col-start-3">Number of Primary Participants/Beneficiary: <span class="font-normal">   {{$proposal->num_primary_audience}} </span></p>
                 </div>
 
-                <hr class="mt-4">
+                {{-- Row #11 --}}
+                <div class="grid grid-flow-row auto-rows-max gap-6 mt-4 md:grid-cols-4 mb-4">
+                    <p class="text-bland-600 font-bold col-span-2">Secondary Target Audience/Beneficiary: <span class="font-normal">  {{$proposal->secondary_audience}} </span></p>
+                    <p class="text-bland-600 font-bold col-span-2 md:col-start-3">Number of Secnodary Participants/Beneficiary: <span class="font-normal">  {{$proposal->num_secondary_audience}} </span></p>
+                </div>
+
+                <hr class="my-8">
+
+                {{-- Row #12 --}}
+                <div class="flex my-4 space-x-2">
+                    <p class="text-bland-600 font-bold">Rationale: </p>
+                    <p> {{$proposal->rationale}} </p>
+                </div>
+
+                <hr class="my-8">
+
+                {{-- Row #13 --}}
+                <div class="flex my-4 space-x-2">
+                    <p class="text-bland-600 font-bold">Outcome: </p>
+                    <p> {{$proposal->outcome}} </p>
+                </div>
+
+                <hr>
+
+
 
                 <div class="mt-8 mb-2">
                     <form action="{{ route('submitted-forms.approve', ['forms' => $forms->id]) }}" method="POST">
