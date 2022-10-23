@@ -46,22 +46,26 @@ class SubmittedFormsController extends Controller
                                            //  are you an adviser of an org?
                     $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );//  form curr adviser_staff_id == your orgUser Id ?
                     $query->whereIn('organization_id', $getAuthOrgIdList);      //  form is part of curr user's org ? 
-                    // $query->where('curr_approver', 'Adviser');                  //  form curr_approver == adviser ?
+                    $query->where('curr_approver', 'Adviser');                  //  form curr_approver == adviser ?
                 }
 
                 if($department->name === 'Student Activities Office' && $isHead ){
                     $query->where('sao_staff_id', $staff->id);
                     $query->where('curr_approver', 'SAO');
+                    $query->where('adviser_is_approve', 1);
                 }
                 
                 if($department->name === 'Academic Services' && $isHead){
                     $query->where('acadserv_staff_id', $staff->id);
                     $query->where('curr_approver', 'Academic Services');
+                    $query->where('sao_is_approve', 1);
                 }
                 
                 if($department->name === 'Finance Office'  && $isHead){
                     $query->where('finance_staff_id', $staff->id);
-                    $query->where('curr_approver', 'Finance');      
+                    $query->where('curr_approver', 'Finance');
+                    $query->where('acadserv_is_approve', 1);
+
                 }
                 
             })

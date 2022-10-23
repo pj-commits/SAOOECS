@@ -23,8 +23,12 @@ class Staff extends Model
 
     public function staffDepartment()
     {
-        return $this->belongsTo(Department::class);
+        return $this->belongsTo(Department::class, 'department_id');
     }
 
+    public function formsSao(){
+        
+        return $this->hasMany(Form::class, 'sao_staff_id');
+    }
 
 }

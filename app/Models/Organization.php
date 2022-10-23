@@ -20,7 +20,7 @@ class Organization extends Model
     }
 
     public function orgForms(){
-        return $this->hasMany(Form::class);
+        return $this->hasMany(Form::class, 'organization_id');
     }
 
     

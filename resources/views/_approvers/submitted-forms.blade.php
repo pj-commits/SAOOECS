@@ -57,11 +57,11 @@
                    
                     {{-- Table Head Body --}}
                     @foreach($pendingForms as $form)
-                    @dd($form->fromOrg)
+                    {{-- @dd($form) --}}
                     <x-table.body>
                         {{-- Insert Table Body Columns Here --}}
                         <x-table.body-col class="pl-6">{{$form->event_title}}</x-table.body-col>
-                        {{-- <x-table.body-col class="pl-6">{{$form->fromOrg->org_name}}</x-table.body-col> --}}
+                        <x-table.body-col class="pl-6">{{$form->myOrg->org_name}}</x-table.body-col>
                         <x-table.body-col class="pl-6">{{$form->form_type}}</x-table.body-col>
                         <x-table.body-col class="pl-6">{{date('M d, Y  h:i A', strtotime($form->created_at))}}</x-table.body-col>
                         <x-table.body-col class="pl-6">
