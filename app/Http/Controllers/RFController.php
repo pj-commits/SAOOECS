@@ -29,16 +29,32 @@ class RFController extends Controller
     {
         $rf = $request->safe()->except(['event_id','quantity','purpose','price']);
         $event = Form::where('event_id', $request->event_id)->get()->first();
-     
+
+         // get ID for approvers
+        $orgAdviser = OrganizationUser::where('organization_id',$request->org_id)
+         ->where('position', 'Adviser')->pluck('id')->first();
+
+        $sao = Staff::whereHas('staffDepartment', function($q){
+                $q->where('name', '=', 'Student Activities Office');
+            })->where('position', 'Head')->pluck('id')->first();
+
+        $acadserv = Staff::whereHas('staffDepartment', function($q){
+                $q->where('name', '=', 'Academic Services');
+            })->where('position', 'Head')->pluck('id')->first();
+
+        $finance = Staff::whereHas('staffDepartment', function($q){
+                $q->where('name', '=', 'Finance Office');
+            })->where('position', 'Head')->pluck('id')->first();
+            
         $form = Form::create([
             'event_title' => $event->event_title,
             'organization_id' => $event->organization_id,
             'prep_by' => Auth::user()->id,
             'control_number'=> $this->generateUniqueCode(),
-            'adviser_staff_id' => 5,
-            'sao_staff_id' => 2,
-            'acadserv_staff_id' => 4,
-            'finance_staff_id' => 3,
+            'adviser_staff_id' => $orgAdviser,
+            'sao_staff_id' => $sao,
+            'acadserv_staff_id' => $acadserv ,
+            'finance_staff_id' => $finance,
             'event_id' => $request->event_id,
             'form_type' => 'BRF',
             'target_date' => $event->target_date

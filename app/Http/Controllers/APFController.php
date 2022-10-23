@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Form;
 use App\Models\User;
 use App\Models\Event;
+use App\Models\Staff;
 use App\Models\Proposal;
 use App\Models\PrePrograms;
 use Illuminate\Support\Arr;
@@ -22,6 +23,7 @@ class APFController extends Controller
     // display form
     public function index()
     {
+
         $authOrgList = Auth::user()->studentOrg;
 
         return view('_student-organization.forms.activity-proposal', compact('authOrgList'))
@@ -30,9 +32,25 @@ class APFController extends Controller
 
     // save form
     public function store(APFRequest $request)
-    {    
+    {
         $proposal = $request->safe()->except(['target_date','org_id','event_title','coorganization', 'coorganizer_name', 'coorganizer_phone', 'coorganizer_email', 'service', 'logistics_date_needed','logistics_venue', 'activity', 'start_date', 'end_date' ]);
         $e = DB::table('forms')->latest('event_id')->where('form_type', 'APF')->first();
+
+        // get ID for approvers
+        $orgAdviser = OrganizationUser::where('organization_id',$request->org_id)
+            ->where('position', 'Adviser')->pluck('id')->first();
+
+        $sao = Staff::whereHas('staffDepartment', function($q){
+                $q->where('name', '=', 'Student Activities Office');
+            })->where('position', 'Head')->pluck('id')->first();
+
+        $acadserv = Staff::whereHas('staffDepartment', function($q){
+                $q->where('name', '=', 'Academic Services');
+            })->where('position', 'Head')->pluck('id')->first();
+
+        $finance = Staff::whereHas('staffDepartment', function($q){
+                $q->where('name', '=', 'Finance Office');
+            })->where('position', 'Head')->pluck('id')->first();
 
         // Form create
         $form = Form::create([
@@ -40,10 +58,10 @@ class APFController extends Controller
             'organization_id' => $request->org_id,
             'prep_by' => Auth::user()->id,
             'control_number'=> $this->generateUniqueCode(),
-            'adviser_staff_id' => 5,
-            'sao_staff_id' => 2,
-            'acadserv_staff_id' => 4,
-            'finance_staff_id' => 3,
+            'adviser_staff_id' => $orgAdviser,
+            'sao_staff_id' => $sao,
+            'acadserv_staff_id' => $acadserv,
+            'finance_staff_id' => $finance,
             'event_id' => $e->event_id+1,
             'form_type' => 'APF',
             'target_date' => $request->target_date,

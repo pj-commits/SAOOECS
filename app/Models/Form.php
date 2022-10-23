@@ -36,7 +36,7 @@ class Form extends Model
     }
 
     public function myOrg(){
-        return $this->belongsTo(OrganizationUser::class, 'organization_id', 'organization_id');
+        return $this->belongsTo(Organization::class, 'organization_id');
     }
 
     public function tableFilter($query, array $filters){
@@ -57,6 +57,9 @@ class Form extends Model
     //     return 'forms';
     // }
 
-    
-
+    public function getSao(){
+        return $this->belongsTo(Staff::class, 'sao_staff_id');
+    }
 }
+
+

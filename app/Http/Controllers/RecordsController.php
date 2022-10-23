@@ -27,8 +27,6 @@ class RecordsController extends Controller
             ->orWhere('status', '=', 'Cancelled')
             ->where(function ($query) {
                 $user = auth()->user();
-                $staff = $user->userStaff;
-                $isHead = $staff->position === 'Head';
 
                 // LIST: id of orgs curr user belongs to
                 $getAuthOrgIdList = $user->studentOrg->pluck('id');
@@ -36,9 +34,12 @@ class RecordsController extends Controller
                 // LIST: orgUserId of curr user
                 $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id');
 
-                $department = DB::table('departments')->find($staff->department_id);
-
+                
                 if($user->checkUserType('Professor|Staff')){
+                    $staff = $user->userStaff;
+                    $isHead = $staff->position === 'Head';
+                    $department = DB::table('departments')->find($staff->department_id);
+
                     if($user->checkPosition('Adviser')){                            //  are you an adviser of an org?
                         $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );//  form curr adviser_staff_id == your orgUser Id ?
                         $query->whereIn('organization_id', $getAuthOrgIdList);      //  form is part of curr user's org ? 
