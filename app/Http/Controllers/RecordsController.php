@@ -27,8 +27,17 @@ class RecordsController extends Controller
             ->orWhere('status', '=', 'Cancelled')
             ->where(function ($query) {
                 $user = auth()->user();
+                $staff = $user->userStaff;
+                $isHead = $staff->position === 'Head';
+                $department = DB::table('departments')->find($staff->department_id);
 
-                // LIST: id of orgs curr user belongs to
+                // APPROVER TYPE: Check if true or false
+                $isAdviser = $user->checkPosition('Adviser');
+                $isSaoHead = $department->name === 'Student Activities Office' && $isHead;
+                $isAcadServHead = $department->name === 'Academic Services' && $isHead;
+                $isFinanceHead = $department->name === 'Finance Office'  && $isHead;
+
+                // LIST: id of curr user belongs to
                 $getAuthOrgIdList = $user->studentOrg->pluck('id');
 
                 // LIST: orgUserId of curr user
@@ -36,36 +45,46 @@ class RecordsController extends Controller
 
                 
                 if($user->checkUserType('Professor|Staff')){
-                    $staff = $user->userStaff;
-                    $isHead = $staff->position === 'Head';
-                    $department = DB::table('departments')->find($staff->department_id);
 
-                    if($user->checkPosition('Adviser')){                            //  are you an adviser of an org?
-                        $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );//  form curr adviser_staff_id == your orgUser Id ?
-                        $query->whereIn('organization_id', $getAuthOrgIdList);      //  form is part of curr user's org ? 
-                        $query->where('curr_approver', 'Adviser');                  //  form curr_approver == adviser ?
+                    if($isAdviser){     
+                        $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
+                        $query->whereIn('organization_id', $getAuthOrgIdList);
+                        $query->where('adviser_is_approve', 1);                     
+
                     }
-    
-                    if($department->name === 'Student Activities Office' && $isHead ){
+
+                    // Display SAO to-be-approved forms
+
+                    if($isSaoHead ){
                         $query->where('sao_staff_id', $staff->id);
-                        $query->where('curr_approver', 'SAO');
+                        $query->where('adviser_is_approve', 1);
+                        $query->where('sao_is_approve', 1);                   
                     }
+
+                    // Display ACADEMIC SERVICES to-be-approved forms
                     
-                    if($department->name === 'Academic Services' && $isHead){
+                    if($isAcadServHead){
                         $query->where('acadserv_staff_id', $staff->id);
-                        $query->where('curr_approver', 'Academic Services');
+                        $query->where('sao_is_approve', 1);
+                        $query->where('acadserv_is_approve', 1);                     
+
                     }
-                    
-                    if($department->name === 'Finance Office'  && $isHead){
+
+                    // Display FINANCE to-be-approved forms
+
+                    if($isFinanceHead){
                         $query->where('finance_staff_id', $staff->id);
-                        $query->where('curr_approver', 'Finance');      
+                        $query->where('acadserv_is_approve', 1);
+                        $query->where('finance_is_approve', 1);                    
+
                     }
-                }elseif($user->checkUserType('Student')){
-                    $query->whereIn('organization_id', $getAuthOrgIdList); 
-                }   
-                
-                
-            })
+                        
+                    }elseif($user->checkUserType('Student')){
+                        $query->whereIn('organization_id', $getAuthOrgIdList); 
+                    }   
+                    
+                    
+                })
            ->paginate(10);
 
         return view('_users.records', compact('approvedAndCancelled'));

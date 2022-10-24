@@ -13,12 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('org_applications', function (Blueprint $table) {
+        Schema::create('comments_suggestions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('staff_id');
-            $table->string('proposed_org_name');
-            $table->string('president_email');
-            $table->string('status');
+            $table->foreignId('narrative_id')->constrained()->onDelete('cascade');
+            $table->string('message');
+            $table->string('type');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('org_applications');
+        Schema::dropIfExists('comments_suggestions');
     }
 };

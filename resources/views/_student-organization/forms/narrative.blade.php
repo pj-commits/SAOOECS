@@ -31,22 +31,29 @@
                     {{ __('Reset') }}
                 </x-button>
             </div>
+            @if($errors->any())
+                {!! implode('', $errors->all('<div>:message</div>')) !!}
+            @endif
             <hr class="mt-3">
             <div class="bg-white mt-4 h-auto w-full rounded-sm shadow-sm px-6 py-4">
-                <form action="{{ route('test') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('forms.narrative.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     
                     {{-- Row #1 --}}               
                     <div class="grid grid-flow-row auto-rows-max gap-6 md:grid-cols-2">
 
-                        {{-- Event Title --}}
-                        <div>
-                            <x-label for="event_title" :value="__('Event Title')" />
+                         {{-- Event Title --}}
+                         <div>
+                            <x-label for="event_id" :value="__('Event Title')" />
 
-                             <x-select class="mt-1" id="event_title" name="event_title" aria-label="Default select example" @change="storeInput($el)">
+                            <x-select class="mt-1" id="event_id" name="event_id" aria-label="Default select example" @change="storeInput($el)">
                                 <option value='' selected disabled>--select option--</option>
+                                @foreach($eventList as $event)
+                                <option value="{{$event->event_id}}">{{$event->event_title}}</option>
+                                @endforeach
                             </x-select>
                         </div>
+
 
                         {{-- Date Venue --}}
                         <div>

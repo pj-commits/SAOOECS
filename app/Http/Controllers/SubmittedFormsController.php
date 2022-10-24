@@ -48,21 +48,26 @@ class SubmittedFormsController extends Controller
                 // LIST: orgUserId of curr user
                 $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id');
 
-
                 // Display ADVISER to-be-approved forms
+                    //  are you an adviser of an org?
+                    //  form curr adviser_staff_id == your orgUser Id ?
+                    //  form is part of curr user's org ? 
+                    //  form curr_approver == adviser ?
+                    //  form is not yet approved
 
-                if($user->checkPosition('Adviser')){     
-                                           //  are you an adviser of an org?
-                    $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );//  form curr adviser_staff_id == your orgUser Id ?
-                    $query->whereIn('organization_id', $getAuthOrgIdList);      //  form is part of curr user's org ? 
-                    $query->where('curr_approver', 'Adviser');                  //  form curr_approver == adviser ?
-                    $query->where('adviser_is_approve', 0);                     //  form is not yet approved
+                    dd($isAdviser, $isSaoHead, $isAcadServHead, $isFinanceHead);
+
+                if($isAdviser){     
+                    $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
+                    $query->whereIn('organization_id', $getAuthOrgIdList);
+                    $query->where('curr_approver', 'Adviser');                  
+                    $query->where('adviser_is_approve', 0);                     
 
                 }
 
                 // Display SAO to-be-approved forms
 
-                if($department->name === 'Student Activities Office' && $isHead ){
+                if($isSaoHead ){
                     $query->where('sao_staff_id', $staff->id);
                     $query->where('curr_approver', 'SAO');
                     $query->where('adviser_is_approve', 1);
@@ -72,7 +77,7 @@ class SubmittedFormsController extends Controller
 
                 // Display ACADEMIC SERVICES to-be-approved forms
                 
-                if($department->name === 'Academic Services' && $isHead){
+                if($isAcadServHead){
                     $query->where('acadserv_staff_id', $staff->id);
                     $query->where('curr_approver', 'Academic Services');
                     $query->where('sao_is_approve', 1);
@@ -82,17 +87,18 @@ class SubmittedFormsController extends Controller
 
                 // Display FINANCE to-be-approved forms
 
-                if($department->name === 'Finance Office'  && $isHead){
+                if($isFinanceHead){
                     $query->where('finance_staff_id', $staff->id);
                     $query->where('curr_approver', 'Finance');
                     $query->where('acadserv_is_approve', 1);
                     $query->where('finance_is_approve', 0);                     //  form is not yet approved
 
-
                 }
                 
             })
            ->paginate(10);
+
+        //    dd($pendingForms);
 
 
         return view('_approvers.submitted-forms', compact('pendingForms'));
@@ -261,7 +267,6 @@ class SubmittedFormsController extends Controller
                 if($forms->adviser_is_approve === 0 ){
                     $forms->update(array(
                         'adviser_is_approve' => $yes,
-                        'acadserv_is_approve' => $yes,
                         'adviser_date_approved' => $now,
                         'deadline' => $deadline,
                         'curr_approver' => $sao
