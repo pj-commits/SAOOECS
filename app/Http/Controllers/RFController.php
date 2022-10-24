@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Form;
+use App\Models\Staff;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use App\Http\Requests\RFRequest;
+use App\Models\OrganizationUser;
 use Illuminate\Support\Facades\Auth;
 
 class RFController extends Controller
@@ -31,7 +33,7 @@ class RFController extends Controller
         $event = Form::where('event_id', $request->event_id)->get()->first();
 
          // get ID for approvers
-        $orgAdviser = OrganizationUser::where('organization_id',$request->org_id)
+        $orgAdviser = OrganizationUser::where('organization_id',$event->organization_id)
          ->where('position', 'Adviser')->pluck('id')->first();
 
         $sao = Staff::whereHas('staffDepartment', function($q){
@@ -46,6 +48,8 @@ class RFController extends Controller
                 $q->where('name', '=', 'Finance Office');
             })->where('position', 'Head')->pluck('id')->first();
             
+            // dd($orgAdviser, $sao,$acadserv,$finance );
+        
         $form = Form::create([
             'event_title' => $event->event_title,
             'organization_id' => $event->organization_id,

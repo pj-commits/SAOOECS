@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('org_applications', function (Blueprint $table) {
+        Schema::create('narratives', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('staff_id');
-            $table->string('proposed_org_name');
-            $table->string('president_email');
-            $table->string('status');
+            $table->foreignId('form_id')->constrained()->onDelete('cascade');
+            $table->string('venue'); 
+            $table->string('remarks'); 
+            $table->decimal('ratings', 2, 1);
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('org_applications');
+        Schema::dropIfExists('narratives');
     }
 };

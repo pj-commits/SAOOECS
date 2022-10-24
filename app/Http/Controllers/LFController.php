@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Form;
+use App\Models\Staff;
 use Illuminate\Http\Request;
 use App\Http\Requests\LFRequest;
+use App\Models\OrganizationUser;
 use Illuminate\Support\Facades\Auth;
 
 class LFController extends Controller
@@ -28,9 +30,9 @@ class LFController extends Controller
         $lf = $request->safe()->only(['end_date','cash_advance','cv_number','deduct']);
         $event = Form::where('event_id', $request->event_id)->get()->first();
 
-        // get ID for approvers
-        $orgAdviser = OrganizationUser::where('organization_id',$request->org_id)
-            ->where('position', 'Adviser')->pluck('id')->first();
+         // get ID for approvers
+         $orgAdviser = OrganizationUser::where('organization_id',$event->organization_id)
+         ->where('position', 'Adviser')->pluck('id')->first();
 
         $sao = Staff::whereHas('staffDepartment', function($q){
                 $q->where('name', '=', 'Student Activities Office');
@@ -43,7 +45,6 @@ class LFController extends Controller
         $finance = Staff::whereHas('staffDepartment', function($q){
                 $q->where('name', '=', 'Finance Office');
             })->where('position', 'Head')->pluck('id')->first();
-
      
         $form = Form::create([
             'event_title' => $event->event_title,
