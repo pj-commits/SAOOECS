@@ -103,7 +103,7 @@
 
             @if(Auth::user()->checkUserType('Professor|Staff')) 
             {{-- Submitted Forms --}}
-            <x-sidebar-nav-link :href="route('submitted-forms.index')" :active="request()->routeIs('submitted-forms')" @click="dropdown = false">
+            <x-sidebar-nav-link :href="route('submitted-forms.index')" active="{{ Helper::checkRoute('submitted-forms') }}" @click="dropdown = false">
                 <x-slot name="icon">
                     <x-svg>
                         <path d="M11 19h2v-4.175l1.6 1.6L16 15l-4-4-4 4 1.425 1.4L11 14.825Zm-5 3q-.825 0-1.412-.587Q4 20.825 4 20V4q0-.825.588-1.413Q5.175 2 6 2h8l6 6v12q0 .825-.587 1.413Q18.825 22 18 22Zm7-13V4H6v16h12V9ZM6 4v5-5 16V4Z"/>

@@ -90,7 +90,7 @@
 
       <!-- Modal List of Pending Forms -->
       <x-modal name="listOfEventsModal">
-        <div class="space-y-2 max-h-72 overflow-y-auto">
+        <div class="mt-2 space-y-2 max-h-72 overflow-y-auto">
           <template x-for="event in listOfEvents">	
             <div
               @click="viewForm(event.id)"

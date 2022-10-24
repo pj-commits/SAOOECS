@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Redirect;
 class SubmittedFormsController extends Controller
 {
  
-    public function index()
+    public function index(Request $request)
     {
         /******************************************************************
         *  Fetch forms: 
@@ -28,8 +28,7 @@ class SubmittedFormsController extends Controller
         *       the id on forms 
         *   
         ********************************************************************/
-        
-        $pendingForms = Form::where('status', '=', 'Pending')
+        $forms = Form::where('status', '=', 'Pending')
             ->where(function ($query) {
                 $user = auth()->user();
                 $staff = $user->userStaff;
@@ -55,7 +54,7 @@ class SubmittedFormsController extends Controller
                     //  form curr_approver == adviser ?
                     //  form is not yet approved
 
-                    dd($isAdviser, $isSaoHead, $isAcadServHead, $isFinanceHead);
+                    // dd($isAdviser, $isSaoHead, $isAcadServHead, $isFinanceHead); -> Uncomment me later!!!
 
                 if($isAdviser){     
                     $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
@@ -63,6 +62,9 @@ class SubmittedFormsController extends Controller
                     $query->where('curr_approver', 'Adviser');                  
                     $query->where('adviser_is_approve', 0);                     
 
+                    // if(!empty($searchTerm)){
+                    //     $query->where('')
+                    // }
                 }
 
                 // Display SAO to-be-approved forms
@@ -95,10 +97,21 @@ class SubmittedFormsController extends Controller
 
                 }
                 
-            })
-           ->paginate(10);
+            })->paginate(10);
 
-        //    dd($pendingForms);
+            // dd($forms);
+
+            $pendingForms = [];
+            foreach($forms as $form){
+                array_push($pendingForms, [
+                    'id' => $form->id,
+                    'formType' => $form->form_type,
+                    'eventTitle' => $form->event_title,
+                    'organization' => $form->myOrg->getOrgName->org_name,
+                ]);
+            }
+
+            // dd($pendingForms);
 
 
         return view('_approvers.submitted-forms', compact('pendingForms'));

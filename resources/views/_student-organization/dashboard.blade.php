@@ -1,5 +1,5 @@
 @php
-    $formTypes = [ 'APF' => 'Activity Proposal Form', 'RF' => 'Budget Requisition Form', 'NR' => 'Narrative Report', 'LF' => 'Liquidation Form'];
+    $formTypes = [ 'APF' => 'Activity Proposal Form', 'BRF' => 'Budget Requisition Form', 'NR' => 'Narrative Report', 'LF' => 'Liquidation Form'];
     $hasPendingForms = !empty($myForms);   
 @endphp
 <x-app-layout>
@@ -107,7 +107,7 @@
                                     </div>
                                 </template>
                             
-                                <div class="flex justify-end space-x-2 mt-4">          
+                                <div class="flex justify-end space-x-2">          
                                     <input type="hidden" id="formId" name="formId" x-ref="formId">
                                     <x-button bg="bg-semantic-success" hover="hover:bg-green-600" @click="cancelForm = false, modal=false">
                                         {{ __('Back') }}

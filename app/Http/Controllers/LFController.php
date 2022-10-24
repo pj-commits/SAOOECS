@@ -27,7 +27,7 @@ class LFController extends Controller
 
     public function store(LFRequest $request)
     {   
-        $lf = $request->safe()->only(['end_date','cash_advance','cv_number','deduct']);
+        $lf = $request->safe()->only(['end_date','cash_advance','deduct']);
         $event = Form::where('event_id', $request->event_id)->get()->first();
 
          // get ID for approvers
@@ -65,11 +65,13 @@ class LFController extends Controller
 
         // Proof of Payments create
         for($i = 0; $i < count($request->itemFrom); $i++){
-            $imageName = 'receipt'.time().'.'.$request->image[$i]->extension();
+            //store image in storage before inserting to databse.
+            $imagePath = $request->image[$i]->store('uploads/receipts', 'public');
+            
             $liquidation->proofOfPayment()->create([
                 'item_from' => $request->itemFrom[$i],
                 'item_to' => $request->itemTo[$i],
-                'image' => $request->image[$i]->storeAs('receipts',$imageName),
+                'image' => $imagePath,
             ]);
         }
 
@@ -84,7 +86,7 @@ class LFController extends Controller
         }
 
        
-        return redirect('/')->with('add', 'Liquidation Form created successfully!');
+        return redirect('dashboard')->with('add', 'Liquidation Form created successfully!');
        
     }
 

@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="pt-24"> 
-        <div class="max-w-screen mx-auto px-4 lg:px-8">
+    <div x-data="{denyForm: false, modal:false}" class="pt-24"> 
+        <div x-data="{approveForm: false, modal:false}" class="max-w-screen mx-auto px-4 lg:px-8">
             <div class="flex justify-between flex-wrap">
                 <h1 class="flex items-center text-xl">
                     <span>
@@ -218,15 +218,18 @@
                     <p class="font-bold">Rating: <span class="font-normal"> {{$narrative->eval_rating}}</span></p>
                 </div>
 
-                <hr class="mt-4">
+                <hr>
 
                 <div class="mt-8 mb-2">
-                    <x-button class="px-8">
+
+                    <x-button  bg="bg-semantic-success" hover="hover:bg-green-600" type="button" class="px-8" @click="approveForm = true, modal = true">
                         {{ __('Approve') }}
                     </x-button>
-                    <x-button class="px-12" bg="bg-semantic-danger" hover="hover:bg-rose-600">
+
+                    <x-button bg="bg-semantic-danger" hover="hover:bg-rose-600" type="button" class="px-8" @click="denyForm = true, modal = true">
                         {{ __('Deny') }}
                     </x-button>
+                   
                 </div>
 
                 <!-- Tracker Small Screen-->
@@ -241,6 +244,13 @@
 
 
             </div>
+
+            {{-- Approve Modal --}}
+            <x-view-details.approve id="{{!! $forms->id !!}}" eventTitle="{{!! $forms->event_title !!}}" orgName="{{!! $forms->myOrg->getOrgName->org_name !!}}" formType="{{!! $forms->form_type !!}}" />
+
+            {{-- Deny Modal --}}
+            <x-view-details.deny id="{{!! $forms->id !!}}" eventTitle="{{!! $forms->event_title !!}}" formType="{{!! $forms->form_type !!}}" />
+                
         </div>
     </div>
 </x-app-layout>

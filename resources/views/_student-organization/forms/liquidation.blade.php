@@ -44,7 +44,7 @@
                      <div class="grid grid-flow-row auto-rows-max gap-6 md:grid-cols-3">
 
                         {{-- Event Title --}}
-                        <div>
+                        <div class="col-span-2">
                             <x-label for="event_id" :value="__('Event Title')" />
 
                             <x-select class="mt-1" id="event_id" name="event_id" aria-label="Default select example" @change="storeInput($el)">
@@ -63,11 +63,11 @@
                         </div>
 
                         {{-- CV Number --}}
-                        <div>
+                        {{-- <div>
                             <x-label for="cv_number" :value="__('CV Number')" />
 
                             <x-input id="cv_number" class="mt-1 w-full" type="text" name="cv_number" required autofocus @keyup="storeInput($el)"/>
-                        </div>
+                        </div> --}}
 
 
                     </div>
