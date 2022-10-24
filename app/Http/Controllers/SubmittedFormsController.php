@@ -54,7 +54,7 @@ class SubmittedFormsController extends Controller
                     //  form curr_approver == adviser ?
                     //  form is not yet approved
 
-                    dd($isAdviser, $isSaoHead, $isAcadServHead, $isFinanceHead);
+                    // dd($isAdviser, $isSaoHead, $isAcadServHead, $isFinanceHead); -> Uncomment me later!!!
 
                 if($isAdviser){     
                     $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
@@ -99,6 +99,8 @@ class SubmittedFormsController extends Controller
                 
             })->paginate(10);
 
+            // dd($forms);
+
             $pendingForms = [];
             foreach($forms as $form){
                 array_push($pendingForms, [
@@ -109,7 +111,7 @@ class SubmittedFormsController extends Controller
                 ]);
             }
 
-        //    dd($pendingForms);
+            // dd($pendingForms);
 
 
         return view('_approvers.submitted-forms', compact('pendingForms'));

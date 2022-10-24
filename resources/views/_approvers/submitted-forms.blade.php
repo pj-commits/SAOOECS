@@ -1,6 +1,6 @@
 @php
     // $hasSubmittedForms = $pendingForms->isNotEmpty();
-    $hasSubmittedForms = isset($pendingForms);
+    $hasSubmittedForms = !empty($pendingForms);
     $jsonForms = json_encode($pendingForms);
     $encryptedForms = base64_encode($jsonForms);
 @endphp
