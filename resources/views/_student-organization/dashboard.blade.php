@@ -68,7 +68,7 @@
                                                 <p class="text-sm text-bland-600"> <span class="font-bold">Submitted By: </span>{{$form->fromOrgUser->fromUser->first_name}} {{$form->fromOrgUser->fromUser->last_name}}</p>
                                             </div>
                                             <div class="grid grid-cols-2">
-                                                <p class="text-sm text-bland-600"> <span class="font-bold">Form Type: </span>{{ $formTypes[$form->form_type] }}</p>
+                                                <p class="text-sm text-bland-600"> <span class="font-bold">Form Type: </span>{{ $form->form_type }}</p>
                                                 <p class="text-sm text-bland-600"> <span class="font-bold">Control Number: </span>{{ $form->control_number }} </p>
                                             </div>
                                         </div>            

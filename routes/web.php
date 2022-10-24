@@ -91,9 +91,10 @@ Route::group(['middleware' => ['auth', 'isStudent']], function(){
         Route::post('forms/activity-proposal-form/create', [APFController::class, 'store'])->name('forms.activity-proposal.store');
         // RF
         Route::get('forms/budget-requisition-form', [RFController::class, 'index'])->name('forms.requisition.index');
-        Route::post('forms/budget-requisition-form', [RFController::class, 'store'])->name('forms.requisition.store');
+        Route::post('forms/budget-requisition-form/create', [RFController::class, 'store'])->name('forms.requisition.store');
         // NR
         Route::get('forms/narrative-report', [NRController::class, 'index'])->name('forms.narrative.index');
+        Route::post('forms/narrative-report/create', [NRController::class, 'store'])->name('forms.narrative.store');
         // LF   
         Route::get('forms/liquidation-form', [LFController::class, 'index'])->name('forms.liquidation.index');
         Route::post('forms/liquidation-form/create', [LFController::class, 'store'])->name('forms.liquidation.store');
