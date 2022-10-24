@@ -71,7 +71,7 @@ class OrganizationController extends Controller
                         $fail("User not found. Please use valid APC Email!");
                     }
                 }],
-            'position' => 'required|regex:/^[a-zA-Z]+$/u|max:30',
+            'position' => 'required|regex:/^[\pL\s]+$/u|max:30',
             'role' => 'required'  
             ], 
             [
@@ -138,7 +138,7 @@ class OrganizationController extends Controller
         $selected = User::findorfail($memberId);
 
         $request->validate([
-            'position' => 'required|max:30',
+            'position' => 'required|regex:/^[\pL\s]+$/u|max:30',
             'role' => 'required' 
         ]);
 

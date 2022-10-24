@@ -64,6 +64,7 @@ function calendar() {
                 date_submitted: new Date(form.created_at)
               });
         });
+
     },
 
     viewForm(formId){ 

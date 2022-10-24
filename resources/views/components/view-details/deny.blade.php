@@ -1,7 +1,7 @@
 @props(['id', 'eventTitle', 'formType'])
 
 @php
-    $formTypes = [ 'APF' => 'Activity Proposal Form', 'RF' => 'Budget Requisition Form', 'NR' => 'Narrative Report', 'LF' => 'Liquidation Form'];
+    $formTypes = [ 'APF' => 'Activity Proposal Form', 'BRF' => 'Budget Requisition Form', 'NR' => 'Narrative Report', 'LF' => 'Liquidation Form'];
     
     $id = (json_decode(substr($id, 1, -1)));
     $eventTitle = (substr($eventTitle, 1, -1));

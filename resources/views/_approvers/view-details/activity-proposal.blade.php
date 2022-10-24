@@ -214,9 +214,7 @@
                     <p> {{$proposal->outcome}} </p>
                 </div>
 
-                <hr>
-
-
+                <hr class="my-8">
 
                 <div class="mt-8 mb-2">
 
@@ -246,7 +244,7 @@
             {{-- Approve Modal --}}
             <x-view-details.approve id="{{!! $forms->id !!}}" eventTitle="{{!! $forms->event_title !!}}" orgName="{{!! $forms->myOrg->getOrgName->org_name !!}}" formType="{{!! $forms->form_type !!}}" />
 
-            {{-- Dent Modal --}}
+            {{-- Deny Modal --}}
             <x-view-details.deny id="{{!! $forms->id !!}}" eventTitle="{{!! $forms->event_title !!}}" formType="{{!! $forms->form_type !!}}" />
 
         </div>

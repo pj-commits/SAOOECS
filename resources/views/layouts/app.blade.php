@@ -32,6 +32,9 @@
         {{-- Image Upload Handler --}}
         <script src="{{ asset('js/image-upload.js') }}" defer></script>
 
+         {{-- Search Handler --}}
+         <script src="{{ asset('js/search.js') }}" defer></script>
+
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>

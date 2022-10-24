@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="pt-24"> 
-        <div class="max-w-screen mx-auto px-4 lg:px-8">
+    <div x-data="{denyForm: false, modal:false}" class="pt-24"> 
+        <div x-data="{approveForm: false, modal:false}" class="max-w-screen mx-auto px-4 lg:px-8">
             <div class="flex justify-between flex-wrap">
                 <h1 class="flex items-center text-xl">
                     <span>
@@ -23,6 +23,7 @@
             </div>
 
             <hr class="mt-3">
+
             <div class="bg-white mt-4 h-auto w-full rounded-sm shadow-sm px-6 py-4">
                 
                 {{-- Row #1 --}}
@@ -31,7 +32,7 @@
                        <p class="font-bold md:col-start-4">Date Submitted: <span class="font-normal"> {{date('M d, Y', strtotime($forms->created_at))}}</span></p>
                 </div>
 
-                <hr>
+                <hr class="my-8">
 
                 {{-- Row #2 --}}
                 <div class="grid grid-flow-row auto-rows-max gap-6 my-4 md:grid-cols-4">
@@ -45,7 +46,7 @@
                     <p class="font-bold md:col-start-4">Charged Department: <span class="font-normal"> {{$requisition->dept->name}}</span></p>
                 </div>
 
-                <hr>
+                <hr class="my-4">
 
                  {{-- Row #4 --}}
                  <h1 class="text-lg text-bland-600 font-bold my-4">Proposed Items</h1>
@@ -57,29 +58,33 @@
                              <thead class="border-b bg-bland-200 sticky top-0 z-10">
                                  {{-- Insert Table Head Columns Here --}}
                                  <x-table.head-col>#</x-table.head-col>
-                                 <x-table.head-col>Quantity</x-table.head-col>
                                  <x-table.head-col>Particular</x-table.head-col>
+                                 <x-table.head-col>Quantity</x-table.head-col>
                                  <x-table.head-col>Price</x-table.head-col>
                                  {{-- Table Head Columns Ends Here --}}
                              </thead>
                              {{-- Table Body --}}
                              <tbody>
-                                @php $i = 1; @endphp
+                                @php 
+                                    $i = 1;
+                                    $total = 0;
+                                @endphp
                                 @foreach($requisitionItems as $item)
                                  <tr class="bg-white  hover:bg-bland-100 border-b border-bland-20">
                                     <x-table.body-col>
                                         <p class="pl-2">{{$i++}}</p>
                                     </x-table.body-col>
                                      <x-table.body-col>
-                                         <p class="pl-2">{{$item->quantity}}</p>
-                                     </x-table.body-col>
-                                     <x-table.body-col>
                                          <p class="pl-2">{{$item->purposes}}</p>
                                      </x-table.body-col>
+                                     <x-table.body-col>
+                                        <p class="pl-2">{{$item->quantity}}</p>
+                                    </x-table.body-col>
                                      <x-table.body-col>
                                          <p class="pl-2"><span>&#8369; </span> {{$item->price}}</p>
                                      </x-table.body-col>
                                  </tr>
+                                 @php $total += $item->price * $item->quantity @endphp
                                  @endforeach
                              </tbody>
                              <tfoot>
@@ -95,7 +100,7 @@
                                        <p>Total:</p>
                                    </x-table.footer-col>
                                    <x-table.footer-col class="pl-4">
-                                       <p>{Data Here}</p>                                   
+                                       <p><span>&#8369; </span> {{ $total }}</p>                                   
                                     </x-table.footer-col>
                                    {{-- Table Footer Columns Ends Here --}}
                                 </tr>
@@ -104,7 +109,7 @@
                      </div>
                  </div>
 
-                 <hr class="mt-4">
+                <hr class="my-8">
                  
                 {{-- Row #5 --}}
                 <div class="flex my-4 space-x-2">
@@ -112,18 +117,19 @@
                     <p>{{$requisition->remarks}}</p>
                 </div>
 
-              
-
-                <hr class="mt-4">
+                <hr class="my-8">
 
                 <div class="mt-8 mb-2">
-                    <x-button class="px-8">
+
+                    <x-button  bg="bg-semantic-success" hover="hover:bg-green-600" type="button" class="px-8" @click="approveForm = true, modal = true">
                         {{ __('Approve') }}
                     </x-button>
-                    <x-button class="px-12" bg="bg-semantic-danger" hover="hover:bg-rose-600">
+
+                    <x-button bg="bg-semantic-danger" hover="hover:bg-rose-600" type="button" class="px-8" @click="denyForm = true, modal = true">
                         {{ __('Deny') }}
                     </x-button>
-                </div>
+                   
+                </div>  
 
                 <!-- Tracker Small Screen-->
                 <div class="py-4 block xl:hidden">
@@ -137,6 +143,13 @@
 
 
             </div>
+
+            {{-- Approve Modal --}}
+            <x-view-details.approve id="{{!! $forms->id !!}}" eventTitle="{{!! $forms->event_title !!}}" orgName="{{!! $forms->myOrg->getOrgName->org_name !!}}" formType="{{!! $forms->form_type !!}}" />
+
+            {{-- Deny Modal --}}
+            <x-view-details.deny id="{{!! $forms->id !!}}" eventTitle="{{!! $forms->event_title !!}}" formType="{{!! $forms->form_type !!}}" />
+                
         </div>
     </div>
 </x-app-layout>

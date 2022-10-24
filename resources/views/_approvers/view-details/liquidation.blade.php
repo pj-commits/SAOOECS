@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="pt-24"> 
-        <div class="max-w-screen mx-auto px-4 lg:px-8">
+    <div x-data="{denyForm: false, modal:false}" class="pt-24"> 
+        <div x-data="{approveForm: false, modal:false}" class="max-w-screen mx-auto px-4 lg:px-8">
             <div class="flex justify-between flex-wrap">
                 <h1 class="flex items-center text-xl">
                     <span>
@@ -31,7 +31,7 @@
                        <p class="font-bold md:col-start-4">Date Submitted: <span class="font-normal">{{date('M d, Y', strtotime($forms->created_at))}}</span></p>
                 </div>
 
-                <hr>
+                <hr class="my-8">
 
                 {{-- Row #2 --}}
                 <div class="grid grid-flow-row auto-rows-max gap-6 my-4 md:grid-cols-4">
@@ -44,7 +44,7 @@
                     <p class="font-bold">Deduct: <span class="font-normal"> {{$liquidation->deduct}}</span></p>
                 </div>
 
-                <hr>
+                <hr class="my-4">
 
                 {{-- Row #4 --}}
                 <h1 class="text-lg text-bland-600 font-bold my-4">Items Bought</h1>
@@ -76,7 +76,7 @@
                                         <p class="pl-2">{{$item->item}}</p>
                                     </x-table.body-col>
                                     <x-table.body-col>
-                                        <p class="pl-2">{{$item->price}}</p>
+                                        <p class="pl-2"><span>&#8369;</span>{{$item->price}}</p>
                                     </x-table.body-col>
                                 </tr>
                                 @endforeach
@@ -90,8 +90,8 @@
                                    <x-table.footer-col  class="text-right">
                                        <p>Total:</p>
                                    </x-table.footer-col>
-                                   <x-table.footer-col class="pl-4">
-                                       <p>{{$item->price=+$item->price}}</p>                                   
+                                   <x-table.footer-col class="pl-2">
+                                       <p><span>&#8369; </span> {{$item->price=+$item->price}}</p>                                   
                                     </x-table.footer-col>
                                    {{-- Table Footer Columns Ends Here --}}
                                 </tr>
@@ -100,7 +100,7 @@
                     </div>
                 </div>
 
-                <hr class="mt-8">
+                <hr class="my-4">
 
                 {{-- Row #5 --}}
                 <h1 class="text-lg text-bland-600 font-bold my-4">Proof of Payments</h1>
@@ -123,10 +123,9 @@
                                         <p class="pl-2">{{$receipt->item_from}}-{{$receipt->item_to}}</p>
                                     </x-table.body-col>
                                     <x-table.body-col>
-                                        <p class="pl-2">{{$receipt->image}}</p>
-                                        <img src="{{$receipt->image ? asset('images/'.$receipt->image) : asset('img/rams-logo.png')}}" )'>
-                                        {{-- <a href="/"><img class="w-24" src="{{asset('img/rams-logo.png')}}" alt="" class="logo"/></a> --}}
-                                        
+                                        <a href="/storage/{{ $receipt->image }}" target="_blank">
+                                            <img src="/storage/{{ $receipt->image }}" class="w-48 h-48 object-fill"> 
+                                        </a>
                                     </x-table.body-col>
                                 </tr>
                                 @endforeach
@@ -135,16 +134,18 @@
                     </div>
                 </div>
               
-
-                <hr class="mt-4">
+                <hr class="my-8">
 
                 <div class="mt-8 mb-2">
-                    <x-button class="px-8">
+
+                    <x-button  bg="bg-semantic-success" hover="hover:bg-green-600" type="button" class="px-8" @click="approveForm = true, modal = true">
                         {{ __('Approve') }}
                     </x-button>
-                    <x-button class="px-12" bg="bg-semantic-danger" hover="hover:bg-rose-600">
+
+                    <x-button bg="bg-semantic-danger" hover="hover:bg-rose-600" type="button" class="px-8" @click="denyForm = true, modal = true">
                         {{ __('Deny') }}
                     </x-button>
+                   
                 </div>
 
                 <!-- Tracker Small Screen-->
@@ -159,6 +160,13 @@
 
 
             </div>
+
+            {{-- Approve Modal --}}
+            <x-view-details.approve id="{{!! $forms->id !!}}" eventTitle="{{!! $forms->event_title !!}}" orgName="{{!! $forms->myOrg->getOrgName->org_name !!}}" formType="{{!! $forms->form_type !!}}" />
+
+            {{-- Deny Modal --}}
+            <x-view-details.deny id="{{!! $forms->id !!}}" eventTitle="{{!! $forms->event_title !!}}" formType="{{!! $forms->form_type !!}}" />
+                
         </div>
     </div>
 </x-app-layout>

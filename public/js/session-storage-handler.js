@@ -123,7 +123,6 @@ function forms_array(form){
         'event_id',
         'end_date',
         'cash_advance',
-        'cv_number',
         'deduct',
     ]
 
