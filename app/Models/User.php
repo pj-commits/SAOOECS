@@ -135,12 +135,30 @@ class User extends Authenticatable implements MustVerifyEmail
         return false;
     }
 
+    public function isAdviser($position, $orgId){
+        $authOrgPosition = $this->belongsToMany(Organization::class, 'organization_user','user_id','organization_id')->where('organization_id', '=', $orgId)
+        ->pluck('position');
+
+        if($authOrgPosition->count() > 0){
+
+            $positionArr = explode('|', $position);
+
+            foreach($positionArr as $position){
+                if($authOrgPosition[0] === $position){
+                    return true;
+                }
+            }
+            return false;
+        }
+        return false;
+    }
+
     public function isOrgMember(){
         return $this->belongsToMany(Organization::class, 'organization_user','user_id','organization_id')->exists();
     }
 
-    public function isOrgAdviser($userId){
-        return $this->belongsToMany(Organization::class, 'organization_user','user_id','organization_id')->where('user_id', $userId)->where('position', 'Adviser');
-    }
+    // public function isOrgAdviser($userId){
+    //     return $this->belongsToMany(Organization::class, 'organization_user','user_id','organization_id')->where('user_id', $userId)->where('position', 'Adviser');
+    // }
     
 }

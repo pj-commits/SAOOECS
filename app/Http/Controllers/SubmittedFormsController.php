@@ -28,7 +28,10 @@ class SubmittedFormsController extends Controller
         *       the id on forms 
         *   
         ********************************************************************/
-        $forms = Form::where('status', '=', 'Pending')
+
+
+
+            $forms = Form::where('status', '=', 'Pending')
             ->where(function ($query) {
                 $user = auth()->user();
                 $staff = $user->userStaff;
@@ -52,54 +55,114 @@ class SubmittedFormsController extends Controller
                     //  form curr adviser_staff_id == your orgUser Id ?
                     //  form is part of curr user's org ? 
                     //  form curr_approver == adviser ?
-                    //  form is not yet approved
-
-                    // dd($isAdviser, $isSaoHead, $isAcadServHead, $isFinanceHead); -> Uncomment me later!!!
-
-                if($isAdviser){     
+                    //  form is not yet approved   
+                if($isAdviser){
                     $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
                     $query->whereIn('organization_id', $getAuthOrgIdList);
                     $query->where('curr_approver', 'Adviser');                  
-                    $query->where('adviser_is_approve', 0);                     
+                    $query->where('adviser_is_approve', 0);     
+                }                
+            })->orWhere(function ($query) {
+                $user = auth()->user();
+                    $staff = $user->userStaff;
+                    $isHead = $staff->position === 'Head';
+                    $department = DB::table('departments')->find($staff->department_id);
+    
+                    // APPROVER TYPE: Check if true or false
+                    $isAdviser = $user->checkPosition('Adviser');
+                    $isSaoHead = $department->name === 'Student Activities Office' && $isHead;
+                    $isAcadServHead = $department->name === 'Academic Services' && $isHead;
+                    $isFinanceHead = $department->name === 'Finance Office'  && $isHead;
+    
+                    // LIST: id of curr user belongs to
+                    $getAuthOrgIdList = $user->studentOrg->pluck('id');
+    
+                    // LIST: orgUserId of curr user
+                    $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id');
+    
+                     // LIST: id of curr user belongs to
+                    $getAuthOrgIdList = $user->studentOrg->pluck('id');
+    
+                     // LIST: orgUserId of curr user
+                    $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id');
 
-                    // if(!empty($searchTerm)){
-                    //     $query->where('')
-                    // }
-                }
-
-                // Display SAO to-be-approved forms
-
-                if($isSaoHead ){
+                if($isSaoHead){
                     $query->where('sao_staff_id', $staff->id);
                     $query->where('curr_approver', 'SAO');
                     $query->where('adviser_is_approve', 1);
-                    $query->where('sao_is_approve', 0);                     //  form is not yet approved
-
+                    $query->where('sao_is_approve', 0);                                  
+               
                 }
-
-                // Display ACADEMIC SERVICES to-be-approved forms
-                
+            })->orWhere(function ($query) {
+                $user = auth()->user();
+                    $staff = $user->userStaff;
+                    $isHead = $staff->position === 'Head';
+                    $department = DB::table('departments')->find($staff->department_id);
+    
+                    // APPROVER TYPE: Check if true or false
+                    $isAdviser = $user->checkPosition('Adviser');
+                    $isSaoHead = $department->name === 'Student Activities Office' && $isHead;
+                    $isAcadServHead = $department->name === 'Academic Services' && $isHead;
+                    $isFinanceHead = $department->name === 'Finance Office'  && $isHead;
+    
+                    // LIST: id of curr user belongs to
+                    $getAuthOrgIdList = $user->studentOrg->pluck('id');
+    
+                    // LIST: orgUserId of curr user
+                    $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id');
+    
+                     // LIST: id of curr user belongs to
+                    $getAuthOrgIdList = $user->studentOrg->pluck('id');
+    
+                     // LIST: orgUserId of curr user
+                    $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id');
+                    
                 if($isAcadServHead){
                     $query->where('acadserv_staff_id', $staff->id);
                     $query->where('curr_approver', 'Academic Services');
                     $query->where('sao_is_approve', 1);
-                    $query->where('acadserv_is_approve', 0);                     //  form is not yet approved
-
+                    $query->where('acadserv_is_approve', 0);              
                 }
-
-                // Display FINANCE to-be-approved forms
+            })->orWhere(function ($query) {
+                $user = auth()->user();
+                    $staff = $user->userStaff;
+                    $isHead = $staff->position === 'Head';
+                    $department = DB::table('departments')->find($staff->department_id);
+    
+                    // APPROVER TYPE: Check if true or false
+                    $isAdviser = $user->checkPosition('Adviser');
+                    $isSaoHead = $department->name === 'Student Activities Office' && $isHead;
+                    $isAcadServHead = $department->name === 'Academic Services' && $isHead;
+                    $isFinanceHead = $department->name === 'Finance Office'  && $isHead;
+    
+                    // LIST: id of curr user belongs to
+                    $getAuthOrgIdList = $user->studentOrg->pluck('id');
+    
+                    // LIST: orgUserId of curr user
+                    $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id');
+    
+                     // LIST: id of curr user belongs to
+                    $getAuthOrgIdList = $user->studentOrg->pluck('id');
+    
+                     // LIST: orgUserId of curr user
+                    $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id');
 
                 if($isFinanceHead){
                     $query->where('finance_staff_id', $staff->id);
                     $query->where('curr_approver', 'Finance');
                     $query->where('acadserv_is_approve', 1);
-                    $query->where('finance_is_approve', 0);                     //  form is not yet approved
-
+                    $query->where('finance_is_approve', 0);           
                 }
-                
-            })->paginate(10);
+            })->paginate();
 
-            // dd($forms);
+        // dd($isAdviser, $isSaoHead, $isAcadServHead, $isFinanceHead);// -> Uncomment me later!!!
+       
+    
+
+        // dd($forms );
+
+        
+                    
 
             $pendingForms = [];
             foreach($forms as $form){
@@ -194,10 +257,12 @@ class SubmittedFormsController extends Controller
         $user = auth()->user();
         $staff = $user->userStaff;
         $isHead = $staff->position === 'Head';
+        $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id');
+
 
         $department = DB::table('departments')->find($staff->department_id);
 
-        $isAdviser = $user->checkPosition('Adviser');
+        $isAdviser = $user->isAdviser('Adviser', $forms->organization_id);
         $isSaoHead = $department->name === 'Student Activities Office' && $isHead;
         $isAcadServHead = $department->name === 'Academic Services' && $isHead;
         $isFinanceHead = $department->name === 'Finance Office'  && $isHead;
@@ -212,9 +277,6 @@ class SubmittedFormsController extends Controller
         $no = 0;
         $done = 'Done';
         $approved = 'Approved';
-
-
-        // dd($now, $deadline )
 
         // For Narrative = (1 -> 2)
         if($forms->form_type == 'NR' ){

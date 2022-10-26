@@ -56,19 +56,21 @@
                     {{-- Table Head Columns Ends Here --}}
                     </x-table.head>
                     {{-- Table Head Body --}}
+                    @foreach($approvedAndCancelled as $form)
                     <x-table.body>
                         {{-- Insert Table Body Columns Here --}}
-                        <x-table.body-col class="pl-6">HimigKantahan</x-table.body-col>
-                        <x-table.body-col class="pl-6">Chorale</x-table.body-col>
-                        <x-table.body-col class="pl-6">Activity Proposal Form</x-table.body-col>
-                        <x-table.head-col class="pl-6">September 3, 2022 - 2:03 PM</x-table.head-col>
-                        <x-table.head-col class="pl-6">September 5, 2022 - 5:32 PM</x-table.head-col>
+                        <x-table.body-col class="pl-6">{{$form->event_title}}</x-table.body-col>
+                        <x-table.body-col class="pl-6">{{$form->event_title}}</x-table.body-col>
+                        <x-table.body-col class="pl-6">{{$form->event_title}}</x-table.body-col>
+                        <x-table.head-col class="pl-6">{{$form->event_title}}</x-table.head-col>
+                        <x-table.head-col class="pl-6">{{$form->event_title}}</x-table.head-col>
                         <x-table.body-col class="pl-6">
                             <a class="text-primary-blue hover:text-blue-800 hover:underline hover:underline-offset-4" href="#">Download PDF</a>
                         </x-table.body-col>
                 
                         {{-- Table Body Columns Ends Here --}}
                     </x-table.body>
+                    @endforeach
                     
                     
                 </x-table.main>
