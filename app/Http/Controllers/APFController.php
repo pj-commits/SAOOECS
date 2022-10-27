@@ -102,15 +102,21 @@ class APFController extends Controller
     }
 
     // show form to edit
-    public function show($id)
+    public function show(Form $forms)
     {
-    
+        $authOrgList = Auth::user()->studentOrg;
+        $message = $forms->remarks;
+        return view('_student-organization.edit-forms.activity-proposal', compact('forms','message', 'authOrgList'));
+
     }
 
     // update form
-    public function update(Request $request, $id)
+    public function update(APFRequest $request, Form $forms)
     {
-        //
+
+        $forms->update($request); 
+         
+        return back()->with('add', 'Updated successfully!');
     }
 
     // delete form
