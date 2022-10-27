@@ -89,7 +89,7 @@ Route::group(['middleware' => ['auth', 'isStudent']], function(){
         // APF
         Route::get('forms/activity-proposal-form', [APFController::class, 'index'])->name('forms.activity-proposal.index');
         Route::post('forms/activity-proposal-form/create', [APFController::class, 'store'])->name('forms.activity-proposal.store');
-        Route::put('forms/activity-proposal-form/{forms}/edit', [APFController::class, 'show'])->name('forms.activity-proposal.show');
+        Route::get('forms/activity-proposal-form/{forms}/edit', [APFController::class, 'show'])->name('forms.activity-proposal.show');
         Route::put('forms/activity-proposal-form/{forms}', [APFController::class, 'update'])->name('forms.activity-proposal.update');
         // RF
         Route::get('forms/budget-requisition-form', [RFController::class, 'index'])->name('forms.requisition.index');

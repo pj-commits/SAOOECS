@@ -300,7 +300,7 @@
 
                         {{-- Primary Target Audience/Beneficiary --}}
                         <div>
-                            <x-label for="primary_audience" :value="__('Primary Target Audience/Beneficiary')" />
+                            <x-label for="primary_audience" :value="__('Primary Target Participants/Audience')" />
 
                             <x-input id="primary_audience" class="mt-1 w-full" type="text" name="primary_audience" required autofocus @keyup="storeInput($el)"/>
                         </div>
@@ -320,7 +320,7 @@
 
                         {{-- Sesecondary Target Audience/Beneficiary --}}
                         <div>
-                            <x-label for="secondary_audience" :value="__('Secondary Target Audience/Beneficiary')" />
+                            <x-label for="secondary_audience" :value="__('Secondary Target Participants/Audience')" />
 
                             <x-input id="secondary_audience" class="mt-1 w-full" type="text" name="secondary_audience" required autofocus @keyup="storeInput($el)"/>
                         </div>
