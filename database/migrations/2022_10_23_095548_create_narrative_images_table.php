@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('narrative_images', function (Blueprint $table) {
             $table->id();
             $table->foreignId('narrative_id')->constrained()->onDelete('cascade');
-            $table->string('event_image')->nullable();
+            $table->string('url')->nullable();
             $table->string('image_type');
             $table->timestamps();
         });

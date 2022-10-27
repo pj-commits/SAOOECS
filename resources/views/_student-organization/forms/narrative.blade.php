@@ -66,9 +66,9 @@
 
                     {{-- Row #2 --}}          
                     <div class="mt-2">
-                        <x-label for="remarks" :value="__('Remarks')" />
+                        <x-label for="narration" :value="__('Remarks')" />
 
-                        <x-text-area id="remarks" name="remarks" required @keyup="storeInput($el)"></x-text-area>
+                        <x-text-area id="narration" name="narration" required @keyup="storeInput($el)"></x-text-area>
                     
                     </div>
 

@@ -25,7 +25,7 @@ class StaffSeeder extends Seeder
             ], 
             //Finance
             [
-                'user_id' =>2,
+                'user_id' => 2,
                 'department_id' => 2,
                 'position'=> 'Head'
                 
@@ -37,48 +37,27 @@ class StaffSeeder extends Seeder
                 'position'=> 'Head'
                 
             ], 
-            //Socit - Sample Adviser
+            //Adviser - Sample Adviser
             [
                 'user_id' => 4,
                 'department_id' => 4,
                 'position'=> 'Professor'
                 
             ], 
-            //Soma - ken
+            //Adviser
             [
-                'user_id' => 16,
+                'user_id' => 10,
                 'department_id' => 5,
                 'position'=> 'Professor'
                 
-            ],
-            //Som - Paul
+            ], 
+            //Adviser - Codeseekers
             [
-                'user_id' => 17,
+                'user_id' => 26,
                 'department_id' => 6,
                 'position'=> 'Professor'
                 
-            ],
-            //Soe - Mich
-            [
-                'user_id' => 18,
-                'department_id' => 7,
-                'position'=> 'Professor'
-                
-            ],
-            //Socit - Loys
-            [
-                'user_id' => 19,
-                'department_id' => 4,
-                'position'=> 'Professor'
-                
-            ],
-            //Soe - Tere
-            [
-                'user_id' => 20,
-                'department_id' => 7,
-                'position'=> 'Professor'
-                
-            ],
+            ], 
         ];
 
         foreach($staffs as $i){

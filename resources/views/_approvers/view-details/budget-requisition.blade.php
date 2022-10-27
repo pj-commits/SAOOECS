@@ -1,3 +1,6 @@
+@php 
+    $isStudent = auth()->user()->checkUserType('Student');
+@endphp
 <x-app-layout>
     <div x-data="{denyForm: false, modal:false}" class="pt-24"> 
         <div x-data="{approveForm: false, modal:false}" class="max-w-screen mx-auto px-4 lg:px-8">
@@ -12,6 +15,7 @@
                 </h1>
             </div>
 
+            @if(!$isStudent)
             <!-- Tracker large Screen -->
             <div class="py-4 hidden xl:block">
                 <x-tracker orientation="horizontal">
@@ -21,6 +25,7 @@
                     <x-tracker-item orientation="horizontal" approver="Finance and Accounting Office" dateApproved="{{$forms->finance_date_approved ? \Carbon\Carbon::parse($forms->finance_date_approved)->format('M d, Y') : null}}"/>
                 </x-tracker>
             </div>
+            @endif
 
             <hr class="mt-3">
 
@@ -117,6 +122,7 @@
                     <p>{{$requisition->remarks}}</p>
                 </div>
 
+                @if(!$isStudent)
                 <hr class="my-8">
 
                 <div class="mt-8 mb-2">
@@ -140,6 +146,7 @@
                         <x-tracker-item orientation="vertical" approver="Finance and Accounting Office" dateApproved="{{$forms->finance_date_approved ? \Carbon\Carbon::parse($forms->finance_date_approved)->format('M d, Y') : null}}"/>
                     </x-tracker>
                 </div>
+                @endif
 
 
             </div>

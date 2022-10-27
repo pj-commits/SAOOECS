@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('form_id')->constrained()->onDelete('cascade');
             $table->string('venue'); 
-            $table->string('remarks'); 
+            $table->string('narration'); 
             $table->decimal('ratings', 2, 1);
             $table->timestamps();
         });

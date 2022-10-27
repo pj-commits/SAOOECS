@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Form;
 use App\Models\Staff;
+use App\Helper\Helper;
 use App\Models\Proposal;
 use App\Models\Liquidation;
 use App\Models\Requisition;
+use App\Models\Narrative;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -40,7 +42,7 @@ class SubmittedFormsController extends Controller
                 $isSaoHead = $department->name === 'Student Activities Office' && $isHead;
                 $isAcadServHead = $department->name === 'Academic Services' && $isHead;
                 $isFinanceHead = $department->name === 'Finance Office'  && $isHead;
-
+                
                 // LIST: id of curr user belongs to
                 $getAuthOrgIdList = $user->studentOrg->pluck('id');
 
@@ -56,7 +58,7 @@ class SubmittedFormsController extends Controller
 
                     // dd($isAdviser, $isSaoHead, $isAcadServHead, $isFinanceHead); -> Uncomment me later!!!
 
-                if($isAdviser){     
+                if($isAdviser){    
                     $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
                     $query->whereIn('organization_id', $getAuthOrgIdList);
                     $query->where('curr_approver', 'Adviser');                  
@@ -102,11 +104,13 @@ class SubmittedFormsController extends Controller
             // dd($forms);
 
             $pendingForms = [];
+            
             foreach($forms as $form){
                 array_push($pendingForms, [
-                    'id' => $form->id,
+                    'id' => Helper::encrypt($form->id),
                     'formType' => $form->form_type,
                     'eventTitle' => $form->event_title,
+                    'date' => Carbon::parse($form->created_at)->format('F d, Y - h:i A'),
                     'organization' => $form->myOrg->getOrgName->org_name,
                 ]);
             }
@@ -123,8 +127,12 @@ class SubmittedFormsController extends Controller
     *
     ********************************************************************/
 
-    public function show(Form $forms)
+    public function show($id)
     {   
+        $formId = Helper::decrypt($id);
+
+        $forms = Form::findOrFail($formId);
+
         if($forms->form_type === 'APF'){
 
             $proposal = Proposal::where('form_id', $forms->id)->firstOrFail();

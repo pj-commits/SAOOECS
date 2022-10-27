@@ -6,6 +6,8 @@ use App\Models\Form;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use App\Helper\Helper;
 
 class RecordsController extends Controller
 {
@@ -85,8 +87,22 @@ class RecordsController extends Controller
                     
                     
                 })
-           ->paginate(10);
+           ->paginate(10);      
 
-        return view('_users.records', compact('approvedAndCancelled'));
+           $records = [];
+           
+           foreach($approvedAndCancelled as $form){
+               array_push($records, [
+                   'id' => Helper::encrypt($form->id),
+                   'formType' => $form->form_type,
+                   'eventTitle' => $form->event_title,
+                   'status' => $form->status,
+                   'date' => Carbon::parse($form->updated_at)->format('F d, Y - h:i A'),
+                   'organization' => $form->myOrg->getOrgName->org_name,
+               ]);
+
+           }
+
+        return view('_users.records', compact('records'));
     }
 }

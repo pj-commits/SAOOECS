@@ -26,7 +26,6 @@ class LFRequest extends FormRequest
         return [
             'end_date' => 'required|date|before:today', 
             'cash_advance' => 'required|regex:/^\d+(\.\d{1,2})?$/',
-            'cv_number' => 'required|numeric', 
             'deduct' => 'required|regex:/^\d+(\.\d{1,2})?$/', 
                 'item_number.*' => 'required', 
                 'date_bought.*' => 'required', 

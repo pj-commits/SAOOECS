@@ -34,7 +34,7 @@ class OrganizationUserSeeder extends Seeder
                 'user_id' => 6,
                 'organization_id' => 1,
                 'position'=>'Vice-President',
-                'role' => 'Editor',
+                'role' => 'Moderator',
             ],
             [
                 'user_id' => 7,
@@ -51,13 +51,7 @@ class OrganizationUserSeeder extends Seeder
             [
                 'user_id' => 9,
                 'organization_id' => 1,
-                'position'=>'Member',
-                'role' => 'Viewer',
-            ],
-            [
-                'user_id' => 10,
-                'organization_id' => 1,
-                'position'=>'Member',
+                'position'=>'Auditor',
                 'role' => 'Viewer',
             ],
             [
@@ -90,6 +84,13 @@ class OrganizationUserSeeder extends Seeder
                 'position'=>'Member',
                 'role' => 'Viewer',
             ],
+            [
+                'user_id' => 16,
+                'organization_id' => 1,
+                'position'=>'Member',
+                'role' => 'Viewer',
+            ],
+
             //Gaming Genesis
             [
                 'user_id' => 1,
@@ -98,86 +99,82 @@ class OrganizationUserSeeder extends Seeder
                 'role' => 'Moderator',
             ],
             [
-                'user_id' => 10,
+                'user_id' => 11,
                 'organization_id' => 2,
                 'position'=>'President',
                 'role' => 'Moderator',
             ],
             [
-                'user_id' => 11,
+                'user_id' => 17,
                 'organization_id' => 2,
-                'position'=>'Scretary',
+                'position'=>'Secretary',
                 'role' => 'Editor',
             ],
             [
-                'user_id' => 9,
-                'organization_id' => 2,
-                'position'=>'Member',
-                'role' => 'Viewer',
-            ],
-            [
-                'user_id' => 12,
-                'organization_id' => 2,
-                'position'=>'Member',
-                'role' => 'Viewer',
-            ],
-            //Robotics
-            [
-                'user_id' => 17,
-                'organization_id' => 3,
-                'position'=>'Adviser',
-                'role' => 'Moderator',
-            ],
-            [
-                'user_id' => 14,
-                'organization_id' => 3,
-                'position'=>'President',
-                'role' => 'Moderator',
-            ],
-            [
-                'user_id' => 9,
-                'organization_id' => 3,
-                'position'=>'Member',
-                'role' => 'Viewer',
-            ],
-            //Tourism
-            [
                 'user_id' => 18,
-                'organization_id' => 4,
-                'position'=>'Adviser',
-                'role' => 'Moderator',
-            ],
-            [
-                'user_id' => 9,
-                'organization_id' => 4,
-                'position'=>'President',
-                'role' => 'Moderator',
-            ],
-            [
-                'user_id' => 8,
-                'organization_id' => 4,
+                'organization_id' => 2,
                 'position'=>'Member',
                 'role' => 'Viewer',
             ],
-            //Bahay Bombilya
             [
                 'user_id' => 19,
-                'organization_id' => 5,
+                'organization_id' => 2,
+                'position'=>'Member',
+                'role' => 'Viewer',
+            ],
+
+            //APC Dance Company
+            [
+                'user_id' => 10,
+                'organization_id' => 3,
                 'position'=>'Adviser',
                 'role' => 'Moderator',
             ],
             [
-                'user_id' => 13,
-                'organization_id' => 5,
+                'user_id' => 20,
+                'organization_id' => 3,
                 'position'=>'President',
                 'role' => 'Moderator',
             ],
             [
-                'user_id' => 9,
-                'organization_id' => 5,
+                'user_id' => 21,
+                'organization_id' => 3,
                 'position'=>'Member',
                 'role' => 'Viewer',
             ],
+            [
+                'user_id' => 22,
+                'organization_id' => 3,
+                'position'=>'Member',
+                'role' => 'Viewer',
+            ],
+            [
+                'user_id' => 23,
+                'organization_id' => 3,
+                'position'=>'Member',
+                'role' => 'Viewer',
+            ],
+            [
+                'user_id' => 11,
+                'organization_id' => 3,
+                'position'=>'Member',
+                'role' => 'Viewer',
+            ],
+
+            //CodeSeekers
+            [
+                'user_id' => 26,
+                'organization_id' => 4,
+                'position'=>'Adviser',
+                'role' => 'Moderator',
+            ],
+            [
+                'user_id' => 27,
+                'organization_id' => 4,
+                'position'=>'President',
+                'role' => 'Moderator',
+            ],
+
         ];
 
         DB::table('organization_user')->insert($orgusers);

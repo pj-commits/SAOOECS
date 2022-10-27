@@ -37,15 +37,12 @@ class OrganizationSeeder extends Seeder
             ],
             [
                 'org_name' => 'APC Robotics Organization',
-                'adviser' => 'Marc Kenneth Ricahuerta'
+                'adviser' => 'Morganica Bounde'
             ],
             [
-                'org_name' => 'The Tourism Management Society',
-                'adviser' => 'Paul John Signo'
-            ],            [
-                'org_name' => 'Bahay Bombilya',
-                'adviser' => 'Michelle Manadero'
-            ],
+                'org_name' => 'Codeseekers',
+                'adviser' => 'Code Seekers'
+            ],        
             
         ];
 

@@ -1,5 +1,4 @@
 @php
-    // $hasSubmittedForms = $pendingForms->isNotEmpty();
     $hasSubmittedForms = !empty($pendingForms);
     $jsonForms = json_encode($pendingForms);
     $encryptedForms = base64_encode($jsonForms);
@@ -22,20 +21,22 @@
     <!-- Actions -->
     <div x-data="search()" @load.window="addForms('{{ $encryptedForms }}')" class="pt-24">
         <div class="px-4 lg:px-8">
-            <div class="flex items-center justify-end space-x-1">
-                <x-select class="w-48" id="form_type" name="form_type" aria-label="Default select example" x-ref="filter" @change="filter($el)">
-                    <option value="" selected>All</option>
-                    <option value="APF">Activity Proposal Form</option>
-                    <option value="BRF">Requisition Form</option>
-                    <option value="NR">Narrative Report</option>
-                    <option value="LF">Liquidation Form</option>
-                </x-select>
-                <x-input class="w-48 md:w-64" type="search" id="search" name="search" placeholder="Search" x-ref="searchTerm" @keyup="searchTerm($el)"/>
-                <x-button type="submit">
-                    <x-svg marginRight="mr-0">
-                        <path d="m19.6 21-6.3-6.3q-.75.6-1.725.95Q10.6 16 9.5 16q-2.725 0-4.612-1.887Q3 12.225 3 9.5q0-2.725 1.888-4.613Q6.775 3 9.5 3t4.613 1.887Q16 6.775 16 9.5q0 1.1-.35 2.075-.35.975-.95 1.725l6.3 6.3ZM9.5 14q1.875 0 3.188-1.312Q14 11.375 14 9.5q0-1.875-1.312-3.188Q11.375 5 9.5 5 7.625 5 6.312 6.312 5 7.625 5 9.5q0 1.875 1.312 3.188Q7.625 14 9.5 14Z"/>
-                    </x-svg>
-                </x-button>
+            <div class="flex justify-end flex-nowrap">
+                <div class="relative shadow-sm">
+                    <select name="search" id="search" class="w-48 text-sm text-bland-500 -mr-1 border border-bland-200 rounded-l-md cursor-pointer" x-ref="filter" @change="filter($el)" >
+                        <option value="" selected>All</option>
+                        <option value="APF">Activity Proposal Form</option>
+                        <option value="BRF">Requisition Form</option>
+                        <option value="NR">Narrative Report</option>
+                        <option value="LF">Liquidation Form</option>
+                    </select>
+                    <label for="" class="absolute right-2 top-1">
+                        <x-svg width="w-7" height="h-7" marginRight="mr-0" color="fill-bland-300">
+                            <path d="m19.6 21-6.3-6.3q-.75.6-1.725.95Q10.6 16 9.5 16q-2.725 0-4.612-1.887Q3 12.225 3 9.5q0-2.725 1.888-4.613Q6.775 3 9.5 3t4.613 1.887Q16 6.775 16 9.5q0 1.1-.35 2.075-.35.975-.95 1.725l6.3 6.3ZM9.5 14q1.875 0 3.188-1.312Q14 11.375 14 9.5q0-1.875-1.312-3.188Q11.375 5 9.5 5 7.625 5 6.312 6.312 5 7.625 5 9.5q0 1.875 1.312 3.188Q7.625 14 9.5 14Z"/>
+                        </x-svg>
+                    </label>
+                    <input class="w-56 text-sm border border-bland-200 rounded-r-md md:w-72" type="text" placeholder="Search..." x-ref="searchTerm" @keyup="searchTerm($el)">
+                </div>
             </div>
         </div>
 
@@ -60,8 +61,8 @@
                         <x-table.body>
                             <x-table.body-col x-text="item.eventTitle" class="pl-6"></x-table.body-col>
                             <x-table.body-col x-text="item.organization" class="pl-6"></x-table.body-col>
-                            <x-table.body-col x-text="item.formType" class="pl-6"></x-table.body-col>
-                            <x-table.body-col class="pl-6">Later</x-table.body-col>
+                            <x-table.body-col x-text="item.formDescription" class="pl-6"></x-table.body-col>
+                            <x-table.body-col x-text="item.date" class="pl-6"></x-table.body-col>
                             <x-table.body-col class="pl-6">
                                 <a class="text-primary-blue cursor-pointer hover:text-blue-800 hover:underline hover:underline-offset-4" @click="viewForm(item.id)">View Details</a>
                         </x-table.body-col>
@@ -82,36 +83,13 @@
                 </template>
 
                 <div class="mt-4">
-                    {{-- {{ $pendingForms->links('pagination::tailwind')}} --}}
-                    <div x-show="pageCount() > 1" class="flex justify-center">
-                        <ul class="flex list-style-none">
-                        <li class="page-item"><a
-                            class="page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 focus:shadow-none"
-                            href="#">Previous</a>
-                        </li>
-                        <template x-for="(page,index) in pages()" :key="index">
-                            <li>
-                                <button
-                                class="relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
-                                :class="{ 'bg-indigo-600 text-white font-bold' : index === pageNumber }"
-                                type="button"
-                                x-on:click="viewPage(index)">
+                    {{-- Pagination --}}
+                    <x-pagination/>
 
-                                <span x-text="index+1"></span>
-                                </button>
-                            </li>
-                        </template>
-                        <li class="page-item"><a
-                            class="page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
-                            href="#">Next</a>
-                        </li>
-                        </ul>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
-
     @endif
 </x-app-layout>
 
