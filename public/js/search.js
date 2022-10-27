@@ -3,10 +3,18 @@ function search(){
         forms:[],
         results: [],
         total: '',
-        size: 2,
+        size: 10,
         pageNumber: 0,
+        form_dictionary: 
+        {
+          'APF': 'Activity Proposal Form',
+          'BRF': 'Budget Requisition Form',
+          'NR': 'Narrative Report',
+          'LF': 'Liquidation Form',
+        },
 
         addForms(encryptedForms){
+
             let myForms = JSON.parse(atob(encryptedForms))
 
             myForms.forEach(form => {
@@ -15,8 +23,12 @@ function search(){
                     organization: form.organization,
                     eventTitle: form.eventTitle,
                     formType: form.formType,
+                    status: form.status,
+                    formDescription: this.form_dictionary[form.formType],
+                    date: form.date, //Date Submitted or Date Ended
                 })
             });
+
             this.$refs.filter. value = "";
             this.$refs.searchTerm.value = "";
             this.results = this.forms;
@@ -39,8 +51,7 @@ function search(){
                             return form;
                         }
                     })
-                    this.results = filtered;
-                    this.total = this.results.length;
+                    this.setTotal(filtered);
 
                  }else{
                     let filter = this.$refs.filter.value;
@@ -50,18 +61,18 @@ function search(){
                            return form;
                         }
                     })
-                    this.results = filtered;
-                    this.total = this.results.length;
+                    this.setTotal(filtered);
                 }
                 
             }, 500)
         },
 
         filter($el){
+
             if($el.value === ''){
                 if(this.$refs.searchTerm.value === ''){
-                    this.results = this.forms;
-                    this.total = this.results.length;
+                    this.setTotal(this.forms);
+                 
                 }else{
                     this.searchTerm(this.$refs.searchTerm)
                 }
@@ -71,15 +82,18 @@ function search(){
                         return form;
                     }
                 })
-                this.results = filtered
+                this.setTotal(filtered);
             }else{
-                this.searchTerm(this.$refs.searchTerm)
+                this.searchTerm(this.$refs.searchTerm);
             }
             
         },
 
-        viewForm(id){
-            window.location.assign('submitted-forms/details/'+id)
+        setTotal(forms){
+            this.results = forms;
+            this.total = this.results.length;
+            this.pageNumber = 0;
+
         },
 
         isResultsEmpty(){
@@ -98,17 +112,34 @@ function search(){
 
           //Next Page
           nextPage() {
-            this.pageNumber++;
+            if(this.pageNumber < this.total - 1){
+                this.pageNumber++;
+            }
           },
 
           //Previous Page
           prevPage() {
-            this.pageNumber--;
+            if(this.pageNumber != 0){
+                this.pageNumber--;
+            }
+          },
+
+          isFirstPage(){
+            if(this.pageNumber === 0){
+                return true;
+            }
+            return false;
+          },
+
+          isLastPage(){
+            if(this.pageNumber === this.total - 1){
+                return true;
+            }
+            return false;
           },
 
           //Total number of pages
           pageCount() {
-            console.log(this.total)
             return Math.ceil(this.total / this.size);
           },
 
@@ -132,6 +163,16 @@ function search(){
           viewPage(index) {
             this.pageNumber = index;
           },
+
+          viewForm(id, type){
+            console.log(type)
+            if(type == 'pdf'){
+                window.location.assign('records/download/pdf/'+id)
+            }else{
+                window.location.assign('submitted-forms/details/'+id)
+            }
+          
+        },
 
     }
 }

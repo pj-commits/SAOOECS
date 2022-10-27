@@ -35,10 +35,13 @@
          {{-- Search Handler --}}
          <script src="{{ asset('js/search.js') }}" defer></script>
 
+         {{-- Charts External Link--}}
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>
+         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    @livewireStyles
 
     <style>
         [x-cloak] { display: none !important; }
@@ -79,6 +82,5 @@
             </div> 
         </div>
       
-        @livewireScripts
     </body>
 </html>

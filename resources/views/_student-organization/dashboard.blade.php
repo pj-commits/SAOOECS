@@ -64,14 +64,17 @@
                                         <!-- Accordion Body Top -->
                                         <div class="py-4 space-y-2">
                                             <div class="grid grid-cols-2">
-                                                <p class="text-sm text-bland-600"> <span class="font-bold">Date Submitted: </span>{{\Carbon\Carbon::parse($form->created_at)->format('F d, Y - h:i A') }}</p>
                                                 <p class="text-sm text-bland-600"> <span class="font-bold">Submitted By: </span>{{$form->fromOrgUser->fromUser->first_name}} {{$form->fromOrgUser->fromUser->last_name}}</p>
+                                                <p class="text-sm text-bland-600"> <span class="font-bold">Date Submitted: </span>{{\Carbon\Carbon::parse($form->created_at)->format('F d, Y - h:i A') }}</p>
                                             </div>
                                             <div class="grid grid-cols-2">
-                                                <p class="text-sm text-bland-600"> <span class="font-bold">Form Type: </span>{{ $form->form_type }}</p>
-                                                <p class="text-sm text-bland-600"> <span class="font-bold">Control Number: </span>{{ $form->control_number }} </p>
+                                                <p class="text-sm text-bland-600"> <span class="font-bold">Target Date: </span>{{\Carbon\Carbon::parse($form->target_date)->format('F d, Y') }}</p>
+                                                <p class="text-sm text-bland-600"> <span class="font-bold">Form Type: </span>{{ $formTypes[$form->form_type] }}</p>
+                                                
                                             </div>
-                                        </div>            
+                                            <div class="grid grid-cols-2">
+                                                <p class="text-sm text-bland-600"> <span class="font-bold">Control Number: </span>{{ $form->control_number }} </p>
+                                            </div>            
 
                                         <hr>
                                         <!-- Accordion Body Bottom -->
@@ -83,11 +86,17 @@
                                             <x-tracker-item orientation="vertical" approver="Finance and Accounting Office" dateApproved="{{ $form->finance_date_approved ? \Carbon\Carbon::parse($form->finance_date_approved)->format('F d, Y - h:i A') : null }}"/>
                                         </x-tracker>
 
-                                        <!-- cancelForm Button && Push Notes -->
+                                        <!-- cancelForm Button && View Details -->
                                         <div class="flex justify-end space-x-2 my-4">
+
+                                            <x-button onclick="window.location='{{ route('submitted-forms.show', ['forms' => Helper::encrypt($form->id) ]) }}'">
+                                                {{__('View Details')}}
+                                            </x-button>
+
                                             <x-button bg="bg-semantic-danger" hover="hover:bg-rose-600" @click="cancelForm = true,  modal= true, setId('{{ $form->id }}'), clearInputField()">
                                                 {{__('Cancel')}}
                                             </x-button>
+
                                         </div>
                                     </div>
                                 </div>

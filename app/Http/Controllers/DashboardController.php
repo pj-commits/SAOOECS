@@ -6,6 +6,7 @@ use App\Models\Form;
 use App\Models\User;
 use App\Models\Event;
 use App\Models\Department;
+use App\Helper\Helper;
 use Illuminate\Http\Request;
 use App\Models\OrganizationUser;
 use Illuminate\Support\Facades\DB;
@@ -39,7 +40,7 @@ class DashboardController extends Controller
            $forms = [];
            foreach($getForms as $form){
                 array_push($forms, [
-                    'id' => $form->id,
+                    'id' => Helper::encrypt($form->id),
                     'organization' => $form->myOrg->getOrgName->org_name,
                     'event_title' => $form->event_title,
                     'form_type' => $form->form_type,

@@ -17,33 +17,21 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        // $config = Config::get('laratrust_seeder.roles_structure');
 
-        // if ($config === null) {
-        //     $this->command->error("The configuration has not been published. Did you run `php artisan vendor:publish --tag=\"laratrust-seeder\"`");
-        //     $this->command->line('');
-        //     return false;
-        // }
-
-        // foreach (array_slice($config, 4) as $key => $rolename ) {
-        //     $this->command->info('Wait pre, gumagawa ng extra accounts para sa '. strtoupper($rolename));
-        
-        //     for($i = 1; $i < 3; $i++){
-        //         DB::table('users')->insert(
-        //             [
-        //                 'first_name' => 'Sample',
-        //                 'middle_name' => null,
-        //                 'last_name' => ucwords(str_replace('_', ' ', $rolename)).$i,
-        //                 'phone_number' => '09123456789',
-        //                 'email' => $rolename.$i.'@apc.edu.ph',
-        //                 'password' => bcrypt('password')
-        //             ]
-        //         );
-        //     }
-        // }
-
+        /* 
+            |========================================
+            |
+            | Users 5 - 9 : Brewing Minds Officers
+            |
+            | Users 10 : Adviser
+            |
+            | Users 11 - 19 : Dummy Stundents
+            |
+            |========================================        
+        */
+ 
         $users = [
-            //1
+            //1 - Sao Head
             [
                 'first_name' => 'Sample',
                 'middle_name' => null,
@@ -53,7 +41,7 @@ class UserSeeder extends Seeder
                 'email' => 'sao@apc.edu.ph',
                 'password' => bcrypt('password')
             ],
-            //2
+            //2 - Finance Head
             [
                 'first_name' => 'Sample',
                 'middle_name' => null,
@@ -63,7 +51,7 @@ class UserSeeder extends Seeder
                 'email' => 'finance@apc.edu.ph',
                 'password' => bcrypt('password')
             ],
-            //3
+            //3 - AcadServ
             [
                 'first_name' => 'Sample',
                 'middle_name' => null,
@@ -73,7 +61,7 @@ class UserSeeder extends Seeder
                 'email' => 'acadserv@apc.edu.ph',
                 'password' => bcrypt('password')
             ],
-            //4
+            //4 - Adviser
             [
                 'first_name' => 'Sample',
                 'middle_name' => null,
@@ -83,37 +71,67 @@ class UserSeeder extends Seeder
                 'email' => 'adviser@apc.edu.ph',
                 'password' => bcrypt('password')
             ],
-            //5
+            //5 - Brewing Minds President
             [
-                'first_name' => 'Sample',
-                'middle_name' => null,
-                'last_name' => 'President',
+                'first_name' => 'Michelle',
+                'middle_name' => 'Montales',
+                'last_name' => 'Manadero',
                 'phone_number' => '09123456789',
                 'user_type' => 'Student',
-                'email' => 'president@student.apc.edu.ph',
+                'email' => 'mmmanadero@student.apc.edu.ph',
                 'password' => bcrypt('password')
             ],
-            //6
+            //6 Brewing Minds Vice-President
             [
-                'first_name' => 'Sample',
-                'middle_name' => null,
-                'last_name' => 'Vice-President',
+                'first_name' => 'Paul John',
+                'middle_name' => 'Deluna',
+                'last_name' => 'Signo',
                 'phone_number' => '09123456789',
                 'user_type' => 'Student',
-                'email' => 'vice@student.apc.edu.ph',
+                'email' => 'pdsigno@student.apc.edu.ph',
                 'password' => bcrypt('password')
             ],
-            //7
+            //7 Brewing Minds - Secretary
+            [
+                'first_name' => 'Marc Kenneth',
+                'middle_name' => 'Elfa',
+                'last_name' => 'Ricahuerta',
+                'phone_number' => '09123456789',
+                'user_type' => 'Student',
+                'email' => 'mericahuerta@student.apc.edu.ph',
+                'password' => bcrypt('password')
+            ],
+            //8 Brewing Minds - Treasurer
+            [
+                'first_name' => 'Louise Gerard',
+                'middle_name' => 'Martinez',
+                'last_name' => 'Binotapa',
+                'phone_number' => '09123456789',
+                'user_type' => 'Student',
+                'email' => 'lmbinotapa@student.apc.edu.ph',
+                'password' => bcrypt('password')
+            ],
+            //9 Brewing Minds - Auditor
+            [
+                'first_name' => 'Therese Nicole',
+                'middle_name' => 'Conception',
+                'last_name' => 'Yumul',
+                'phone_number' => '09123456789',
+                'user_type' => 'Student',
+                'email' => 'tcyumul@student.apc.edu.ph',
+                'password' => bcrypt('password')
+            ],
+            //10 Adviser
             [
                 'first_name' => 'Morganica',
                 'middle_name' => 'Scanlan',
                 'last_name' => 'Bounde',
                 'phone_number' => '09123456789',
-                'user_type' => 'Student',
-                'email' => 'msbounde@student.apc.edu.ph',
+                'user_type' => 'Professor',
+                'email' => 'msbounde@apc.edu.ph',
                 'password' => bcrypt('password')
             ],
-            //8
+            //11
             [
                 'first_name' => 'Ellswerth',
                 'middle_name' => 'Kinkaid',
@@ -123,7 +141,7 @@ class UserSeeder extends Seeder
                 'email' => 'ekpieche@student.apc.edu.ph',
                 'password' => bcrypt('password')
             ],
-            //9
+            //12
             [
                 'first_name' => 'Janice',
                 'middle_name' => 'Stables',
@@ -133,7 +151,7 @@ class UserSeeder extends Seeder
                 'email' => 'jsbaden@student.apc.edu.ph',
                 'password' => bcrypt('password')
             ],
-            //10
+            //13
             [
                 'first_name' => 'Mark',
                 'middle_name' => 'Ludmann',
@@ -143,7 +161,7 @@ class UserSeeder extends Seeder
                 'email' => 'mlkittman@student.apc.edu.ph',
                 'password' => bcrypt('password')
             ],
-            //11
+            //14
             [
                 'first_name' => 'Cairistiona',
                 'middle_name' => 'Kayser',
@@ -153,7 +171,7 @@ class UserSeeder extends Seeder
                 'email' => 'ckfellgatt@student.apc.edu.ph',
                 'password' => bcrypt('password')
             ],
-            //12
+            //15
             [
                 'first_name' => 'Sydney',
                 'middle_name' => 'Yegorovnin',
@@ -163,7 +181,7 @@ class UserSeeder extends Seeder
                 'email' => 'syvynall@student.apc.edu.ph',
                 'password' => bcrypt('password')
             ],
-            //13
+            //16
             [
                 'first_name' => 'Gregorio',
                 'middle_name' => 'Geake',
@@ -173,7 +191,7 @@ class UserSeeder extends Seeder
                 'email' => 'ggbranthwaite@student.apc.edu.ph',
                 'password' => bcrypt('password')
             ],
-            //14
+            //17
             [
                 'first_name' => 'Dyann',
                 'middle_name' => 'Durgan',
@@ -183,7 +201,7 @@ class UserSeeder extends Seeder
                 'email' => 'ddenser@student.apc.edu.ph',
                 'password' => bcrypt('password')
             ],
-            //15
+            //18
             [
                 'first_name' => 'Gale',
                 'middle_name' => 'Appleby',
@@ -193,7 +211,7 @@ class UserSeeder extends Seeder
                 'email' => 'gacheyenne@student.apc.edu.ph',
                 'password' => bcrypt('password')
             ],
-            //16
+            //19
             [
                 'first_name' => 'Gale',
                 'middle_name' => 'Origan',
@@ -203,56 +221,87 @@ class UserSeeder extends Seeder
                 'email' => 'gomarrion@student.apc.edu.ph',
                 'password' => bcrypt('password')
             ],
-            //17
-            [
-                'first_name' => 'Marc Kenneth',
-                'middle_name' => 'Elfa',
-                'last_name' => 'Ricahuerta',
-                'phone_number' => '09123456789',
-                'user_type' => 'Professor',
-                'email' => 'mericahuerta@apc.edu.ph',
-                'password' => bcrypt('password')
-            ],
-            //18
-            [
-                'first_name' => 'Paul John',
-                'middle_name' => 'Deluna',
-                'last_name' => 'Signo',
-                'phone_number' => '09123456789',
-                'user_type' => 'Professor',
-                'email' => 'pdsigno@apc.edu.ph',
-                'password' => bcrypt('password')
-            ],
-            //19
-            [
-                'first_name' => 'Michelle',
-                'middle_name' => 'Montales',
-                'last_name' => 'Manadero',
-                'phone_number' => '09123456789',
-                'user_type' => 'Professor',
-                'email' => 'mmmanadero@apc.edu.ph',
-                'password' => bcrypt('password')
-            ],
             //20
             [
-                'first_name' => 'Louise Gerard',
-                'middle_name' => 'Martinez',
-                'last_name' => 'Binotapa',
+                'first_name' => 'Maxy',
+                'middle_name' => 'Fairhall',
+                'last_name' => 'Boobyer',
                 'phone_number' => '09123456789',
-                'user_type' => 'Professor',
-                'email' => 'lmbinotapa@apc.edu.ph',
+                'user_type' => 'Student',
+                'email' => 'mfboobyer@student.apc.edu.ph',
                 'password' => bcrypt('password')
             ],
             //21
             [
-                'first_name' => 'Therese Nicole',
-                'middle_name' => 'Conception',
-                'last_name' => 'Yumul',
+                'first_name' => 'Obediah',
+                'middle_name' => 'Gottelier',
+                'last_name' => 'Faircliff',
                 'phone_number' => '09123456789',
-                'user_type' => 'Professor',
-                'email' => 'tcyumul@apc.edu.ph',
+                'user_type' => 'Student',
+                'email' => 'ogfaircliff@student.apc.edu.ph',
                 'password' => bcrypt('password')
             ],
+            //22
+            [
+                'first_name' => 'Harriott',
+                'middle_name' => 'Dehn',
+                'last_name' => 'Nyland',
+                'phone_number' => '09123456789',
+                'user_type' => 'Student',
+                'email' => 'hdnyland@student.apc.edu.ph',
+                'password' => bcrypt('password')
+            ],
+            //23
+            [
+                'first_name' => 'Jobye',
+                'middle_name' => 'Cruces',
+                'last_name' => 'Gibby',
+                'phone_number' => '09123456789',
+                'user_type' => 'Student',
+                'email' => 'jcgibby@student.apc.edu.ph',
+                'password' => bcrypt('password')
+            ],
+            //24
+            [
+                'first_name' => 'Coleman',
+                'middle_name' => 'Scase',
+                'last_name' => 'Jessop',
+                'phone_number' => '09123456789',
+                'user_type' => 'Student',
+                'email' => 'csjessop@student.apc.edu.ph',
+                'password' => bcrypt('password')
+            ],
+            //25
+            [
+                'first_name' => 'Wally',
+                'middle_name' => 'Lowry',
+                'last_name' => 'Cragoe',
+                'phone_number' => '09123456789',
+                'user_type' => 'Student',
+                'email' => 'wlcragoe@student.apc.edu.ph',
+                'password' => bcrypt('password')
+            ],
+            [
+            //26 - Codeseekers Adviser
+                'first_name' => 'Code',
+                'middle_name' => 'xtianpogi',
+                'last_name' => 'Seekers',
+                'phone_number' => '09456643543',
+                'user_type' => 'Professor',
+                'email' => 'codeseekers@apc.edu.ph',
+                'password' => bcrypt('xtianpogi')
+            ],
+            //27 - Codeseekers President
+            [
+                'first_name' => 'Christian Paul',
+                'middle_name' => null,
+                'last_name' => 'Pili',
+                'phone_number' => '09363378264',
+                'user_type' => 'Student',
+                'email' => 'cbpili@student.apc.edu.ph',
+                'password' => bcrypt('xtianpogi')
+            ],
+
         ];
 
         foreach($users as $i){

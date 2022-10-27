@@ -12,7 +12,7 @@
           <div>
             <span x-text="MONTH_NAMES[month]" class="text-xl font-bold text-gray-800"></span>
             <span x-text="year" class="ml-1 text-sm text-gray-600 font-normal"></span>
-          </div>
+        </div>
           <div class="border rounded-lg px-1" style="padding-top: 2px;">
             <button 
               type="button"

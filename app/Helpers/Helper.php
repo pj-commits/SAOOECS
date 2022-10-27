@@ -9,6 +9,16 @@ use Illuminate\Support\Facades\Route;
 
 class Helper
 {
+
+    static public $prohibitedWords = [
+        'bobo', 'tanga', 'siraulo', 'gago', 'tarantado', 'tangina', 'inutil',
+        'tite', 'puke', 'pepe', 'dede', 'pakarat', 'pokpok', 'bayag', 'betlog',
+        'tae', 'baliw', 'sinto', 'shet', 'engot',
+        'fuck', 'pussy', 'gay', 'lesbian', 'homo', 'stupid', 'shit', 'asshole', 'butthole',
+        'crazy',
+
+    ];
+
     static public function paginate($dataSet, $total, $perPage)
     {
         $page = Paginator::resolveCurrentPage('page');
@@ -45,7 +55,8 @@ class Helper
         return false;
     }
 
-    static public function getFormCreationMessage(){
+    static public function getFormCreationMessage()
+    {
         if(session()->has('add-apf')){
             return session('add-apf');
         }else if (session()->has('add-rf')){
@@ -57,6 +68,31 @@ class Helper
         }else{
             return null;
         }
+    }
+
+    static public function encrypt($id)
+    {
+        return base64_encode((($id * 82221) * 102522) / 89223);
+    }
+    
+    static public function decrypt($id)
+    {
+
+        $decodedId = base64_decode($id);
+
+        $formattedId = number_format((($decodedId * 89223) / 102522) / 82221);
+        
+        return intval($formattedId);
+    }
+
+    static public function checkWords($sentence){
+
+        foreach(Helper::$prohibitedWords as $word){
+            if(str_contains(strtolower($sentence), $word)){
+                return true;
+            }
+        }
+        return false;
     }
 
 }

@@ -1,4 +1,8 @@
-<x-app-layout>    
+<x-app-layout>   
+    
+    <!-- Error Mesage -->
+    <x-alert-message/>
+
     <div x-data="{ removeMember:false, modal:false }" class="pt-24">
         <div class="px-4 lg:px-8">
             <h1 class="text-xl"><span class="text-primary-blue hover:text-semantic-info"> <a href="{{ route('organization.index') }}"> Organizations </a></span>/ 

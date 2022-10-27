@@ -142,6 +142,11 @@ class OrganizationController extends Controller
             'role' => 'required' 
         ]);
 
+        //If user commit profanity
+        if(Helper::checkWords($request->position)){
+            return redirect()->back()->with('error', 'Prohibited Word. Do not try it again! This action is recorded.');
+        }
+
         //capitalized first letter of position
         $position = ucfirst($request->position);
         $attributes = ['position' => $position, 'role' => $request->role];

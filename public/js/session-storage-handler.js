@@ -116,7 +116,7 @@ function forms_array(form){
     let nr_arr = [
         'event_title',
         'venue',
-        'remarks',
+        'narration',
     ]
 
     let lf_arr = [

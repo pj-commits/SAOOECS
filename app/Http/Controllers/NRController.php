@@ -31,7 +31,6 @@ class NRController extends Controller
 
     public function store(NRRequest $request)
     {
-        // dd($request);
         $nr = $request->safe()->only(['venue', 'remarks', 'ratings' ]);
         $event = Form::where('event_id', $request->event_id)->get()->first();
 
@@ -69,23 +68,21 @@ class NRController extends Controller
         // // Narrative Create
         $narrative = $form->narrative()->create($nr);
 
-        // // Narrative Images create
-        // for($i = 0; $i < count($request->poster); $i++){
-        //     $imageName = 'narrative'.time().'.'.$request->narrative[$i]->extension();
-        //     $narrative->narrativeImage()->create([
-        //         'event_image' => $request->poster[$i]->storeAs('narrative',$imageName),
-        //         'image_type' => 'poster'
-        //     ]);
-        // }
 
-        // // Narrative Images create
-        // for($i = 0; $i < count($request->event_image); $i++){
-        //     $imageName = 'narrative'.time().'.'.$request->narrative[$i]->extension();
-        //     $narrative->narrativeImage()->create([
-        //         'event_image' => $request->event_image[$i]->storeAs('narrative',$imageName),
-        //         'image_type' => 'event image'
-        //     ]);
-        // }
+        // Narrative Poster create
+        $imagePath = $request->file('official_poster')->store('uploads/posters', 'public');
+        $narrative->narrativeImage()->create([
+            'url' => $imagePath,
+            'image_type' => 'poster'
+        ]);
+        // Narrative Event Images create
+        for($i = 0; $i < count($request->file('event_images')); $i++){
+            $imagePath = $request->file('event_images')[$i]->store('uploads/photos', 'public');
+            $narrative->narrativeImage()->create([
+                'url' => $imagePath,
+                'image_type' => 'photo'
+            ]);
+        }
 
         // Participants create
         for($i = 0; $i < count($request->first_name); $i++){
