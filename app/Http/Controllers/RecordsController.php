@@ -28,7 +28,8 @@ class RecordsController extends Controller
             (Auth::user()->checkUserType('Student') && Auth::user()->isOrgMember()) ||
             Auth::user()->checkUserType('Staff')){
 
-            $approvedAndCancelled = Form::where('status', '=', 'Pending')
+            $approvedAndCancelled = Form::where('status', '=', 'Approved')
+                ->orWhere('status', '=', 'Cancelled')
                 ->where(function ($query) {
                     $user = auth()->user();
                     // LIST: id of curr user belongs to
@@ -49,7 +50,7 @@ class RecordsController extends Controller
                         $isFinanceHead = $department->name === 'Finance Office'  && $isHead;
         
                         if($isAdviser === true && $isSaoHead === false && $isAcadServHead === false && $isFinanceHead === false){
-                            $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
+                            $query->whereIn('organization_user_adviser_id', $getAuthOrgUserIdList );
                             $query->whereIn('organization_id', $getAuthOrgIdList);
                             $query->where('adviser_is_approve', 1);         
                             
@@ -58,6 +59,7 @@ class RecordsController extends Controller
                             if($isSaoHead){
                                 $query->where('sao_staff_id', $staff->id);
                                 $query->where('sao_is_approve', 1);   
+                                $query->where('form_type', '!=' , 'LF'); 
                                 $query->orwhere(function ($query) {
                                     $user = auth()->user();
                                     $staff = $user->userStaff;
@@ -77,7 +79,7 @@ class RecordsController extends Controller
                                     $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id');
         
                                     if($isAdviser){
-                                        $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
+                                        $query->whereIn('organization_user_adviser_id', $getAuthOrgUserIdList );
                                         $query->whereIn('organization_id', $getAuthOrgIdList);
                                         $query->where('adviser_is_approve', 1);          
                                     }   
@@ -86,7 +88,9 @@ class RecordsController extends Controller
                             if($isAcadServHead){
                                 $query->where('acadserv_staff_id', $staff->id);
                                 $query->where('sao_is_approve', 1);
-                                $query->where('acadserv_is_approve', 1);  
+                                $query->where('acadserv_is_approve', 1);
+                                $query->where('form_type', '!=' , 'NR'); 
+                                $query->where('form_type', '!=' , 'LF');   
                                 $query->orwhere(function ($query) {
                                     $user = auth()->user();
                                     $staff = $user->userStaff;
@@ -106,7 +110,7 @@ class RecordsController extends Controller
                                     $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id');
         
                                     if($isAdviser){
-                                        $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
+                                        $query->whereIn('organization_user_adviser_id', $getAuthOrgUserIdList );
                                         $query->whereIn('organization_id', $getAuthOrgIdList);
                                         $query->where('adviser_is_approve', 1);            
                                     }   
@@ -115,7 +119,8 @@ class RecordsController extends Controller
                             if($isFinanceHead){
                                 $query->where('finance_staff_id', $staff->id);
                                 $query->where('acadserv_is_approve', 1);
-                                $query->where('finance_is_approve', 1);    
+                                $query->where('finance_is_approve', 1); 
+                                $query->where('form_type', '!=' , 'NR');  
                                 $query->orwhere(function ($query) {
                                     $user = auth()->user();
                                     $staff = $user->userStaff;
@@ -135,7 +140,7 @@ class RecordsController extends Controller
                                     $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id');
         
                                     if($isAdviser){
-                                        $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
+                                        $query->whereIn('organization_user_adviser_id', $getAuthOrgUserIdList );
                                         $query->whereIn('organization_id', $getAuthOrgIdList);
                                         $query->where('adviser_is_approve', 1);        
                                     }   
@@ -150,11 +155,10 @@ class RecordsController extends Controller
 
                         $getAuthOrgIdList = $user->studentOrg->pluck('id');
                         $query->whereIn('organization_id', $getAuthOrgIdList); 
-                        $query->orWhere('status', '=', 'Cancelled');
 
                     }
                     
-                })->orWhere('status', '=', 'Approved')->paginate(10);
+                })->paginate(10);
                     
 
                     $records = [];

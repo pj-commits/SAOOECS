@@ -35,6 +35,8 @@
                                 <option {{ $forms->event_id == $event->event_id ? 'selected' : '' }} value="{{$event->event_id}}">{{$event->event_title}}</option>
                                 @endforeach
                             </x-select>
+                            @error('event_id')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
+
                         </div>
 
                         {{-- End Date --}}
@@ -42,6 +44,7 @@
                             <x-label for="end_date" :value="__('End Date')" />
                             
                             <x-input id="end_date" class="mt-1 w-full" type="date" name="end_date" value="{{$liquidation->end_date}}" required autofocus @change="storeInput($el)"/>
+                            @error('end_date')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
                         {{-- CV Number --}}
@@ -64,6 +67,8 @@
                             <x-label for="cash_advance" :value="__('Cash Advance (₱)')" />
 
                             <x-input id="cash_advance" class="mt-1 w-full" type="number" min="1" name="cash_advance" x-ref="cashAdvance" value="{{$liquidation->cash_advance}}" required autofocus @keyup="storeInput($el), setData($el)"/>
+                             @error('cash_advance')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
+                            
                         </div>
 
                         {{-- Deduct --}}
@@ -71,6 +76,8 @@
                             <x-label for="deduct" :value="__('Deduct (₱)')" />
 
                             <x-input id="deduct" class="mt-1 w-full" type="number" min="1" name="deduct" x-ref="deduct" value="{{$liquidation->deduct}}" required autofocus @keyup="storeInput($el), setData($el)"/>
+                            @error('deduct')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror 
+
                         </div>
 
                         

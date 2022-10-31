@@ -14,9 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('staff', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('department_id')->constrained();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('user_id')->references('id')->on('users');
+            $table->foreignUuid('department_id')->references('id')->on('departments');
             $table->string('position');
             $table->timestamps();
         });

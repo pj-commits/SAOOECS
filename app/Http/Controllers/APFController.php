@@ -34,7 +34,6 @@ class APFController extends Controller
     public function store(APFRequest $request)
     {
         $proposal = $request->safe()->except(['target_date','org_id','event_title','coorganization', 'coorganizer_name', 'coorganizer_phone', 'coorganizer_email', 'service', 'logistics_date_needed','logistics_venue', 'activity', 'start_date', 'end_date' ]);
-        $e = DB::table('forms')->latest('event_id')->where('form_type', 'APF')->first();
 
         // get ID for approvers
         $orgAdviser = OrganizationUser::where('organization_id',$request->org_id)
@@ -63,11 +62,11 @@ class APFController extends Controller
             'organization_id' => $request->org_id,
             'prep_by' => Auth::user()->id,
             'control_number'=> $this->generateUniqueCode(),
-            'adviser_staff_id' => $orgAdviser,
+            'organization_user_adviser_id' => $orgAdviser,
             'sao_staff_id' => $sao,
             'acadserv_staff_id' => $acadserv,
             'finance_staff_id' => $finance,
-            'event_id' => $e->event_id+1,
+            'event_id' => $this->generateEventId(),
             'form_type' => 'APF',
             'target_date' => $request->target_date,
             'deadline' => Carbon::now()->setTimezone('Asia/Manila')->addDays(3),
@@ -174,6 +173,16 @@ class APFController extends Controller
         } while (Form::where("control_number", "=", $control_number)->first());
   
         return $control_number;
+    }
+
+    // Event Code/Id
+    public function generateEventId()
+    {
+        do {
+            $event_id = random_int(100000, 999999);
+        } while (Form::where("event_id", "=", $event_id)->first());
+  
+        return $event_id;
     }
 
 

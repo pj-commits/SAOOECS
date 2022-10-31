@@ -14,9 +14,9 @@ class OrganizationsUsersPivotTable extends Migration
     public function up()
     {
         Schema::create('organization_user', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('organization_id')->constrained()->onDelete('cascade');
+            $table->uuid('id')->primary();
+            $table->foreignUuid('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignUuid('organization_id')->references('id')->on('organizations')->onDelete('cascade');
             $table->string('position')->default('Pending');
             $table->string('role')->default('Pending');
             $table->timestamps();

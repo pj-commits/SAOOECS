@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('liquidations', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('form_id')->constrained()->onDelete('cascade');
+            $table->uuid('id')->primary();
+            $table->foreignUuid('form_id')->references('id')->on('forms')->onDelete('cascade');
             $table->date('end_date');
             $table->decimal('cash_advance', 11, 2);
             $table->decimal('deduct', 11, 2);

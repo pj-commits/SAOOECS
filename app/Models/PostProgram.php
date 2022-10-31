@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
+use App\Traits\Uuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class PostProgram extends Model
 {
     use HasFactory;
-    protected $guarded = [];
+    use Uuid;
+
+    protected $guarded = ['id'];
 
     // BELONGS TO
     public function narrative()

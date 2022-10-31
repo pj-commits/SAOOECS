@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Uuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -9,8 +10,9 @@ use Illuminate\Support\Facades\Auth;
 class Form extends Model
 {
     use HasFactory;
+    use Uuid;
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function proposal()
     {

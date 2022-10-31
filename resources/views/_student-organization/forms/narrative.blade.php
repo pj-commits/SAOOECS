@@ -56,6 +56,7 @@
                                 <option value="{{$event->event_id}}">{{$event->event_title}}</option>
                                 @endforeach
                             </x-select>
+                            @error('event_id')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
 
@@ -64,6 +65,7 @@
                             <x-label for="venue" :value="__('Venue')" />
                             
                             <x-input id="venue" class="mt-1 w-full" type="text" name="venue" required autofocus @keyup="storeInput($el)"/>
+                            @error('venue')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
                     </div>
@@ -73,7 +75,7 @@
                         <x-label for="narration" :value="__('Remarks')" />
 
                         <x-text-area id="narration" name="narration" required @keyup="storeInput($el)"></x-text-area>
-                    
+                        @error('narration')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                     </div>
 
 
@@ -476,6 +478,8 @@
                                 
                                 <x-input x-model="getTotalRating" id="ratings" class="mt-1 w-full" type="number" name="ratings" step=".1" required autofocus @keyup="storeInput($el)"/>
                                 <span x-show="err_ratings" class="flex text-sm text-semantic-danger font-light">*<p x-text="msg_ratings"></p></span>
+                                @error('ratings')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
+
                             </div>
 
                         </div>

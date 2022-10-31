@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('organizations', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('org_name');
             $table->string('adviser');
             $table->timestamps();
