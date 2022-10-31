@@ -1,6 +1,6 @@
 @php
     $formTypes = [ 'APF' => 'Activity Proposal Form', 'BRF' => 'Budget Requisition Form', 'NR' => 'Narrative Report', 'LF' => 'Liquidation Form'];
-    $hasPendingForms = !empty($myForms);   
+    $hasPendingForms = $myForms->isNotEmpty();   
 @endphp
 <x-app-layout>
     @if(Helper::isFormCreated())

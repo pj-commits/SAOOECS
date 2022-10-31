@@ -1,3 +1,7 @@
+@php
+    $isApprover = Helper::isApprover();
+    $isOrgMember = auth()->user()->isOrgMember();    
+@endphp
 <!-- Sidebar Menu -->
 <div :class="{ '!translate-x-0': open }" class="fixed top-0 left-0 z-40 w-64 h-screen overflow-y-auto transition duration-300 ease-in-out transform -translate-x-full bg-secondary-gray shadow-lg sm:w-64 lg:translate-x-0">
     <!-- Sidebar Header -->
@@ -101,7 +105,7 @@
             </x-sidebar-nav-link>
             @endif
 
-            @if(Auth::user()->checkUserType('Professor|Staff')) 
+            @if(Auth::user()->checkUserType('Professor|Staff') && ($isApprover || $isOrgMember)) 
             {{-- Submitted Forms --}}
             <x-sidebar-nav-link :href="route('submitted-forms.index')" active="{{ Helper::checkRoute('submitted-forms') }}" @click="dropdown = false">
                 <x-slot name="icon">
@@ -113,6 +117,7 @@
             </x-sidebar-nav-link>
             @endif
 
+            @if(Auth::user()->checkUserType('Student|Professor|Staff') && ($isApprover || $isOrgMember))
             {{-- Records --}}
             <x-sidebar-nav-link :href="route('records')" :active="request()->routeIs('records')" @click="dropdown = false">
                 <x-slot name="icon">
@@ -122,6 +127,29 @@
                 </x-slot>
                 {{ __('Records') }}
             </x-sidebar-nav-link>
+            @endif
+
+            @if(Helper::isSaoHead() ) 
+            {{-- Aprrovers --}}
+            <x-sidebar-nav-link :href="route('department-heads.index')" active="{{ Helper::checkRoute('department-heads') }}" @click="dropdown = false">
+                <x-slot name="icon">
+                    <x-svg>
+                        <path d="M4 22q-.825 0-1.412-.587Q2 20.825 2 20V9q0-.825.588-1.413Q3.175 7 4 7h5V4q0-.825.588-1.413Q10.175 2 11 2h2q.825 0 1.413.587Q15 3.175 15 4v3h5q.825 0 1.413.587Q22 8.175 22 9v11q0 .825-.587 1.413Q20.825 22 20 22Zm0-2h16V9h-5q0 .825-.587 1.412Q13.825 11 13 11h-2q-.825 0-1.412-.588Q9 9.825 9 9H4v11Zm2-2h6v-.45q0-.425-.238-.788-.237-.362-.662-.562-.5-.225-1.012-.337Q9.575 15.75 9 15.75q-.575 0-1.087.113-.513.112-1.013.337-.425.2-.662.562Q6 17.125 6 17.55Zm8-1.5h4V15h-4ZM9 15q.625 0 1.062-.438.438-.437.438-1.062t-.438-1.062Q9.625 12 9 12t-1.062.438Q7.5 12.875 7.5 13.5t.438 1.062Q8.375 15 9 15Zm5-1.5h4V12h-4ZM11 9h2V4h-2Zm1 5.5Z"/>
+                    </x-svg>
+                </x-slot>
+                {{ __('Department Heads') }}
+            </x-sidebar-nav-link>
+
+            {{-- Applications --}}
+            <x-sidebar-nav-link :href="route('org-application.index')" active="{{ Helper::checkRoute('org-application') }}" @click="dropdown = false">
+                <x-slot name="icon">
+                    <x-svg>
+                        <path d="M12.5 11.95q.725-.8 1.113-1.825Q14 9.1 14 8t-.387-2.125Q13.225 4.85 12.5 4.05q1.5.2 2.5 1.325T16 8q0 1.5-1 2.625t-2.5 1.325ZM18 20v-3q0-.9-.4-1.712-.4-.813-1.05-1.438 1.275.45 2.363 1.162Q20 15.725 20 17v3Zm2-7v-2h-2V9h2V7h2v2h2v2h-2v2ZM8 12q-1.65 0-2.825-1.175Q4 9.65 4 8q0-1.65 1.175-2.825Q6.35 4 8 4q1.65 0 2.825 1.175Q12 6.35 12 8q0 1.65-1.175 2.825Q9.65 12 8 12Zm-8 8v-2.8q0-.85.438-1.563.437-.712 1.162-1.087 1.55-.775 3.15-1.163Q6.35 13 8 13t3.25.387q1.6.388 3.15 1.163.725.375 1.162 1.087Q16 16.35 16 17.2V20Zm8-10q.825 0 1.413-.588Q10 8.825 10 8t-.587-1.412Q8.825 6 8 6q-.825 0-1.412.588Q6 7.175 6 8t.588 1.412Q7.175 10 8 10Zm-6 8h12v-.8q0-.275-.137-.5-.138-.225-.363-.35-1.35-.675-2.725-1.013Q9.4 15 8 15t-2.775.337Q3.85 15.675 2.5 16.35q-.225.125-.362.35-.138.225-.138.5ZM8 8Zm0 10Z"/>
+                    </x-svg>
+                </x-slot>
+                {{ __('Applications') }}
+            </x-sidebar-nav-link>
+            @endif
 
         </div>
 

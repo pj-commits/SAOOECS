@@ -15,9 +15,10 @@ return new class extends Migration
     {
         Schema::create('org_applications', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('staff_id');
-            $table->string('proposed_org_name');
-            $table->string('president_email');
+            $table->unsignedBigInteger('user_id');
+            $table->string('org_name');
+            $table->string('description');
+            $table->string('purpose');
             $table->string('status');
             $table->timestamps();
         });

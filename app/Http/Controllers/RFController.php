@@ -35,6 +35,11 @@ class RFController extends Controller
          // get ID for approvers
         $orgAdviser = OrganizationUser::where('organization_id',$event->organization_id)
          ->where('position', 'Adviser')->pluck('id')->first();
+         
+        //Check first if student organization have an adviser before continuing the process, else return error. 
+        if($orgAdviser === null){
+            return redirect()->back()->with('error', "Your organization must have an 'Adviser'. Please try again later!");
+        }
 
         $sao = Staff::whereHas('staffDepartment', function($q){
                 $q->where('name', '=', 'Student Activities Office');

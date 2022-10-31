@@ -5,17 +5,18 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LFController;
 use App\Http\Controllers\RFController;
 use App\Http\Controllers\APFController;
+use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\NRController;
 use App\Http\Controllers\RecordsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\SubmittedFormsController;
-use App\Http\Controllers\TestController;
 use App\Mail\apfSubmittedEmail;
 use App\Mail\rfSubmittedEmail;
 use App\Mail\nrSubmittedEmail;
 use App\Mail\lfSubmittedEmail;
 use App\Mail\OrgMemAddEmail;
+use App\Http\Controllers\DepartmentHeadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,8 +39,7 @@ require __DIR__.'/auth.php';
 
 
 
-Route::get('test-test', [TestController::class, 'index'])->name('test-test');
-Route::post('test-test-test', [TestController::class, 'store'])->name('test-store');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -116,6 +116,36 @@ Route::group(['middleware' => ['auth']], function(){
 
 
 });
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Departments && Applications Tab
+|--------------------------------------------------------------------------
+*/
+
+Route::group(['middleware' => ['auth', 'isSaoHead']], function(){
+    Route::get('/departments', [DepartmentHeadController::class, 'index'])->name('department-heads.index');
+    Route::get('/departments/{departmentId}/replace/{userId}', [DepartmentHeadController::class, 'edit'])->name('department-heads.edit');
+    Route::put('/departments/{departmentId}/replace/{userId}/update', [DepartmentHeadController::class, 'update'])->name('department-heads.update');
+
+    Route::get('/org-application', [ApplicationController::class, 'index'])->name('org-application.index');
+    Route::get('/org-application/{id}', [ApplicationController::class, 'show'])->name('org-application.show');
+    Route::put('/org-application/{id}/approve', [ApplicationController::class, 'approve'])->name('org-application.approve');
+    Route::put('/org-application/{id}/deny', [ApplicationController::class, 'deny'])->name('org-application.deny');
+    Route::post('/org-application/create', [ApplicationController::class, 'create'])->name('org-application.create');
+});
+
+
+
+
+
+
+
+
+
+
 
 //Below Are Test Route only
 Route::post('/test', function(Request $request){

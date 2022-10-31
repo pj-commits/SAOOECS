@@ -31,8 +31,7 @@ class SubmittedFormsController extends Controller
         *   
         ********************************************************************/
 
-
-
+        if(Helper::userExistsInStaff()){
             $forms = Form::where('status', '=', 'Pending')
             ->where(function ($query) {
                 $user = auth()->user();
@@ -157,14 +156,6 @@ class SubmittedFormsController extends Controller
                 }
             })->paginate();
 
-        // dd($isAdviser, $isSaoHead, $isAcadServHead, $isFinanceHead);// -> Uncomment me later!!!
-       
-    
-
-        // dd($forms );
-
-        
-                    
 
             $pendingForms = [];
             
@@ -178,10 +169,9 @@ class SubmittedFormsController extends Controller
                 ]);
             }
 
-            // dd($pendingForms);
-
-
-        return view('_approvers.submitted-forms', compact('pendingForms'));
+            return view('_approvers.submitted-forms', compact('pendingForms'));
+        }
+        abort(403);
     }
 
     /******************************************************************

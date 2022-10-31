@@ -40,6 +40,11 @@ class APFController extends Controller
         $orgAdviser = OrganizationUser::where('organization_id',$request->org_id)
             ->where('position', 'Adviser')->pluck('id')->first();
 
+        //Check first if student organization have an adviser before continuing the process, else return error. 
+        if($orgAdviser === null){
+            return redirect()->back()->with('error', "Your organization must have an 'Adviser'. Please try again later!");
+        }
+
         $sao = Staff::whereHas('staffDepartment', function($q){
                 $q->where('name', '=', 'Student Activities Office');
             })->where('position', 'Head')->pluck('id')->first();

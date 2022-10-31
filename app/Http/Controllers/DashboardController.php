@@ -22,33 +22,35 @@ class DashboardController extends Controller
         *  For different users
         * 
         **********************************/
+        //checks if user is a professor and have an org or if user is a staff
+        if((Auth::user()->checkUserType('Professor') && Auth::user()->isOrgMember()) || Auth::user()->checkUserType('Staff')){
+            if(Helper::userExistsInStaff()){
+                // Check if the current user is AcadServ or Finance via department_id in Staff table
+                $departmentName = DB::table('departments')->find(auth()->user()->userStaff->first()->department_id, 'name');
 
+                if($departmentName === 'Student Activities Office' || 'Finance Office'){
 
-        if(Auth::user()->checkUserType('Professor|Staff')){
-            // Check if the current user is AcadServ or Finance via department_id in Staff table
-           $departmentName = DB::table('departments')->find(auth()->user()->userStaff->first()->department_id, 'name');
+                        $isAcadservOrFinance = true;
 
-           if($departmentName === 'Student Activities Office' || 'Finance Office'){
+                }
+                $isAcadservOrFinance = false ;
 
-                $isAcadservOrFinance = true;
+                // Getting the forms and destructuring it.
+                $getForms = Form::where('status', 'Pending')->get();
+                $forms = [];
+                foreach($getForms as $form){
+                        array_push($forms, [
+                            'id' => Helper::encrypt($form->id),
+                            'organization' => $form->myOrg->getOrgName->org_name,
+                            'event_title' => $form->event_title,
+                            'form_type' => $form->form_type,
+                            'deadline' => $form->deadline,
+                        ]);
+                }
 
-           }
-           $isAcadservOrFinance = false ;
-
-           // Getting the forms and destructuring it.
-           $getForms = Form::where('status', 'Pending')->get();
-           $forms = [];
-           foreach($getForms as $form){
-                array_push($forms, [
-                    'id' => Helper::encrypt($form->id),
-                    'organization' => $form->myOrg->getOrgName->org_name,
-                    'event_title' => $form->event_title,
-                    'form_type' => $form->form_type,
-                    'deadline' => $form->deadline,
-                ]);
-           }
-
-            return view('_approvers.dashboard', compact('forms', 'isAcadservOrFinance'));
+                    return view('_approvers.dashboard', compact('forms', 'isAcadservOrFinance'));
+            }
+            return view('_users.dashboard');
 
                 
         }elseif(Auth::user()->checkUserType('Student')){
@@ -67,6 +69,7 @@ class DashboardController extends Controller
 
             return view('_student-organization.dashboard', compact('myForms'));
         }
+        return view('_users.dashboard');
     }
        
 
