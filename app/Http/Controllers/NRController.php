@@ -131,33 +131,70 @@ class NRController extends Controller
 
     }
 
+    public function update(NRRequest $request, Form $forms)
+    {
+
+        $nr = $request->safe()->only(['venue', 'remarks', 'ratings' ]);
+
+        $forms->update(array(
+            'event_id' => $request->event_id,
+            'status' => 'Pending'
+        )); 
+
+        // Narrative Update
+        $narrative = $forms->narrative()->update($nr);
+
+           // Narrative Poster UPDATE
+           $imagePath = $request->file('official_poster')->store('uploads/posters', 'public');
+           $narrative->narrativeImage()->update([
+               'url' => $imagePath,
+               'image_type' => 'poster'
+           ]);
+           // Narrative Event Images UPDATE
+           for($i = 0; $i < count($request->file('event_images')); $i++){
+               $imagePath = $request->file('event_images')[$i]->store('uploads/photos', 'public');
+               $narrative->narrativeImage()->update([
+                   'url' => $imagePath,
+                   'image_type' => 'photo'
+               ]);
+           }
    
-    public function show($id)
-    {
-        //
-    }
+           // Participants UPDATE
+           for($i = 0; $i < count($request->first_name); $i++){
+               $narrative->participant()->update([
+                       'first_name' => $request->first_name[$i],
+                       'last_name' => $request->last_name[$i],
+                       'section' => $request->section[$i],
+                       'participated_date' => $request->participated_date[$i],
+               ]);
+           }
+   
+           // Post Programs UPDATE
+           for($i = 0; $i < count($request->activity); $i++){
+               $narrative->postProgram()->update([
+                       'activity' => $request->activity[$i],
+                       'start_date' => $request->start_date[$i],
+                       'end_date' => $request->end_date[$i],
+               ]);
+           }
+   
+           // Comment Suggestions UPDATE
+           for($i = 0; $i < count($request->comments); $i++){
+               $narrative->commentSuggestion()->update([
+                      'message' => $request->comments[$i],
+                      'type' => 'comment'
+               ]);
+           }
+   
+           // Comment Suggestions UPDATE
+           for($i = 0; $i < count($request->suggestions); $i++){
+               $narrative->commentSuggestion()->update([
+                      'message' => $request->suggestions[$i],
+                      'type' => 'suggestion'
+               ]);
+           }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        return back()->with('add', 'Updated successfully!');
     }
 
     /**

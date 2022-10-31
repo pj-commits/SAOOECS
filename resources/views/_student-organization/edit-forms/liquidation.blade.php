@@ -14,21 +14,26 @@
             <hr class="mt-3">
 
             <!-- Form Deinied - Message -->
-            <x-edit-form-message message="Liquidation Form"/>
+            <x-edit-form-message message="{{$forms->remarks}}" approver=""/>
 
             <div class="bg-white mt-4 h-auto w-full rounded-sm shadow-sm px-6 py-4">
-                <form action="{{ route('test') }}" method="POST">
+                <form action="{{ route('forms.liquidation.update', ['forms' => $forms->id]) }}" method="POST"  enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
+
 
                      {{-- Row #1 --}}                 
                      <div class="grid grid-flow-row auto-rows-max gap-6 md:grid-cols-3">
 
                         {{-- Event Title --}}
-                        <div>
-                            <x-label for="event_title" :value="__('Event Title')" />
+                        <div class="col-span-2">
+                            <x-label for="event_id" :value="__('Event Title')" />
 
-                            <x-select class="mt-1" id="event_title" name="event_title" aria-label="Default select example">
+                            <x-select class="mt-1" id="event_id" name="event_id" aria-label="Default select example" @change="storeInput($el)">
                                 <option value='' selected disabled>--select option--</option>
+                                @foreach($eventList as $event)
+                                <option {{ $forms->event_id == $event->event_id ? 'selected' : '' }} value="{{$event->event_id}}">{{$event->event_title}}</option>
+                                @endforeach
                             </x-select>
                         </div>
 
@@ -36,34 +41,44 @@
                         <div>
                             <x-label for="end_date" :value="__('End Date')" />
                             
-                            <x-input id="end_date" class="mt-1 w-full" type="date" name="end_date" required autofocus/>
+                            <x-input id="end_date" class="mt-1 w-full" type="date" name="end_date" value="{{$liquidation->end_date}}" required autofocus @change="storeInput($el)"/>
                         </div>
 
-                        {{-- Cash Advance --}}
-                        <div>
-                            <x-label for="cash_advance" :value="__('Cash Advance (₱)')" />
+                        {{-- CV Number --}}
+                        {{-- <div>
+                            <x-label for="cv_number" :value="__('CV Number')" />
 
-                            <x-input id="cash_advance" class="mt-1 w-full" type="number" min="1" name="cash_advance" required autofocus/>
-                        </div>
+                            <x-input id="cv_number" class="mt-1 w-full" type="text" name="cv_number" required autofocus @keyup="storeInput($el)"/>
+                        </div> --}}
+
 
                     </div>
 
 
                      {{-- Row #2 --}}                 
-                     <div class="grid grid-flow-row auto-rows-max gap-6 md:grid-cols-3 mt-4">
+                     <div x-data="liquidationTotal()" x-init="onLoad" class="grid grid-flow-row auto-rows-max gap-6 md:grid-cols-3 mt-4">
 
-                        {{-- CV Number --}}
+
+                        {{-- Cash Advance --}}
                         <div>
-                            <x-label for="cv_number" :value="__('CV Number')" />
+                            <x-label for="cash_advance" :value="__('Cash Advance (₱)')" />
 
-                            <x-input id="cv_number" class="mt-1 w-full" type="text" name="cv_number" required autofocus/>
+                            <x-input id="cash_advance" class="mt-1 w-full" type="number" min="1" name="cash_advance" x-ref="cashAdvance" value="{{$liquidation->cash_advance}}" required autofocus @keyup="storeInput($el), setData($el)"/>
                         </div>
 
                         {{-- Deduct --}}
                         <div>
                             <x-label for="deduct" :value="__('Deduct (₱)')" />
 
-                            <x-input id="deduct" class="mt-1 w-full" type="number" min="1" name="deduct" required autofocus/>
+                            <x-input id="deduct" class="mt-1 w-full" type="number" min="1" name="deduct" x-ref="deduct" value="{{$liquidation->deduct}}" required autofocus @keyup="storeInput($el), setData($el)"/>
+                        </div>
+
+                        
+                        {{-- Total --}}
+                        <div>
+                            <x-label for="total" :value="__('Total (Cash Advance - Deduct)')" />
+
+                            <x-input id="liquidation_total" class="mt-1 w-full" type="number" min="1" name="liquidationTotal" value="0" x-ref="liquidationTotal" autofocus readonly />
                         </div>
 
                     </div>
@@ -144,7 +159,7 @@
                                         {{-- Empty Space --}}
                                     </x-table.footer-col>
                                     <x-table.footer-col  class="text-right">
-                                        <p>Total:</p>
+                                        <p class="font-bold">Total:</p>
                                     </x-table.footer-col>
                                     <x-table.footer-col class="pl-4">
                                         <span class="flex">₱ <p x-text="getTotal()"></p></span>
@@ -186,7 +201,7 @@
                                 <x-table.head-col class="">Proof of Payment</x-table.head-col>
                                 <x-table.head-col class="text-center">
                                     <x-button @click="addNewRow">
-                                        <x-svg class="mr-0">
+                                        <x-svg marginRight="mr-0">
                                             <path d="M11 17h2v-4h4v-2h-4V7h-2v4H7v2h4Zm-6 4q-.825 0-1.413-.587Q3 19.825 3 19V5q0-.825.587-1.413Q4.175 3 5 3h14q.825 0 1.413.587Q21 4.175 21 5v14q0 .825-.587 1.413Q19.825 21 19 21Zm0-2h14V5H5v14ZM5 5v14V5Z"/>
                                         </x-svg>
                                     </x-button>
@@ -205,7 +220,7 @@
                                             <x-input x-model="row.itemTo"  id="itemTo" class="mt-1 w-full" type="number" min="1" name="itemTo[]"  required autofocus />
                                         </x-table.body-col>
                                         <x-table.body-col>
-                                                <input x-model="row.image" class="form-control
+                                                <input x-model="row.image" type="file" class="form-control 
                                                 block
                                                 w-full
                                                 px-3

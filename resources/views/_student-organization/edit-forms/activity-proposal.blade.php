@@ -15,20 +15,20 @@
             <hr class="mt-3">
             
             <!-- Form Deinied - Message -->
-            <x-edit-form-message message="Activity Proposal Form"/>
-            {{$forms}}
+            <x-edit-form-message message="{{$forms->remarks}}" approver=""/>
 
             <div class="bg-white mt-4 h-auto w-full rounded-sm shadow-sm px-6 py-4">
-                <form action="{{ route('forms.activity-proposal.store') }}" method="POST">
+                <form action="{{ route('forms.activity-proposal.update', ['forms' => $forms->id]) }}" method="POST">
                     @csrf
+                    @method('PUT')
                     {{-- Row #1 --}}
                     <div class="grid grid-flow-row auto-rows-max gap-6 md:grid-cols-3">
 
                         {{-- Target date of event --}}
                         <div>
-                            <x-label for="target_date" :value="__('Target Date of Event')" />
+                            <x-label for="target_date" :value="__('Target Date of Event')"/>
 
-                            <x-input id="target_date" class="mt-1 w-full" type="date" name="target_date" required autofocus @change="storeInput($el)" />
+                            <x-input id="target_date" class="mt-1 w-full" type="date" name="target_date" value="{{$forms->target_date}}"  required autofocus @change="storeInput($el)" />
                         </div>
 
                         
@@ -38,13 +38,13 @@
                             
                             <div class="flex space-x-4">
                                 {{-- Number of Days --}}
-                                <x-input id="duration_val" class="mt-1 w-full" type="number" min="1" name="duration_val" required autofocus @keyup="storeInput($el)" />
+                                <x-input id="duration_val" class="mt-1 w-full" type="number" min="1" name="duration_val"  value="{{$proposal->duration_val}}"  required autofocus @keyup="storeInput($el)" />
 
                                 {{-- Duration unit --}}
                                 <x-select class="mt-1" id="duration_unit" name="duration_unit" aria-label="Default select example" @change="storeInput($el)">
-                                    <option value="day(s)" selected >Day(s)</option>
-                                    <option value="weeks(s)">Weeks(s)</option>
-                                    <option value="motnhs(s)">Month(s)</option>
+                                    <option {{ $proposal->duration_unit == "day(s)" ? 'selected' : '' }} value="day(s)" >Day(s)</option>
+                                    <option {{ $proposal->duration_unit == "weeks(s)" ? 'selected' : '' }}  value="weeks(s)">Weeks(s)</option>
+                                    <option {{ $proposal->duration_unit == "months(s)" ? 'selected' : '' }} value="months(s)">Month(s)</option>
                                 </x-select>
                             </div>
 
@@ -54,7 +54,7 @@
                         <div>
                             <x-label for="venue" :value="__('Venue')" />
                             
-                            <x-input id="venue" class="mt-1 w-full" type="text" name="venue" required autofocus @keyup="storeInput($el)"/>
+                            <x-input id="venue" class="mt-1 w-full" type="text" name="venue" value="{{$proposal->venue}}" required autofocus @keyup="storeInput($el)"/>
                         </div>
 
                     </div>
@@ -67,7 +67,7 @@
                         <div>
                             <x-label for="event_title" :value="__('Event Title')" />
 
-                            <x-input id="event_title" class="mt-1 w-full" type="text" name="event_title" required autofocus @keyup="storeInput($el)" />
+                            <x-input id="event_title" class="mt-1 w-full" type="text" name="event_title" value="{{$forms->event_title}}"  required autofocus @keyup="storeInput($el)" />
                         </div>
 
                         {{-- Name of organization --}}
@@ -76,7 +76,7 @@
                             <x-select class="mt-1" id="org_id" name="org_id" aria-label="Default select example" required @change="storeInput($el)">
                                 <option value='' disabled selected>--select option--</option>
                                 @foreach($authOrgList as $org)
-                                <option value="{{$org->id}}">{{$org->org_name}}</option>
+                                <option {{ $forms->organization_id == $org->id ? 'selected' : '' }} value="{{$org->id}}">{{$org->org_name}}</option>
                                 @endforeach
                             </x-select>
                         </div>
@@ -85,7 +85,7 @@
                         <div>
                             <x-label for="organizer_name" :value="__('Name of Organizer')" />
                             
-                            <x-input id="organizer_name" class="mt-1 w-full" type="text" name="organizer_name" required autofocus @keyup="storeInput($el)"/>
+                            <x-input id="organizer_name" class="mt-1 w-full" type="text" name="organizer_name"  value="{{$proposal->organizer_name}}"  required autofocus @keyup="storeInput($el)"/>
                         </div>
 
                     </div>
@@ -98,12 +98,12 @@
                             <x-label for="act_classification" :value="__('Activity Classification')" />
 
                             <x-select class="mt-1" id="act_classification" name="act_classification" aria-label="Default select example" @change="storeInput($el)">
-                                <option value='' disabled selected>--select option--</option>
-                                <option value="t1">CSR/Community Service</option>
-                                <option value="t2">Games/Competition</option>
-                                <option value="t3">Marketing</option>
-                                <option value="t4">Social Event/Party/Celebration</option>
-                                <option value="t5">Workshop/Seminar/Training/Symposium/Forum/Team Building</option>
+                                <option value='' disabled>--select option--</option>
+                                <option {{ $proposal->act_classification == "t1" ? 'selected' : '' }} value="t1">CSR/Community Service</option>
+                                <option {{ $proposal->act_classification == "t2" ? 'selected' : '' }} value="t2">Games/Competition</option>
+                                <option {{ $proposal->act_classification == "t3" ? 'selected' : '' }} value="t3">Marketing</option>
+                                <option {{ $proposal->act_classification == "t4" ? 'selected' : '' }} value="t4">Social Event/Party/Celebration</option>
+                                <option {{ $proposal->act_classification == "t5" ? 'selected' : '' }} value="t5">Workshop/Seminar/Training/Symposium/Forum/Team Building</option>
                             </x-select>
                         </div>
 
@@ -112,9 +112,9 @@
                             <x-label for="act_location" :value="__('Activity Location')" />
 
                             <x-select class="mt-1" id="act_location" name="act_location" aria-label="Default select example" @change="storeInput($el)">
-                                <option value='' disabled selected>--select option--</option>
-                                <option value="In-Campus">In-Campus</option>
-                                <option value="Off-Campus">Off-Campus</option>
+                                <option value='' disabled>--select option--</option>
+                                <option {{ $proposal->act_location == "In-Campus" ? 'selected' : '' }}  value="In-Campus">In-Campus</option>
+                                <option {{ $proposal->act_location == "Off-Campus" ? 'selected' : '' }}  value="Off-Campus">Off-Campus</option>
                             </x-select>
                         </div>
 
@@ -261,7 +261,7 @@
                     <div class="mt-2">
                         <x-label for="description" :value="__('Description')" />
 
-                        <x-text-area id="description" name="description" @keyup="storeInput($el)"></x-text-area>
+                        <x-text-area id="description" name="description" @keyup="storeInput($el)" value="{{$proposal->description}}"></x-text-area>
                         
                     </div>
 
@@ -269,7 +269,7 @@
                     <div class="mt-2">
                         <x-label for="rationale" :value="__('Rationale')" />
 
-                        <x-text-area id="rationale" name="rationale" @keyup="storeInput($el)"></x-text-area>
+                        <x-text-area id="rationale" name="rationale" @keyup="storeInput($el)" value="{{$proposal->rationale}}"></x-text-area>
                         
                     </div>
 
@@ -277,7 +277,7 @@
                     <div class="mt-2">
                         <x-label for="outcome" :value="__('Outcome')" />
 
-                        <x-text-area id="outcome" name="outcome"  @keyup="storeInput($el)"></x-text-area>
+                        <x-text-area id="outcome" name="outcome"  @keyup="storeInput($el)" value="{{$proposal->outcome}}"></x-text-area>
                         <span class="text-xs text-bland-400 font-light italic">*If it is classified as a Workshop/Training/Seminar/Symposium/Forum/Team Building, Learning outcomes or objective should be written here</span>
                     
 
@@ -288,7 +288,7 @@
                         <div>
                             <x-label for="primary_audience" :value="__('Primary Target Participants/Audience')" />
 
-                            <x-input id="primary_audience" class="mt-1 w-full" type="text" name="primary_audience" required autofocus @keyup="storeInput($el)"/>
+                            <x-input id="primary_audience" class="mt-1 w-full" type="text" name="primary_audience" value="{{$proposal->primary_audience}}" required autofocus @keyup="storeInput($el)"/>
                         </div>
 
 
@@ -296,7 +296,7 @@
                         <div >
                             <x-label for="num_primary_audience" :value="__('Number of Primary Participants/Audience')" />
                             
-                            <x-input id="num_primary_audience" class="mt-1 w-full" type="number" min="0" name="num_primary_audience" required autofocus @keyup="storeInput($el)"/>
+                            <x-input id="num_primary_audience" class="mt-1 w-full" type="number" min="0" name="num_primary_audience" value="{{$proposal->num_primary_audience}}" required autofocus @keyup="storeInput($el)"/>
                         </div>
 
                     </div>
@@ -308,7 +308,7 @@
                         <div>
                             <x-label for="secondary_audience" :value="__('Secondary Target Participants/Audience')" />
 
-                            <x-input id="secondary_audience" class="mt-1 w-full" type="text" name="secondary_audience" required autofocus @keyup="storeInput($el)"/>
+                            <x-input id="secondary_audience" class="mt-1 w-full" type="text" name="secondary_audience" value="{{$proposal->secondary_audience}}" required autofocus @keyup="storeInput($el)"/>
                         </div>
 
 
@@ -316,7 +316,7 @@
                         <div>
                             <x-label for="num_secondary_audience" :value="__('Number of Secondary Participants/Audience')" />
                             
-                            <x-input id="num_secondary_audience" class="mt-1 w-full" type="number" min="0" name="num_secondary_audience" required autofocus @keyup="storeInput($el)"/>
+                            <x-input id="num_secondary_audience" class="mt-1 w-full" type="number" min="0" name="num_secondary_audience" value="{{$proposal->num_secondary_audience}}" required autofocus @keyup="storeInput($el)"/>
                         </div>
 
                     </div>

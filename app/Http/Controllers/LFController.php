@@ -95,32 +95,40 @@ class LFController extends Controller
        
     }
 
-    public function show($id)
+    public function update(LFRequest $request, Form $forms)
     {
-        //
-    }
+        $lf = $request->safe()->only(['end_date','cash_advance','deduct']);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+        $forms->update(array(
+            'event_id' => $request->event_id,
+            'status' => 'Pending'
+        )); 
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        // Liquidation Create
+        $liquidation = $forms->requisition()->update($lf);
+
+       // Proof of Payments update
+       for($i = 0; $i < count($request->itemFrom); $i++){
+        //store image in storage before inserting to databse.
+        $imagePath = $request->image[$i]->store('uploads/receipts', 'public');
+        
+        $liquidation->proofOfPayment()-update([
+            'item_from' => $request->itemFrom[$i],
+            'item_to' => $request->itemTo[$i],
+            'image' => $imagePath,
+            ]);
+        }
+
+        // Liquidation Items update
+        for($i = 0; $i < count($request->item_number); $i++){
+            $liquidation->liquidationItem()->update([
+                    'item_number' => $request->item_number[$i],
+                    'date_bought' => $request->date_bought[$i],
+                    'item' => $request->item[$i],
+                    'price' => $request->price[$i],
+                ]);
+        }
+        return back()->with('add', 'Updated successfully!');
     }
 
     /**

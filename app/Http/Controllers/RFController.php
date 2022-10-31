@@ -83,27 +83,31 @@ class RFController extends Controller
         return redirect('dashboard')->with('add-rf', 'Budget Requisition Form was successfully created!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+   
+    public function update(RFRequest $request, Form $forms)
     {
-        //
-    }
+        $rf = $request->safe()->except(['event_id','quantity','purpose','price']);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        $forms->update(array(
+            'event_id' => $request->event_id,
+            'status' => 'Pending'
+        )); 
+
+        // Requisition update
+        $requisition = $forms->requisition()->update($rf);
+
+        // Req_Items update
+        for($i = 0; $i < count($request->quantity); $i++){
+            $requisition->reqItems()->update([
+                    'quantity' => $request->quantity[$i],
+                    'purposes' => $request->purpose[$i],
+                    'price' => $request->price[$i],
+                ]);
+        }
+
+        return back()->with('add', 'Updated successfully!');
+
+        
     }
 
     /**
