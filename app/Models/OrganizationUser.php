@@ -2,13 +2,19 @@
 
 namespace App\Models;
 
+use App\Traits\Uuid;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class OrganizationUser extends Pivot
 {
+    use HasFactory;
+    use Uuid;
+
+    protected $guarded = ['id'];
+    
     //Pivot table organization_user
     protected $table = 'organization_user';
-    protected $guarded = [];
+    
 
     // BELONGS TO
     public function fromUser(){

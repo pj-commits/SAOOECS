@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('requisition_items', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('requisition_id')->constrained()->onDelete('cascade');
+            $table->uuid('id')->primary();
+            $table->foreignUuid('requisition_id')->references('id')->on('requisitions')->onDelete('cascade');
             $table->unsignedInteger('quantity');
             $table->string('purposes');
             $table->decimal('price',11,2);

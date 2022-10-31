@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Staff;
+use App\Models\Department;
+use App\Models\Organization;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
@@ -304,9 +307,29 @@ class UserSeeder extends Seeder
 
         ];
 
+
+       
         foreach($users as $i){
+            // User::create($i);
             User::create($i);
+           
         }
+
+        $codeSeekers    = User::where('email', 'codeseekers@apc.edu.ph')->pluck('id');
+        $adviser        = User::where('email', 'adviser@apc.edu.ph')->pluck('id');
+        $codeSeekers    = User::where('email', 'codeseekers@apc.edu.ph')->pluck('id');
+        $codeSeekers    = User::where('email', 'codeseekers@apc.edu.ph')->pluck('id');
+        $codeSeekers    = User::where('email', 'codeseekers@apc.edu.ph')->pluck('id');
+
+        dd($userId, $userId->get(0), $userId->get(1));
+      
+        
+
+        
+
+       
+
+       
     }
     
 }

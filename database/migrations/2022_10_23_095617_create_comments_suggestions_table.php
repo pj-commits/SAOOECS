@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('comments_suggestions', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('narrative_id')->constrained()->onDelete('cascade');
+            $table->uuid('id')->primary();
+            $table->foreignUuid('narrative_id')->references('id')->on('narratives')->onDelete('cascade');
             $table->string('message');
             $table->string('type');
             $table->timestamps();

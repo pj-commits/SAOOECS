@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('post_programs', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('narrative_id')->constrained()->onDelete('cascade');
+            $table->uuid('id')->primary();
+            $table->foreignUuid('narrative_id')->references('id')->on('narratives')->onDelete('cascade');
             $table->string('activity');
             $table->date('start_date');
             $table->date('end_date');

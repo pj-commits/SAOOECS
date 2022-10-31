@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('narratives', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('form_id')->constrained()->onDelete('cascade');
+            $table->uuid('id')->primary();
+            $table->foreignUuid('form_id')->references('id')->on('forms')->onDelete('cascade');
             $table->string('venue'); 
             $table->string('narration'); 
             $table->decimal('ratings', 2, 1);

@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('proposals', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('form_id')->constrained()->onDelete('cascade');
+            $table->uuid('id')->primary();
+            $table->foreignUuid('form_id')->references('id')->on('forms')->onDelete('cascade');
             $table->integer('duration_val');
             $table->string('duration_unit');
             $table->string('venue');

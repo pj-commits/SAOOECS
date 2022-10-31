@@ -28,7 +28,8 @@ class RecordsController extends Controller
             (Auth::user()->checkUserType('Student') && Auth::user()->isOrgMember()) ||
             Auth::user()->checkUserType('Staff')){
 
-            $approvedAndCancelled = Form::where('status', '=', 'Pending')
+            $approvedAndCancelled = Form::where('status', '=', 'Approved')
+                ->orWhere('status', '=', 'Cancelled')
                 ->where(function ($query) {
                     $user = auth()->user();
                     // LIST: id of curr user belongs to
@@ -150,11 +151,10 @@ class RecordsController extends Controller
 
                         $getAuthOrgIdList = $user->studentOrg->pluck('id');
                         $query->whereIn('organization_id', $getAuthOrgIdList); 
-                        $query->orWhere('status', '=', 'Cancelled');
 
                     }
                     
-                })->orWhere('status', '=', 'Approved')->paginate(10);
+                })->paginate(10);
                     
 
                     $records = [];

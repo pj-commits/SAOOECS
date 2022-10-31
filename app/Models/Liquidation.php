@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
+use App\Traits\Uuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Liquidation extends Model
 {
     use HasFactory;
+    use Uuid;
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     // BELONGS TO
     public function form()

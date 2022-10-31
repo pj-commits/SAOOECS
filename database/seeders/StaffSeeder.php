@@ -63,5 +63,6 @@ class StaffSeeder extends Seeder
         foreach($staffs as $i){
             Staff::create($i);
         }
+        
     }
 }

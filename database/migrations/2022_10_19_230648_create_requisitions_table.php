@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('requisitions', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('form_id')->constrained()->onDelete('cascade');
+            $table->uuid('id')->primary();
+            $table->foreignUuid('form_id')->references('id')->on('forms')->onDelete('cascade');
             $table->foreignId('department_id');
             $table->date('date_filed');
             $table->date('date_needed');
