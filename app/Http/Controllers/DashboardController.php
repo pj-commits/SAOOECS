@@ -183,7 +183,7 @@ class DashboardController extends Controller
                 $forms = [];
                 foreach($getForms as $form){
                         array_push($forms, [
-                            'id' => Helper::encrypt($form->id),
+                            'id' => $form->id,
                             'organization' => $form->myOrg->getOrgName->org_name,
                             'event_title' => $form->event_title,
                             'form_type' => $form->form_type,

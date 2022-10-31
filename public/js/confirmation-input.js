@@ -16,8 +16,7 @@ function inputChecker(){
         },
 
         setId(id){
-            let newId = id * 1;
-            this.id = newId;
+            this.id = id;
         },
 
         getEventTitle(){
