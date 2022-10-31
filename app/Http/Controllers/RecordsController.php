@@ -50,7 +50,7 @@ class RecordsController extends Controller
                         $isFinanceHead = $department->name === 'Finance Office'  && $isHead;
         
                         if($isAdviser === true && $isSaoHead === false && $isAcadServHead === false && $isFinanceHead === false){
-                            $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
+                            $query->whereIn('organization_user_adviser_id', $getAuthOrgUserIdList );
                             $query->whereIn('organization_id', $getAuthOrgIdList);
                             $query->where('adviser_is_approve', 1);         
                             
@@ -78,7 +78,7 @@ class RecordsController extends Controller
                                     $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id');
         
                                     if($isAdviser){
-                                        $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
+                                        $query->whereIn('organization_user_adviser_id', $getAuthOrgUserIdList );
                                         $query->whereIn('organization_id', $getAuthOrgIdList);
                                         $query->where('adviser_is_approve', 1);          
                                     }   
@@ -107,7 +107,7 @@ class RecordsController extends Controller
                                     $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id');
         
                                     if($isAdviser){
-                                        $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
+                                        $query->whereIn('organization_user_adviser_id', $getAuthOrgUserIdList );
                                         $query->whereIn('organization_id', $getAuthOrgIdList);
                                         $query->where('adviser_is_approve', 1);            
                                     }   
@@ -136,7 +136,7 @@ class RecordsController extends Controller
                                     $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id');
         
                                     if($isAdviser){
-                                        $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
+                                        $query->whereIn('organization_user_adviser_id', $getAuthOrgUserIdList );
                                         $query->whereIn('organization_id', $getAuthOrgIdList);
                                         $query->where('adviser_is_approve', 1);        
                                     }   

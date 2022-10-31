@@ -1,0 +1,90 @@
+# Query: adviser_staff_id
+# ContextLines: 1
+
+20 results - 9 files
+
+app\Http\Controllers\APFController.php:
+  65              'control_number'=> $this->generateUniqueCode(),
+  66:             'organization_user_adviser_id' => $orgAdviser,
+  67              'sao_staff_id' => $sao,
+
+app\Http\Controllers\DashboardController.php:
+   72                          //    dd('test')    ;
+   73:                             $query->whereIn('organization_user_adviser_id', $getAuthOrgUserIdList );
+   74                              $query->whereIn('organization_id', $getAuthOrgIdList);
+
+  104                                  if($isAdviser){
+  105:                                         $query->whereIn('organization_user_adviser_id', $getAuthOrgUserIdList );
+  106                                          $query->whereIn('organization_id', $getAuthOrgIdList);
+
+  136                                  if($isAdviser){
+  137:                                         $query->whereIn('organization_user_adviser_id', $getAuthOrgUserIdList );
+  138                                          $query->whereIn('organization_id', $getAuthOrgIdList);
+
+  168                                  if($isAdviser){
+  169:                                         $query->whereIn('organization_user_adviser_id', $getAuthOrgUserIdList );
+  170                                          $query->whereIn('organization_id', $getAuthOrgIdList);
+
+app\Http\Controllers\LFController.php:
+  58              'control_number'=> $this->generateUniqueCode(),
+  59:             'organization_user_adviser_id' => $orgAdviser,
+  60              'sao_staff_id' => $sao,
+
+app\Http\Controllers\NRController.php:
+  63              'control_number'=> $this->generateUniqueCode(),
+  64:             'organization_user_adviser_id' => $orgAdviser,
+  65              'sao_staff_id' => $sao,
+
+app\Http\Controllers\RecordsController.php:
+   52                          if($isAdviser === true && $isSaoHead === false && $isAcadServHead === false && $isFinanceHead === false){
+   53:                             $query->whereIn('organization_user_adviser_id', $getAuthOrgUserIdList );
+   54                              $query->whereIn('organization_id', $getAuthOrgIdList);
+
+   80                                      if($isAdviser){
+   81:                                         $query->whereIn('organization_user_adviser_id', $getAuthOrgUserIdList );
+   82                                          $query->whereIn('organization_id', $getAuthOrgIdList);
+
+  109                                      if($isAdviser){
+  110:                                         $query->whereIn('organization_user_adviser_id', $getAuthOrgUserIdList );
+  111                                          $query->whereIn('organization_id', $getAuthOrgIdList);
+
+  138                                      if($isAdviser){
+  139:                                         $query->whereIn('organization_user_adviser_id', $getAuthOrgUserIdList );
+  140                                          $query->whereIn('organization_id', $getAuthOrgIdList);
+
+app\Http\Controllers\RFController.php:
+  62              'control_number'=> $this->generateUniqueCode(),
+  63:             'organization_user_adviser_id' => $orgAdviser,
+  64              'sao_staff_id' => $sao,
+
+app\Http\Controllers\SubmittedFormsController.php:
+   55                      //  are you an adviser of an org?
+   56:                     //  form curr organization_user_adviser_id == your orgUser Id ?
+   57                      //  form is part of curr user's org ? 
+
+   65                      //    dd('test');
+   66:                         $query->whereIn('organization_user_adviser_id', $getAuthOrgUserIdList );
+   67                          $query->whereIn('organization_id', $getAuthOrgIdList);
+
+   96                              if($isAdviser){
+   97:                                     $query->whereIn('organization_user_adviser_id', $getAuthOrgUserIdList );
+   98                                      $query->whereIn('organization_id', $getAuthOrgIdList);
+
+  127                              if($isAdviser){
+  128:                                     $query->whereIn('organization_user_adviser_id', $getAuthOrgUserIdList );
+  129                                      $query->whereIn('organization_id', $getAuthOrgIdList);
+
+  158                              if($isAdviser){
+  159:                                     $query->whereIn('organization_user_adviser_id', $getAuthOrgUserIdList );
+  160                                      $query->whereIn('organization_id', $getAuthOrgIdList);
+
+database\migrations\2022_09_25_044655_create_forms_table.php:
+  33              //Adviser
+  34:             $table->foreignUuid('organization_user_adviser_id')->references('id')->on('organization_user')->nullable();
+  35:             // $table->foreignId('organization_user_adviser_id')->nullable();
+  36              $table->boolean('adviser_is_approve')->default(0);
+
+database\seeders\FormSeeder.php:
+  45                  "control_number" => 284108,
+  46:                 "organization_user_adviser_id" => 5,
+  47                  "sao_staff_id" => 2,

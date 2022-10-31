@@ -63,7 +63,7 @@ class APFController extends Controller
             'organization_id' => $request->org_id,
             'prep_by' => Auth::user()->id,
             'control_number'=> $this->generateUniqueCode(),
-            'adviser_staff_id' => $orgAdviser,
+            'organization_user_adviser_id' => $orgAdviser,
             'sao_staff_id' => $sao,
             'acadserv_staff_id' => $acadserv,
             'finance_staff_id' => $finance,

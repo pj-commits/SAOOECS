@@ -7,6 +7,7 @@ use App\Models\Staff;
 use App\Models\Department;
 use App\Models\Organization;
 use Illuminate\Database\Seeder;
+use App\Models\OrganizationUser;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -32,6 +33,13 @@ class UserSeeder extends Seeder
             |
             |========================================        
         */
+
+/*
+|--------------------------------------------------------------------------
+| USER
+|--------------------------------------------------------------------------
+*/
+        $this->command->info('Generating USERS data...');
  
         $users = [
             //1 - Sao Head
@@ -307,25 +315,389 @@ class UserSeeder extends Seeder
 
         ];
 
-
        
         foreach($users as $i){
             // User::create($i);
             User::create($i);
            
         }
+        // User ID getter = $user1, $user2...
+        $userEmail = array(
+            'sao@apc.edu.ph',
+            'finance@apc.edu.ph',
+            'acadserv@apc.edu.ph',
+            'adviser@apc.edu.ph',
+            'mmmanadero@student.apc.edu.ph',
+            'pdsigno@student.apc.edu.ph',
+            'mericahuerta@student.apc.edu.ph',
+            'lmbinotapa@student.apc.edu.ph',
+            'tcyumul@student.apc.edu.ph',
+            'msbounde@apc.edu.ph',
+            'ekpieche@student.apc.edu.ph',
+            'jsbaden@student.apc.edu.ph',
+            'mlkittman@student.apc.edu.ph',
+            'ckfellgatt@student.apc.edu.ph',
+            'syvynall@student.apc.edu.ph',
+            'ggbranthwaite@student.apc.edu.ph',
+            'ddenser@student.apc.edu.ph',
+            'gacheyenne@student.apc.edu.ph',
+            'gomarrion@student.apc.edu.ph',
+            'mfboobyer@student.apc.edu.ph',
+            'ogfaircliff@student.apc.edu.ph',
+            'hdnyland@student.apc.edu.ph',
+            'jcgibby@student.apc.edu.ph',
+            'csjessop@student.apc.edu.ph',
+            'wlcragoe@student.apc.edu.ph',
+            'codeseekers@apc.edu.ph',
+            'cbpili@student.apc.edu.ph',
+        );
+        for($i=0;$i<count($userEmail);$i++){
+           ${'user'.$i+1} = User::where('email', $userEmail[$i])->pluck('id')->first();
+        }
 
-        $codeSeekers    = User::where('email', 'codeseekers@apc.edu.ph')->pluck('id');
-        $adviser        = User::where('email', 'adviser@apc.edu.ph')->pluck('id');
-        $codeSeekers    = User::where('email', 'codeseekers@apc.edu.ph')->pluck('id');
-        $codeSeekers    = User::where('email', 'codeseekers@apc.edu.ph')->pluck('id');
-        $codeSeekers    = User::where('email', 'codeseekers@apc.edu.ph')->pluck('id');
+        $this->command->info('USERS generated.');
 
-        dd($userId, $userId->get(0), $userId->get(1));
-      
-        
 
-        
+/*
+|--------------------------------------------------------------------------
+| DEPARTMENT
+|--------------------------------------------------------------------------
+*/  
+
+        $this->command->info('Generating DEPARTMENTS data...');
+
+        $departments = [
+            //1
+            [
+                'name' => 'Student Activities Office',
+            ], 
+            //2
+            [
+                'name' => 'Finance Office',
+            ],
+            //3
+            [
+                'name' => 'Academic Services',
+            ],
+            //4
+            [
+                'name' => 'School of Computing and Information Technology',
+            ],
+            //5
+            [
+                'name' => 'School of Multimedia and Arts',
+            ],
+            //6
+            [
+                'name' => 'School of Management',
+            ],
+            //7
+            [
+                'name' => 'School of Engineering',
+            ],
+        ];
+
+        foreach($departments as $i){
+            Department::create($i);
+        }
+
+        // Department ID getter = $dept1, $dept2...
+        $deptName = array(
+            'Student Activities Office',
+            'Finance Office',
+            'Academic Services',
+            'School of Computing and Information Technology',
+            'School of Multimedia and Arts',
+            'School of Management',
+            'School of Engineering',
+
+        );
+        for($i=0;$i<count($deptName);$i++){
+           ${'dept'.$i+1} = Department::where('name', $deptName[$i])->pluck('id')->first();
+        }
+
+        $this->command->info('DEPARTMENTS generated.');
+
+
+/*
+|--------------------------------------------------------------------------
+| ORGANIZATION
+|--------------------------------------------------------------------------
+*/
+        $this->command->info('Generating ORGANIZATIONS data...');
+
+        $organizations = [
+            [
+                'org_name' => 'Brewing Minds',
+                'adviser' => 'Sample Adviser'
+            ],
+            [
+                'org_name' => 'Gaming Genesis',
+                'adviser' => 'Sample Sao'
+            ],
+            [
+                'org_name' => 'APC Robotics Organization',
+                'adviser' => 'Morganica Bounde'
+            ],
+            [
+                'org_name' => 'Codeseekers',
+                'adviser' => 'Code Seekers'
+            ],        
+            
+        ];
+
+        foreach($organizations as $i){
+            Organization::create($i);
+        }
+
+        // Organization ID getter = $org1, $org2...
+        $orgName = array(
+            'Brewing Minds',
+            'Gaming Genesis',
+            'APC Robotics Organization',
+            'Codeseekers',
+        );
+        for($i=0;$i<count($orgName);$i++){
+           ${'org'.$i+1} = Organization::where('org_name', $orgName[$i])->pluck('id')->first();
+        }
+
+        $this->command->info('DEPARTMENTS generated.');
+
+
+/*
+|--------------------------------------------------------------------------
+| STAFF
+|--------------------------------------------------------------------------
+*/
+        $this->command->info('Generating STAFF data...');
+
+        $staffs = [
+            //SAO
+            [
+                'user_id' => $user1,
+                'department_id' => $dept1,
+                'position'=>'Head'
+                
+            ], 
+            //Finance
+            [
+                'user_id' => $user2,
+                'department_id' => $dept2,
+                'position'=> 'Head'
+                
+            ], 
+            //AcadServ
+            [
+                'user_id' => $user3,
+                'department_id' => $dept3,
+                'position'=> 'Head'
+                
+            ], 
+            //Adviser - Sample Adviser
+            [
+                'user_id' => $user4,
+                'department_id' => $dept4,
+                'position'=> 'Professor'
+                
+            ], 
+            //Adviser
+            [
+                'user_id' => $user10,
+                'department_id' => $dept5,
+                'position'=> 'Professor'
+                
+            ], 
+            //Adviser - Codeseekers
+            [
+                'user_id' => $user26,
+                'department_id' => $dept6,
+                'position'=> 'Professor'
+                
+            ], 
+        ];
+
+        foreach($staffs as $i){
+            Staff::create($i);
+        }
+        $this->command->info('STAFF generated.');
+
+/*
+|--------------------------------------------------------------------------
+| STAFF
+|--------------------------------------------------------------------------
+*/
+        $this->command->info('Generating ORGANIZATION_USER data...');
+
+        $orgusers = [
+            //Brewing Minds
+            [
+                'user_id' => $user4,
+                'organization_id' => $org1,
+                'position'=>'Adviser',
+                'role' => 'Moderator',
+            ],
+            [
+                'user_id' => $user5,
+                'organization_id' => $org1,
+                'position'=>'President',
+                'role' => 'Moderator',
+            ],
+            [
+                'user_id' => $user6,
+                'organization_id' => $org1,
+                'position'=>'Vice-President',
+                'role' => 'Moderator',
+            ],
+            [
+                'user_id' => $user7,
+                'organization_id' => $org1,
+                'position'=>'Secretary',
+                'role' => 'Editor',
+            ],
+            [
+                'user_id' => $user8,
+                'organization_id' => $org1,
+                'position'=>'Treasurer',
+                'role' => 'Viewer',
+            ],
+            [
+                'user_id' => $user9,
+                'organization_id' => $org1,
+                'position'=>'Auditor',
+                'role' => 'Viewer',
+            ],
+            [
+                'user_id' => $user11,
+                'organization_id' => $org1,
+                'position'=>'Member',
+                'role' => 'Viewer',
+            ],
+            [
+                'user_id' => $user12,
+                'organization_id' => $org1,
+                'position'=>'Member',
+                'role' => 'Viewer',
+            ],
+            [
+                'user_id' => $user13,
+                'organization_id' => $org1,
+                'position'=>'Member',
+                'role' => 'Viewer',
+            ],
+            [
+                'user_id' => $user14,
+                'organization_id' => $org1,
+                'position'=>'Member',
+                'role' => 'Viewer',
+            ],
+            [
+                'user_id' => $user15,
+                'organization_id' => $org1,
+                'position'=>'Member',
+                'role' => 'Viewer',
+            ],
+            [
+                'user_id' => $user16,
+                'organization_id' => $org1,
+                'position'=>'Member',
+                'role' => 'Viewer',
+            ],
+
+            // Gaming Genesis
+            [
+                'user_id' => $user1,
+                'organization_id' => $org2,
+                'position'=>'Adviser',
+                'role' => 'Moderator',
+            ],
+            [
+                'user_id' => $user11,
+                'organization_id' => $org2,
+                'position'=>'President',
+                'role' => 'Moderator',
+            ],
+            [
+                'user_id' => $user17,
+                'organization_id' => $org2,
+                'position'=>'Secretary',
+                'role' => 'Editor',
+            ],
+            [
+                'user_id' => $user18,
+                'organization_id' => $org2,
+                'position'=>'Member',
+                'role' => 'Viewer',
+            ],
+            [
+                'user_id' => $user19,
+                'organization_id' => $org2,
+                'position'=>'Member',
+                'role' => 'Viewer',
+            ],
+
+            //APC Dance Company
+            [
+                'user_id' => $user10,
+                'organization_id' => $org3,
+                'position'=>'Adviser',
+                'role' => 'Moderator',
+            ],
+            [
+                'user_id' => $user20,
+                'organization_id' => $org3,
+                'position'=>'President',
+                'role' => 'Moderator',
+            ],
+            [
+                'user_id' => $user21,
+                'organization_id' => $org3,
+                'position'=>'Member',
+                'role' => 'Viewer',
+            ],
+            [
+                'user_id' => $user22,
+                'organization_id' => $org3,
+                'position'=>'Member',
+                'role' => 'Viewer',
+            ],
+            [
+                'user_id' => $user23,
+                'organization_id' => $org3,
+                'position'=>'Member',
+                'role' => 'Viewer',
+            ],
+            [
+                'user_id' => $user11,
+                'organization_id' => $org3,
+                'position'=>'Member',
+                'role' => 'Viewer',
+            ],
+
+            // CodeSeekers
+            [
+                'user_id' => $user26,
+                'organization_id' => $org4,
+                'position'=>'Adviser',
+                'role' => 'Moderator',
+            ],
+            [
+                'user_id' => $user27,
+                'organization_id' => $org4,
+                'position'=>'President',
+                'role' => 'Moderator',
+            ],
+
+        ];
+
+        foreach($orgusers as $i){
+            OrganizationUser::create($i);
+        }
+
+        // DB::table('organization_user')->insert($orgusers);
+
+        $this->command->info('ORGANIZATION_USER generated.');
+
+    
 
        
 

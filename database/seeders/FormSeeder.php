@@ -43,7 +43,7 @@ class FormSeeder extends Seeder
                 "prep_by" => 5,
                 "organization_id" => 1,
                 "control_number" => 284108,
-                "adviser_staff_id" => 5,
+                "organization_user_adviser_id" => 5,
                 "sao_staff_id" => 2,
                 "acadserv_staff_id" => 4,
                 "finance_staff_id" => 3,

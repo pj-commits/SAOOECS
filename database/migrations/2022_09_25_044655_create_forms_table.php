@@ -31,8 +31,8 @@ return new class extends Migration
             $table->string('remarks')->nullable();
 
             //Adviser
-            $table->foreignUuid('adviser_staff_id')->references('id')->on('organization_user')->nullable();
-            // $table->foreignId('adviser_staff_id')->nullable();
+            $table->foreignUuid('organization_user_adviser_id')->references('id')->on('organization_user')->nullable();
+            // $table->foreignId('organization_user_adviser_id')->nullable();
             $table->boolean('adviser_is_approve')->default(0);
             $table->dateTime('adviser_date_approved')->nullable();
             //SAO

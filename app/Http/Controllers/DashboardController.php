@@ -70,7 +70,7 @@ class DashboardController extends Controller
                             $isAcadservOrFinance = false;
                     
                         //    dd('test')    ;
-                            $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
+                            $query->whereIn('organization_user_adviser_id', $getAuthOrgUserIdList );
                             $query->whereIn('organization_id', $getAuthOrgIdList);
                             $query->where('curr_approver', 'Adviser');                  
                             $query->where('adviser_is_approve', 0);     
@@ -102,7 +102,7 @@ class DashboardController extends Controller
                                 $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id');
 
                                 if($isAdviser){
-                                        $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
+                                        $query->whereIn('organization_user_adviser_id', $getAuthOrgUserIdList );
                                         $query->whereIn('organization_id', $getAuthOrgIdList);
                                         $query->where('curr_approver', 'Adviser');                  
                                         $query->where('adviser_is_approve', 0);     
@@ -134,7 +134,7 @@ class DashboardController extends Controller
                                 $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id');
 
                                 if($isAdviser){
-                                        $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
+                                        $query->whereIn('organization_user_adviser_id', $getAuthOrgUserIdList );
                                         $query->whereIn('organization_id', $getAuthOrgIdList);
                                         $query->where('curr_approver', 'Adviser');                  
                                         $query->where('adviser_is_approve', 0);     
@@ -166,7 +166,7 @@ class DashboardController extends Controller
                                 $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id');
 
                                 if($isAdviser){
-                                        $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
+                                        $query->whereIn('organization_user_adviser_id', $getAuthOrgUserIdList );
                                         $query->whereIn('organization_id', $getAuthOrgIdList);
                                         $query->where('curr_approver', 'Adviser');                  
                                         $query->where('adviser_is_approve', 0);     

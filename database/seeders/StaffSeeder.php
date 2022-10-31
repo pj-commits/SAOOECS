@@ -18,43 +18,43 @@ class StaffSeeder extends Seeder
         $staffs = [
             //SAO
             [
-                'user_id' => 1,
-                'department_id' => 1,
+                'user_id' => $user1,
+                'department_id' => $dept1,
                 'position'=>'Head'
                 
             ], 
             //Finance
             [
-                'user_id' => 2,
-                'department_id' => 2,
+                'user_id' => $user2,
+                'department_id' => $dept2,
                 'position'=> 'Head'
                 
             ], 
             //AcadServ
             [
-                'user_id' => 3,
-                'department_id' => 3,
+                'user_id' => $user3,
+                'department_id' => $dept3,
                 'position'=> 'Head'
                 
             ], 
             //Adviser - Sample Adviser
             [
-                'user_id' => 4,
-                'department_id' => 4,
+                'user_id' => $user4,
+                'department_id' => $dept4,
                 'position'=> 'Professor'
                 
             ], 
             //Adviser
             [
-                'user_id' => 10,
-                'department_id' => 5,
+                'user_id' => $user10,
+                'department_id' => $dept5,
                 'position'=> 'Professor'
                 
             ], 
             //Adviser - Codeseekers
             [
-                'user_id' => 26,
-                'department_id' => 6,
+                'user_id' => $user26,
+                'department_id' => $dept6,
                 'position'=> 'Professor'
                 
             ], 

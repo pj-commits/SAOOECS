@@ -53,7 +53,7 @@ class SubmittedFormsController extends Controller
 
                 // Display ADVISER to-be-approved forms
                     //  are you an adviser of an org?
-                    //  form curr adviser_staff_id == your orgUser Id ?
+                    //  form curr organization_user_adviser_id == your orgUser Id ?
                     //  form is part of curr user's org ? 
                     //  form curr_approver == adviser ?
                     //  form is not yet approved   
@@ -63,7 +63,7 @@ class SubmittedFormsController extends Controller
                 if($isAdviser === true && $isSaoHead === false && $isAcadServHead === false && $isFinanceHead === false){
                 
                     //    dd('test');
-                        $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
+                        $query->whereIn('organization_user_adviser_id', $getAuthOrgUserIdList );
                         $query->whereIn('organization_id', $getAuthOrgIdList);
                         $query->where('curr_approver', 'Adviser');                  
                         $query->where('adviser_is_approve', 0);     
@@ -94,7 +94,7 @@ class SubmittedFormsController extends Controller
                             $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id');
 
                             if($isAdviser){
-                                    $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
+                                    $query->whereIn('organization_user_adviser_id', $getAuthOrgUserIdList );
                                     $query->whereIn('organization_id', $getAuthOrgIdList);
                                     $query->where('curr_approver', 'Adviser');                  
                                     $query->where('adviser_is_approve', 0);     
@@ -125,7 +125,7 @@ class SubmittedFormsController extends Controller
                             $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id');
 
                             if($isAdviser){
-                                    $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
+                                    $query->whereIn('organization_user_adviser_id', $getAuthOrgUserIdList );
                                     $query->whereIn('organization_id', $getAuthOrgIdList);
                                     $query->where('curr_approver', 'Adviser');                  
                                     $query->where('adviser_is_approve', 0);     
@@ -156,7 +156,7 @@ class SubmittedFormsController extends Controller
                             $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id');
 
                             if($isAdviser){
-                                    $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
+                                    $query->whereIn('organization_user_adviser_id', $getAuthOrgUserIdList );
                                     $query->whereIn('organization_id', $getAuthOrgIdList);
                                     $query->where('curr_approver', 'Adviser');                  
                                     $query->where('adviser_is_approve', 0);     
