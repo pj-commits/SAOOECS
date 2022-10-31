@@ -58,7 +58,7 @@
                                 <x-select class="mt-1" id="duration_unit" name="duration_unit" aria-label="Default select example" @change="storeInput($el)">
                                     <option value="day(s)" selected >Day(s)</option>
                                     <option value="weeks(s)">Weeks(s)</option>
-                                    <option value="motnhs(s)">Month(s)</option>
+                                    <option value="months(s)">Month(s)</option>
                                 </x-select>
                             </div>
 

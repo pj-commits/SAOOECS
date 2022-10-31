@@ -86,20 +86,26 @@ Route::group(['middleware' => ['auth', 'isModerator']], function(){
 |--------------------------------------------------------------------------
 */
 Route::group(['middleware' => ['auth', 'isStudent']], function(){
+
+        // Denied show for edit
+        Route::get('forms/details/{forms}/edit', [DashboardController::class, 'show'])->name('forms.edit.show');
         // APF
         Route::get('forms/activity-proposal-form', [APFController::class, 'index'])->name('forms.activity-proposal.index');
         Route::post('forms/activity-proposal-form/create', [APFController::class, 'store'])->name('forms.activity-proposal.store');
-        Route::get('forms/activity-proposal-form/{forms}/edit', [APFController::class, 'show'])->name('forms.activity-proposal.show');
         Route::put('forms/activity-proposal-form/{forms}', [APFController::class, 'update'])->name('forms.activity-proposal.update');
         // RF
         Route::get('forms/budget-requisition-form', [RFController::class, 'index'])->name('forms.requisition.index');
         Route::post('forms/budget-requisition-form/create', [RFController::class, 'store'])->name('forms.requisition.store');
+        Route::put('forms/budget-requisition-form/{forms}', [RFController::class, 'update'])->name('forms.requisition.update');
         // NR
         Route::get('forms/narrative-report', [NRController::class, 'index'])->name('forms.narrative.index');
         Route::post('forms/narrative-report/create', [NRController::class, 'store'])->name('forms.narrative.store');
+        Route::put('forms/narrative-report/{forms}', [NRController::class, 'update'])->name('forms.narrative.update');
         // LF   
         Route::get('forms/liquidation-form', [LFController::class, 'index'])->name('forms.liquidation.index');
         Route::post('forms/liquidation-form/create', [LFController::class, 'store'])->name('forms.liquidation.store');
+        Route::put('forms/liquidation-form/{forms}', [LFController::class, 'update'])->name('forms.liquidation.update');
+
 });
 
 
