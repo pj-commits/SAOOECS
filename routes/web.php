@@ -140,8 +140,8 @@ Route::group(['middleware' => ['auth', 'isSaoHead']], function(){
     Route::get('/org-application/{id}', [ApplicationController::class, 'show'])->name('org-application.show');
     Route::put('/org-application/{id}/approve', [ApplicationController::class, 'approve'])->name('org-application.approve');
     Route::put('/org-application/{id}/deny', [ApplicationController::class, 'deny'])->name('org-application.deny');
-    Route::post('/org-application/create', [ApplicationController::class, 'create'])->name('org-application.create');
 });
+    Route::post('/org-application/create', [ApplicationController::class, 'create'])->middleware('auth')->name('org-application.create');
 
 
 

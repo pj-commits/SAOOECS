@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use App\Helper\Helper;
 
 class isApprover
 {
@@ -16,7 +17,7 @@ class isApprover
      */
     public function handle(Request $request, Closure $next)
     {
-        if(auth()->user()->checkUserType('Professor|Staff')){
+        if(Helper::isApprover() || Helper::isAdviser()){
             return $next($request);
         }
         abort(403);

@@ -123,7 +123,7 @@ class Helper
 
 
     static public function hasPendingApplication(){
-        if(DB::table('org_applications')->where('user_id', '=', auth()->user()->id)->exists()){
+        if(DB::table('org_applications')->where('user_id', '=', auth()->user()->id)->where('status', '=', 'Pending')->exists()){
             return true;
         }
         return false;
@@ -136,6 +136,16 @@ class Helper
                 return true;
             }
             return false;
+        }
+        return false;
+    }
+
+    static public function isAdviser(){
+        if(DB::table('organization_user')->where('user_id', '=', auth()->user()->id)->doesntExist()){
+            return false;
+        }
+        if(auth()->user()->studentOrg()->first()->pivot->position === "Adviser"){
+            return true;
         }
         return false;
     }

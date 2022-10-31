@@ -23,30 +23,9 @@ class DashboardController extends Controller
         * 
         **********************************/
 
-        if(Auth::user()->checkUserType('Professor|Staff')){
-            $user = auth()->user();
-            $staff = $user->userStaff;
-            $isHead = $staff->position === 'Head';
-            $department = DB::table('departments')->find($staff->department_id);
-
-            // APPROVER TYPE: Check if true or false
-            $isAdviser = $user->checkPosition('Adviser');
-            $isSaoHead = $department->name === 'Student Activities Office' && $isHead;
-            $isAcadServHead = $department->name === 'Academic Services' && $isHead;
-            $isFinanceHead = $department->name === 'Finance Office'  && $isHead;
-
-            if($isAcadServHead || $isFinanceHead){
-                $isAcadservOrFinance = true ;
-
-            }else{
-                $isAcadservOrFinance = false ;
-
-            }
-
-
-            // Getting the forms and destructuring it.
-           $getForms = Form::where('status', '=', 'Pending')
-            ->where(function ($query) {
+        //checks if user is a professor and have an org or if user is a staff
+        if((Auth::user()->checkUserType('Professor') && Auth::user()->isOrgMember()) || Auth::user()->checkUserType('Staff')){
+            if(Helper::userExistsInStaff()){
                 $user = auth()->user();
                 $staff = $user->userStaff;
                 $isHead = $staff->position === 'Head';
@@ -57,138 +36,160 @@ class DashboardController extends Controller
                 $isSaoHead = $department->name === 'Student Activities Office' && $isHead;
                 $isAcadServHead = $department->name === 'Academic Services' && $isHead;
                 $isFinanceHead = $department->name === 'Finance Office'  && $isHead;
-                
-                // LIST: id of curr user belongs to
-                $getAuthOrgIdList = $user->studentOrg->pluck('id');
 
-                // LIST: orgUserId of curr user
-                $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id'); 
-                
-                if($isAdviser === true && $isSaoHead === false && $isAcadServHead === false && $isFinanceHead === false){
-                        $isAcadservOrFinance = false;
-                
-                    //    dd('test')    ;
-                        $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
-                        $query->whereIn('organization_id', $getAuthOrgIdList);
-                        $query->where('curr_approver', 'Adviser');                  
-                        $query->where('adviser_is_approve', 0);     
-                    
+                if($isAcadServHead || $isFinanceHead){
+                    $isAcadservOrFinance = true ;
+
                 }else{
-              
-                    if($isSaoHead){
-                        $isAcadservOrFinance = false;
-                        $query->where('sao_staff_id', $staff->id);
-                        $query->where('curr_approver', 'SAO');
-                        $query->where('adviser_is_approve', 1);
-                        $query->where('sao_is_approve', 0); 
-                        $query->orwhere(function ($query) {
-                            $user = auth()->user();
-                            $staff = $user->userStaff;
-                            $isHead = $staff->position === 'Head';
-                            $department = DB::table('departments')->find($staff->department_id);
+                    $isAcadservOrFinance = false ;
 
-                            // APPROVER TYPE: Check if true or false
-                            $isAdviser = $user->checkPosition('Adviser');
-                            $isSaoHead = $department->name === 'Student Activities Office' && $isHead;
-                            $isAcadServHead = $department->name === 'Academic Services' && $isHead;
-                            $isFinanceHead = $department->name === 'Finance Office'  && $isHead;
-                            
-                            // LIST: id of curr user belongs to
-                            $getAuthOrgIdList = $user->studentOrg->pluck('id');
-
-                            // LIST: orgUserId of curr user
-                            $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id');
-
-                            if($isAdviser){
-                                    $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
-                                    $query->whereIn('organization_id', $getAuthOrgIdList);
-                                    $query->where('curr_approver', 'Adviser');                  
-                                    $query->where('adviser_is_approve', 0);     
-                                }   
-                        });
-                    }                                                
-                    if($isAcadServHead){
-                        $isAcadservOrFinance = true;
-                        $query->where('acadserv_staff_id', $staff->id);
-                        $query->where('curr_approver', 'Academic Services');
-                        $query->where('sao_is_approve', 1);
-                        $query->where('acadserv_is_approve', 0); 
-                        $query->orwhere(function ($query) {
-                            $user = auth()->user();
-                            $staff = $user->userStaff;
-                            $isHead = $staff->position === 'Head';
-                            $department = DB::table('departments')->find($staff->department_id);
-
-                            // APPROVER TYPE: Check if true or false
-                            $isAdviser = $user->checkPosition('Adviser');
-                            $isSaoHead = $department->name === 'Student Activities Office' && $isHead;
-                            $isAcadServHead = $department->name === 'Academic Services' && $isHead;
-                            $isFinanceHead = $department->name === 'Finance Office'  && $isHead;
-                            
-                            // LIST: id of curr user belongs to
-                            $getAuthOrgIdList = $user->studentOrg->pluck('id');
-
-                            // LIST: orgUserId of curr user
-                            $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id');
-
-                            if($isAdviser){
-                                    $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
-                                    $query->whereIn('organization_id', $getAuthOrgIdList);
-                                    $query->where('curr_approver', 'Adviser');                  
-                                    $query->where('adviser_is_approve', 0);     
-                                }   
-                        });   
-                    }          
-                    if($isFinanceHead){
-                        $isAcadservOrFinance = true;
-                        $query->where('finance_staff_id', $staff->id);
-                        $query->where('curr_approver', 'Finance');
-                        $query->where('acadserv_is_approve', 1);
-                        $query->where('finance_is_approve', 0);   
-                        $query->orwhere(function ($query) {
-                            $user = auth()->user();
-                            $staff = $user->userStaff;
-                            $isHead = $staff->position === 'Head';
-                            $department = DB::table('departments')->find($staff->department_id);
-
-                            // APPROVER TYPE: Check if true or false
-                            $isAdviser = $user->checkPosition('Adviser');
-                            $isSaoHead = $department->name === 'Student Activities Office' && $isHead;
-                            $isAcadServHead = $department->name === 'Academic Services' && $isHead;
-                            $isFinanceHead = $department->name === 'Finance Office'  && $isHead;
-                            
-                            // LIST: id of curr user belongs to
-                            $getAuthOrgIdList = $user->studentOrg->pluck('id');
-
-                            // LIST: orgUserId of curr user
-                            $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id');
-
-                            if($isAdviser){
-                                    $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
-                                    $query->whereIn('organization_id', $getAuthOrgIdList);
-                                    $query->where('curr_approver', 'Adviser');                  
-                                    $query->where('adviser_is_approve', 0);     
-                                }   
-                        });        
-                    }
                 }
-            })->get();
-            // dd($getForms, $isAcadservOrFinance);
-           $forms = [];
-           foreach($getForms as $form){
-                array_push($forms, [
-                    'id' => Helper::encrypt($form->id),
-                    'organization' => $form->myOrg->getOrgName->org_name,
-                    'event_title' => $form->event_title,
-                    'form_type' => $form->form_type,
-                    'deadline' => $form->deadline,
-                ]);
-           }
 
-            return view('_approvers.dashboard', compact('forms', 'isAcadservOrFinance'));
 
-        }
-        return view('_users.dashboard');
+                // Getting the forms and destructuring it.
+            $getForms = Form::where('status', '=', 'Pending')
+                ->where(function ($query) {
+                    $user = auth()->user();
+                    $staff = $user->userStaff;
+                    $isHead = $staff->position === 'Head';
+                    $department = DB::table('departments')->find($staff->department_id);
+
+                    // APPROVER TYPE: Check if true or false
+                    $isAdviser = $user->checkPosition('Adviser');
+                    $isSaoHead = $department->name === 'Student Activities Office' && $isHead;
+                    $isAcadServHead = $department->name === 'Academic Services' && $isHead;
+                    $isFinanceHead = $department->name === 'Finance Office'  && $isHead;
+                    
+                    // LIST: id of curr user belongs to
+                    $getAuthOrgIdList = $user->studentOrg->pluck('id');
+
+                    // LIST: orgUserId of curr user
+                    $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id'); 
+                    
+                    if($isAdviser === true && $isSaoHead === false && $isAcadServHead === false && $isFinanceHead === false){
+                            $isAcadservOrFinance = false;
+                    
+                        //    dd('test')    ;
+                            $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
+                            $query->whereIn('organization_id', $getAuthOrgIdList);
+                            $query->where('curr_approver', 'Adviser');                  
+                            $query->where('adviser_is_approve', 0);     
+                        
+                    }else{
+                
+                        if($isSaoHead){
+                            $isAcadservOrFinance = false;
+                            $query->where('sao_staff_id', $staff->id);
+                            $query->where('curr_approver', 'SAO');
+                            $query->where('adviser_is_approve', 1);
+                            $query->where('sao_is_approve', 0); 
+                            $query->orwhere(function ($query) {
+                                $user = auth()->user();
+                                $staff = $user->userStaff;
+                                $isHead = $staff->position === 'Head';
+                                $department = DB::table('departments')->find($staff->department_id);
+
+                                // APPROVER TYPE: Check if true or false
+                                $isAdviser = $user->checkPosition('Adviser');
+                                $isSaoHead = $department->name === 'Student Activities Office' && $isHead;
+                                $isAcadServHead = $department->name === 'Academic Services' && $isHead;
+                                $isFinanceHead = $department->name === 'Finance Office'  && $isHead;
+                                
+                                // LIST: id of curr user belongs to
+                                $getAuthOrgIdList = $user->studentOrg->pluck('id');
+
+                                // LIST: orgUserId of curr user
+                                $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id');
+
+                                if($isAdviser){
+                                        $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
+                                        $query->whereIn('organization_id', $getAuthOrgIdList);
+                                        $query->where('curr_approver', 'Adviser');                  
+                                        $query->where('adviser_is_approve', 0);     
+                                    }   
+                            });
+                        }                                                
+                        if($isAcadServHead){
+                            $isAcadservOrFinance = true;
+                            $query->where('acadserv_staff_id', $staff->id);
+                            $query->where('curr_approver', 'Academic Services');
+                            $query->where('sao_is_approve', 1);
+                            $query->where('acadserv_is_approve', 0); 
+                            $query->orwhere(function ($query) {
+                                $user = auth()->user();
+                                $staff = $user->userStaff;
+                                $isHead = $staff->position === 'Head';
+                                $department = DB::table('departments')->find($staff->department_id);
+
+                                // APPROVER TYPE: Check if true or false
+                                $isAdviser = $user->checkPosition('Adviser');
+                                $isSaoHead = $department->name === 'Student Activities Office' && $isHead;
+                                $isAcadServHead = $department->name === 'Academic Services' && $isHead;
+                                $isFinanceHead = $department->name === 'Finance Office'  && $isHead;
+                                
+                                // LIST: id of curr user belongs to
+                                $getAuthOrgIdList = $user->studentOrg->pluck('id');
+
+                                // LIST: orgUserId of curr user
+                                $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id');
+
+                                if($isAdviser){
+                                        $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
+                                        $query->whereIn('organization_id', $getAuthOrgIdList);
+                                        $query->where('curr_approver', 'Adviser');                  
+                                        $query->where('adviser_is_approve', 0);     
+                                    }   
+                            });   
+                        }          
+                        if($isFinanceHead){
+                            $isAcadservOrFinance = true;
+                            $query->where('finance_staff_id', $staff->id);
+                            $query->where('curr_approver', 'Finance');
+                            $query->where('acadserv_is_approve', 1);
+                            $query->where('finance_is_approve', 0);   
+                            $query->orwhere(function ($query) {
+                                $user = auth()->user();
+                                $staff = $user->userStaff;
+                                $isHead = $staff->position === 'Head';
+                                $department = DB::table('departments')->find($staff->department_id);
+
+                                // APPROVER TYPE: Check if true or false
+                                $isAdviser = $user->checkPosition('Adviser');
+                                $isSaoHead = $department->name === 'Student Activities Office' && $isHead;
+                                $isAcadServHead = $department->name === 'Academic Services' && $isHead;
+                                $isFinanceHead = $department->name === 'Finance Office'  && $isHead;
+                                
+                                // LIST: id of curr user belongs to
+                                $getAuthOrgIdList = $user->studentOrg->pluck('id');
+
+                                // LIST: orgUserId of curr user
+                                $getAuthOrgUserIdList = $user->checkOrgUser->pluck('id');
+
+                                if($isAdviser){
+                                        $query->whereIn('adviser_staff_id', $getAuthOrgUserIdList );
+                                        $query->whereIn('organization_id', $getAuthOrgIdList);
+                                        $query->where('curr_approver', 'Adviser');                  
+                                        $query->where('adviser_is_approve', 0);     
+                                    }   
+                            });        
+                        }
+                    }
+                })->get();
+
+                $forms = [];
+                foreach($getForms as $form){
+                        array_push($forms, [
+                            'id' => Helper::encrypt($form->id),
+                            'organization' => $form->myOrg->getOrgName->org_name,
+                            'event_title' => $form->event_title,
+                            'form_type' => $form->form_type,
+                            'deadline' => $form->deadline,
+                        ]);
+                }
+                return view('_approvers.dashboard', compact('forms', 'isAcadservOrFinance'));
+
+            }
+            return view('_users.dashboard');
                 
         }elseif(Auth::user()->checkUserType('Student')){
 
@@ -206,6 +207,7 @@ class DashboardController extends Controller
 
             return view('_student-organization.dashboard', compact('myForms'));
         }
+        return view('_users.dashboard');
     }
        
 
@@ -288,9 +290,5 @@ class DashboardController extends Controller
 
             return view('_student-organization.edit-forms.liquidation', compact('forms','message', 'authOrgList', 'eventList', 'departments',  'liquidation', 'proofOfPayments', 'liquidationItems' ));
         }
-      
     }
-
-
-
 }
