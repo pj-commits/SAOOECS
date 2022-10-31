@@ -28,8 +28,8 @@ class APFRequest extends FormRequest
             'duration_val' => 'required|numeric',
             'duration_unit' => 'required',
             'venue' => 'required|max:60',
-            'event_title' => 'require|max:45',
-            'org_name' => 'required',
+            'event_title' => 'required|max:45',
+            'org_id' => 'required',
             'organizer_name' => 'required',
             'act_classification' => 'required|max:2',
             'act_location' => 'required|max:20',
@@ -43,10 +43,13 @@ class APFRequest extends FormRequest
             'description' => 'required',
             'rationale' => 'required',
             'outcome' => 'required',
-            'primary_target_audience' => 'required',
+            'primary_audience' => 'required',
             'num_primary_audience' => 'required',
-            'secondary_target_audience' => 'required',
+            'secondary_audience' => 'required',
             'num_secondary_audience' => 'required',
+                'activity.*' => 'required',
+                'start_date.*' => 'required',
+                'end_date.*' => 'required',
         ];
     }
 }

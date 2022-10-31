@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('pre_programs', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('proposal_id');
+            $table->uuid('id')->primary();
+            $table->foreignUuid('proposal_id')->references('id')->on('proposals')->onDelete('cascade');
             $table->string('activity');
             $table->dateTime('start_date_time');
             $table->dateTime('end_date_time');

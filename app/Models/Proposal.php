@@ -2,49 +2,48 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\Uuid;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Proposal extends Model
 {
     use HasFactory;
+    use Uuid;
 
-    protected $fillable = [
-        'organizer',
-        'targetDate',
-        'durationVal',
-        'durationUnit',
-        'venue',
-        'actClassificationA',
-        'actClassificationB',
-        'description',
-        'outcome',
-        'rationale',
-        'primaryAudience',
-        'numPrimaryAudience',
-        'secondaryAudience',
-        'numSecondaryAudience',
-    ];
-
-    protected $dates = [
-        'targetDate'
-    ];
+    protected $guarded = ['id'];
 
     public function form()
     {
         return $this->belongsTo(Form::class);
     }
-    public function activity()
-    {
-        return $this->hasMany(Activity::class);
-    }
 
+    // PROPOSAL CHILD FORMS
+    public function preprograms()
+    {
+        return $this->hasMany(PrePrograms::class);
+    }
     public function logisticalNeed()
     {
-        return $this->hasMany(logisticalNeed::class);
+        return $this->hasMany(LogisticalNeed::class);
     }
     public function externalCoorganizer()
     {
-        return $this->belongsToMany(ExternalCoorganizer::class);
+        return $this->hasMany(ExternalCoorganizer::class);
+    }
+
+    public function classification($actClassification){
+        if($actClassification === 't1'){
+            return 'CSR/Community Service';
+        }elseif($actClassification === 't2'){
+            return 'Games/Competition';
+        }elseif($actClassification === 't3'){
+            return 'Marketing';
+        }elseif($actClassification === 't4'){
+            return 'Social Event/Party/Celebration';
+        }elseif($actClassification === 't5'){
+            return 'Workshop/Seminar/Training/Symposium/Forum/Team Building';
+        }
+
     }
 }

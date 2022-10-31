@@ -23,13 +23,25 @@
         {{-- Session Storage Handler--}}
         <script src="{{ asset('js/session-storage-handler.js') }}" defer></script>
 
-        {{-- Image Upload Handler--}}
-        {{-- <script src="{{ asset('js/upload-image.js') }}" defer></script> --}}
+        {{-- Calendar Handler--}}
+        <script src="{{ asset('js/calendar.js') }}" defer></script>
+
+        {{-- Confirmation of Input for Cancel--}}
+        <script src="{{ asset('js/confirmation-input.js') }}" defer></script>
+
+        {{-- Image Upload Handler --}}
+        <script src="{{ asset('js/image-upload.js') }}" defer></script>
+
+         {{-- Search Handler --}}
+         <script src="{{ asset('js/search.js') }}" defer></script>
+
+         {{-- Charts External Link--}}
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>
+         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    @livewireStyles
 
     <style>
         [x-cloak] { display: none !important; }
@@ -70,6 +82,5 @@
             </div> 
         </div>
       
-        @livewireScripts
     </body>
 </html>

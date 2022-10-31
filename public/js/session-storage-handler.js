@@ -47,7 +47,7 @@ function clear_form_local_storage(form, reload = false){
  * 
  * apf = Activity Proposal Form
  * 
- * bef = Budget Requisition Form
+ * brf = Budget Requisition Form
  * 
  * nr = Narrative Report
  * 
@@ -93,38 +93,38 @@ function forms_array(form){
         'duration_unit', 
         'venue', 
         'event_title', 
+        'org_id',
         'organizer_name', 
         'act_classification',
         'act_location', 
         'description', 
         'rationale', 
         'outcome',
-        'primary_target_audience',
+        'primary_audience',
         'num_primary_audience',
-        'secondary_target_audience',
+        'secondary_audience',
         'num_secondary_audience',
     ]
 
     let brf_arr = [
-        'event_title',
+        'event_id',
         'date_needed',
         'payment',
         'remarks',
-        'charge_to'
+        'department_id'
     ]
 
     let nr_arr = [
-        'event_title',
+        'event_id',
         'venue',
-        'remarks',
+        'narration',
     ]
 
     let lf_arr = [
-        'event_title',
+        'event_id',
         'end_date',
         'cash_advance',
-        'cv_number',
-        'deduct'
+        'deduct',
     ]
 
     if(form === "apf"){

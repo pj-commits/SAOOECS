@@ -16,18 +16,34 @@ class DepartmentSeeder extends Seeder
     public function run()
     {
         $departments = [
+            //1
             [
-                'name' => 'Sao',
+                'name' => 'Student Activities Office',
             ], 
+            //2
             [
-                'name' => 'Finance',
+                'name' => 'Finance Office',
             ],
+            //3
             [
                 'name' => 'Academic Services',
             ],
+            //4
             [
-                'name' => 'SOCIT',
-            ]
+                'name' => 'School of Computing and Information Technology',
+            ],
+            //5
+            [
+                'name' => 'School of Multimedia and Arts',
+            ],
+            //6
+            [
+                'name' => 'School of Management',
+            ],
+            //7
+            [
+                'name' => 'School of Engineering',
+            ],
         ];
 
         foreach($departments as $i){

@@ -1,4 +1,22 @@
+@php
+    $isModeratorOrEditor = Auth::user()->checkRole('Moderator|Editor');
+@endphp
 <x-app-layout>
+
+    <!-- Error Mesage -->
+    <x-alert-message/>
+    
+    @if(!$isModeratorOrEditor)
+    <div class="mt-8 h-auto w-full rounded-sm px-6 py-4">
+        <div class="flex flex-col justify-center items-center py-16 px-2 md:px-8">
+            <img class="w-auto h-auto sm:h-96 object-cover" src="{{ asset('assets/img/restricted.png')}}" alt="No Forms Pending"/>
+            <div class="text-center space-y-3 mt-6">
+                <h1 class="text-2xl text-bland-500 font-bold tracking-wide">Authorized Users Only! 🚫 </h1>
+                <p class="text-sm text-bland-400">Sorry, but you don't have permission to access this page. </p>
+            </div>
+        </div>
+    </div>
+    @else
     <div class="pt-24" x-data="set_local_storage_data('apf')"> {{-- apf = Activity Proposal Form --}}
         <div class="max-w-screen mx-auto px-4 lg:px-8" x-data="get_local_storage_data('apf')">
             <div class="flex justify-between flex-wrap">
@@ -19,7 +37,7 @@
             </div>
             <hr class="mt-3">
             <div class="bg-white mt-4 h-auto w-full rounded-sm shadow-sm px-6 py-4">
-                <form action="{{ route('test') }}" method="POST">
+                <form action="{{ route('forms.activity-proposal.store') }}" method="POST">
                     @csrf
                     {{-- Row #1 --}}
                     <div class="grid grid-flow-row auto-rows-max gap-6 md:grid-cols-3">
@@ -29,6 +47,7 @@
                             <x-label for="target_date" :value="__('Target Date of Event')" />
 
                             <x-input id="target_date" class="mt-1 w-full" type="date" name="target_date" required autofocus @change="storeInput($el)" />
+                            @error('target_date')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
                         
@@ -39,13 +58,18 @@
                             <div class="flex space-x-4">
                                 {{-- Number of Days --}}
                                 <x-input id="duration_val" class="mt-1 w-full" type="number" min="1" name="duration_val" required autofocus @keyup="storeInput($el)" />
+                                @error('duration_val')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
+
+                                
 
                                 {{-- Duration unit --}}
                                 <x-select class="mt-1" id="duration_unit" name="duration_unit" aria-label="Default select example" @change="storeInput($el)">
                                     <option value="day(s)" selected >Day(s)</option>
                                     <option value="weeks(s)">Weeks(s)</option>
-                                    <option value="motnhs(s)">Month(s)</option>
+                                    <option value="months(s)">Month(s)</option>
                                 </x-select>
+                                @error('duration_unit')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
+
                             </div>
 
                         </div>
@@ -55,6 +79,7 @@
                             <x-label for="venue" :value="__('Venue')" />
                             
                             <x-input id="venue" class="mt-1 w-full" type="text" name="venue" required autofocus @keyup="storeInput($el)"/>
+                            @error('venue')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
                     </div>
@@ -68,13 +93,19 @@
                             <x-label for="event_title" :value="__('Event Title')" />
 
                             <x-input id="event_title" class="mt-1 w-full" type="text" name="event_title" required autofocus @keyup="storeInput($el)" />
+                            @error('event_title')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
                         {{-- Name of organization --}}
                         <div>
-                            <x-label for="org_name" :value="__('Organization Name')" />
-
-                            <x-input id="org_name" class="mt-1 w-full" type="text" name="org_name" value="Brewing Minds" readonly autofocus />
+                            <x-label for="org_id" :value="__('Organization Name')" />
+                            <x-select class="mt-1" id="org_id" name="org_id" aria-label="Default select example" required @change="storeInput($el)">
+                                <option value='' disabled selected>--select option--</option>
+                                @foreach($authOrgList as $org)
+                                <option value="{{$org->id}}">{{$org->org_name}}</option>
+                                @endforeach
+                            </x-select>
+                            @error('org_id')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
                         {{-- Name of organizer --}}
@@ -82,6 +113,7 @@
                             <x-label for="organizer_name" :value="__('Name of Organizer')" />
                             
                             <x-input id="organizer_name" class="mt-1 w-full" type="text" name="organizer_name" required autofocus @keyup="storeInput($el)"/>
+                            @error('organizer_name')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
                     </div>
@@ -101,6 +133,7 @@
                                 <option value="t4">Social Event/Party/Celebration</option>
                                 <option value="t5">Workshop/Seminar/Training/Symposium/Forum/Team Building</option>
                             </x-select>
+                            @error('act_classification')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
                         {{-- Activity Location --}}
@@ -112,6 +145,7 @@
                                 <option value="In-Campus">In-Campus</option>
                                 <option value="Off-Campus">Off-Campus</option>
                             </x-select>
+                            @error('act_location')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
                     </div>
@@ -165,8 +199,8 @@
                                     <x-table.footer-col>
                                         <x-select x-model="newCoorganizers[0].coorganization" class="mt-1 w-full"  class="mt-1" id="act_location" name="act_location" aria-label="Default select example">
                                             <option selected disabled value="">--select option--</option>
-                                            <option value="Internal">Internal</option>
                                             <option value="External">External</option>
+                                            <option value="Internal">Internal</option>
                                         </x-select>
                                     </x-table.footer-col>
                                     <x-table.footer-col>
@@ -258,7 +292,7 @@
                         <x-label for="description" :value="__('Description')" />
 
                         <x-text-area id="description" name="description" @keyup="storeInput($el)"></x-text-area>
-                        
+                        @error('description')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                     </div>
 
                     {{-- Row #7 --}}
@@ -266,7 +300,7 @@
                         <x-label for="rationale" :value="__('Rationale')" />
 
                         <x-text-area id="rationale" name="rationale" @keyup="storeInput($el)"></x-text-area>
-                        
+                        @error('rationale')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                     </div>
 
                     {{-- Row #8 --}}
@@ -275,6 +309,9 @@
 
                         <x-text-area id="outcome" name="outcome"  @keyup="storeInput($el)"></x-text-area>
                         <span class="text-xs text-bland-400 font-light italic">*If it is classified as a Workshop/Training/Seminar/Symposium/Forum/Team Building, Learning outcomes or objective should be written here</span>
+                        @error('outcome')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
+                    </div>
+
                     
 
                     {{-- Row #9 --}}
@@ -282,17 +319,20 @@
 
                         {{-- Primary Target Audience/Beneficiary --}}
                         <div>
-                            <x-label for="primary_target_audience" :value="__('Primary Target Audience/Beneficiary')" />
+                            <x-label for="primary_audience" :value="__('Primary Target Participants/Audience')" />
 
-                            <x-input id="primary_target_audience" class="mt-1 w-full" type="text" name="primary_target_audience" required autofocus @keyup="storeInput($el)"/>
+                            <x-input id="primary_audience" class="mt-1 w-full" type="text" name="primary_audience" required autofocus @keyup="storeInput($el)"/>
+                            @error('primary_audience')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
+
                         </div>
 
 
                         {{-- Number of Participants/Audience --}}
                         <div >
-                            <x-label for="num_primary_audience" :value="__('Number of Participants/Audience')" />
+                            <x-label for="num_primary_audience" :value="__('Number of Primary Participants/Audience')" />
                             
                             <x-input id="num_primary_audience" class="mt-1 w-full" type="number" min="0" name="num_primary_audience" required autofocus @keyup="storeInput($el)"/>
+                            @error('num_primary_audience')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
                     </div>
@@ -302,17 +342,19 @@
 
                         {{-- Sesecondary Target Audience/Beneficiary --}}
                         <div>
-                            <x-label for="secondary_target_audience" :value="__('Secondary Target Audience/Beneficiary')" />
+                            <x-label for="secondary_audience" :value="__('Secondary Target Participants/Audience')" />
 
-                            <x-input id="secondary_target_audience" class="mt-1 w-full" type="text" name="secondary_target_audience" required autofocus @keyup="storeInput($el)"/>
+                            <x-input id="secondary_audience" class="mt-1 w-full" type="text" name="secondary_audience" required autofocus @keyup="storeInput($el)"/>
+                            @error('secondary_audience')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
 
                         {{-- Number of Participants/Audience --}}
                         <div>
-                            <x-label for="num_secondary_audience" :value="__('Number of Participants/Audience')" />
+                            <x-label for="num_secondary_audience" :value="__('Number of Secondary Participants/Audience')" />
                             
                             <x-input id="num_secondary_audience" class="mt-1 w-full" type="number" min="0" name="num_secondary_audience" required autofocus @keyup="storeInput($el)"/>
+                            @error('num_secondary_audience')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
                     </div>
@@ -397,6 +439,7 @@
             </div>
         </div>
     </div>
+    @endif
 </x-app-layout>
 
 

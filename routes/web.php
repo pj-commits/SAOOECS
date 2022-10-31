@@ -2,11 +2,15 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LFController;
 use App\Http\Controllers\RFController;
 use App\Http\Controllers\APFController;
+use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\NRController;
 use App\Http\Controllers\RecordsController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\AssignRoleController;
+use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\SubmittedFormsController;
 use App\Mail\apfSubmittedEmail;
 use App\Mail\rfSubmittedEmail;
 use App\Mail\nrSubmittedEmail;
@@ -16,6 +20,7 @@ use App\Mail\AddOrganizationMemberEmail;
 use App\Mail\EditOrganizationMemberEmail;
 use App\Mail\RemoveOrganizationMemberEmail;
 use App\Mail\OrgMemAddEmail;
+use App\Http\Controllers\DepartmentHeadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,77 +40,136 @@ Route::get('/', function () {
 
 // DASHBOARD: For Auth Users
 require __DIR__.'/auth.php';
-Route::get('/',  [DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard');
 
 
-// ROLE TAB: Role managers/moderators == adviser, pres, sao
-Route::group(['middleware'=> ['auth', 'role:moderator|editor|viewer']], function(){
-    Route::get('roles', [AssignRoleController::class, 'index'])->name('roles.index');
-});
-Route::group(['middleware'=> ['auth', 'role:moderator']], function(){
-    // Add member
-    Route::get('roles/invite', [AssignRoleController::class, 'invite'])->name('roles.invite');
-    Route::post('roles', [AssignRoleController::class, 'store'])->name('roles.store');
-    //Edit Member
-    Route::get('roles/{member}/edit', [AssignRoleController::class, 'edit'])->name('roles.edit');
-    Route::put('roles/{member}', [AssignRoleController::class, 'update'])->name('roles.update');
-    //Delete Member
-    Route::get('roles/{member}/del', [AssignRoleController::class, 'del'])->name('roles.del');
-    Route::delete('roles/del/{member}', [AssignRoleController::class, 'destroy'])->name('roles.destroy');
-});
 
-// FORMS TAB: moderator and editor: 
-//  -- index, store, show, approve, deny, track, calendar
-Route::group(['middleware'=>['auth', 'role:moderator|editor']], function(){
-    // APF
-    Route::get('forms/activity-proposal-form', [APFController::class, 'index'])->name('forms.apf.index');
-    Route::post('forms/activity-proposal-form', [APFController::class, 'store'])->name('forms.apf.store');
 
-    // RF
-    Route::get('forms/budget-requisition-form', [RFController::class, 'index'])->name('forms.rf.index');
-    Route::post('forms/budget-requisition-form', [RFController::class, 'store'])->name('forms.rf.store');
 
-    // NR
-
-    // LF
-
+/*
+|--------------------------------------------------------------------------
+| Dashboard Tab - Submitted Forms Tab - Records Tab
+|--------------------------------------------------------------------------
+*/
+Route::group(['middleware' => ['auth']], function() {
+    Route::get('dashboard',  [DashboardController::class, 'index'])->name('dashboard');
+    Route::post('dashboard/cancel-form',  [DashboardController::class, 'cancel'])->name('dashboard.cancel');
+    Route::get('submitted-forms', [SubmittedFormsController::class, 'index'])->middleware('isApprover')->name('submitted-forms');
+    Route::get('records', [RecordsController::class, 'index'])->name('records');
+    Route::get('records/download/pdf/{id}', [RecordsController::class, 'download'])->name('records.download');
 });
 
 
 
 
 
-//Remove this when functions for records tab will be put under development.
-Route::get('records', [RecordsController::class, 'index'])->name('records');
+/*
+|--------------------------------------------------------------------------
+| Organizations Tab
+|--------------------------------------------------------------------------
+*/
+Route::group(['middleware' => ['auth']], function(){
+    Route::get('organization', [OrganizationController::class, 'index'])->name('organization.index');
+    Route::get('organization/{id}', [OrganizationController::class, 'show'])->name('organization.show');
+});
+Route::group(['middleware' => ['auth', 'isModerator']], function(){
+    Route::get('organization/{id}/add', [OrganizationController::class, 'add'])->name('organization.add');
+    Route::post('organization/{id}/add/store', [OrganizationController::class, 'store'])->name('organization.store');
+    Route::get('organization/{id}/edit/{member}', [OrganizationController::class, 'select'])->name('organization.select');
+    Route::put('organization/{id}/edit/{member}/update', [OrganizationController::class, 'update'])->name('organization.update');
+    Route::delete('organization/{id}/edit/{member}/remove', [OrganizationController::class, 'destroy'])->name('organization.destroy');
+});
+
+
+
+
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Forms Tab
+|--------------------------------------------------------------------------
+*/
+Route::group(['middleware' => ['auth', 'isStudent']], function(){
+
+        // Denied show for edit
+        Route::get('forms/details/{forms}/edit', [DashboardController::class, 'show'])->name('forms.edit.show');
+        // APF
+        Route::get('forms/activity-proposal-form', [APFController::class, 'index'])->name('forms.activity-proposal.index');
+        Route::post('forms/activity-proposal-form/create', [APFController::class, 'store'])->name('forms.activity-proposal.store');
+        Route::put('forms/activity-proposal-form/{forms}', [APFController::class, 'update'])->name('forms.activity-proposal.update');
+        // RF
+        Route::get('forms/budget-requisition-form', [RFController::class, 'index'])->name('forms.requisition.index');
+        Route::post('forms/budget-requisition-form/create', [RFController::class, 'store'])->name('forms.requisition.store');
+        Route::put('forms/budget-requisition-form/{forms}', [RFController::class, 'update'])->name('forms.requisition.update');
+        // NR
+        Route::get('forms/narrative-report', [NRController::class, 'index'])->name('forms.narrative.index');
+        Route::post('forms/narrative-report/create', [NRController::class, 'store'])->name('forms.narrative.store');
+        Route::put('forms/narrative-report/{forms}', [NRController::class, 'update'])->name('forms.narrative.update');
+        // LF   
+        Route::get('forms/liquidation-form', [LFController::class, 'index'])->name('forms.liquidation.index');
+        Route::post('forms/liquidation-form/create', [LFController::class, 'store'])->name('forms.liquidation.store');
+        Route::put('forms/liquidation-form/{forms}', [LFController::class, 'update'])->name('forms.liquidation.update');
+
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| Submitted forms review details
+|--------------------------------------------------------------------------
+*/
+Route::group(['middleware' => ['auth']], function(){
+        Route::get('/submitted-forms', [SubmittedFormsController::class, 'index'])->middleware('isApprover')->name('submitted-forms.index');
+        Route::get('/submitted-forms/details/{forms}', [SubmittedFormsController::class, 'show'])->name('submitted-forms.show');
+        Route::put('/submitted-forms/details/{forms}/approve', [SubmittedFormsController::class, 'approve'])->middleware('isApprover')->name('submitted-forms.approve');
+        Route::put('/submitted-forms/details/{forms}/deny', [SubmittedFormsController::class, 'deny'])->middleware('isApprover')->name('submitted-forms.deny');
+
+
+});
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Departments && Applications Tab
+|--------------------------------------------------------------------------
+*/
+
+Route::group(['middleware' => ['auth', 'isSaoHead']], function(){
+    Route::get('/departments', [DepartmentHeadController::class, 'index'])->name('department-heads.index');
+    Route::get('/departments/{departmentId}/replace/{userId}', [DepartmentHeadController::class, 'edit'])->name('department-heads.edit');
+    Route::put('/departments/{departmentId}/replace/{userId}/update', [DepartmentHeadController::class, 'update'])->name('department-heads.update');
+
+    Route::get('/org-application', [ApplicationController::class, 'index'])->name('org-application.index');
+    Route::get('/org-application/{id}', [ApplicationController::class, 'show'])->name('org-application.show');
+    Route::put('/org-application/{id}/approve', [ApplicationController::class, 'approve'])->name('org-application.approve');
+    Route::put('/org-application/{id}/deny', [ApplicationController::class, 'deny'])->name('org-application.deny');
+});
+    Route::post('/org-application/create', [ApplicationController::class, 'create'])->middleware('auth')->name('org-application.create');
+
+
+
+
+
+
+
+
+
 
 
 //Below Are Test Route only
-Route::get('submitted-forms', function (){
-    return view('_approvers.submitted-forms')
-        ->with("message", "Hello Submitted Forms!");
-})->name('submitted-forms');
-
-
-
-Route::get('forms/narrative-report', function (){
-    return view('_student-organization.forms.narrative')
-        ->with("message", "Hello NR!");
-})->name('narrative');
-
-Route::get('forms/liquidation-form', function (){
-    return view('_student-organization.forms.liquidation')
-        ->with("message", "Hello LF!");
-})->name('liquidation');
-
-
 Route::post('/test', function(Request $request){
     dd($request);
 })->name('test');
 
 Route::get('/test-details', function(){
     return view('_approvers.view-details.liquidation');
-});
+})->name('test-details');
 
+Route::get('/test-edit', function(){
+    return view('_student-organization.edit-forms.activity-proposal');
+});
 
 //Email
 

@@ -1,4 +1,22 @@
+@php
+    $isModeratorOrEditor = Auth::user()->checkRole('Moderator|Editor');
+@endphp
 <x-app-layout>
+
+    <!-- Error Mesage -->
+    <x-alert-message/>
+
+    @if(!$isModeratorOrEditor)
+    <div class="mt-8 h-auto w-full rounded-sm px-6 py-4">
+        <div class="flex flex-col justify-center items-center py-16 px-2 md:px-8">
+            <img class="w-auto h-auto sm:h-96 object-cover" src="{{ asset('assets/img/restricted.png')}}" alt="No Forms Pending"/>
+            <div class="text-center space-y-3 mt-6">
+                <h1 class="text-2xl text-bland-500 font-bold tracking-wide">Authorized Users Only! 🚫 </h1>
+                <p class="text-sm text-bland-400">Sorry, but you don't have permission to access this page. </p>
+            </div>
+        </div>
+    </div>
+    @else
     <div class="pt-24" x-data="set_local_storage_data('brf')"> {{-- brf = Budget Requisition Form --}}
         <div class="max-w-screen mx-auto px-4 lg:px-8" x-data="get_local_storage_data('brf')">
             <div class="flex justify-between flex-wrap">
@@ -19,7 +37,7 @@
             </div>
             <hr class="mt-3">
             <div class="bg-white mt-4 h-auto w-full rounded-sm shadow-sm px-6 py-4">
-                <form action="{{ route('test') }}" method="POST">
+                <form action="{{ route('forms.requisition.store') }}" method="POST">
                     @csrf
 
                     {{-- Row #1 --}}                 
@@ -27,11 +45,15 @@
 
                         {{-- Event Title --}}
                         <div>
-                            <x-label for="event_title" :value="__('Event Title')" />
+                            <x-label for="event_id" :value="__('Event Title')" />
 
-                            <x-select class="mt-1" id="event_title" name="event_title" aria-label="Default select example" @change="storeInput($el)">
+                            <x-select class="mt-1" id="event_id" name="event_id" aria-label="Default select example" @change="storeInput($el)">
                                 <option value='' selected disabled>--select option--</option>
+                                @foreach($eventList as $event)
+                                <option value="{{$event->event_id}}">{{$event->event_title}}</option>
+                                @endforeach
                             </x-select>
+                            @error('event_id')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
                         {{-- Date Filed --}}
@@ -39,6 +61,7 @@
                             <x-label for="date_filed" :value="__('Date Filed')" />
                             
                             <x-input id="date_filed" class="mt-1 w-full" type="date" name="date_filed" value="<?php echo date('Y-m-d'); ?>" readonly autofocus />
+                            @error('date_filed')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
                     </div>
@@ -51,6 +74,7 @@
                             <x-label for="date_needed" :value="__('Date Needed')" />
 
                             <x-input id="date_needed" class="mt-1 w-full" type="date" name="date_needed" required autofocus @change="storeInput($el)"/>
+                            @error('date_needed')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
                         {{-- Payment --}}
@@ -62,6 +86,7 @@
                                 <option value="payment">Payment</option>
                                 <option value="purchase">Purchase</option>
                             </x-select>
+                            @error('payment')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
                     </div>
@@ -76,8 +101,9 @@
                             {{-- Table Head--}}
                             <x-table.head>
                                 {{-- Insert Table Head Columns Here --}}
-                                <x-table.head-col class="pr-12 sm:pr-3">Quantity</x-table.head-col>
+                                <x-table.head-col class="w-32 pr-12 sm:pr-3">Item No.</x-table.head-col>
                                 <x-table.head-col>Particulars/Purpose</x-table.head-col>
+                                <x-table.head-col class="pr-12 sm:pr-3">Quantity</x-table.head-col>
                                 <x-table.head-col class="pr-12 sm:pr-3">Price (₱)</x-table.head-col>
                                 <x-table.head-col class="text-center">Action</x-table.head-col>
                                 {{-- Table Head Columns Ends Here --}}
@@ -88,10 +114,13 @@
                                     <tr class="bg-white  hover:bg-bland-100">
                                         {{-- Insert Table Body Columns Here --}}
                                         <x-table.body-col>
-                                            <x-input x-model="field.quantity"  id="quantity" class="mt-1 w-full" type="number" min="1" name="quantity[]"  readonly autofocus />
+                                            <x-input x-model="field.item_number"  id="item_number" class="mt-1 w-full" type="text" name="item_number[]"  readonly autofocus />
                                         </x-table.body-col>
                                         <x-table.body-col>
                                             <x-input x-model="field.purpose" id="purpose" class="mt-1 w-full" type="text" name="purpose[]"  readonly autofocus />
+                                        </x-table.body-col>
+                                        <x-table.body-col>
+                                            <x-input x-model="field.quantity"  id="quantity" class="mt-1 w-full" type="number" min="1" name="quantity[]"  readonly autofocus />
                                         </x-table.body-col>
                                         <x-table.body-col>
                                             <x-input x-model="field.price" id="price" class="mt-1 w-full" type="number" min="1" name="price[]" readonly autofocus />
@@ -110,10 +139,13 @@
                                 <tr>
                                     {{-- Insert Table Footer Columns Here --}}
                                     <x-table.footer-col>
-                                        <x-input x-model="newRequisitions[0].quantity" class="mt-1 w-full" type="number" min="1" autofocus />
+                                        <x-input x-model="getItemNumber()" class="mt-1 w-full" type="text" readonly />
                                     </x-table.footer-col>
                                     <x-table.footer-col>
                                         <x-input x-model="newRequisitions[0].purpose" class="mt-1 w-full" type="text" autofocus />
+                                    </x-table.footer-col>
+                                    <x-table.footer-col>
+                                        <x-input x-model="newRequisitions[0].quantity" class="mt-1 w-full" type="number" min="1" autofocus />
                                     </x-table.footer-col>
                                     <x-table.footer-col>
                                         <x-input x-model="newRequisitions[0].price" class="mt-1 w-full" type="number" min="1" autofocus />
@@ -127,11 +159,14 @@
                                 </tr>
                                 <tr class="bg-bland-100">
                                     {{-- Insert Table Footer Columns Here --}}
+                                    <x-table.footer-col>
+                                        {{-- Empty Space --}}
+                                    </x-table.footer-col>
                                    <x-table.footer-col>
                                        {{-- Empty Space --}}
                                    </x-table.footer-col>
                                    <x-table.footer-col  class="text-right">
-                                       <p>Total:</p>
+                                       <p class="font-bold">Total:</p>
                                    </x-table.footer-col>
                                    <x-table.footer-col class="pl-4">
                                        <span class="flex">₱ <p x-text="getTotal()"></p></span>
@@ -151,14 +186,21 @@
                         <x-label for="remarks" :value="__('Remarks')" />
 
                         <x-text-area id="remarks" name="remarks" @keyup="storeInput($el)"></x-text-area>
+                        @error('remarks')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                     
                     </div>
 
                     {{-- Row #5 --}}
                     <div class="grid mt-4 md:grid-cols-3">
-                        <x-label for="charge_to" :value="__('Charge To')" />
+                        <x-label for="department_id" :value="__('Charge To')" />
 
-                        <x-input id="charge_to" class="mt-1 w-full" type="text" name="charge_to" required autofocus @keyup="storeInput($el)"/>
+                        <x-select class="mt-1" id="department_id" name="department_id" aria-label="Default select example" @change="storeInput($el)">
+                            <option value='' selected disabled>--select option--</option>
+                            @foreach($departments as $department)
+                            <option value="{{ $department->id }}">{{ $department->name }}</option>
+                            @endforeach
+                        </x-select>
+                        @error('department_id')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                     </div>
 
                     <div class="mt-8">
@@ -170,6 +212,7 @@
             </div>
         </div>
     </div>
+    @endif
 </x-app-layout>
 
 

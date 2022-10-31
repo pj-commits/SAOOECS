@@ -31,6 +31,7 @@ function coorganizer_handler() {
         */
         addCoorganizer() {
             let verify = true;
+            let alphabet = /^[a-zA-Z ]+$/;
             let reg_email = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
             let reg_phone = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
             
@@ -39,29 +40,28 @@ function coorganizer_handler() {
                 if(coorganizer.email.length < 1){
                     verify = false;
                     this.error = true;
-                    this.msg = "Email is empty!";
+                    this.msg = "Email is empty or invalid!";
                 }else if(!coorganizer.email.match(reg_email)){
                     verify = false;
                     this.error = true;
-                    this.msg = "Invalid Email!";
+                    this.msg = "Email is empty or invalid!";
                 }
                 if(coorganizer.phone.length < 1){
                     verify = false;
                     this.error = true;
-                    this.msg = "Contact is empty!";
+                    this.msg = "Contact is empty or invalid!";
                 }else if (!coorganizer.phone.match(reg_phone)){
                     verify = false;
                     this.error = true;
-                    this.msg = "Invalid Contact Number!";
+                    this.msg = "Contact is empty or invalid!";
                 }
-
-                if(coorganizer.name.length < 1){
+                if(coorganizer.name.length < 1 || !coorganizer.name.match(alphabet)){
                     verify = false;
                     this.error = true;
-                    this.msg = "Coorganizer is empty!";
+                    this.msg = "Coorganizer is empty or invalid!";
                 }
 
-                if(coorganizer.coorganization.length < 1){
+                if(coorganizer.coorganization.length < 1 ){
                     verify = false;
                     this.error = true;
                     this.msg = "Co-oorganization is empty!";
@@ -122,27 +122,29 @@ function logistic_handler() {
             Then push updated data of logistics[] to local storage.
         */
         addLogistic() {
+            let alphaNumeric = /^[a-zA-Z0-9 ]+$/;
             let verify = true;
 
             //Validate inputs
-            if(this.newLogistics[0].venue.length < 1){
+            if(this.newLogistics[0].venue.length < 1 || !this.newLogistics[0].venue.match(alphaNumeric)){
                 verify = false;
                 this.error = true;
-                this.msg = "Venue is empty!";
+                this.msg = "Venue is empty or invalid!";
             }
             if(this.newLogistics[0].date_needed.length < 1){
                 verify = false;
                 this.error = true;
-                this.msg = "Date Needed is empty!";
+                this.msg = "Date Needed is empty or invalid!";
             }else if(Date.parse(this.newLogistics[0].date_needed) < Date.parse(this.current_date)){
                 verify = false;
                 this.error = true;
                 this.msg = "You cannot set previous date!";
             }
-            if(this.newLogistics[0].service.length < 1){
+
+            if(this.newLogistics[0].service.length < 1 || !this.newLogistics[0].service.match(alphaNumeric) ){
                 verify = false;
                 this.error = true;
-                this.msg = "Service is empty!";
+                this.msg = "Items/Service/Support is empty or invalid!";
             }
 
             if(verify === true){
@@ -197,6 +199,7 @@ function activity_handler() {
             Then push updated data of activities[] to local storage.
         */
         addActivity() {
+            let alphaNumeric = /^[a-zA-Z0-9 ]+$/;
             let verify = true;
 
             //Validate inputs
@@ -218,10 +221,10 @@ function activity_handler() {
                 this.error = true;
                 this.msg = "You cannot set previous date!";
             }   
-            if(this.newActivities[0].activity.length < 1){
+            if(this.newActivities[0].activity.length < 1 || !this.newActivities[0].activity.match(alphaNumeric)){
                 verify = false;
                 this.error = true;
-                this.msg = "Activities is empty!";
+                this.msg = "Activities is empty or invalid!";
             }
 
             if(verify === true){
@@ -281,27 +284,29 @@ function requisition_items_handler() {
             Then push updated data of requisitions[] to local storage.
         */
         addRequisition() {
+            let alphaNumeric = /^[a-zA-Z0-9 ]+$/;
             let verify = true;
 
             //Validate inputs
             if(this.newRequisitions[0].price.length < 1){
                 verify = false;
                 this.error = true;
-                this.msg = "Price is empty!";
-            }
-            if(this.newRequisitions[0].purpose.length < 1){
-                verify = false;
-                this.error = true;
-                this.msg = "Purpose is empty!";
+                this.msg = "Price is empty or invalid!";
             }
             if(this.newRequisitions[0].quantity.length < 1){
                 verify = false;
                 this.error = true;
-                this.msg = "Quantity is empty!";
+                this.msg = "Quantity is empty or invalid!";
+            }
+            if(this.newRequisitions[0].purpose.length < 1 || !this.newRequisitions[0].purpose.match(alphaNumeric)){
+                verify = false;
+                this.error = true;
+                this.msg = "Purpose is empty or invalid!";
             }
 
             if(verify === true){
                 this.requisitions[0].push({
+                    item_number: this.requisitions[0].length + 1,
                     quantity: this.newRequisitions[0].quantity,
                     purpose: this.newRequisitions[0].purpose,
                     price: this.newRequisitions[0].price,
@@ -320,7 +325,14 @@ function requisition_items_handler() {
         },
         //remove deleted data in requisitions[] then update local storage
         removeRequisition(index) {
+            count = 0;
+
             this.requisitions[0].splice(index, 1); 
+
+            this.requisitions[0].forEach(item => {
+                count++;
+                item.item_number = count;
+            })
             localStorage.setItem('brf_requisitions', JSON.stringify(this.requisitions[0]))
         },
 
@@ -332,6 +344,9 @@ function requisition_items_handler() {
             })
 
             return total
+        },
+        getItemNumber(){
+            return this.requisitions[0].length + 1
         }
     }
 }
@@ -367,6 +382,7 @@ function program_handler() {
             Then push updated data of programs[] to local storage.
         */
         addProgram() {
+            let alphaNumeric = /^[a-zA-Z0-9 ]+$/;
             let verify = true;
 
             //Validate inputs
@@ -386,10 +402,10 @@ function program_handler() {
                 this.msg = "Start Date is empty!";
             }
 
-            if(this.newPrograms[0].activity.length < 1){
+            if(this.newPrograms[0].activity.length < 1 || !this.newPrograms[0].activity.match(alphaNumeric)){
                 verify = false;
                 this.error = true;
-                this.msg = "Activities is empty!";
+                this.msg = "Activities is empty or invalid!";
             }
 
             if(verify === true){
@@ -442,29 +458,31 @@ function participant_handler() {
             Then push updated data of participants[] to local storage.
         */
         addParticipant() {
+            let alphabet = /^[a-zA-Z ]+$/;
+            let alphaNumeric = /^[a-zA-Z0-9 \n\r-]+$/;
             let verify = true;
 
             //Validate inputs
             if(this.newParticipants[0].participated_date.length < 1){
                 verify = false;
                 this.error = true;
-                this.msg = "Date Participated is empty!";
+                this.msg = "Date Participated is empty or invalid!";
             }
-            if(this.newParticipants[0].section.length < 1){
+            if(this.newParticipants[0].section.length < 1 || !this.newParticipants[0].section.match(alphaNumeric)){
                 verify = false;
                 this.error = true;
-                this.msg = "Section is empty!";
+                this.msg = "Section is empty or invalid!";
             }
-            if(this.newParticipants[0].last_name.length < 1){
+            if(this.newParticipants[0].last_name.length < 1 || !this.newParticipants[0].last_name.match(alphabet)){
                 verify = false;
                 this.error = true;
-                this.msg = "Last Name is empty!";
+                this.msg = "Last Name is empty or invalid!";
             }
 
-            if(this.newParticipants[0].first_name.length < 1){
+            if(this.newParticipants[0].first_name.length < 1 || !this.newParticipants[0].first_name.match(alphabet)){
                 verify = false;
                 this.error = true;
-                this.msg = "First Name is empty!";
+                this.msg = "First Name is empty or invalid!";
             }
 
             if(verify === true){
@@ -516,14 +534,16 @@ function participant_handler() {
             //Parse uploaded file and assign it to csv_data
             Papa.parse(document.getElementById('participants_csv').files[0],
             {
-              download: true,
-              header: true,
-              skipEmptyLines: true,
-              complete: function(results){
+                download: true,
+                header: true,
+                skipEmptyLines: true,
+                transformHeader:function(header) { 				
+                    return header.replace(/\s/g, ''); 			
+                },
+                complete: function(results){
                     csv_data = results.data
               },
             })
-
             /* 
                 Will wait for 500 miliseconds for csv_data to be filled before accessing its data
                 If this is not implemented it will only return undefined object 
@@ -532,24 +552,23 @@ function participant_handler() {
 
                 /* Checks if uploaded file constains First Name, Last Name, Section, and Participated Date.
                    If one parameter is missing will return an error message. */
-                if(!this.isKeyExists(csv_data[0], 'first_name') || 
-                    !this.isKeyExists(csv_data[0], 'last_name') ||
-                    !this.isKeyExists(csv_data[0], 'section') ||
-                    !this.isKeyExists(csv_data[0], 'participated_date')){
+                if(!this.isKeyExists(csv_data[0], 'FirstName') || 
+                    !this.isKeyExists(csv_data[0], 'LastName') ||
+                    !this.isKeyExists(csv_data[0], 'Section') ||
+                    !this.isKeyExists(csv_data[0], 'ParticipatedDate')){
 
                         verify = false;
                         this.error = true;
                         this.msg = "File must have the ff: First Name, Last Name, Section, and Date Participated columns";
                 }
-
                 //If no error encountered while uploading the file, then the data from csv_data will be pushed to participants array
                 if(verify === true){
                     csv_data.forEach(data => {
                         this.participants[0].push({
-                            first_name: data.first_name,
-                            last_name: data.last_name,
-                            section: data.section,
-                            participated_date: data.participated_date
+                            first_name: data.FirstName,
+                            last_name: data.LastName,
+                            section: data.Section,
+                            participated_date: data.ParticipatedDate
                         });
                     })
                     this.error = false;
@@ -604,13 +623,14 @@ function comment_suggestion_handler() {
             Then push updated data of comments[] to local storage.
         */
         addComment() {
+            let alphaNumeric = /^[a-zA-Z0-9 \n\r-]+$/;
             let verify = true;
 
             //Validate inputs
-            if(this.newComments[0].message.length < 1){
+            if(this.newComments[0].message.length < 1 || !this.newComments[0].message.match(alphaNumeric)){
                 verify = false;
                 this.err_comments = true;
-                this.msg_comments = "Message is empty!";
+                this.msg_comments = "Message is empty or invalid!";
             }
 
             if(verify === true){
@@ -643,13 +663,14 @@ function comment_suggestion_handler() {
             Then push updated data of suggestions[] to local storage.
         */
         addSuggestion() {
+            let alphaNumeric = /^[a-zA-Z0-9 \n\r-]+$/;
             let verify = true;
 
             //Validate inputs
-            if(this.newSuggestions[0].message.length < 1){
+            if(this.newSuggestions[0].message.length < 1 || !this.newSuggestions[0].message.match(alphaNumeric)){
                 verify = false;
                 this.err_suggestions = true;
-                this.msg_suggestions = "Message is empty!";
+                this.msg_suggestions = "Message is empty or invalid!";
             }
 
             if(verify === true){
@@ -848,23 +869,24 @@ function liquidation_items_handler() {
             Then push updated data of liquidations[] to local storage.
         */
         addLiquidation() {
+            let alphaNumeric = /^[a-zA-Z0-9 ]+$/;
             let verify = true;
 
             //Validate inputs
             if(this.newLiquidations[0].price.length < 1){
                 verify = false;
                 this.error = true;
-                this.msg = "Price is empty!";
+                this.msg = "Price is empty or invalid!";
             }
-            if(this.newLiquidations[0].item.length < 1){
+            if(this.newLiquidations[0].item.length < 1 || !this.newLiquidations[0].item.match(alphaNumeric)){
                 verify = false;
                 this.error = true;
-                this.msg = "Particulars/Items is empty!";
+                this.msg = "Particulars/Items is empty or invalid!";
             }
             if(this.newLiquidations[0].date_bought.length < 1){
                 verify = false;
                 this.error = true;
-                this.msg = "Date Bought is empty!";
+                this.msg = "Date Bought is empty or invalid!";
             }
 
             if(verify === true){
@@ -930,5 +952,44 @@ function proof_of_payments() {
        removeRow(index){
         this.rows.splice(index, 1);
        },
+    }
+}
+
+function liquidationTotal(){
+    return{
+        total:0,
+        cashAdvance:0,
+        deduct:0,
+
+        setData($el){
+            if($el.id === 'cash_advance'){
+                this.cashAdvance = $el.value;
+            }else if($el.id === 'deduct'){
+                this.deduct = $el.value;
+            }
+
+            this.total = this.cashAdvance - this.deduct;
+
+            this.getTotal();
+
+        },
+
+        onLoad(){
+            this.cashAdvance = this.$refs.cashAdvance.value;
+            this.deduct = this.$refs.deduct.value;
+
+            this.total = this.cashAdvance - this.deduct;
+
+            this.getTotal();
+            
+        },
+
+        getTotal(){
+            if(this.cashAdvance > 0 && this.deduct > 0){
+                this.$refs.liquidationTotal.value = this.total;
+            }else{
+                this.$refs.liquidationTotal.value = 0;
+            }
+        }
     }
 }
