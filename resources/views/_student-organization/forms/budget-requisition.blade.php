@@ -53,6 +53,7 @@
                                 <option value="{{$event->event_id}}">{{$event->event_title}}</option>
                                 @endforeach
                             </x-select>
+                            @error('event_id')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
                         {{-- Date Filed --}}
@@ -60,6 +61,7 @@
                             <x-label for="date_filed" :value="__('Date Filed')" />
                             
                             <x-input id="date_filed" class="mt-1 w-full" type="date" name="date_filed" value="<?php echo date('Y-m-d'); ?>" readonly autofocus />
+                            @error('date_filed')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
                     </div>
@@ -72,6 +74,7 @@
                             <x-label for="date_needed" :value="__('Date Needed')" />
 
                             <x-input id="date_needed" class="mt-1 w-full" type="date" name="date_needed" required autofocus @change="storeInput($el)"/>
+                            @error('date_needed')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
                         {{-- Payment --}}
@@ -83,6 +86,7 @@
                                 <option value="payment">Payment</option>
                                 <option value="purchase">Purchase</option>
                             </x-select>
+                            @error('payment')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
                     </div>
@@ -182,6 +186,7 @@
                         <x-label for="remarks" :value="__('Remarks')" />
 
                         <x-text-area id="remarks" name="remarks" @keyup="storeInput($el)"></x-text-area>
+                        @error('remarks')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                     
                     </div>
 
@@ -195,6 +200,7 @@
                             <option value="{{ $department->id }}">{{ $department->name }}</option>
                             @endforeach
                         </x-select>
+                        @error('department_id')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                     </div>
 
                     <div class="mt-8">

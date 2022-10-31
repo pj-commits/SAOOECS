@@ -59,6 +59,7 @@ class RecordsController extends Controller
                             if($isSaoHead){
                                 $query->where('sao_staff_id', $staff->id);
                                 $query->where('sao_is_approve', 1);   
+                                $query->where('form_type', '!=' , 'LF'); 
                                 $query->orwhere(function ($query) {
                                     $user = auth()->user();
                                     $staff = $user->userStaff;
@@ -87,7 +88,9 @@ class RecordsController extends Controller
                             if($isAcadServHead){
                                 $query->where('acadserv_staff_id', $staff->id);
                                 $query->where('sao_is_approve', 1);
-                                $query->where('acadserv_is_approve', 1);  
+                                $query->where('acadserv_is_approve', 1);
+                                $query->where('form_type', '!=' , 'NR'); 
+                                $query->where('form_type', '!=' , 'LF');   
                                 $query->orwhere(function ($query) {
                                     $user = auth()->user();
                                     $staff = $user->userStaff;
@@ -116,7 +119,8 @@ class RecordsController extends Controller
                             if($isFinanceHead){
                                 $query->where('finance_staff_id', $staff->id);
                                 $query->where('acadserv_is_approve', 1);
-                                $query->where('finance_is_approve', 1);    
+                                $query->where('finance_is_approve', 1); 
+                                $query->where('form_type', '!=' , 'NR');  
                                 $query->orwhere(function ($query) {
                                     $user = auth()->user();
                                     $staff = $user->userStaff;
