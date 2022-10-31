@@ -76,8 +76,6 @@
 
                         <x-text-area id="narration" name="narration" required @keyup="storeInput($el)"></x-text-area>
                         @error('narration')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
-
-                    
                     </div>
 
 

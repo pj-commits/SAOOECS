@@ -83,6 +83,7 @@ class DashboardController extends Controller
                             $query->where('curr_approver', 'SAO');
                             $query->where('adviser_is_approve', 1);
                             $query->where('sao_is_approve', 0); 
+                            $query->where('form_type', '!=' , 'LF'); 
                             $query->orwhere(function ($query) {
                                 $user = auth()->user();
                                 $staff = $user->userStaff;
@@ -115,6 +116,8 @@ class DashboardController extends Controller
                             $query->where('curr_approver', 'Academic Services');
                             $query->where('sao_is_approve', 1);
                             $query->where('acadserv_is_approve', 0); 
+                            $query->where('form_type', '!=' , 'NR'); 
+                            $query->where('form_type', '!=' , 'LF'); 
                             $query->orwhere(function ($query) {
                                 $user = auth()->user();
                                 $staff = $user->userStaff;
@@ -146,7 +149,8 @@ class DashboardController extends Controller
                             $query->where('finance_staff_id', $staff->id);
                             $query->where('curr_approver', 'Finance');
                             $query->where('acadserv_is_approve', 1);
-                            $query->where('finance_is_approve', 0);   
+                            $query->where('finance_is_approve', 0);
+                            $query->where('form_type', '!=' , 'NR');  
                             $query->orwhere(function ($query) {
                                 $user = auth()->user();
                                 $staff = $user->userStaff;
