@@ -71,6 +71,8 @@ class APFController extends Controller
         //Proposal Create
         $proposal = $form->proposal()->create($proposal);
 
+
+
         // Logistics create
         for($i = 0; $i < count($request->service); $i++){
             $proposal->logisticalNeed()->create([
@@ -101,20 +103,54 @@ class APFController extends Controller
         return redirect('dashboard')->with('add-apf', 'Activity Proposal Form was successfully created!');
     }
 
-    // show form to edit
-    public function show(Form $forms)
-    {
-        $authOrgList = Auth::user()->studentOrg;
-        $message = $forms->remarks;
-        return view('_student-organization.edit-forms.activity-proposal', compact('forms','message', 'authOrgList'));
-
-    }
-
+    
     // update form
     public function update(APFRequest $request, Form $forms)
     {
+        $proposal = $request->safe()->except(['target_date','org_id','event_title','coorganization', 'coorganizer_name', 'coorganizer_phone', 'coorganizer_email', 'service', 'logistics_date_needed','logistics_venue', 'activity', 'start_date', 'end_date' ]);
 
-        $forms->update($request); 
+        $forms->update(array(
+            'target_date' => $request->target_date,
+            'event_title' => $request->event_title,
+            'organization_id' => $request->org_id,
+            'status' => 'Pending'
+        )); 
+
+
+
+        $proposal = $forms->proposal()->update($proposal);
+
+        // dd($proposal->logisticalNeed());
+
+
+         // Logistics update
+         for($i = 0; $i < count($request->service); $i++){
+            $proposal->logisticalNeed()->update([
+                    'service' => $request->service[$i],
+                    'date_needed' => $request->logistics_date_needed[$i],
+                    'venue' => $request->logistics_venue[$i],
+                ]);
+        }
+
+         // External Coorg update
+         for($i = 0; $i < count($request->coorganization); $i++){
+            $proposal->externalCoorganizer()->update([
+                    'coorganization' => $request->coorganization[$i],
+                    'coorganizer' => $request->coorganizer_name[$i],
+                    'email' => $request->coorganizer_phone[$i],
+                    'phone_number' => $request->coorganizer_email[$i],
+                ]);
+        }
+
+        // Pre-programs update
+        for($i = 0; $i < count($request->activity); $i++){
+            $proposal->preprograms()->update([
+                    'activity' => $request->activity[$i],
+                    'start_date_time' => $request->start_date[$i],
+                    'end_date_time' => $request->end_date[$i],
+                ]);
+        }
+
          
         return back()->with('add', 'Updated successfully!');
     }
