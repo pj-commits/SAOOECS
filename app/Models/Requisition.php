@@ -29,5 +29,10 @@ class Requisition extends Model
          return $this->hasMany(RequisitionItem::class);
      }
 
+     public function getDepartment()
+     {
+        return $this->belongsTo(Department::class, "department_id");
+     }
+
 
 }

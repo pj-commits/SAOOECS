@@ -45,6 +45,29 @@ class Form extends Model
         return $this->belongsTo(Staff::class, 'sao_staff_id');
     }
 
+
+
+    // For PDF
+
+    public function getFormAdviser()
+    {
+        return $this->belongsTo(OrganizationUser::class, 'adviser_staff_id'); 
+    }
+
+    public function getFormSao()
+    {
+        return $this->belongsTo(Staff::class, 'sao_staff_id'); 
+    }
+
+    public function getFormAcadserv()
+    {
+        return $this->belongsTo(Staff::class, 'acadserv_staff_id'); 
+    }
+
+    public function getFormFinance()
+    {
+        return $this->belongsTo(Staff::class, 'finance_staff_id'); 
+    }
 }
 
 

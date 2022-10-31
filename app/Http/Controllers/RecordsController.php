@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Helper\Helper;
+use App\Models\OrganizationUser;
+use PDF;
 
 class RecordsController extends Controller
 {
@@ -177,5 +179,69 @@ class RecordsController extends Controller
                 return view('_users.records', compact('records'));
         }
         abort(403);
+    }
+
+    public function download($id)
+    {
+        $formId = Helper::decrypt($id);
+        $form =  Form::findOrFail($formId);
+
+        //Activity Proposal Form
+        if($form->form_type === 'APF'){
+           $proposal = $form->proposal()->first();
+           $coorganizers = $proposal->externalCoorganizer()->get();
+           $requests = $proposal->logisticalNeed()->get();
+           $prePrograms = $proposal->preprograms()->get();
+           
+           $pdf = PDF::loadview('_users.pdf.activity-proposal', compact('form', 'proposal', 'coorganizers', 'requests', 'prePrograms'));
+           
+           $fileName = $form->form_type." - ".$form->event_title.".pdf";
+
+           return $pdf->download($fileName);
+
+        }
+
+        //Budget Requisition Form
+        if($form->form_type === 'BRF'){
+            $requisition = $form->requisition()->first();
+            $items = $requisition->reqItems()->get();
+
+            $pdf = PDF::loadview('_users.pdf.budget-requisition', compact('form', 'requisition', 'items'));
+           
+            $fileName = $form->form_type." - ".$form->event_title.".pdf";
+ 
+            return $pdf->download($fileName);
+
+        }
+
+        //Narrative Report
+        if($form->form_type === 'NR'){
+            $narrative = $form->narrative()->first();
+            $participants = $narrative->participant()->get();
+            $commentSuggestions = $narrative->commentSuggestion()->get();
+            $postPrograms = $narrative->postProgram()->get();
+            $images = $narrative->narrativeImage()->get();
+
+            $pdf = PDF::loadview('_users.pdf.narrative', compact('form', 'narrative', 'participants', 'commentSuggestions', 'postPrograms', 'images'));
+           
+            $fileName = $form->form_type." - ".$form->event_title.".pdf";
+ 
+            return $pdf->download($fileName);
+
+        }
+
+        //Liquidation Form
+        if($form->form_type === 'LF'){
+            $liquidation = $form->liquidation()->first();
+            $items = $liquidation->liquidationItem()->get();
+            $proofOfPayments = $liquidation->proofOfPayment()->get();
+
+            $pdf = PDF::loadview('_users.pdf.liquidation', compact('form', 'liquidation', 'items', 'proofOfPayments'));
+           
+            $fileName = $form->form_type." - ".$form->event_title.".pdf";
+ 
+            return $pdf->download($fileName);
+        }
+
     }
 }

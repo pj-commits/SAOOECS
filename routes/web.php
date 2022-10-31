@@ -51,6 +51,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('dashboard/cancel-form',  [DashboardController::class, 'cancel'])->name('dashboard.cancel');
     Route::get('submitted-forms', [SubmittedFormsController::class, 'index'])->middleware('isApprover')->name('submitted-forms');
     Route::get('records', [RecordsController::class, 'index'])->name('records');
+    Route::get('records/download/pdf/{id}', [RecordsController::class, 'download'])->name('records.download');
 });
 
 

@@ -93,6 +93,7 @@ function forms_array(form){
         'duration_unit', 
         'venue', 
         'event_title', 
+        'org_id',
         'organizer_name', 
         'act_classification',
         'act_location', 
@@ -114,7 +115,7 @@ function forms_array(form){
     ]
 
     let nr_arr = [
-        'event_title',
+        'event_id',
         'venue',
         'narration',
     ]

@@ -26,7 +26,7 @@ class NRRequest extends FormRequest
         return [
             'event_id' =>'required', 
             'venue' => 'required', 
-            'remarks' => 'required', 
+            'narration' => 'required', 
 
                 'activity.*' =>  'required', 
                 'start_date.*' => 'required', 

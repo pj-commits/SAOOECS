@@ -40,13 +40,17 @@
 
                 {{-- Row #2 --}}
                 <div class="grid grid-flow-row auto-rows-max gap-6 my-4 md:grid-cols-4">
-                    <p class="font-bold">Cash Advance: <span class="font-normal"> {{$forms->cash_advance}}</span></p>
-                    <p class="font-bold md:col-start-4">CV Number: <span class="font-normal"> {{$liquidation->cv_number}}</span></p>
+                    <p class="font-bold">Cash Advance: <span class="font-normal"> {{$liquidation->cash_advance}}</span></p>
                 </div>
 
                 {{-- Row #3 --}}
                 <div class="grid grid-flow-row auto-rows-max gap-6 my-4 md:grid-cols-1">
                     <p class="font-bold">Deduct: <span class="font-normal"> {{$liquidation->deduct}}</span></p>
+                </div>
+
+                {{-- Row #3.1 --}}
+                <div class="grid grid-flow-row auto-rows-max gap-6 my-4 md:grid-cols-1">
+                    <p class="font-bold">Total: <span class="font-normal"> {{$liquidation->cash_advance - $liquidation->deduct}}</span></p>
                 </div>
 
                 <hr class="my-4">
@@ -61,7 +65,7 @@
                             <thead class="border-b bg-bland-200 sticky top-0 z-10">
                                 {{-- Insert Table Head Columns Here --}}
                                 <x-table.head-col>#</x-table.head-col>
-                                {{-- <x-table.head-col>Quantity</x-table.head-col> --}}
+                                <x-table.head-col>Date Bought</x-table.head-col>
                                 <x-table.head-col>Particular</x-table.head-col>
                                 <x-table.head-col>Price</x-table.head-col>
                                 {{-- Table Head Columns Ends Here --}}
@@ -74,9 +78,9 @@
                                     <x-table.body-col>
                                         <p class="pl-2">{{$item->item_number}}</p>
                                     </x-table.body-col>
-                                    {{-- <x-table.body-col>
-                                        <p class="pl-2">{{$item->quantity}}</p>
-                                    </x-table.body-col> --}}
+                                    <x-table.body-col>
+                                        <p class="pl-2">{{date('M d, Y ', strtotime($item->date_bought))}}</p>
+                                    </x-table.body-col>
                                     <x-table.body-col>
                                         <p class="pl-2">{{$item->item}}</p>
                                     </x-table.body-col>
@@ -89,13 +93,16 @@
                             <tfoot>
                                 <tr class="bg-bland-100">
                                     {{-- Insert Table Footer Columns Here --}}
-                                   <x-table.footer-col>
+                                    <x-table.footer-col>
                                        {{-- Empty Space --}}
-                                   </x-table.footer-col>
-                                   <x-table.footer-col  class="text-right">
+                                    </x-table.footer-col>
+                                    <x-table.footer-col>
+                                    {{-- Empty Space --}}
+                                    </x-table.footer-col>
+                                    <x-table.footer-col  class="text-right">
                                        <p>Total:</p>
-                                   </x-table.footer-col>
-                                   <x-table.footer-col class="pl-2">
+                                    </x-table.footer-col>
+                                    <x-table.footer-col class="pl-2">
                                        <p><span>&#8369; </span> {{$item->price=+$item->price}}</p>                                   
                                     </x-table.footer-col>
                                    {{-- Table Footer Columns Ends Here --}}
