@@ -74,10 +74,10 @@
                                          <p class="pl-2">{{$program->activity}}</p>
                                      </x-table.body-col>
                                      <x-table.body-col>
-                                         <p class="pl-2">{{$program->start_date}}</p>
+                                         <p class="pl-2">{{date('M d, Y', strtotime($program->start_date))}}</p>
                                      </x-table.body-col>
                                      <x-table.body-col>
-                                         <p class="pl-2">{{$program->end_date}}</p>
+                                         <p class="pl-2">{{date('M d, Y', strtotime($program->end_date))}}</p>
                                      </x-table.body-col>
                                  </tr>
                                  @endforeach
@@ -122,7 +122,7 @@
                                         <p class="pl-2">{{$participant->section}}</p>
                                     </x-table.body-col>
                                     <x-table.body-col>
-                                        <p class="pl-2">{{$participant->participated_date}}</p>
+                                        <p class="pl-2">{{date('M d, Y', strtotime($participant->participated_date))}}</p>
                                     </x-table.body-col>
                                 </tr>
                                 @endforeach
@@ -178,7 +178,7 @@
                             <thead class="border-b bg-bland-200 sticky top-0 z-10">
                                 {{-- Insert Table Head Columns Here --}}
                                 <x-table.head-col>#</x-table.head-col>
-                                <x-table.head-col>Messagee</x-table.head-col>
+                                <x-table.head-col>Message</x-table.head-col>
                                 {{-- Table Head Columns Ends Here --}}
                             </thead>
                             {{-- Table Body --}}
@@ -212,7 +212,7 @@
                             {{-- Table Head--}}
                             <thead class="border-b bg-bland-200 sticky top-0 z-10">
                                 <x-table.head-col>#</x-table.head-col>
-                                <x-table.head-col>Messagee</x-table.head-col>
+                                <x-table.head-col>Message</x-table.head-col>
                                 {{-- Table Head Columns Ends Here --}}
                             </thead>
                             {{-- Table Body --}}

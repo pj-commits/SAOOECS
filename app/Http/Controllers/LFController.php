@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\LFRequest;
 use App\Models\OrganizationUser;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class LFController extends Controller
 {
@@ -62,7 +63,8 @@ class LFController extends Controller
             'finance_staff_id' => $finance ,
             'event_id' => $request->event_id,
             'form_type' => 'LF',
-            'target_date' => $event->target_date
+            'target_date' => $event->target_date,
+            'deadline' => Carbon::now()->setTimezone('Asia/Manila')->addDays(3),
         ]);
 
         // Liquidation Create

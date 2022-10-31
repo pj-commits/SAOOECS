@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\NRRequest;
 use App\Models\OrganizationUser;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class NRController extends Controller
 {
@@ -31,7 +32,7 @@ class NRController extends Controller
 
     public function store(NRRequest $request)
     {
-        $nr = $request->safe()->only(['venue', 'remarks', 'ratings' ]);
+        $nr = $request->safe()->only(['venue', 'narration', 'ratings' ]);
         $event = Form::where('event_id', $request->event_id)->get()->first();
 
          // get ID for approvers
@@ -67,7 +68,8 @@ class NRController extends Controller
             'finance_staff_id' => $finance ,
             'event_id' => $request->event_id,
             'form_type' => 'NR',
-            'target_date' => $event->target_date
+            'target_date' => $event->target_date,
+            'deadline' => Carbon::now()->setTimezone('Asia/Manila')->addDays(3),
         ]);
 
         // // Narrative Create

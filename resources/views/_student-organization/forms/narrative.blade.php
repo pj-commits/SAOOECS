@@ -70,7 +70,7 @@
 
                     {{-- Row #2 --}}          
                     <div class="mt-2">
-                        <x-label for="narration" :value="__('Remarks')" />
+                        <x-label for="narration" :value="__('Narration')" />
 
                         <x-text-area id="narration" name="narration" required @keyup="storeInput($el)"></x-text-area>
                     
