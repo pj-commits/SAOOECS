@@ -167,7 +167,7 @@ class RecordsController extends Controller
             
                     foreach($approvedAndCancelled as $form){
                         array_push($records, [
-                            'id' => Helper::encrypt($form->id),
+                            'id' => $form->id,
                             'formType' => $form->form_type,
                             'eventTitle' => $form->event_title,
                             'status' => $form->status,
@@ -183,9 +183,8 @@ class RecordsController extends Controller
 
     public function download($id)
     {
-        $formId = Helper::decrypt($id);
-        $form =  Form::findOrFail($formId);
-
+        $form =  Form::findOrFail($id);
+        
         //Activity Proposal Form
         if($form->form_type === 'APF'){
            $proposal = $form->proposal()->first();

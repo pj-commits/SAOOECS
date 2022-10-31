@@ -3,7 +3,7 @@
 @php
     $formTypes = [ 'APF' => 'Activity Proposal Form', 'BRF' => 'Budget Requisition Form', 'NR' => 'Narrative Report', 'LF' => 'Liquidation Form'];
     
-    $id = (json_decode(substr($id, 1, -1)));
+    $id = (substr($id, 1, -1));
     $eventTitle = (substr($eventTitle, 1, -1));
     $formType = (substr($formType, 1, -1));
 @endphp

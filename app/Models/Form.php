@@ -51,7 +51,7 @@ class Form extends Model
 
     public function getFormAdviser()
     {
-        return $this->belongsTo(OrganizationUser::class, 'adviser_staff_id'); 
+        return $this->belongsTo(OrganizationUser::class, 'organization_user_adviser_id'); 
     }
 
     public function getFormSao()
