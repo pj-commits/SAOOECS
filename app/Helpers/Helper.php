@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
 class Helper
 {
@@ -85,12 +86,66 @@ class Helper
         return intval($formattedId);
     }
 
-    static public function checkWords($sentence){
-
+    static public function checkWords($sentence)
+    {
         foreach(Helper::$prohibitedWords as $word){
             if(str_contains(strtolower($sentence), $word)){
                 return true;
             }
+        }
+        return false;
+    }
+
+    static public function isSaoHead()
+    {
+        if(Helper::userExistsInStaff()){
+            $userStaff = auth()->user()->userStaff()->get()->first();
+            $position = $userStaff->position;
+            $departmentId = $userStaff->department_id;
+            $department = DB::table('departments')->where('id', '=', $departmentId)->get()->first()->name;
+
+            if($position === "Head"){
+                if($department === 'Student Activities Office'){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    static public function userExistsInStaff()
+    {
+        if(auth()->user()->userStaff()->exists()){
+            return true;
+        }
+        return false;
+    }
+
+
+    static public function hasPendingApplication(){
+        if(DB::table('org_applications')->where('user_id', '=', auth()->user()->id)->where('status', '=', 'Pending')->exists()){
+            return true;
+        }
+        return false;
+    }
+
+    static public function isApprover(){
+        if(!(auth()->user()->user_type === 'Student')){
+            $position = DB::table('staff')->where('user_id', '=', auth()->user()->id)->first()->position;
+            if($position === "Head"){
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
+    static public function isAdviser(){
+        if(DB::table('organization_user')->where('user_id', '=', auth()->user()->id)->doesntExist()){
+            return false;
+        }
+        if(auth()->user()->studentOrg()->first()->pivot->position === "Adviser"){
+            return true;
         }
         return false;
     }

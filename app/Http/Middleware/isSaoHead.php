@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use App\Helper\Helper;
 
-class isApprover
+class isSaoHead
 {
     /**
      * Handle an incoming request.
@@ -17,7 +17,7 @@ class isApprover
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Helper::isApprover() || Helper::isAdviser()){
+        if(Helper::isSaoHead()){
             return $next($request);
         }
         abort(403);

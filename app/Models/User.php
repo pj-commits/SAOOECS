@@ -53,11 +53,6 @@ class User extends Authenticatable implements MustVerifyEmail
         // , 'organization_user','user_id','organization_id'
     }
 
-    public function role()
-    {
-        return $this->belongsToMany(Role::class, 'role_user','user_id','role_id');
-    }
-
     // HAS
 
 
@@ -71,9 +66,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(OrganizationUser::class);
     }
 
-    // LOGICS
-    public function checkUserType($authUserType){
+    public function userOrgApplication()
+    {
+        return $this->hasOne(OrgApplication::class);
+    }
 
+    // LOGICS
+    public function checkUserType($authUserType)
+    {
         $UserTypeArr = explode("|", $authUserType);
 
         foreach($UserTypeArr as $authUserType){
@@ -84,7 +84,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return false;
     }
 
-    public function checkOrgRole($role, $orgId){
+    public function checkOrgRole($role, $orgId)
+    {
         $authOrgRole = $this->belongsToMany(Organization::class, 'organization_user','user_id','organization_id')->where('organization_id', '=', $orgId)
         ->pluck('role');
 
@@ -103,7 +104,8 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
-    public function checkRole($role){
+    public function checkRole($role)
+    {
         $authOrgRole = $this->belongsToMany(Organization::class, 'organization_user','user_id','organization_id')
         ->pluck('role');
 
@@ -119,7 +121,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return false;
     }
 
-    public function checkPosition($position){
+    public function checkPosition($position)
+    {
         $authOrgPosition = $this->belongsToMany(Organization::class, 'organization_user','user_id','organization_id')
         ->pluck('position');
 
@@ -135,7 +138,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return false;
     }
 
-    public function isAdviser($position, $orgId){
+    public function isAdviser($position, $orgId)
+    {
         $authOrgPosition = $this->belongsToMany(Organization::class, 'organization_user','user_id','organization_id')->where('organization_id', '=', $orgId)
         ->pluck('position');
 
@@ -153,7 +157,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return false;
     }
 
-    public function isOrgMember(){
+    public function isOrgMember()
+    {
         return $this->belongsToMany(Organization::class, 'organization_user','user_id','organization_id')->exists();
     }
 

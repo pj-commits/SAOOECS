@@ -2,6 +2,10 @@
     $isModeratorOrEditor = Auth::user()->checkRole('Moderator|Editor');
 @endphp
 <x-app-layout>
+
+    <!-- Error Mesage -->
+    <x-alert-message/>
+    
     @if(!$isModeratorOrEditor)
     <div class="mt-8 h-auto w-full rounded-sm px-6 py-4">
         <div class="flex flex-col justify-center items-center py-16 px-2 md:px-8">

@@ -70,11 +70,11 @@
 
             <!-- Remove Member Modal -->
             <x-modal name="removeMember">
-                <div class="py-5 text-center">
-                    Are you sure you want to remove <br> <b>{{$selected->firstName}} {{$selected->lastName}}</b> from <b>{{$currOrg->orgName}}</b>?
+                <div class="text-sm py-5 text-left">
+                    Are you sure you want to remove <b>{{ $selected->first_name }} {{ $selected->last_name }}</b> from <b>{{ $currOrg->org_name }}</b>?
                 </div>
                 
-                <div class="flex justify-center space-x-4 mt-5">
+                <div class="flex justify-end space-x-2 mt-5">
                     <form action="{{ route('organization.destroy', ['id' => $currOrg ,'member' => $selected->id ]) }}" method="POST">
                         @csrf
                         @method('DELETE')

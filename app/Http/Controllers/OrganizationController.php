@@ -53,7 +53,7 @@ class OrganizationController extends Controller
     {  
         //fetch from dummy user api
         //Get key. if user is not in api = error
-        $response = json_decode(Http::get('https://sample-user-api.herokuapp.com/users'));
+        $response = json_decode(Http::get('https://sao-oecs-users.herokuapp.com/users'));
         $key = array_search($request->email, array_column($response, 'email'));
 
         // // valitdate request
@@ -64,7 +64,7 @@ class OrganizationController extends Controller
                 // Rule::unique('user','email'),
                 
                 function($attribute, $value, $fail){
-                    $response = json_decode(Http::get('https://sample-user-api.herokuapp.com/users'));
+                    $response = json_decode(Http::get('https://sao-oecs-users.herokuapp.com/users'));
                     $key = array_search($value, array_column($response, 'email'));  
 
                     if($key === false){
@@ -79,10 +79,15 @@ class OrganizationController extends Controller
             ]
         );
 
-        //create/store fetched
-        $getUser = $response[$key];
+        //If user commit profanity
+        if(Helper::checkWords($request->position)){
+            return redirect()->back()->with('error', 'Prohibited Word. Do not try it again! This action is recorded.');
+        }
 
-        //Check if user have alredy data on the 'user' table
+        //create/store fetched
+        $getUser = $response[$key+1];
+
+        //Check if user have alredy have data on the 'users' table
         if(!User::where('email', $request->email)->exists()){
             $user = User::create([
                 'first_name' => $getUser->firstName,
@@ -90,7 +95,7 @@ class OrganizationController extends Controller
                 'last_name' => $getUser->lastName,
                 'phone_number' => $getUser->phoneNumber,
                 'email' => $getUser->email,
-                'user_type' => 'Student',
+                'user_type' => $getUser->userType,
                 'password' => bcrypt($getUser->password)
             ]);
 
@@ -136,7 +141,7 @@ class OrganizationController extends Controller
     public function update(Request $request, $orgId, $memberId)
     {
         $selected = User::findorfail($memberId);
-
+        
         $request->validate([
             'position' => 'required|regex:/^[\pL\s]+$/u|max:30',
             'role' => 'required' 
@@ -147,6 +152,16 @@ class OrganizationController extends Controller
             return redirect()->back()->with('error', 'Prohibited Word. Do not try it again! This action is recorded.');
         }
 
+        //If user is adviser, then edit will not continue
+        if($selected->studentOrg()->first()->pivot->position === "Adviser"){
+            return redirect()->back()->with('error', 'Organization Adviser is not editable.');
+        }
+
+        //Checks if new adviser is professor or staff, if not return with error
+        if($request->position === "Adviser" && $selected->user_type === "Student"){
+            return redirect()->back()->with('error', 'Organization Adviser must be Staff or Professor.');
+        }
+
         //capitalized first letter of position
         $position = ucfirst($request->position);
         $attributes = ['position' => $position, 'role' => $request->role];
@@ -154,6 +169,9 @@ class OrganizationController extends Controller
         $message = $selected->first_name.' '.$selected->last_name.' was succesfully edited!';
 
         return Redirect::route('organization.show', ['id'=>$orgId])->with('edit', $message);
+        
+        
+   
     }
 
 
@@ -162,7 +180,7 @@ class OrganizationController extends Controller
     {
         $selected = User::findorfail($member);
         $selected->studentOrg()->detach($orgId);
-        $message = $selected->firstName.' '.$selected->lastName.' was successfully removed from the organization.';
+        $message = $selected->first_name.' '.$selected->last_name.' was successfully removed from the organization.';
         
         return Redirect::route('organization.show', ['id'=>$orgId])->with('remove', $message);
     }
