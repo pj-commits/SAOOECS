@@ -9,6 +9,7 @@ use App\Models\Department;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redirect;
 use App\Helper\Helper;
+use Illuminate\Support\Str;
 
 class DepartmentHeadController extends Controller
 {
@@ -92,11 +93,6 @@ class DepartmentHeadController extends Controller
         if($getUser->userType != "Staff" && $getUser->userType != "Professor"){
             return Redirect::route('department-heads.index')->with('error', "Sorry, the action is cannot be done!");
         }
-
-        //Check if user is already a head
-        if(DB::table('staff')->where('user_id', '=', $userId)->first()->position === 'Head'){
-            return Redirect::route('department-heads.index')->with('error', "Sorry, the action is cannot be done!");
-        }
         
         //Check if user have alredy have data on the 'users' table
         if(!User::where('email', $request->email)->exists()){
@@ -116,6 +112,13 @@ class DepartmentHeadController extends Controller
 
         }
 
+        //Checks if assignee is already a department head.
+        if($user->userStaff()->exists()){
+            if($user->userStaff()->first()->position){
+                return Redirect::route('department-heads.index')->with('error', "Sorry, the action is cannot be done!");
+            }
+        }
+        
         //dettach current department head from department.
         $currentHead = User::findOrFail($userId);
         $currentHead->userStaff()->delete($departmentId); 
@@ -124,7 +127,10 @@ class DepartmentHeadController extends Controller
         $user->userStaff()->insert([
             'user_id' => $user->id,
             'department_id' => $departmentId,
-            'position' => 'Head'
+            'position' => 'Head',
+            'created_at' => date("Y-m-d H:i:s", strtotime('now')),
+            'updated_at' => date("Y-m-d H:i:s", strtotime('now'))
+
         ]);
 
         return Redirect::route('department-heads.index')->with('add', 'New Department Head was assigned successfully!');

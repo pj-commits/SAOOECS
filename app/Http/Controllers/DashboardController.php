@@ -46,8 +46,7 @@ class DashboardController extends Controller
 
                 }
 
-
-                // Getting the forms and destructuring it.
+            // Getting the forms and destructuring it.
             $getForms = Form::where('status', '=', 'Pending')
                 ->where(function ($query) {
                     $user = auth()->user();

@@ -83,7 +83,7 @@ class OrganizationController extends Controller
             ]
         );
 
-        //If user commit profanity
+        //If user committed profanity
         if(Helper::checkWords($request->position)){
             return redirect()->back()->with('error', 'Prohibited Word. Do not try it again! This action is recorded.');
         }
@@ -91,7 +91,7 @@ class OrganizationController extends Controller
         //create/store fetched
         $getUser = $response[$key+1];
 
-        //Check if user have alredy have data on the 'users' table
+        //Check if user alredy have data on the 'users' table
         if(!User::where('email', $request->email)->exists()){
             $user = User::create([
                 'first_name' => $getUser->firstName,
@@ -180,7 +180,6 @@ class OrganizationController extends Controller
         
    
     }
-
 
 
     public function destroy($orgId, $member)

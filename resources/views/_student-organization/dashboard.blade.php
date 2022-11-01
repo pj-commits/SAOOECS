@@ -79,12 +79,24 @@
                                         <hr>
                                         <!-- Accordion Body Bottom -->
                                         <!-- Tracker -->
+                                        @if($form->form_type === 'NR')
                                         <x-tracker orientation="vertical">
                                             <x-tracker-item orientation="vertical" approver="Adviser" dateApproved="{{ $form->adviser_date_approved ? \Carbon\Carbon::parse($form->adviser_date_approved)->format('F d, Y - h:i A') : null }}"/>
-                                            <x-tracker-item orientation="vertical" approver="SAO" dateApproved="{{ $form->sao_date_approved ? \Carbon\Carbon::parse($form->sao_date_approved)->format('F d, Y - h:i A') : null }}"/>
-                                            <x-tracker-item orientation="vertical" approver="Academic Services" dateApproved="{{ $form->acadserv_date_approved ? \Carbon\Carbon::parse($form->acadserv_date_approved)->format('F d, Y - h:i A') : null }}"/>
-                                            <x-tracker-item orientation="vertical" approver="Finance and Accounting Office" dateApproved="{{ $form->finance_date_approved ? \Carbon\Carbon::parse($form->finance_date_approved)->format('F d, Y - h:i A') : null }}"/>
+                                            <x-tracker-item orientation="vertical" approver="SAO Head" dateApproved="{{ $form->sao_date_approved ? \Carbon\Carbon::parse($form->sao_date_approved)->format('F d, Y - h:i A') : null }}"/>
                                         </x-tracker>
+                                        @elseif($form->form_type === 'LF')
+                                        <x-tracker orientation="vertical">
+                                            <x-tracker-item orientation="vertical" approver="Adviser" dateApproved="{{ $form->adviser_date_approved ? \Carbon\Carbon::parse($form->adviser_date_approved)->format('F d, Y - h:i A') : null }}"/>
+                                            <x-tracker-item orientation="vertical" approver="Finance and Accounting Head" dateApproved="{{ $form->finance_date_approved ? \Carbon\Carbon::parse($form->finance_date_approved)->format('F d, Y - h:i A') : null }}"/>
+                                        </x-tracker>
+                                        @else
+                                        <x-tracker orientation="vertical">
+                                            <x-tracker-item orientation="vertical" approver="Adviser" dateApproved="{{ $form->adviser_date_approved ? \Carbon\Carbon::parse($form->adviser_date_approved)->format('F d, Y - h:i A') : null }}"/>
+                                            <x-tracker-item orientation="vertical" approver="SAO Head" dateApproved="{{ $form->sao_date_approved ? \Carbon\Carbon::parse($form->sao_date_approved)->format('F d, Y - h:i A') : null }}"/>
+                                            <x-tracker-item orientation="vertical" approver="Academic Services Head" dateApproved="{{ $form->acadserv_date_approved ? \Carbon\Carbon::parse($form->acadserv_date_approved)->format('F d, Y - h:i A') : null }}"/>
+                                            <x-tracker-item orientation="vertical" approver="Finance and Accounting Head" dateApproved="{{ $form->finance_date_approved ? \Carbon\Carbon::parse($form->finance_date_approved)->format('F d, Y - h:i A') : null }}"/>
+                                        </x-tracker>
+                                        @endif
 
                                         <!-- cancelForm Button && View Details -->
                                         <div class="flex justify-end space-x-2 my-4">

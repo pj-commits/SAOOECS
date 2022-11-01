@@ -39,7 +39,9 @@
                 <div class="flex">
                     <div class="basis-full h-auto bg-white mt-4 rounded-sm shadow-sm p-6 lg:basis-[50%] xl:basis-[40%]"> 
                         <p class="text-sm text-bland-400">New Department Head</p>
-                        <form action="{{ route('department-heads.update', ['departmentId' => $departmentInfo->id, 'userId' => $headInfo->id ])}}">
+                        <form action="{{ route('department-heads.update', ['departmentId' => $departmentInfo->id, 'userId' => $headInfo->id ])}}" method="POST">
+                            @csrf
+                            @method('PUT')
 
                             <!-- Email -->
                             <div>

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\OrgApplication;
 use App\Models\User;
 use App\Helper\Helper;
+use Illuminate\Support\Str;
 
 class ApplicationController extends Controller
 {
@@ -52,15 +53,14 @@ class ApplicationController extends Controller
         $user = User::findOrFail($application->user_id);
 
         //Create organization
-        $organization = Organization::insertGetId([
+        $organization = Organization::create([
             'org_name' => $application->org_name,
             'adviser' => $application->getUser()->first()->first_name." ".$application->getUser()->first()->last_name,
             'created_at' => date("Y-m-d H:i:s", strtotime('now')),
             'updated_at' => date("Y-m-d H:i:s", strtotime('now'))
         ]);
-
         //Attach adviser to 'organization_user' table
-        $user->studentOrg()->attach($organization, ['position' => 'Adviser', 'role' => 'Moderator']);
+        $user->studentOrg()->attach($organization->id, ['position' => 'Adviser', 'role' => 'Moderator']);
 
         //Update org application status to 'Approved'
         $application->status = "Approved";

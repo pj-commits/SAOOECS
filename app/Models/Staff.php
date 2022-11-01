@@ -11,11 +11,7 @@ class Staff extends Model
     use HasFactory;
     use Uuid;
 
-    protected $fillable = [
-        'user_id',
-        'department_id',
-        'position'
-    ];
+    protected $guarded = [];
 
     // BELONGS TO
     public function facultyUser()
