@@ -8,6 +8,7 @@ use App\Models\OrgApplication;
 use App\Models\User;
 use App\Helper\Helper;
 use Illuminate\Support\Str;
+use App\Models\OrganizationUser;
 
 class ApplicationController extends Controller
 {
@@ -26,7 +27,7 @@ class ApplicationController extends Controller
             'purpose' => 'required',
         ]);
 
-        OrgApplication::insert([
+        OrgApplication::create([
             'user_id' => auth()->user()->id,
             'org_name' => $request->org_name,
             'description' => $request->description,
@@ -59,8 +60,14 @@ class ApplicationController extends Controller
             'created_at' => date("Y-m-d H:i:s", strtotime('now')),
             'updated_at' => date("Y-m-d H:i:s", strtotime('now'))
         ]);
+
         //Attach adviser to 'organization_user' table
-        $user->studentOrg()->attach($organization->id, ['position' => 'Adviser', 'role' => 'Moderator']);
+        OrganizationUser::create([
+            'user_id' => $user->id,
+            'organization_id' => $organization->id,
+            'position' => 'Adviser',
+            'role' => 'Moderator'
+        ]);
 
         //Update org application status to 'Approved'
         $application->status = "Approved";

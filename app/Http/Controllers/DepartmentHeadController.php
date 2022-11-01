@@ -124,7 +124,7 @@ class DepartmentHeadController extends Controller
         $currentHead->userStaff()->delete($departmentId); 
 
         //attach new department head
-        $user->userStaff()->insert([
+        $user->userStaff()->create([
             'user_id' => $user->id,
             'department_id' => $departmentId,
             'position' => 'Head',

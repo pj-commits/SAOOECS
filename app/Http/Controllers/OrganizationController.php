@@ -105,8 +105,8 @@ class OrganizationController extends Controller
 
         }
 
-        $recruiteeId = User::where('email', $request->email)->first()->id;
-        $isUserAlredyInOrg = DB::table('organization_user')->where('organization_id', $orgId)->where('user_id', $recruiteeId)->exists(); 
+        $recruitee = User::where('email', $request->email)->first();
+        $isUserAlredyInOrg = DB::table('organization_user')->where('organization_id', $orgId)->where('user_id', $recruitee->id)->exists(); 
         
         //Check if user is already part of the organization
         if($isUserAlredyInOrg){
@@ -115,12 +115,12 @@ class OrganizationController extends Controller
         }else{
             $position = ucfirst($request->position);
             $user = OrganizationUser::create([
-                'user_id' => $recruiteeId,
+                'user_id' => $recruitee->id,
                 'organization_id' => $orgId,
                 'position' => $position,
                 'role' => $request->role,
             ]);
-            $message = $user->first_name.' '. $user->last_name.' was successfully assigned as '. $position.'!';
+            $message = $recruitee->first_name.' '. $recruitee->last_name.' was successfully assigned as '. $position.'!';
         }
     
         
