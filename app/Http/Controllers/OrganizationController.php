@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
-use App\Models\Organization;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 use App\Helper\Helper;
-use Illuminate\Support\Str;
+use App\Models\Organization;
+use Illuminate\Http\Request;
+use App\Models\OrganizationUser;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Redirect;
 
 class OrganizationController extends Controller
 {
@@ -63,14 +63,17 @@ class OrganizationController extends Controller
                 'required',
                 'email',
                 // Rule::unique('user','email'),
-                
                 function($attribute, $value, $fail){
                     $response = json_decode(Http::get('https://sao-oecs-users.herokuapp.com/users'));
-                    $key = array_search($value, array_column($response, 'email'));  
+                    $key = array_search($value, array_column($response, 'email'));
+                    $inUsers = User::where('email', $value)->exists();
 
-                    if($key === false){
-                        $fail("User not found. Please use valid APC Email!");
+                    if($inUsers === false){
+                        if($key === false){
+                            $fail("User not found. Please use valid APC Email!");
+                        }
                     }
+                   
                 }],
             'position' => 'required|regex:/^[\pL\s]+$/u|max:30',
             'role' => 'required'  
@@ -100,25 +103,28 @@ class OrganizationController extends Controller
                 'password' => bcrypt($getUser->password)
             ]);
 
-        }else{
-
-            $recruiteeId = User::where('email', $request->email)->first()->id;
-            $isUserAlredyInOrg = DB::table('organization_user')->where('organization_id', $orgId)->where('user_id', $recruiteeId)->exists();
-            
-            //Check if user is already part of the organization
-            if($isUserAlredyInOrg){
-                $message = 'User is already part of this organization!';
-                return redirect()->back()->with('error', $message);
-            }else{
-                $user = User::findOrFail($recruiteeId);
-            }
         }
+
+        $recruiteeId = User::where('email', $request->email)->first()->id;
+        $isUserAlredyInOrg = DB::table('organization_user')->where('organization_id', $orgId)->where('user_id', $recruiteeId)->exists(); 
         
-        //capitalized first letter of position
-        $position = ucfirst($request->position);
-        //attach role, org, position to fetched
-        $user->studentOrg()->attach($orgId, ['position' => $position, 'role' => $request->role]);
-        $message = $user->first_name.' '. $user->last_name.' was successfully assigned as '. $position.'!';
+        //Check if user is already part of the organization
+        if($isUserAlredyInOrg){
+            $message = 'User is already part of this organization!';
+            return redirect()->back()->with('error', $message);
+        }else{
+            $position = ucfirst($request->position);
+            $user = OrganizationUser::create([
+                'user_id' => $recruiteeId,
+                'organization_id' => $orgId,
+                'position' => $position,
+                'role' => $request->role,
+            ]);
+            $message = $user->first_name.' '. $user->last_name.' was successfully assigned as '. $position.'!';
+        }
+    
+        
+    
 
         //Register the fetched. This will send verification email. Customize the email under resources/views/vendor
         // event(new Registered($user));

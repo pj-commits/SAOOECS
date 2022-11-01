@@ -523,7 +523,7 @@ class UserSeeder extends Seeder
 
 /*
 |--------------------------------------------------------------------------
-| STAFF
+| ORGANIZATION_USER
 |--------------------------------------------------------------------------
 */
         $this->command->info('Generating ORGANIZATION_USER data...');
