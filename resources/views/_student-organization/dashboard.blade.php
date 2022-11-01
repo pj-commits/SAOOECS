@@ -88,8 +88,8 @@
 
                                         <!-- cancelForm Button && View Details -->
                                         <div class="flex justify-end space-x-2 my-4">
-
-                                            <x-button onclick="window.location='{{ route('submitted-forms.show', ['forms' => Helper::encrypt($form->id) ]) }}'">
+                                         
+                                            <x-button onclick="window.location='{{ route('submitted-forms.show', ['forms' => $form->id ]) }}'">
                                                 {{__('View Details')}}
                                             </x-button>
 

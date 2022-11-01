@@ -176,7 +176,7 @@ class SubmittedFormsController extends Controller
             
             foreach($forms as $form){
                 array_push($pendingForms, [
-                    'id' => Helper::encrypt($form->id),
+                    'id' => $form->id,
                     'formType' => $form->form_type,
                     'eventTitle' => $form->event_title,
                     'date' => Carbon::parse($form->created_at)->format('F d, Y - h:i A'),
@@ -197,9 +197,7 @@ class SubmittedFormsController extends Controller
 
     public function show($id)
     {   
-        $formId = Helper::decrypt($id);
-
-        $forms = Form::findOrFail($formId);
+        $forms = Form::findOrFail($id);
 
         if($forms->form_type === 'APF'){
 
