@@ -45,8 +45,7 @@ class DashboardController extends Controller
 
                 }
 
-
-                // Getting the forms and destructuring it.
+            // Getting the forms and destructuring it.
             $getForms = Form::where('status', '=', 'Pending')
                 ->where(function ($query) {
                     $user = auth()->user();
@@ -190,6 +189,7 @@ class DashboardController extends Controller
                             'deadline' => $form->deadline,
                         ]);
                 }
+
                 return view('_approvers.dashboard', compact('forms', 'isAcadservOrFinance'));
 
             }

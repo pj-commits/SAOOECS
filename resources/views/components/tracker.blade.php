@@ -1,4 +1,4 @@
-@props(['orientation'])
+@props(['orientation', 'marginRight' => 'mr-[120px]'])
 
 @if($orientation === 'vertical')
 <div class="flex md:justify-center pt-8 pb-4 mb-8">
@@ -22,12 +22,12 @@
     <div class="flex flex-col relative">
     
         <!-- Line -->
-        <div class="bg-gray-200  broder-2 border-bland-200 h-1 mr-12 ml-8">
+        <div class="bg-gray-200  broder-2 border-bland-200 h-1 {{ $marginRight }} ml-8">
             <div class="w-full bg-primary-yellow h-1"></div>
         </div>
     
         <!-- Content -->
-        <div class="flex space-x-36">
+        <div class="flex space-x-32">
             {{ $slot }}
         </div>
 

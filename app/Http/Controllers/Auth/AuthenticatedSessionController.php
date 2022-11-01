@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
+use Illuminate\Support\Str;
 
 
 class AuthenticatedSessionController extends Controller
@@ -67,6 +68,7 @@ class AuthenticatedSessionController extends Controller
             }elseif($getUser->userType != "Professor"){
                 throw ValidationException::withMessages(['errors' => 'Sorry, invalid login.']);
             }else{
+
                 //store user details
                 $user = User::create([
                     'first_name' => $getUser->firstName,
@@ -80,14 +82,16 @@ class AuthenticatedSessionController extends Controller
 
                 //Attach user to their corresponding department
                 $departmentId = DB::table('departments')->where('name', '=', $getUser->departmentName)->pluck('id');
+                $uuid = Str::uuid()->toString();
                 $user->userStaff()->insert([
+                    'id' => $uuid,
                     'user_id' => $user->id,
                     'department_id' => $departmentId->first(),
                     'position' => $getUser->departmentPosition,
                     'created_at' => date("Y-m-d H:i:s", strtotime('now')),
                     'updated_at' => date("Y-m-d H:i:s", strtotime('now'))
                 ]);
-
+            
                 $request->authenticate();
                 $request->session()->regenerate();
                 return redirect()->intended(RouteServiceProvider::HOME);

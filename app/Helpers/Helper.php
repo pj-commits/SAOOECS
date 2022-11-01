@@ -115,39 +115,39 @@ class Helper
 
     static public function userExistsInStaff()
     {
-        if(auth()->user()->userStaff()->exists()){
-            return true;
-        }
-        return false;
+        if(auth()->user()->userStaff()->doesntExist()) return false;
+
+        return true;
     }
 
 
-    static public function hasPendingApplication(){
-        if(DB::table('org_applications')->where('user_id', '=', auth()->user()->id)->where('status', '=', 'Pending')->exists()){
-            return true;
-        }
-        return false;
+    static public function hasPendingApplication()
+    {
+        if(DB::table('org_applications')->where('user_id', '=', auth()->user()->id)->where('status', '=', 'Pending')->doesntExist()) return false;
+
+        return true;
     }
 
-    static public function isApprover(){
-        if(!(auth()->user()->user_type === 'Student')){
-            $position = DB::table('staff')->where('user_id', '=', auth()->user()->id)->first()->position;
-            if($position === "Head"){
-                return true;
-            }
-            return false;
-        }
-        return false;
-    }
+    static public function isApprover()
+    {
+        if(auth()->user()->user_type === 'Student') return false;
 
-    static public function isAdviser(){
-        if(DB::table('organization_user')->where('user_id', '=', auth()->user()->id)->doesntExist()){
-            return false;
-        }
-        if(auth()->user()->studentOrg()->first()->pivot->position === "Adviser"){
-            return true;
-        }
-        return false;
+        if(DB::table('staff')->where('user_id', '=', auth()->user()->id)->doesntExist()) return false;
+   
+        $position = DB::table('staff')->where('user_id', '=', auth()->user()->id)->first()->position;
+
+        if($position !== "Head") return false;
+
+        return true;
+    }   
+
+    static public function isAdviser()
+    {
+        if(DB::table('organization_user')->where('user_id', '=', auth()->user()->id)->doesntExist()) return false;
+
+        if(auth()->user()->studentOrg()->first()->pivot->position !== "Adviser") return false;
+        
+        return true;
     }
 
 }
