@@ -161,8 +161,8 @@ class RecordsController extends Controller
                     }
                     
                 })->paginate(10);
-                    
 
+            
                     $records = [];
             
                     foreach($approvedAndCancelled as $form){
