@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('requisitions', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('form_id')->references('id')->on('forms')->onDelete('cascade');
-            $table->foreignId('department_id');
+            $table->foreignUuid('department_id')->references('id')->on('departments')->onDelete('cascade');
             $table->date('date_filed');
             $table->date('date_needed');
             $table->string('payment');

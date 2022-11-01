@@ -190,9 +190,6 @@ Route::get('/lf', function (){
     return new lfSubmittedEmail();
 });
 
-Route::get('/org', function (){
-    return new OrgMemAddEmail();
-});
 
 //ForwardFormNextApproverEmail 
 Route::get('/forward', function (){
