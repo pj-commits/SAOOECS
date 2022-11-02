@@ -15,6 +15,10 @@ use App\Mail\apfSubmittedEmail;
 use App\Mail\rfSubmittedEmail;
 use App\Mail\nrSubmittedEmail;
 use App\Mail\lfSubmittedEmail;
+use App\Mail\ForwardFormNextApproverEmail;
+use App\Mail\AddOrganizationMemberEmail;
+use App\Mail\EditOrganizationMemberEmail;
+use App\Mail\RemoveOrganizationMemberEmail;
 use App\Mail\OrgMemAddEmail;
 use App\Http\Controllers\DepartmentHeadController;
 
@@ -186,6 +190,23 @@ Route::get('/lf', function (){
     return new lfSubmittedEmail();
 });
 
-Route::get('/org', function (){
-    return new OrgMemAddEmail();
+
+//ForwardFormNextApproverEmail 
+Route::get('/forward', function (){
+    return new ForwardFormNextApproverEmail();
+});
+
+//Add Member in Organization
+Route::get('/orgadd', function (){
+    return new AddOrganizationMemberEmail();
+});
+
+//Edit Member in Organization
+Route::get('/orgedit', function (){
+    return new EditOrganizationMemberEmail();
+});
+
+//Remove Member in Organization
+Route::get('/orgremove', function (){
+    return new RemoveOrganizationMemberEmail();
 });
