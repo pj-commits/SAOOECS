@@ -1,17 +1,19 @@
 @component('mail::message')
-# <p class="suc">Submitted Successfully!</p>
-<br>
-The <b>Narrative Report</b> was submitted.
+# <p class="deny">We're sorry to say!</p>
 
 @component('mail::panel')
-Kindly wait for its approval.
+Your form <b>{{$formType}}:
+<br>{{$formTitle}}</br></b> has been denied.
 <br>
 <br>
-To view your <b>Narrative Report</b> status, please click the button below:
+Remarks: {{$formRemarks}}.
+<br>
+<br>
+To edit form, please  click the button below:
 @endcomponent
 
 @component('mail::button', ['url' => URL::route('dashboard')])
-View Status
+Edit Form
 @endcomponent
 
 Thanks,<br>

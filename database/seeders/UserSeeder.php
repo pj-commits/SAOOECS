@@ -50,7 +50,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '09123456789',
                 'user_type' => 'Staff',
                 'email' => 'sao@apc.edu.ph',
-                'password' => bcrypt('password')
+                'password' => bcrypt('R@M$xBM_2022')
             ],
             //2 - Finance Head
             [
@@ -60,7 +60,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '09123456789',
                 'user_type' => 'Staff',
                 'email' => 'finance@apc.edu.ph',
-                'password' => bcrypt('password')
+                'password' => bcrypt('R@M$xBM_2022')
             ],
             //3 - AcadServ
             [
@@ -70,7 +70,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '09123456789',
                 'user_type' => 'Staff',
                 'email' => 'acadserv@apc.edu.ph',
-                'password' => bcrypt('password')
+                'password' => bcrypt('R@M$xBM_2022')
             ],
             //4 - Adviser
             [
@@ -80,7 +80,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '09123456789',
                 'user_type' => 'Professor',
                 'email' => 'adviser@apc.edu.ph',
-                'password' => bcrypt('password')
+                'password' => bcrypt('R@M$xBM_2022')
             ],
             //5 - Brewing Minds President
             [
@@ -90,7 +90,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '09123456789',
                 'user_type' => 'Student',
                 'email' => 'mmmanadero@student.apc.edu.ph',
-                'password' => bcrypt('password')
+                'password' => bcrypt('R@M$xBM_2022')
             ],
             //6 Brewing Minds Vice-President
             [
@@ -100,7 +100,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '09123456789',
                 'user_type' => 'Student',
                 'email' => 'pdsigno@student.apc.edu.ph',
-                'password' => bcrypt('password')
+                'password' => bcrypt('R@M$xBM_2022')
             ],
             //7 Brewing Minds - Secretary
             [
@@ -110,7 +110,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '09123456789',
                 'user_type' => 'Student',
                 'email' => 'mericahuerta@student.apc.edu.ph',
-                'password' => bcrypt('password')
+                'password' => bcrypt('R@M$xBM_2022')
             ],
             //8 Brewing Minds - Treasurer
             [
@@ -120,7 +120,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '09123456789',
                 'user_type' => 'Student',
                 'email' => 'lmbinotapa@student.apc.edu.ph',
-                'password' => bcrypt('password')
+                'password' => bcrypt('R@M$xBM_2022')
             ],
             //9 Brewing Minds - Auditor
             [
@@ -130,7 +130,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '09123456789',
                 'user_type' => 'Student',
                 'email' => 'tcyumul@student.apc.edu.ph',
-                'password' => bcrypt('password')
+                'password' => bcrypt('R@M$xBM_2022')
             ],
             //10 Adviser
             [
@@ -140,7 +140,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '09123456789',
                 'user_type' => 'Professor',
                 'email' => 'msbounde@apc.edu.ph',
-                'password' => bcrypt('password')
+                'password' => bcrypt('R@M$xBM_2022')
             ],
             //11
             [
@@ -150,7 +150,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '09123456789',
                 'user_type' => 'Student',
                 'email' => 'ekpieche@student.apc.edu.ph',
-                'password' => bcrypt('password')
+                'password' => bcrypt('R@M$xBM_2022')
             ],
             //12
             [
@@ -160,7 +160,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '09123456789',
                 'user_type' => 'Student',
                 'email' => 'jsbaden@student.apc.edu.ph',
-                'password' => bcrypt('password')
+                'password' => bcrypt('R@M$xBM_2022')
             ],
             //13
             [
@@ -170,7 +170,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '09123456789',
                 'user_type' => 'Student',
                 'email' => 'mlkittman@student.apc.edu.ph',
-                'password' => bcrypt('password')
+                'password' => bcrypt('R@M$xBM_2022')
             ],
             //14
             [
@@ -180,7 +180,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '09123456789',
                 'user_type' => 'Student',
                 'email' => 'ckfellgatt@student.apc.edu.ph',
-                'password' => bcrypt('password')
+                'password' => bcrypt('R@M$xBM_2022')
             ],
             //15
             [
@@ -190,7 +190,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '09123456789',
                 'user_type' => 'Student',
                 'email' => 'syvynall@student.apc.edu.ph',
-                'password' => bcrypt('password')
+                'password' => bcrypt('R@M$xBM_2022')
             ],
             //16
             [
@@ -200,7 +200,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '09123456789',
                 'user_type' => 'Student',
                 'email' => 'ggbranthwaite@student.apc.edu.ph',
-                'password' => bcrypt('password')
+                'password' => bcrypt('R@M$xBM_2022')
             ],
             //17
             [
@@ -210,7 +210,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '09123456789',
                 'user_type' => 'Student',
                 'email' => 'ddenser@student.apc.edu.ph',
-                'password' => bcrypt('password')
+                'password' => bcrypt('R@M$xBM_2022')
             ],
             //18
             [
@@ -220,7 +220,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '09123456789',
                 'user_type' => 'Student',
                 'email' => 'gacheyenne@student.apc.edu.ph',
-                'password' => bcrypt('password')
+                'password' => bcrypt('R@M$xBM_2022')
             ],
             //19
             [
@@ -230,7 +230,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '09123456789',
                 'user_type' => 'Student',
                 'email' => 'gomarrion@student.apc.edu.ph',
-                'password' => bcrypt('password')
+                'password' => bcrypt('R@M$xBM_2022')
             ],
             //20
             [
@@ -240,7 +240,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '09123456789',
                 'user_type' => 'Student',
                 'email' => 'mfboobyer@student.apc.edu.ph',
-                'password' => bcrypt('password')
+                'password' => bcrypt('R@M$xBM_2022')
             ],
             //21
             [
@@ -250,7 +250,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '09123456789',
                 'user_type' => 'Student',
                 'email' => 'ogfaircliff@student.apc.edu.ph',
-                'password' => bcrypt('password')
+                'password' => bcrypt('R@M$xBM_2022')
             ],
             //22
             [
@@ -260,7 +260,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '09123456789',
                 'user_type' => 'Student',
                 'email' => 'hdnyland@student.apc.edu.ph',
-                'password' => bcrypt('password')
+                'password' => bcrypt('R@M$xBM_2022')
             ],
             //23
             [
@@ -270,7 +270,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '09123456789',
                 'user_type' => 'Student',
                 'email' => 'jcgibby@student.apc.edu.ph',
-                'password' => bcrypt('password')
+                'password' => bcrypt('R@M$xBM_2022')
             ],
             //24
             [
@@ -280,7 +280,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '09123456789',
                 'user_type' => 'Student',
                 'email' => 'csjessop@student.apc.edu.ph',
-                'password' => bcrypt('password')
+                'password' => bcrypt('R@M$xBM_2022')
             ],
             //25
             [
@@ -290,7 +290,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '09123456789',
                 'user_type' => 'Student',
                 'email' => 'wlcragoe@student.apc.edu.ph',
-                'password' => bcrypt('password')
+                'password' => bcrypt('R@M$xBM_2022')
             ],
             [
             //26 - Codeseekers Adviser
@@ -300,7 +300,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '09456643543',
                 'user_type' => 'Professor',
                 'email' => 'codeseekers@apc.edu.ph',
-                'password' => bcrypt('xtianpogi')
+                'password' => bcrypt('xT1@n_p06!')
             ],
             //27 - Codeseekers President
             [
@@ -310,7 +310,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '09363378264',
                 'user_type' => 'Student',
                 'email' => 'cbpili@student.apc.edu.ph',
-                'password' => bcrypt('xtianpogi')
+                'password' => bcrypt('xT1@n_p06!')
             ],
 
         ];
