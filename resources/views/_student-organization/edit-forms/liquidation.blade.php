@@ -1,6 +1,9 @@
+@php
+    $items = json_encode($liquidationItems);
+@endphp
 <x-app-layout>
-    <div class="pt-24" x-data="set_local_storage_data('lf')"> {{-- lf = Liqiudation Form --}}
-        <div class="max-w-screen mx-auto px-4 lg:px-8" x-data="get_local_storage_data('lf')">
+    <div class="pt-24">
+        <div class="max-w-screen mx-auto px-4 lg:px-8">
             <div class="flex justify-between flex-wrap">
                 <h1 class="flex items-center text-xl">
                     <span>
@@ -29,7 +32,7 @@
                         <div class="col-span-2">
                             <x-label for="event_id" :value="__('Event Title')" />
 
-                            <x-select class="mt-1" id="event_id" name="event_id" aria-label="Default select example" @change="storeInput($el)">
+                            <x-select class="mt-1" id="event_id" name="event_id" aria-label="Default select example" >
                                 <option value='' selected disabled>--select option--</option>
                                 @foreach($eventList as $event)
                                 <option {{ $forms->event_id == $event->event_id ? 'selected' : '' }} value="{{$event->event_id}}">{{$event->event_title}}</option>
@@ -42,8 +45,7 @@
                         {{-- End Date --}}
                         <div>
                             <x-label for="end_date" :value="__('End Date')" />
-                            
-                            <x-input id="end_date" class="mt-1 w-full" type="date" name="end_date" value="{{$liquidation->end_date}}" required autofocus @change="storeInput($el)"/>
+                            <x-input id="end_date" class="mt-1 w-full" type="date" name="end_date" value="{{$liquidation->end_date}}" required autofocus />
                             @error('end_date')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
@@ -66,7 +68,7 @@
                         <div>
                             <x-label for="cash_advance" :value="__('Cash Advance (₱)')" />
 
-                            <x-input id="cash_advance" class="mt-1 w-full" type="number" min="1" name="cash_advance" x-ref="cashAdvance" value="{{$liquidation->cash_advance}}" required autofocus @keyup="storeInput($el), setData($el)"/>
+                            <x-input id="cash_advance" class="mt-1 w-full" type="number" min="1" name="cash_advance" x-ref="cashAdvance" value="{{$liquidation->cash_advance}}" required autofocus @keyup="setData($el)"/>
                              @error('cash_advance')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                             
                         </div>
@@ -75,7 +77,7 @@
                         <div>
                             <x-label for="deduct" :value="__('Deduct (₱)')" />
 
-                            <x-input id="deduct" class="mt-1 w-full" type="number" min="1" name="deduct" x-ref="deduct" value="{{$liquidation->deduct}}" required autofocus @keyup="storeInput($el), setData($el)"/>
+                            <x-input id="deduct" class="mt-1 w-full" type="number" min="1" name="deduct" x-ref="deduct" value="{{$liquidation->deduct}}" required autofocus @keyup="setData($el)"/>
                             @error('deduct')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror 
 
                         </div>
@@ -90,13 +92,16 @@
 
                     </div>
 
+                    
+
 
                     {{-- Row #3 Liquidation Items --}}
                     <hr class="mt-6 border-1 border-bland-300">
 
                     <h1 class="text-lg text-bland-600 font-bold my-4">Items</h1>
 
-                    <div x-data="liquidation_items_handler()">
+                    <input type="hidden" name="items" x-ref="items">
+                    <div x-data="liquidation_items_handler_edit()" @load.window="loadItems('{{ $items }}')">
                         <x-table.main>
                             {{-- Table Head--}}
                             <x-table.head>
@@ -179,6 +184,7 @@
                             </tfoot>
                         </x-table.main>
                         <span x-show="error" class="flex text-sm text-semantic-danger font-light">*<p x-text="msg"></p></span>
+                        @error('items')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                     </div>
 
 
@@ -198,7 +204,8 @@
 
                     <h1 class="text-lg text-bland-600 font-bold my-4">Proof of Payment</h1>
                     
-                    <div x-data="proof_of_payments()">
+                    <input type="hidden" name="proof_of_payments" x-ref="proof_of_payments">
+                    <div x-data="proof_of_payments_edit()" @load.window="onLoad()">
                         <x-table.main>
                             {{-- Table Head--}}
                             <x-table.head>
@@ -254,7 +261,7 @@
                             </tbody>
 
                         </x-table.main>
-                        
+                        @error('proof_of_payments')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                     </div>
 
 

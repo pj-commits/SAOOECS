@@ -29,6 +29,7 @@ class RFController extends Controller
 
     public function store(RFRequest $request)
     {
+        dd($request);
         $rf = $request->safe()->except(['event_id','quantity','purpose','price']);
         $event = Form::where('event_id', $request->event_id)->get()->first();
 
@@ -66,7 +67,8 @@ class RFController extends Controller
             'finance_staff_id' => $finance,
             'event_id' => $request->event_id,
             'form_type' => 'BRF',
-            'target_date' => $event->target_date
+            'target_date' => $event->target_date,
+            'deadline' => Carbon::now()->setTimezone('Asia/Manila')->addDays(3),
         ]);
 
         // Requisition Create

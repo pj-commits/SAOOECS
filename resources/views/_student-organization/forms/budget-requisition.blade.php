@@ -96,7 +96,8 @@
 
                     <h1 class="text-lg text-bland-600 font-bold my-4">Items</h1>
 
-                    <div x-data="requisition_items_handler()">
+                    <input type="hidden" name="items" x-ref="items">
+                    <div x-data="requisition_items_handler()" @load.window="onLoad()">
                         <x-table.main>
                             {{-- Table Head--}}
                             <x-table.head>
@@ -179,6 +180,7 @@
                             </tfoot>
                         </x-table.main>
                         <span x-show="error" class="flex text-sm text-semantic-danger font-light">*<p x-text="msg"></p></span>
+                        @error('items')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                     </div>
 
                     {{-- Row #4 --}}          

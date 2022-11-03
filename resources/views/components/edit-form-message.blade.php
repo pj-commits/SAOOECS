@@ -49,9 +49,9 @@
                     x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0"
                     x-show="!messageOnHover"
-                    class="fixed bg-yellow-100 bottom-7 right-3 rounded-lg border border-primary-yellow" @mouseover="messageOnHover = true">
+                    class="fixed bg-yellow-100 bottom-12 right-3 z-30 rounded-lg border border-primary-yellow" @mouseover="messageOnHover = true">
                     <div class="p-2">
-                        <x-svg class="mr-0" width="w-8" height="h-8" color="fill-yellow-700">
+                        <x-svg class="mr-0" width="w-8" height="h-8" color="fill-yellow-700" marginRight="mr-0">
                             <path d="M6 14h12v-2H6Zm0-3h12V9H6Zm0-3h12V6H6Zm16 14-4-4H4q-.825 0-1.412-.587Q2 16.825 2 16V4q0-.825.588-1.413Q3.175 2 4 2h16q.825 0 1.413.587Q22 3.175 22 4ZM4 4v12h14.825L20 17.175V4H4Zm0 0v13.175V4Z"/>
                         </x-svg>
                     </div>
@@ -66,7 +66,7 @@
                     x-transition:leave="transition ease-in duration-300"
                     x-transition:leave-start="opacity-100 scale-100"
                     x-transition:leave-end="opacity-0 translate-x-6 translate-y-6 "
-                    class="max-w-xl bg-yellow-100 fixed bottom-7 right-3 rounded-lg border border-primary-yellow" @mouseover.away="messageOnHover = false">
+                    class="max-w-xl bg-yellow-100 fixed z-30 bottom-12 right-3 rounded-lg border border-primary-yellow" @mouseover.away="messageOnHover = false">
                     <div class="p-4 text-yellow-700">
                         <div class="flex mb-2">
                             <x-svg class="mr-0" color="fill-yellow-700">

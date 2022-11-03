@@ -1,3 +1,8 @@
+@php
+    $coorganizers = json_encode($proposal->externalCoorganizer()->get());    
+    $requests = json_encode($proposal->logisticalNeed()->get());    
+    $activities = json_encode($proposal->prePrograms()->get());    
+@endphp
 <x-app-layout>
     <div class="pt-24"> 
         <div class="max-w-screen mx-auto px-4 lg:px-8">
@@ -28,7 +33,7 @@
                         <div>
                             <x-label for="target_date" :value="__('Target Date of Event')"/>
 
-                            <x-input id="target_date" class="mt-1 w-full" type="date" name="target_date" value="{{$forms->target_date}}"  required autofocus @change="storeInput($el)" />
+                            <x-input id="target_date" class="mt-1 w-full" type="date" name="target_date" value="{{$forms->target_date}}"  required autofocus />
                             @error('target_date')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
@@ -39,11 +44,11 @@
                             
                             <div class="flex space-x-4">
                                 {{-- Number of Days --}}
-                                <x-input id="duration_val" class="mt-1 w-full" type="number" min="1" name="duration_val"  value="{{$proposal->duration_val}}"  required autofocus @keyup="storeInput($el)" />
+                                <x-input id="duration_val" class="mt-1 w-full" type="number" min="1" name="duration_val"  value="{{$proposal->duration_val}}"  required autofocus />
                                 @error('duration_val')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
 
                                 {{-- Duration unit --}}
-                                <x-select class="mt-1" id="duration_unit" name="duration_unit" aria-label="Default select example" @change="storeInput($el)">
+                                <x-select class="mt-1" id="duration_unit" name="duration_unit" aria-label="Default select example">
                                     <option {{ $proposal->duration_unit == "day(s)" ? 'selected' : '' }} value="day(s)" >Day(s)</option>
                                     <option {{ $proposal->duration_unit == "weeks(s)" ? 'selected' : '' }}  value="weeks(s)">Weeks(s)</option>
                                     <option {{ $proposal->duration_unit == "months(s)" ? 'selected' : '' }} value="months(s)">Month(s)</option>
@@ -57,7 +62,7 @@
                         <div>
                             <x-label for="venue" :value="__('Venue')" />
                             
-                            <x-input id="venue" class="mt-1 w-full" type="text" name="venue" value="{{$proposal->venue}}" required autofocus @keyup="storeInput($el)"/>
+                            <x-input id="venue" class="mt-1 w-full" type="text" name="venue" value="{{$proposal->venue}}" required autofocus/>
                             @error('venue')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
@@ -71,14 +76,14 @@
                         <div>
                             <x-label for="event_title" :value="__('Event Title')" />
 
-                            <x-input id="event_title" class="mt-1 w-full" type="text" name="event_title" value="{{$forms->event_title}}"  required autofocus @keyup="storeInput($el)" />
+                            <x-input id="event_title" class="mt-1 w-full" type="text" name="event_title" value="{{$forms->event_title}}"  required autofocus />
                             @error('event_title')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
                         {{-- Name of organization --}}
                         <div>
                             <x-label for="org_id" :value="__('Organization Name')" />
-                            <x-select class="mt-1" id="org_id" name="org_id" aria-label="Default select example" required @change="storeInput($el)">
+                            <x-select class="mt-1" id="org_id" name="org_id" aria-label="Default select example" required>
                                 <option value='' disabled selected>--select option--</option>
                                 @foreach($authOrgList as $org)
                                 <option {{ $forms->organization_id == $org->id ? 'selected' : '' }} value="{{$org->id}}">{{$org->org_name}}</option>
@@ -91,7 +96,7 @@
                         <div>
                             <x-label for="organizer_name" :value="__('Name of Organizer')" />
                             
-                            <x-input id="organizer_name" class="mt-1 w-full" type="text" name="organizer_name"  value="{{$proposal->organizer_name}}"  required autofocus @keyup="storeInput($el)"/>
+                            <x-input id="organizer_name" class="mt-1 w-full" type="text" name="organizer_name"  value="{{$proposal->organizer_name}}"  required autofocus/>
                             @error('organizer_name')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
@@ -104,7 +109,7 @@
                         <div>
                             <x-label for="act_classification" :value="__('Activity Classification')" />
 
-                            <x-select class="mt-1" id="act_classification" name="act_classification" aria-label="Default select example" @change="storeInput($el)">
+                            <x-select class="mt-1" id="act_classification" name="act_classification" aria-label="Default select example">
                                 <option value='' disabled>--select option--</option>
                                 <option {{ $proposal->act_classification == "t1" ? 'selected' : '' }} value="t1">CSR/Community Service</option>
                                 <option {{ $proposal->act_classification == "t2" ? 'selected' : '' }} value="t2">Games/Competition</option>
@@ -120,7 +125,7 @@
                         <div>
                             <x-label for="act_location" :value="__('Activity Location')" />
 
-                            <x-select class="mt-1" id="act_location" name="act_location" aria-label="Default select example" @change="storeInput($el)">
+                            <x-select class="mt-1" id="act_location" name="act_location" aria-label="Default select example">
                                 <option value='' disabled>--select option--</option>
                                 <option {{ $proposal->act_location == "In-Campus" ? 'selected' : '' }}  value="In-Campus">In-Campus</option>
                                 <option {{ $proposal->act_location == "Off-Campus" ? 'selected' : '' }}  value="Off-Campus">Off-Campus</option>
@@ -136,7 +141,8 @@
 
                     <h1 class="text-lg text-bland-600 font-bold my-4">Coorganizers</h1>
                     
-                    <div x-data="coorganizer_handler()">
+                    <input type="hidden" name="coorganizers" x-ref="coorganizers">
+                    <div x-data="coorganizer_handler_edit()" @load.window="loadCoorganizer('{{ $coorganizers }}')">
                         <x-table.main>
                             {{-- Table Head--}}
                             <x-table.head>
@@ -203,6 +209,7 @@
                             </tfoot>
                         </x-table.main>
                         <span x-show="error" class="flex text-sm text-semantic-danger font-light">*<p x-text="msg"></p></span>
+                        @error('coorganizers')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                     </div>
 
                     {{-- Row #5 Logistic Table --}}
@@ -210,7 +217,8 @@
 
                     <h1 class="text-lg text-bland-600 font-bold my-4">Requests</h1>
 
-                    <div x-data="logistic_handler()">
+                    <input type="hidden" name="requests" x-ref="logistics">
+                    <div x-data="logistic_handler_edit()"  @load.window="loadRequests('{{ $requests }}')">
                         <x-table.main>
                             {{-- Table Head--}}
                             <x-table.head>
@@ -230,7 +238,7 @@
                                             <x-input x-model="field.service"  id="service" class="mt-1 w-full" type="text" name="service[]" readonly autofocus />
                                         </x-table.body-col>
                                         <x-table.body-col>
-                                            <x-input x-model="field.date_needed" id="logistics_date_needed" class="mt-1 w-full" type="text" name="logistics_date_needed[]" readonly autofocus />
+                                            <x-input x-model="field.date_needed" id="logistics_date_needed" class="mt-1 w-full" type="date" name="logistics_date_needed[]" readonly autofocus />
                                         </x-table.body-col>
                                         <x-table.body-col>
                                             <x-input x-model="field.venue" id="logistics_venue" class="mt-1 w-full" type="tel" name="logistics_venue[]" readonly autofocus />
@@ -266,13 +274,14 @@
                             </tfoot>
                         </x-table.main>
                         <span x-show="error" class="flex text-sm text-semantic-danger font-light">*<p x-text="msg"></p></span>
+                        @error('requests')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                     </div>
 
                     {{-- Row #6 --}}
                     <div class="mt-2">
                         <x-label for="description" :value="__('Description')" />
 
-                        <x-text-area id="description" name="description" @keyup="storeInput($el)" value="{{$proposal->description}}"></x-text-area>
+                        <x-text-area id="description" name="description" value="">{{$proposal->description}}</x-text-area>
                         @error('description')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                     </div>
 
@@ -280,7 +289,7 @@
                     <div class="mt-2">
                         <x-label for="rationale" :value="__('Rationale')" />
 
-                        <x-text-area id="rationale" name="rationale" @keyup="storeInput($el)" value="{{$proposal->rationale}}"></x-text-area>
+                        <x-text-area id="rationale" name="rationale" value="">{{$proposal->rationale}}</x-text-area>
                         @error('rationale')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                     </div>
 
@@ -288,7 +297,7 @@
                     <div class="mt-2">
                         <x-label for="outcome" :value="__('Outcome')" />
 
-                        <x-text-area id="outcome" name="outcome"  @keyup="storeInput($el)" value="{{$proposal->outcome}}"></x-text-area>
+                        <x-text-area id="outcome" name="outcome"  value="">{{$proposal->outcome}}</x-text-area>
                         <span class="text-xs text-bland-400 font-light italic">*If it is classified as a Workshop/Training/Seminar/Symposium/Forum/Team Building, Learning outcomes or objective should be written here</span>
                         @error('outcome')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                     
@@ -299,7 +308,7 @@
                         <div>
                             <x-label for="primary_audience" :value="__('Primary Target Participants/Audience')" />
 
-                            <x-input id="primary_audience" class="mt-1 w-full" type="text" name="primary_audience" value="{{$proposal->primary_audience}}" required autofocus @keyup="storeInput($el)"/>
+                            <x-input id="primary_audience" class="mt-1 w-full" type="text" name="primary_audience" value="{{$proposal->primary_audience}}" required autofocus/>
                             @error('primary_audience')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
@@ -308,7 +317,7 @@
                         <div >
                             <x-label for="num_primary_audience" :value="__('Number of Primary Participants/Audience')" />
                             
-                            <x-input id="num_primary_audience" class="mt-1 w-full" type="number" min="0" name="num_primary_audience" value="{{$proposal->num_primary_audience}}" required autofocus @keyup="storeInput($el)"/>
+                            <x-input id="num_primary_audience" class="mt-1 w-full" type="number" min="0" name="num_primary_audience" value="{{$proposal->num_primary_audience}}" required autofocus/>
                             @error('num_primary_audience')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
@@ -321,7 +330,7 @@
                         <div>
                             <x-label for="secondary_audience" :value="__('Secondary Target Participants/Audience')" />
 
-                            <x-input id="secondary_audience" class="mt-1 w-full" type="text" name="secondary_audience" value="{{$proposal->secondary_audience}}" required autofocus @keyup="storeInput($el)"/>
+                            <x-input id="secondary_audience" class="mt-1 w-full" type="text" name="secondary_audience" value="{{$proposal->secondary_audience}}" required autofocus/>
                             @error('secondary_audience')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
@@ -330,7 +339,7 @@
                         <div>
                             <x-label for="num_secondary_audience" :value="__('Number of Secondary Participants/Audience')" />
                             
-                            <x-input id="num_secondary_audience" class="mt-1 w-full" type="number" min="0" name="num_secondary_audience" value="{{$proposal->num_secondary_audience}}" required autofocus @keyup="storeInput($el)"/>
+                            <x-input id="num_secondary_audience" class="mt-1 w-full" type="number" min="0" name="num_secondary_audience" value="{{$proposal->num_secondary_audience}}" required autofocus/>
                             @error('num_secondary_audience')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
@@ -341,7 +350,8 @@
 
                      <h1 class="text-lg text-bland-600 font-bold my-4">Programs</h1> {{-- Programs/Activites --}}
 
-                     <div x-data="activity_handler()">
+                     <input type="hidden" name="programs" x-ref="activities">
+                     <div x-data="activity_handler_edit()"  @load.window="loadPrograms('{{ $activities }}')">
                          <x-table.main>
                              {{-- Table Head--}}
                              <x-table.head>
@@ -397,6 +407,7 @@
                              </tfoot>
                          </x-table.main>
                          <span x-show="error" class="flex text-sm text-semantic-danger font-light">*<p x-text="msg"></p></span>
+                         @error('programs')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                      </div>
 
                      {{-- Important Notes --}}

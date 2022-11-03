@@ -48,6 +48,12 @@ class NRRequest extends FormRequest
                 // 'poster' => 'required',
                 
             'ratings' => 'required', 
+
+
+            'programs' => 'required',
+            'participants' => 'required',
+            'comments' => 'required',
+            'suggestions' => 'required',
         ];
     }
 }

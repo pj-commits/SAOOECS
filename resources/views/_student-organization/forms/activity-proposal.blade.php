@@ -155,7 +155,8 @@
 
                     <h1 class="text-lg text-bland-600 font-bold my-4">Coorganizers</h1>
                     
-                    <div x-data="coorganizer_handler()">
+                    <input type="hidden" name="coorganizers" x-ref="coorganizers">
+                    <div x-data="coorganizer_handler()" @load.window="onLoad()">
                         <x-table.main>
                             {{-- Table Head--}}
                             <x-table.head>
@@ -222,6 +223,7 @@
                             </tfoot>
                         </x-table.main>
                         <span x-show="error" class="flex text-sm text-semantic-danger font-light">*<p x-text="msg"></p></span>
+                        @error('coorganizers')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                     </div>
 
                     {{-- Row #5 Logistic Table --}}
@@ -229,7 +231,8 @@
 
                     <h1 class="text-lg text-bland-600 font-bold my-4">Requests</h1>
 
-                    <div x-data="logistic_handler()">
+                    <input type="hidden" name="requests" x-ref="logistics">
+                    <div x-data="logistic_handler()" @load.window="onLoad()">
                         <x-table.main>
                             {{-- Table Head--}}
                             <x-table.head>
@@ -285,6 +288,7 @@
                             </tfoot>
                         </x-table.main>
                         <span x-show="error" class="flex text-sm text-semantic-danger font-light">*<p x-text="msg"></p></span>
+                        @error('requests')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                     </div>
 
                     {{-- Row #6 --}}
@@ -362,9 +366,12 @@
                      {{-- Row #11 Coorganizer Table --}}
                      <hr class="mt-6 border-1 border-bland-300">
 
-                     <h1 class="text-lg text-bland-600 font-bold my-4">Programs</h1> {{-- Programs/Activites --}}
+                     <h1 class="text-lg text-bland-600 font-bold my-4">Programs</h1> 
+                     
+                     {{-- Programs/Activites --}}
 
-                     <div x-data="activity_handler()">
+                     <input type="hidden" name="programs" x-ref="activities">
+                     <div x-data="activity_handler()" @load.window="onLoad()">
                          <x-table.main>
                              {{-- Table Head--}}
                              <x-table.head>
@@ -420,6 +427,7 @@
                              </tfoot>
                          </x-table.main>
                          <span x-show="error" class="flex text-sm text-semantic-danger font-light">*<p x-text="msg"></p></span>
+                         @error('programs')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                      </div>
 
                      {{-- Important Notes --}}
