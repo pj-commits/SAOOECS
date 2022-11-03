@@ -1,15 +1,7 @@
-/************************
- * 
- * Activity Proposal Form
- * 
- ************************/
-
-//Handles coorganizer's table(add, remove, and retrieve data from local storage). 
-function coorganizer_handler() {
+//Handles coorganizer's table for Edit (add, remove, and retrieve data from local storage). 
+function coorganizer_handler_edit() {
     return {
-        coorganizers: [
-            JSON.parse(localStorage.getItem('apf_coorganizers')),
-        ],
+        coorganizers: [[]],
 
         newCoorganizers: [
             {
@@ -23,7 +15,18 @@ function coorganizer_handler() {
         error: false,
         msg: '',
 
-        onLoad(){
+
+        loadCoorganizer(proposal){
+            let parsedProposal = JSON.parse(proposal);
+
+            parsedProposal.forEach(item => {
+                this.coorganizers[0].push({
+                    coorganization: item.coorganization,
+                    name: item.coorganizer,
+                    phone: item.phone_number,
+                    email: item.email,
+                });
+            });
             this.isEmpty();
         },
 
@@ -80,7 +83,6 @@ function coorganizer_handler() {
                     phone: this.newCoorganizers[0].phone,
                     email: this.newCoorganizers[0].email,
                 });
-                localStorage.setItem('apf_coorganizers', JSON.stringify(this.coorganizers[0]))
                 this.newCoorganizers = [
                     {
                         coorganization: '',
@@ -97,7 +99,6 @@ function coorganizer_handler() {
         removeCoorganizer(index) {
             this.coorganizers[0].splice(index, 1);
             this.isEmpty();
-            localStorage.setItem('apf_coorganizers', JSON.stringify(this.coorganizers[0]))
         },
 
         //checks if coorganizers is empty
@@ -111,12 +112,11 @@ function coorganizer_handler() {
     }
 }
 
-//Handles logistic's table(add, remove, and retrieve data from local storage).
-function logistic_handler() {
+
+//Handles logistic's table for edit (add, remove, and retrieve data from local storage).
+function logistic_handler_edit() {
     return {
-        logistics: [
-            JSON.parse(localStorage.getItem('apf_logistics')),
-        ],
+        logistics: [[]],
 
         newLogistics: [
             {
@@ -130,7 +130,16 @@ function logistic_handler() {
         msg: '',
         current_date: new Date(),
 
-        onLoad(){
+        loadRequests(requests){
+            let parsedRequests = JSON.parse(requests);
+
+            parsedRequests.forEach(item => {
+                this.logistics[0].push({
+                    service: item.service,
+                    date_needed: item.date_needed,
+                    venue: item.venue,
+                });
+            });
             this.isEmpty();
         },
 
@@ -173,7 +182,6 @@ function logistic_handler() {
                     venue: this.newLogistics[0].venue,
 
                 });
-                localStorage.setItem('apf_logistics', JSON.stringify(this.logistics[0]))
                 this.newLogistics = [
                     {
                         service: '',
@@ -189,7 +197,6 @@ function logistic_handler() {
         removeLogistic(index) {
             this.logistics[0].splice(index, 1); 
             this.isEmpty();
-            localStorage.setItem('apf_logistics', JSON.stringify(this.logistics[0]))
         },
 
         //checks if logistics is empty
@@ -203,12 +210,11 @@ function logistic_handler() {
     }
 }
 
+
 //Handles activity's table(add, remove, and retrieve data from local storage).
-function activity_handler() {
+function activity_handler_edit() {
     return {
-        activities: [
-            JSON.parse(localStorage.getItem('apf_activities')),
-        ],
+        activities: [[]],
 
         newActivities: [
             {
@@ -222,7 +228,17 @@ function activity_handler() {
         msg: '',
         current_date: new Date(),
 
-        onLoad(){
+
+        loadPrograms(programs){
+            let parsedPrograms = JSON.parse(programs);
+
+            parsedPrograms.forEach(item => {
+                this.activities[0].push({
+                    activity: item.activity,
+                    start_date: item.start_date_time,
+                    end_date: item.end_date_time,
+                });
+            });
             this.isEmpty();
         },
 
@@ -268,7 +284,6 @@ function activity_handler() {
                     end_date: this.newActivities[0].end_date,
 
                 });
-                localStorage.setItem('apf_activities', JSON.stringify(this.activities[0]))
                 this.newActivities = [
                     {
                         activity: '',
@@ -280,12 +295,10 @@ function activity_handler() {
                 this.isEmpty();
             }
         },
-
         //remove deleted data in activities[] then update local storage
         removeActivity(index) {
             this.activities[0].splice(index, 1); 
             this.isEmpty();
-            localStorage.setItem('apf_activities', JSON.stringify(this.activities[0]))
         },
 
         //checks if activities is empty
@@ -299,6 +312,7 @@ function activity_handler() {
     }
 }
 
+
 /************************
  * 
  * Budget Requisition Form
@@ -306,11 +320,9 @@ function activity_handler() {
  ************************/
 
 //Handles requisition_items table(add, remove, and retrieve data from local storage).
-function requisition_items_handler() {
+function requisition_items_handler_edit() {
     return {
-        requisitions: [
-            JSON.parse(localStorage.getItem('brf_requisitions')),
-        ],
+        requisitions: [[]],
 
         newRequisitions: [
             {
@@ -323,9 +335,19 @@ function requisition_items_handler() {
         error: false,
         msg: '',
 
-        onLoad(){
+        loadItems(items){
+            let parsedItems = JSON.parse(items);
+
+            parsedItems.forEach((item, index) => {
+                this.requisitions[0].push({
+                    item_number: index+1,
+                    quantity: item.quantity,
+                    purpose: item.purposes,
+                    price: item.price,
+                });
+            });
             this.isEmpty();
-       },
+        },
 
         /* 
             Accepts array of input and store it to newRequisitions[] in the meantime.
@@ -362,7 +384,6 @@ function requisition_items_handler() {
                     price: this.newRequisitions[0].price,
 
                 });
-                localStorage.setItem('brf_requisitions', JSON.stringify(this.requisitions[0]))
                 this.newRequisitions = [
                     {
                         quantity: '',
@@ -384,7 +405,6 @@ function requisition_items_handler() {
                 count++;
                 item.item_number = count;
             })
-            localStorage.setItem('brf_requisitions', JSON.stringify(this.requisitions[0]))
             this.isEmpty();
         },
 
@@ -401,8 +421,8 @@ function requisition_items_handler() {
             return this.requisitions[0].length + 1
         },
 
-        //checks if requisitions is empty
-        isEmpty(){
+         //checks if requisitions is empty
+         isEmpty(){
             if(this.requisitions[0].length > 0){
                 this.$refs.items.value = "notempty";
             }else{
@@ -418,12 +438,10 @@ function requisition_items_handler() {
  * 
  ************************/
 
-//Handles program's table(add, remove, and retrieve data from local storage).
-function program_handler() {
+//Handles program's table for edit (add, remove, and retrieve data from local storage).
+function program_handler_edit() {
     return {
-        programs: [
-            JSON.parse(localStorage.getItem('nr_programs')),
-        ],
+        programs: [[]],
 
         newPrograms: [
             {
@@ -436,9 +454,19 @@ function program_handler() {
         error: false,
         msg: '',
 
-        onLoad(){
+        loadPrograms(programs){
+            let parsedPrograms = JSON.parse(programs);
+
+            parsedPrograms.forEach(item => {
+                this.programs[0].push({
+                    activity: item.activity,
+                    start_date: item.start_date,
+                    end_date: item.end_date,
+                });
+            });
             this.isEmpty();
-       },
+        },
+
 
         /* 
             Accepts array of input and store it to newPrograms[] in the meantime.
@@ -480,7 +508,6 @@ function program_handler() {
                     end_date: this.newPrograms[0].end_date,
 
                 });
-                localStorage.setItem('nr_programs', JSON.stringify(this.programs[0]))
                 this.newPrograms = [
                     {
                         activity: '',
@@ -495,7 +522,6 @@ function program_handler() {
         //remove deleted data in programs[] then update local storage
         removeProgram(index) {
             this.programs[0].splice(index, 1); 
-            localStorage.setItem('nr_programs', JSON.stringify(this.programs[0]))
             this.isEmpty();
         },
 
@@ -510,12 +536,11 @@ function program_handler() {
     }
 }
 
-//Handles participant's table(add, remove, and retrieve data from local storage).
-function participant_handler() {
+
+//Handles participant's table for edit(add, remove, and retrieve data from local storage).
+function participant_handler_edit() {
     return {
-        participants: [
-            JSON.parse(localStorage.getItem('nr_participants')),
-        ],
+        participants: [[]],
         newParticipants: [
             {
                 first_name: '',
@@ -527,9 +552,19 @@ function participant_handler() {
         error: false,
         msg: '',
 
-        onLoad(){
+        loadParticipants(participants){
+            let parsedParticipants = JSON.parse(participants);
+
+            parsedParticipants.forEach(item => {
+                this.participants[0].push({
+                    first_name: item.first_name,
+                    last_name: item.last_name,
+                    section: item.section,
+                    participated_date: item.participated_date,
+                });
+            });
             this.isEmpty();
-       },
+        },
 
         /* 
             Accepts array of input and store it to newParticipants[] in the meantime.
@@ -573,7 +608,6 @@ function participant_handler() {
                     participated_date: this.newParticipants[0].participated_date,
 
                 });
-                localStorage.setItem('nr_participants', JSON.stringify(this.participants[0]))
                 this.newParticipants = [
                     {
                         first_name: '',
@@ -592,7 +626,6 @@ function participant_handler() {
         //remove deleted data in participants[] then update local storage
         removeParticipant(index) {
             this.participants[0].splice(index, 1); 
-            localStorage.setItem('nr_participants', JSON.stringify(this.participants[0]))
             this.isEmpty();
         },
 
@@ -655,7 +688,6 @@ function participant_handler() {
                     })
                     this.error = false;
                     this.isEmpty();
-                    localStorage.setItem('nr_participants', JSON.stringify(this.participants[0]))   
                 }
 
             }, 500)        
@@ -673,12 +705,10 @@ function participant_handler() {
     }
 }
 
-//Handles comment's table(add, remove, and retrieve data from local storage).
-function comment_suggestion_handler() {
+//Handles comment's table for edit (add, remove, and retrieve data from local storage).
+function comment_suggestion_handler_edit() {
     return {
-        comments: [
-            JSON.parse(localStorage.getItem('nr_comments')),
-        ],
+        comments: [[]],
 
         newComments: [
             {
@@ -686,9 +716,7 @@ function comment_suggestion_handler() {
 
             }
           ],
-        suggestions: [
-            JSON.parse(localStorage.getItem('nr_suggestions')),
-        ],
+        suggestions: [[]],
 
         newSuggestions: [
             {
@@ -697,9 +725,7 @@ function comment_suggestion_handler() {
             }
           ],
         
-        ratings: [
-            JSON.parse(localStorage.getItem('nr_ratings'))
-        ],
+        ratings: [[]],
 
         err_comments: false,
         msg_comments: '',
@@ -708,9 +734,32 @@ function comment_suggestion_handler() {
         err_ratings: false,
         msg_ratings: '',
 
-        onLoad(){
+        loadCommentsSuggestions(commentsSuggestions){
+            let parsedComSug = JSON.parse(commentsSuggestions);
+
+            parsedComSug.forEach(item => {
+                if(item.type === 'comment'){
+                    this.comments[0].push({
+                        message: item.message,
+                    });
+                }
+                else{
+                    this.suggestions[0].push({
+                        message: item.message,
+                    });
+                }
+               
+            });
             this.isEmptyComments();
             this.isEmptySuggestions();
+        },
+
+        loadRatings(ratings){
+            let parsedRatings = JSON.parse(ratings);
+            this.ratings[0].push({
+                rating: parsedRatings * 1,
+            })
+            this.getTotalRating();
         },
 
         /* 
@@ -736,7 +785,6 @@ function comment_suggestion_handler() {
 
 
                 });
-                localStorage.setItem('nr_comments', JSON.stringify(this.comments[0]))
                 this.newComments = [
                     {
                         message: '',
@@ -752,7 +800,6 @@ function comment_suggestion_handler() {
         removeComment(index) {
             this.comments[0].splice(index, 1); 
             this.isEmptyComments();
-            localStorage.setItem('nr_comments', JSON.stringify(this.comments[0]))
         },
 
          /* 
@@ -778,7 +825,7 @@ function comment_suggestion_handler() {
 
 
                 });
-                localStorage.setItem('nr_suggestions', JSON.stringify(this.suggestions[0]))
+
                 this.newSuggestions = [
                     {
                         message: '',
@@ -794,7 +841,6 @@ function comment_suggestion_handler() {
         removeSuggestion(index) {
             this.suggestions[0].splice(index, 1); 
             this.isEmptySuggestions();
-            localStorage.setItem('nr_suggestions', JSON.stringify(this.suggestions[0]))
         },
 
         //Checks if  specific key exists in uploaded file
@@ -850,7 +896,6 @@ function comment_suggestion_handler() {
                     })
                     this.err_comments= false;
                     this.isEmptyComments();
-                    localStorage.setItem('nr_comments', JSON.stringify(this.comments[0]))   
                 }
 
             }, 500)  
@@ -876,7 +921,6 @@ function comment_suggestion_handler() {
                     })
                     this.err_suggestions = false;
                     this.isEmptySuggestions();
-                    localStorage.setItem('nr_suggestions', JSON.stringify(this.suggestions[0])) 
                     
                 }
             },700)
@@ -902,7 +946,6 @@ function comment_suggestion_handler() {
                         });
                     })
                     this.err_ratings = false;
-                    localStorage.setItem('nr_ratings', JSON.stringify(this.ratings[0])) ;
                     this.getTotalRating(); 
                 }
             },900)
@@ -940,20 +983,13 @@ function comment_suggestion_handler() {
             }
         },
 
-            //checks if suggestions is empty
+        //checks if suggestions is empty
         isEmptySuggestions(){
             if(this.suggestions[0].length > 0){
                 this.$refs.suggestions.value = "notempty";
             }else{
                 this.$refs.suggestions.value = "";
             }
-        },
-
-        storeInput($el){
-            this.ratings[0] = [{rating :$el.value}]
-            console.log(JSON.stringify(this.ratings[0]))
-            localStorage.setItem("nr_ratings", JSON.stringify(this.ratings[0]))
-           
         }
     }
 }
@@ -966,11 +1002,9 @@ function comment_suggestion_handler() {
  ************************/
 
 //Handles liquidation_item table(add, remove, and retrieve data from local storage).
-function liquidation_items_handler() {
+function liquidation_items_handler_edit() {
     return {
-        liquidations: [
-            JSON.parse(localStorage.getItem('lf_liquidations')),
-        ],
+        liquidations: [[]],
 
         newLiquidations: [
             {
@@ -983,7 +1017,17 @@ function liquidation_items_handler() {
         error: false,
         msg: '',
 
-        onLoad(){
+        loadItems(items){
+            let parsedItems = JSON.parse(items);
+
+            parsedItems.forEach((item, index) => {
+                this.liquidations[0].push({
+                    item_number: index + 1,
+                    date_bought: item.date_bought,
+                    item: item.item,
+                    price: item.price,
+                });
+            });
             this.isEmpty();
         },
 
@@ -1022,7 +1066,6 @@ function liquidation_items_handler() {
                     price: this.newLiquidations[0].price,
 
                 });
-                localStorage.setItem('lf_liquidations', JSON.stringify(this.liquidations[0]))
                 this.newLiquidations = [
                     {
                         date_bought: '',
@@ -1045,7 +1088,6 @@ function liquidation_items_handler() {
                 count++;
                 item.item_number = count;
             })
-            localStorage.setItem('lf_liquidations', JSON.stringify(this.liquidations[0]))
             this.isEmpty();
         },
 
@@ -1062,8 +1104,8 @@ function liquidation_items_handler() {
             return this.liquidations[0].length + 1
         },
 
-        //checks if liquidation is empty
-        isEmpty(){
+         //checks if liquidation is empty
+         isEmpty(){
             if(this.liquidations[0].length > 0){
                 this.$refs.items.value = "notempty";
             }else{
@@ -1071,41 +1113,7 @@ function liquidation_items_handler() {
             }
         }
     }
-}
-
-
-//Handles liquidation_item table(add, remove, and retrieve data from local storage).
-function proof_of_payments() {
-    return {
-       rows: [],
-
-        onLoad(){
-            this.isEmpty();
-        },
-
-       addNewRow(){
-            this.rows.push({
-                itemFrom: '',
-                itemTo: '',
-                image: '',
-            })
-            this.isEmpty();
-       },
-
-        removeRow(index){
-            this.rows.splice(index, 1);
-            this.isEmpty();
-       },
-
-        //checks if proof of payments is empty
-        isEmpty(){
-            if(this.rows.length > 0){
-                this.$refs.proof_of_payments.value = "notempty";
-            }else{
-                this.$refs.proof_of_payments.value = "";
-            }
-        }
-    }
+ 
 }
 
 function liquidationTotal(){
@@ -1144,5 +1152,39 @@ function liquidationTotal(){
                 this.$refs.liquidationTotal.value = 0;
             }
         }
+    }
+}
+
+//Handles liquidation_item table(add, remove, and retrieve data from local storage).
+function proof_of_payments_edit() {
+    return {
+       rows: [],
+
+       onLoad(){
+            this.isEmpty();
+       },
+
+       addNewRow(){
+            this.rows.push({
+                itemFrom: '',
+                itemTo: '',
+                image: '',
+            })
+            this.isEmpty();
+       },
+       removeRow(index){
+            this.rows.splice(index, 1);
+            this.isEmpty();
+       },
+
+        //checks if proof of payments is empty
+        isEmpty(){
+            if(this.rows.length > 0){
+                this.$refs.proof_of_payments.value = "notempty";
+            }else{
+                this.$refs.proof_of_payments.value = "";
+            }
+        }
+       
     }
 }

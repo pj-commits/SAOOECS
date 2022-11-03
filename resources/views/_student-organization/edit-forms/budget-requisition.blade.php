@@ -1,3 +1,6 @@
+@php
+    $items = json_encode($reqItems);
+@endphp
 <x-app-layout>
     <div class="pt-24"> 
         <div class="max-w-screen mx-auto px-4 lg:px-8">
@@ -28,7 +31,7 @@
                         <div>
                             <x-label for="event_id" :value="__('Event Title')" />
 
-                            <x-select class="mt-1" id="event_id" name="event_id" aria-label="Default select example" @change="storeInput($el)">
+                            <x-select class="mt-1" id="event_id" name="event_id" aria-label="Default select example" >
                                 <option value='' selected disabled>--select option--</option>
                                 @foreach($eventList as $event)
                                 <option {{ $forms->event_id == $event->event_id ? 'selected' : '' }} value="{{$event->event_id}}">{{$event->event_title}}</option>
@@ -54,7 +57,7 @@
                         <div>
                             <x-label for="date_needed" :value="__('Date Needed')" />
 
-                            <x-input id="date_needed" class="mt-1 w-full" type="date" name="date_needed" value="{{$requisition->date_needed}}" required autofocus @change="storeInput($el)"/>
+                            <x-input id="date_needed" class="mt-1 w-full" type="date" name="date_needed" value="{{$requisition->date_needed}}" required autofocus />
                             @error('date_needed')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                         </div>
 
@@ -62,7 +65,7 @@
                         <div>
                             <x-label for="payment" :value="__('Payment')" />
                         
-                            <x-select class="mt-1" id="payment" name="payment" aria-label="Default select example" @change="storeInput($el)">
+                            <x-select class="mt-1" id="payment" name="payment" aria-label="Default select example" >
                                 <option value='' disabled>--select payment--</option>
                                 <option {{ $requisition->payment == 'payment' ? 'selected' : '' }} value="payment">Payment</option>
                                 <option {{ $requisition->payment == 'purchase' ? 'selected' : '' }} value="purchase">Purchase</option>
@@ -77,7 +80,8 @@
 
                     <h1 class="text-lg text-bland-600 font-bold my-4">Items</h1>
 
-                    <div x-data="requisition_items_handler()">
+                    <input type="hidden" name="items" x-ref="items">
+                    <div x-data="requisition_items_handler_edit()" @load.window="loadItems('{{ $items }}')">
                         <x-table.main>
                             {{-- Table Head--}}
                             <x-table.head>
@@ -160,13 +164,14 @@
                             </tfoot>
                         </x-table.main>
                         <span x-show="error" class="flex text-sm text-semantic-danger font-light">*<p x-text="msg"></p></span>
+                        @error('items')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                     </div>
 
                     {{-- Row #4 --}}          
                     <div class="mt-2">
                         <x-label for="remarks" :value="__('Remarks')" />
 
-                        <x-text-area id="remarks" name="remarks" @keyup="storeInput($el)" value="{{$requisition->remarks}}" ></x-text-area>
+                        <x-text-area id="remarks" name="remarks">{{$requisition->remarks}}</x-text-area>
                         @error('remarks')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                     </div>
 
@@ -174,7 +179,7 @@
                     <div class="grid mt-4 md:grid-cols-3">
                         <x-label for="department_id" :value="__('Charge To')" />
 
-                        <x-select class="mt-1" id="department_id" name="department_id" aria-label="Default select example" @change="storeInput($el)">
+                        <x-select class="mt-1" id="department_id" name="department_id" aria-label="Default select example" >
                             <option value='' selected disabled>--select option--</option>
                             @foreach($departments as $department)
                             <option {{ $requisition->department_id == $department->id ? 'selected' : '' }} value="{{ $department->id }}">{{ $department->name }}</option>

@@ -33,6 +33,8 @@ class APFController extends Controller
     // save form
     public function store(APFRequest $request)
     {
+        dd($request);
+        
         $proposal = $request->safe()->except(['target_date','org_id','event_title','coorganization', 'coorganizer_name', 'coorganizer_phone', 'coorganizer_email', 'service', 'logistics_date_needed','logistics_venue', 'activity', 'start_date', 'end_date' ]);
 
         // get ID for approvers
@@ -91,8 +93,8 @@ class APFController extends Controller
             $proposal->externalCoorganizer()->create([
                     'coorganization' => $request->coorganization[$i],
                     'coorganizer' => $request->coorganizer_name[$i],
-                    'email' => $request->coorganizer_phone[$i],
-                    'phone_number' => $request->coorganizer_email[$i],
+                    'email' => $request->coorganizer_email[$i],
+                    'phone_number' => $request->coorganizer_phone[$i],
                 ]);
         }
 
@@ -111,7 +113,7 @@ class APFController extends Controller
     // update form
     public function update(APFRequest $request, Form $forms)
     {
-        $proposal = $request->safe()->except(['target_date','org_id','event_title','coorganization', 'coorganizer_name', 'coorganizer_phone', 'coorganizer_email', 'service', 'logistics_date_needed','logistics_venue', 'activity', 'start_date', 'end_date' ]);
+        $proposal = $request->safe()->except(['target_date','org_id','event_title','coorganization', 'coorganizer_name', 'coorganizer_phone', 'coorganizer_email', 'service', 'logistics_date_needed','logistics_venue', 'activity', 'start_date', 'end_date', 'coorganizers', 'requests', 'programs' ]);
 
         $forms->update(array(
             'target_date' => $request->target_date,
@@ -125,7 +127,6 @@ class APFController extends Controller
         $proposal = $forms->proposal()->update($proposal);
 
         // dd($proposal->logisticalNeed());
-
 
          // Logistics update
          for($i = 0; $i < count($request->service); $i++){
@@ -156,7 +157,7 @@ class APFController extends Controller
         }
 
          
-        return back()->with('add', 'Updated successfully!');
+        return redirect()->route('dashboard')->with('add', 'Updated successfully!');
     }
 
     // delete form

@@ -32,8 +32,12 @@
         {{-- Image Upload Handler --}}
         <script src="{{ asset('js/image-upload.js') }}" defer></script>
 
-         {{-- Search Handler --}}
-         <script src="{{ asset('js/search.js') }}" defer></script>
+        {{-- Search Handler --}}
+        <script src="{{ asset('js/search.js') }}" defer></script>
+
+        {{-- Search Handler --}}
+        <script src="{{ asset('js/edit-handler.js') }}" defer></script>
+
 
          {{-- Charts External Link--}}
          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>

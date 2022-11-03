@@ -33,6 +33,8 @@ class RFRequest extends FormRequest
                 'price.*' => 'required',
             'remarks' => 'required',
             'department_id' => 'required',
+
+            'items' => 'required'
         ];
     }
 }

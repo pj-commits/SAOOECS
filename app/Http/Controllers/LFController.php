@@ -28,6 +28,8 @@ class LFController extends Controller
 
     public function store(LFRequest $request)
     {   
+        dd($request);
+        
         $lf = $request->safe()->only(['end_date','cash_advance','deduct']);
         $event = Form::where('event_id', $request->event_id)->get()->first();
 
@@ -99,6 +101,8 @@ class LFController extends Controller
 
     public function update(LFRequest $request, Form $forms)
     {
+        dd($request);
+        
         $lf = $request->safe()->only(['end_date','cash_advance','deduct']);
 
         $forms->update(array(

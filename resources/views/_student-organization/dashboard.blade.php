@@ -1,5 +1,4 @@
 @php
-    $formTypes = [ 'APF' => 'Activity Proposal Form', 'BRF' => 'Budget Requisition Form', 'NR' => 'Narrative Report', 'LF' => 'Liquidation Form'];
     $hasPendingForms = $myForms->isNotEmpty();   
 @endphp
 <x-app-layout>
@@ -36,14 +35,50 @@
 
                     <hr>
 
+                    {{-- Legend --}}
+                    <div class="flex flex-wrap sm:space-x-3 mt-2">
+                        
+                        <div class="flex items-center space-x-1">
+                            <div class="w-2 h-2 bg-green-200 rounded-full"></div><p class="text-xs text-bland-400">Activity Proposal Form</p>
+                        </div>
+
+                        <div class="flex items-center space-x-1">
+                            <div class="w-2 h-2 bg-blue-200 rounded-full"></div><p class="text-xs text-bland-400">Budget Requisition Form</p>
+                        </div>
+
+                        <div class="flex items-center space-x-1">
+                            <div class="w-2 h-2 bg-yellow-200 rounded-full"></div><p class="text-xs text-bland-400">Narrative Report</p>
+                        </div>
+
+                        <div class="flex items-center space-x-1">
+                            <div class="w-2 h-2 bg-rose-200 rounded-full"></div><p class="text-xs text-bland-400">Liquidation Form</p>
+                        </div>
+
+                    </div>
+
+
                     <!-- Accordion -->
                     <div x-data="inputChecker()" @load.window="addEventTitle('{{ $myForms }}')" >
                         <ul class="mt-4">   
                         @foreach($myForms as $form)
+                        @php
+                            if($form->form_type === 'APF'){
+                                $bg = "broder border-green-200 bg-green-100  rounded-md px-1";
+                            }
+                            if($form->form_type === 'BRF'){
+                                $bg = "border border-blue-200 bg-blue-100 rounded-md px-1";
+                            }
+                            if($form->form_type === 'NR'){
+                                $bg = "border border-yellow-200 bg-yellow-100 rounded-md px-1";
+                            }
+                            if($form->form_type === 'LF'){
+                                $bg = "border border-rose-200 bg-rose-100 rounded-md px-1";
+                            }
+                        @endphp
                             <li class="mt-1 border shadow-sm border-bland-100 first:rounded-t-lg last:rounded-b-lg">
                                 <div x-data="{ open: false, pickerOpen: true}">
                                     <div class="h-auto grid grid-flow-row auto-rows-max px-8 py-4 cursor-pointer border border-bland-100 shadow-sm lg:grid-cols-4" @click="open = !open">
-                                        <p class="text-sm text-bland-600"> <span class="font-bold">Event Title: </span>{{ $form->event_title }}</p>
+                                        <p class="text-sm text-bland-600"> <span class="font-bold">Event Title: </span> <span class="{{ $bg }}">{{ $form->event_title }}</span></p> 
                                         <p class="text-sm text-bland-600"> <span class="font-bold">Organization: </span>{{ $form->myOrg->getOrgName->org_name }}</p>
                                         <p class="text-sm text-bland-600"> <span class="font-bold">Current Approver: </span>{{ $form->curr_approver }}</p>
                                         <p class="flex text-sm text-bland-600"> <span class="font-bold mr-1">Status: </span> {{ $form->status }} 
@@ -69,12 +104,10 @@
                                             </div>
                                             <div class="grid grid-cols-2">
                                                 <p class="text-sm text-bland-600"> <span class="font-bold">Target Date: </span>{{\Carbon\Carbon::parse($form->target_date)->format('F d, Y') }}</p>
-                                                <p class="text-sm text-bland-600"> <span class="font-bold">Form Type: </span>{{ $formTypes[$form->form_type] }}</p>
+                                                <p class="text-sm text-bland-600"> <span class="font-bold">Control Number: </span>{{ $form->control_number }} </p>
                                                 
                                             </div>
-                                            <div class="grid grid-cols-2">
-                                                <p class="text-sm text-bland-600"> <span class="font-bold">Control Number: </span>{{ $form->control_number }} </p>
-                                            </div>            
+                                        </div>          
 
                                         <hr>
                                         <!-- Accordion Body Bottom -->

@@ -35,9 +35,7 @@
                     {{ __('Reset') }}
                 </x-button>
             </div>
-            @if($errors->any())
-                {!! implode('', $errors->all('<div>:message</div>')) !!}
-            @endif
+
             <hr class="mt-3">
             <div class="bg-white mt-4 h-auto w-full rounded-sm shadow-sm px-6 py-4">
                 <form action="{{ route('forms.narrative.store') }}" method="POST" enctype="multipart/form-data">
@@ -84,7 +82,8 @@
 
                     <h1 class="text-lg text-bland-600 font-bold my-4">Programs</h1>
 
-                    <div x-data="program_handler()">
+                    <input type="hidden" name="programs" x-ref="programs">
+                    <div x-data="program_handler()" @load.window="onLoad()">
                         <x-table.main>
                             {{-- Table Head--}}
                             <x-table.head>
@@ -140,13 +139,14 @@
                             </tfoot>
                         </x-table.main>
                         <span x-show="error" class="flex text-sm text-semantic-danger font-light">*<p x-text="msg"></p></span>
+                        @error('programs')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                     </div>
 
 
                     {{-- Row #4 Participants Table --}}
                     <hr class="mt-6 border-1 border-bland-300">
 
-                    <div x-data="participant_handler()">
+                    <div x-data="participant_handler()" @load.window="onLoad()">
 
                         <div class="flex justify-between items-end mt-4">
 
@@ -155,6 +155,7 @@
                         </div>
                     
                         {{-- Custom table --}}
+                        <input type="hidden" name="participants" x-ref="participants">
                         <div class="bg-white mt-4 h-auto w-full border-b border-gray-200 shadow-sm">
                             <div id="participant-container" class="overflow-auto block max-h-[420px] rounded-sm scroll-smooth">
                                 <table class="table-auto w-full border-collapse border text-left">
@@ -223,6 +224,7 @@
                             </div>
                         </div>
                         <span x-show="error" class="flex text-sm text-semantic-danger font-light">*<p x-text="msg"></p></span>
+                        @error('participants')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
 
                     
                         <div class="flex justify-end mt-2">
@@ -267,7 +269,7 @@
                                     <p class="text-xs font-bold text-blue-700">You can only upload a single file with file extension of JPG, PNG and JPEG</p>
                                 </div>
                                 <input class="form-control block w-96 px-3 py-1.5 my-4 font-normal text-sm text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0
-                                focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" name="official_poster" accept="image/*" id="imgSelect" x-ref="singleFile" @change="previewFile">
+                                focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" name="official_poster" accept="image/*" id="imgSelect" x-ref="singleFile" @change="previewFile" required>
                             </div>
                         </div>
 
@@ -301,7 +303,7 @@
                                     <p class="text-xs font-bold text-blue-700">You can upload multiple file with file extension of JPG, PNG and JPEG</p>
                                 </div>
                                 <input class="form-control block w-96 px-3 py-1.5 my-4 font-normal text-sm text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0
-                                focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" name="event_images[]" accept="image/*" id="imgSelect" x-ref="multipleFile" @change="previewFile" multiple>
+                                focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" name="event_images[]" accept="image/*" id="imgSelect" x-ref="multipleFile" @change="previewFile" multiple required>
                             </div>
                         </div>
 
@@ -325,7 +327,8 @@
                 
 
                     {{-- Row #7 Comments Table --}}
-                    <div x-data="comment_suggestion_handler()">
+                    <input type="hidden" name="comments" x-ref="comments">
+                    <div x-data="comment_suggestion_handler()" @load.window="onLoad()">
                         <hr class="mt-6 border-1 border-bland-300">
 
                             <div class="flex justify-between items-end mt-4">
@@ -383,6 +386,7 @@
                                 </div>
                             </div>
                             <span x-show="err_comments" class="flex text-sm text-semantic-danger font-light">*<p x-text="msg_comments"></p></span>
+                            @error('comments')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
 
 
                         {{-- Row #8 Suggestions Table --}}
@@ -398,6 +402,7 @@
                             </div>
                         
                             {{-- Custom table --}}
+                            <input type="hidden" name="suggestions" x-ref="suggestions">
                             <div class="bg-white mt-4 h-auto w-full border-b border-gray-200 shadow-sm">
                                 <div id="participant-container" class="overflow-auto block max-h-[420px] rounded-sm scroll-smooth">
                                     <table class="table-auto w-full border-collapse border text-left">
@@ -446,6 +451,7 @@
                                 </div>
                             </div>
                             <span x-show="err_suggestions" class="flex text-sm text-semantic-danger font-light">*<p x-text="msg_suggestions"></p></span>
+                            @error('suggestions')<p class="text-red-500 text-xs mt-1">{{$message}}</p>@enderror
                             <div class="flex justify-end items-center mt-4 space-x-2">
 
                                 <p class="text-xs text-bland-400 font-light italic">*For Comments, Suggestions, and Rating</p>

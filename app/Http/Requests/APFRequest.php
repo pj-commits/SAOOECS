@@ -50,6 +50,12 @@ class APFRequest extends FormRequest
                 'activity.*' => 'required',
                 'start_date.*' => 'required',
                 'end_date.*' => 'required',
+
+
+
+            'coorganizers' => 'required',
+            'requests' => 'required',
+            'programs' => 'required',
         ];
     }
 }

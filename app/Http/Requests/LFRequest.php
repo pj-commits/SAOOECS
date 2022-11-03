@@ -33,7 +33,10 @@ class LFRequest extends FormRequest
                 'price.*' => 'required', 
                 'itemFrom.*' => 'required', 
                 'itemTo.*' => 'required', 
-                'image.*' => 'required|image|mimes:png,jpg,jpeg'
+                'image.*' => 'required|image|mimes:png,jpg,jpeg',
+
+                'items' => 'required', 
+                'proof_of_payments' => 'required', 
         ];
     }
 }
