@@ -20,6 +20,11 @@ use App\Mail\AddOrganizationMemberEmail;
 use App\Mail\EditOrganizationMemberEmail;
 use App\Mail\RemoveOrganizationMemberEmail;
 use App\Mail\OrgMemAddEmail;
+use App\Mail\OrgApplicationEmail;
+use App\Mail\OrgApplicationApprovedEmail;
+use App\Mail\OrgApplicationDeniedEmail;
+use App\Mail\RemoveDeptHeadEmail;
+use App\Mail\NewDeptHeadEmail;
 use App\Http\Controllers\DepartmentHeadController;
 
 /*
@@ -209,4 +214,29 @@ Route::get('/orgedit', function (){
 //Remove Member in Organization
 Route::get('/orgremove', function (){
     return new RemoveOrganizationMemberEmail();
+});
+
+//Org Application Receiver: SAO
+Route::get('/orgapp', function (){
+    return new OrgApplicationEmail();
+});
+
+//Org Application Approved: OrgApplicant
+Route::get('/orgapproved', function (){
+    return new OrgApplicationApprovedEmail();
+});
+
+//Org Application Denied: OrgApplicant
+Route::get('/orgdenied', function (){
+    return new OrgApplicationDeniedEmail();
+});
+
+//Remove Dept Head: CurrentHead
+Route::get('/deptheadremove', function (){
+    return new RemoveDeptHeadEmail();
+});
+
+//Remove Dept Head: CurrentHead
+Route::get('/newdepthead', function (){
+    return new NewDeptHeadEmail();
 });

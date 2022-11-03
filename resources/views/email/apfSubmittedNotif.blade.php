@@ -2,7 +2,7 @@
 # <p class="suc">Submitted Successfully!</p>
 <br>
 The <b>Activity Proposal Form</b> was submitted.
-
+<br>
 @component('mail::panel')
 Kindly wait for its approval.
 <br>
