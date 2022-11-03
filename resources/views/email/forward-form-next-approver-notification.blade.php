@@ -2,7 +2,8 @@
 # <p class="suc">The <b>{formType} Form</b> was forwarded to the <b>{nextApprover}</b>.</p>
 
 @component('mail::panel')
-<h2>Please wait for 1-3 days for approval.</h2>
+Please wait for <b>1-3 days</b> for approval.
+<br>
 <br>
 To view your <b>{formType} Form</b> status, please click the button below:
 @endcomponent
